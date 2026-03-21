@@ -18,7 +18,11 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/:slug",
         has: [{ type: "query", key: "_storyblok" }],
-        missing: [draftCookieCondition, { type: "query", key: "returnTo" }],
+        missing: [
+          draftCookieCondition,
+          { type: "query", key: "returnTo" },
+          { type: "header", key: "rsc", value: "1" },
+        ],
         destination: "/api/storyblok/enable-draft?returnTo=/blog/:slug",
         permanent: false,
       },
@@ -29,6 +33,7 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/:slug",
         has: [{ type: "query", key: "_storyblok" }, draftCookieCondition],
+        missing: [{ type: "header", key: "rsc", value: "1" }],
         destination: "/blog/read/:slug",
       },
       {

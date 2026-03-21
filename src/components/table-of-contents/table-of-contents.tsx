@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { FaAngleDoubleDown } from "react-icons/fa";
 import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
@@ -26,6 +27,10 @@ export const TableOfContents: FC = () => {
                 className={heading.level === "h3" ? "pl-4" : undefined}
               >
                 {heading.text}
+                <FaAngleDoubleDown
+                  aria-hidden
+                  className="inline-block ml-1.5 text-xs"
+                />
               </Link>
             </li>
           ))}
