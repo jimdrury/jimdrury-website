@@ -18,61 +18,60 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/:slug",
         has: [{ type: "query", key: "_storyblok" }],
-        missing: [
-          draftCookieCondition,
-          { type: "query", key: "returnTo" },
-          { type: "header", key: "rsc", value: "1" },
-        ],
+        missing: [draftCookieCondition, { type: "query", key: "returnTo" }],
         destination: "/api/storyblok/enable-draft?returnTo=/blog/:slug",
         permanent: false,
       },
     ];
   },
   async rewrites() {
-    return [
-      {
-        source: "/blog/:slug",
-        has: [{ type: "query", key: "_storyblok" }, draftCookieCondition],
-        missing: [{ type: "header", key: "rsc", value: "1" }],
-        destination: "/blog/read/:slug",
-      },
-      {
-        source: "/blog/:slug/opengraph-image",
-        destination: "/blog/read/:slug/opengraph-image",
-      },
-      {
-        source: "/blog/:slug/twitter-image",
-        destination: "/blog/read/:slug/twitter-image",
-      },
-      {
-        source: "/blog/:category/:slug/opengraph-image",
-        destination: "/blog/read/:slug/opengraph-image",
-      },
-      {
-        source: "/blog/:category/:slug/twitter-image",
-        destination: "/blog/read/:slug/twitter-image",
-      },
-      {
-        source: "/blog/:year(\\d{4})",
-        destination: "/blog/date/:year",
-      },
-      {
-        source: "/blog/:year(\\d{4})/:month(\\d{2})",
-        destination: "/blog/date/:year/:month",
-      },
-      {
-        source: "/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})",
-        destination: "/blog/date/:year/:month/:day",
-      },
-      {
-        source: "/blog/:category/:slug",
-        destination: "/blog/read/:slug",
-      },
-      {
-        source: "/blog/:category",
-        destination: "/blog/category/:category",
-      },
-    ];
+    return {
+      beforeFiles: [
+        {
+          source: "/blog/:slug",
+          has: [{ type: "query", key: "_storyblok" }, draftCookieCondition],
+          destination: "/blog/read/:slug",
+        },
+        {
+          source: "/blog/:slug/opengraph-image",
+          destination: "/blog/read/:slug/opengraph-image",
+        },
+        {
+          source: "/blog/:slug/twitter-image",
+          destination: "/blog/read/:slug/twitter-image",
+        },
+        {
+          source: "/blog/:category/:slug/opengraph-image",
+          destination: "/blog/read/:slug/opengraph-image",
+        },
+        {
+          source: "/blog/:category/:slug/twitter-image",
+          destination: "/blog/read/:slug/twitter-image",
+        },
+        {
+          source: "/blog/:year(\\d{4})",
+          destination: "/blog/date/:year",
+        },
+        {
+          source: "/blog/:year(\\d{4})/:month(\\d{2})",
+          destination: "/blog/date/:year/:month",
+        },
+        {
+          source: "/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})",
+          destination: "/blog/date/:year/:month/:day",
+        },
+        {
+          source: "/blog/:category/:slug",
+          destination: "/blog/read/:slug",
+        },
+        {
+          source: "/blog/:category",
+          destination: "/blog/category/:category",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
   typescript: {
     tsconfigPath: "tsconfig.build.json",
