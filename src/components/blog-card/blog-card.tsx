@@ -10,6 +10,7 @@ export interface BlogCardProps
   children?: ReactNode;
   href?: string;
   title: string;
+  category?: string;
   excerpt?: string;
   date?: string;
   dateTime?: string;
@@ -25,6 +26,7 @@ export const BlogCard: FC<BlogCardProps> = ({
   className,
   href,
   title,
+  category,
   excerpt,
   date,
   dateTime,
@@ -40,7 +42,7 @@ export const BlogCard: FC<BlogCardProps> = ({
   return (
     <article
       className={cn(
-        "relative block border-2 border-black bg-white p-4 text-black shadow-[4px_4px_0_0] sm:p-6",
+        "relative flex h-full flex-col border-2 border-black bg-white p-4 text-black shadow-[4px_4px_0_0] sm:p-6",
         className,
       )}
       {...props}
@@ -50,7 +52,7 @@ export const BlogCard: FC<BlogCardProps> = ({
       ) : (
         <>
           {imageSrc && (
-            <div className="-mx-4 -mt-4 mb-3 aspect-[16/9] overflow-hidden border-b-2 border-black bg-zinc-100 sm:-mx-6 sm:-mt-6">
+            <div className="relative -mx-4 -mt-4 mb-3 aspect-[16/9] overflow-hidden border-b-2 border-black bg-zinc-100 sm:-mx-6 sm:-mt-6">
               <Image
                 src={imageSrc}
                 alt={imageAlt ?? title}
@@ -61,31 +63,38 @@ export const BlogCard: FC<BlogCardProps> = ({
                 sizes="(min-width: 768px) 33vw, 100vw"
                 className="h-full w-full object-cover"
               />
+              {category && (
+                <span className="absolute right-2 top-2 max-w-[70%] truncate border-2 border-black bg-white px-2 py-1 text-xs/none font-semibold uppercase shadow-[2px_2px_0_0] sm:right-3 sm:top-3">
+                  {category}
+                </span>
+              )}
             </div>
           )}
-          {date && (
-            <span className="inline-flex items-center gap-1.5">
-              <time
-                dateTime={dateTime}
-                className="text-xs/none font-semibold uppercase"
-              >
-                {date}
-              </time>
-            </span>
-          )}
-          <h3 className="mt-1 text-xl font-semibold">{title}</h3>
-          {excerpt && (
-            <p className="mt-2 line-clamp-2 text-pretty">{excerpt}</p>
-          )}
-          {href && (
-            <div className="mt-4 flex justify-end">
-              <Button asChild expand>
-                <Link href={href} aria-label={`Read more about ${title}`}>
-                  Read more
-                </Link>
-              </Button>
-            </div>
-          )}
+          <div className="flex grow flex-col">
+            {date && (
+              <span className="inline-flex items-center gap-1.5">
+                <time
+                  dateTime={dateTime}
+                  className="text-xs/none font-semibold uppercase"
+                >
+                  {date}
+                </time>
+              </span>
+            )}
+            <h3 className="mt-1 text-xl font-semibold">{title}</h3>
+            {excerpt && (
+              <p className="mt-2 line-clamp-2 text-pretty">{excerpt}</p>
+            )}
+            {href && (
+              <div className="mt-auto flex justify-end pt-4">
+                <Button asChild expand>
+                  <Link href={href} aria-label={`Read more about ${title}`}>
+                    Read more
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </div>
         </>
       )}
     </article>

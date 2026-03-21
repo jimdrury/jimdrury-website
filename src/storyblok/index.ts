@@ -2,6 +2,7 @@ import "server-only";
 import { apiPlugin, setComponents, storyblokInit } from "@storyblok/react/rsc";
 import { ArticleBlok } from "@/bloks/ArticleBlok";
 import { BoxBlok } from "@/bloks/BoxBlok";
+import { CitedQuoteBlok } from "@/bloks/CitedQuoteBlok";
 import { DividerBlok } from "@/bloks/DividerBlok";
 import { FeatureBlok } from "@/bloks/FeatureBlok";
 import { GridBlok } from "@/bloks/GridBlok";
@@ -21,6 +22,7 @@ const getBlokComponents = () => {
   return {
     article: ArticleBlok,
     box: BoxBlok,
+    cited_quote: CitedQuoteBlok,
     divider: DividerBlok,
     feature: FeatureBlok,
     grid: GridBlok,

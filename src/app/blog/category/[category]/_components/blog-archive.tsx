@@ -17,6 +17,7 @@ import {
 
 type BlogArchiveProps = {
   title: string;
+  categoryLabel: string;
   pathname: string;
   stories: BlogStory[];
   pagination: BlogArchivePagination;
@@ -26,6 +27,7 @@ type BlogArchiveProps = {
 
 export const BlogArchive: FC<BlogArchiveProps> = ({
   title,
+  categoryLabel,
   pathname,
   stories,
   pagination,
@@ -64,6 +66,7 @@ export const BlogArchive: FC<BlogArchiveProps> = ({
                 imageHeight={imageDimensions?.height}
                 imageLoading={index < 3 ? "eager" : "lazy"}
                 imageFetchPriority={index === 0 ? "high" : "auto"}
+                category={categoryLabel}
               />
             );
           })}

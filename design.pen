@@ -714,6 +714,1607 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "13dk3",
+      "x": 3104,
+      "y": 0,
+      "name": "Component/Blog Card",
+      "reusable": true,
+      "width": 244,
+      "fill": "#FFFFFF",
+      "stroke": {
+        "thickness": 2,
+        "fill": "#000000"
+      },
+      "effect": {
+        "type": "shadow",
+        "shadowType": "outer",
+        "color": "#000000",
+        "offset": {
+          "x": 4,
+          "y": 4
+        }
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "7QuDG",
+          "name": "Thumb",
+          "width": "fill_container",
+          "height": 140,
+          "fill": "#E2E8F0",
+          "stroke": {
+            "thickness": {
+              "bottom": 2
+            },
+            "fill": "#000000"
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "H49Hs",
+              "layoutPosition": "absolute",
+              "x": 176,
+              "y": 8,
+              "name": "Category Badge",
+              "fill": "#FFFFFF",
+              "stroke": {
+                "thickness": 2,
+                "fill": "#000000"
+              },
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#000000",
+                "offset": {
+                  "x": 2,
+                  "y": 2
+                }
+              },
+              "padding": [
+                4,
+                8
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LdvbF",
+                  "name": "Category",
+                  "fill": "#000000",
+                  "content": "DESIGN",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "7xc5o",
+          "name": "Body",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "hoTjy",
+              "name": "Date",
+              "fill": "#000000",
+              "content": "APRIL 1, 2025",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "cjX71",
+              "name": "Title",
+              "fill": "#000000",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Getting Started with Neobrutalism",
+              "lineHeight": 1.2,
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "p6WS5",
+              "name": "Excerpt",
+              "fill": "#000000",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Learn how to build bold, retro-inspired interfaces using modern CSS and component patterns.",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "sLIrD",
+              "name": "CTA Wrap",
+              "width": "fill_container",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "id": "1yfui",
+                  "type": "ref",
+                  "ref": "3Ch75",
+                  "name": "Read More CTA",
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "width": "fit_content",
+                  "height": "fit_content",
+                  "x": 128,
+                  "y": 0,
+                  "descendants": {
+                    "o1TbA": {
+                      "x": 12,
+                      "y": 6,
+                      "content": "Read more",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "o6sQz",
+      "x": 1560,
+      "y": 0,
+      "name": "Blog - Listing",
+      "clip": true,
+      "width": 1440,
+      "height": 1930,
+      "fill": "#FFFFFF",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "1xXcm",
+          "x": 0,
+          "y": 0,
+          "name": "header",
+          "width": 1440,
+          "height": 64,
+          "fill": "#000000CC",
+          "effect": [
+            {
+              "type": "background_blur",
+              "radius": 4
+            },
+            {
+              "type": "shadow",
+              "shadowType": "outer",
+              "color": "#00000040",
+              "offset": {
+                "x": 0,
+                "y": 2
+              },
+              "blur": 8
+            }
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "SHU8t",
+              "name": "Header Inner",
+              "width": 1152,
+              "height": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "9lQI1",
+                  "name": "Logo Group",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "An7vQ",
+                      "name": "Logo Badge",
+                      "fill": "#fde047",
+                      "cornerRadius": 4,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Wm49E",
+                          "name": "Logo",
+                          "fill": "#000000",
+                          "content": "jd",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "7Z4pj",
+                      "name": "SiteName",
+                      "fill": "#fde047",
+                      "content": "jimdrury",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "G9l9b",
+                  "name": "Nav Links",
+                  "gap": 32,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "l8Yiz",
+                      "name": "Nav Blog Active",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "KG3uz",
+                          "name": "Nav Blog",
+                          "fill": "#fde047",
+                          "content": "Blog",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "YR7gB",
+                          "name": "Active Underline",
+                          "fill": "#fde047",
+                          "width": "fill_container",
+                          "height": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "30ZeJ",
+                      "name": "Nav Projects",
+                      "fill": "#fde047",
+                      "content": "Projects",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "2vnzO",
+                      "name": "Nav About",
+                      "fill": "#fde047",
+                      "content": "About",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "b5UYc",
+          "x": 144,
+          "y": 112,
+          "name": "Title Section",
+          "width": 1152,
+          "fill": "#FDE047",
+          "stroke": {
+            "thickness": 4,
+            "fill": "#000000"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#000000",
+            "offset": {
+              "x": 8,
+              "y": 8
+            }
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "padding": 24,
+          "children": [
+            {
+              "type": "text",
+              "id": "8KQex",
+              "name": "Page Title",
+              "fill": "#000000",
+              "content": "Blogs",
+              "fontFamily": "Inter",
+              "fontSize": 36,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "epMKd",
+              "name": "Page Subtitle",
+              "fill": "#000000",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Latest writing, ideas, and technical deep dives.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dTLah",
+          "x": 144,
+          "y": 272,
+          "name": "Content Grid",
+          "width": 1152,
+          "gap": 48,
+          "children": [
+            {
+              "type": "frame",
+              "id": "FAHzW",
+              "name": "Blog Grid Column",
+              "width": 780,
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sFH2B",
+                  "name": "Row 1",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "id": "hnbWa",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB1",
+                      "height": 383,
+                      "x": 0,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "Ship Faster with Storyblok Components",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "noWLM",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB2",
+                      "height": 383,
+                      "x": 268,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "Building Better Draft Previews in Next.js",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 91
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 179,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "fxglB",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB3",
+                      "x": 536,
+                      "y": 0,
+                      "height": 383,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "height": "fit_content",
+                          "width": "fill_container",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "content": "Canonical Categories: A Practical Taxonomy",
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 91
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 179,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zpotC",
+                  "name": "Row 2",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "id": "H6ZWg",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB4",
+                      "height": 383,
+                      "x": 0,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "Debugging Route Handlers without Guesswork",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "sfAHZ",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB5",
+                      "height": 383,
+                      "x": 268,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "Designing with Constraints in Pencil MCP",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "Yg5hS",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB6",
+                      "x": 536,
+                      "y": 0,
+                      "height": 383,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "height": "fit_content",
+                          "width": "fill_container",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "content": "Pagination Patterns that Scale",
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 91
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 179,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CgOBv",
+                  "name": "Row 3",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "id": "WycDd",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB7",
+                      "height": 383,
+                      "x": 0,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "How I Structure AGENTS.md for Real Projects",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "z0PTe",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB8",
+                      "height": 383,
+                      "x": 268,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "Creating Reliable Twitter Images from Routes",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "PlOSg",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB9",
+                      "x": 536,
+                      "y": 0,
+                      "height": 383,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "height": "fit_content",
+                          "width": "fill_container",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "content": "Design Tokens that Keep Teams Aligned",
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 91
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 179,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uvMRT",
+                  "name": "Row 4",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "id": "q21ko",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB10",
+                      "height": 383,
+                      "x": 0,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "From Idea to Publish: My Blog Production Flow",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "Q0WvK",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB11",
+                      "height": 383,
+                      "x": 268,
+                      "y": 0,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "width": "fill_container",
+                          "content": "When to Use Server Actions vs APIs",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 91
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 179,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    },
+                    {
+                      "id": "8DCfg",
+                      "type": "ref",
+                      "ref": "13dk3",
+                      "width": 244,
+                      "name": "cardB12",
+                      "x": 536,
+                      "y": 0,
+                      "height": 383,
+                      "descendants": {
+                        "7QuDG": {
+                          "width": "fill_container"
+                        },
+                        "H49Hs": {
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        "LdvbF": {
+                          "x": 8,
+                          "y": 4
+                        },
+                        "7xc5o": {
+                          "height": "fit_content",
+                          "width": "fill_container",
+                          "y": 140
+                        },
+                        "hoTjy": {
+                          "x": 12,
+                          "y": 12
+                        },
+                        "cjX71": {
+                          "content": "Practical Caching Strategies for Content Sites",
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 35
+                        },
+                        "p6WS5": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 115
+                        },
+                        "sLIrD": {
+                          "width": "fill_container",
+                          "x": 12,
+                          "y": 203,
+                          "height": "fit_content"
+                        },
+                        "1yfui": {
+                          "width": "fit_content",
+                          "height": "fit_content",
+                          "x": 128,
+                          "y": 0
+                        },
+                        "1yfui/o1TbA": {
+                          "x": 12,
+                          "y": 6
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "iJxTq",
+                  "name": "Pagination Row",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "fZ4Es",
+                      "type": "ref",
+                      "ref": "3Ch75",
+                      "name": "Prev Button",
+                      "fill": "#FFFFFF",
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "width": "fit_content",
+                      "height": "fit_content",
+                      "x": 0,
+                      "y": 0,
+                      "descendants": {
+                        "o1TbA": {
+                          "x": 12,
+                          "y": 6,
+                          "content": "Previous",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      }
+                    },
+                    {
+                      "id": "645QS",
+                      "type": "ref",
+                      "ref": "3Ch75",
+                      "name": "Page 1",
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "width": "fit_content",
+                      "height": "fit_content",
+                      "x": 91,
+                      "y": 0,
+                      "descendants": {
+                        "o1TbA": {
+                          "x": 12,
+                          "y": 6,
+                          "content": "1",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      }
+                    },
+                    {
+                      "id": "7kTHc",
+                      "type": "ref",
+                      "ref": "3Ch75",
+                      "name": "Page 2",
+                      "fill": "#FFFFFF",
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "width": "fit_content",
+                      "height": "fit_content",
+                      "x": 133,
+                      "y": 0,
+                      "descendants": {
+                        "o1TbA": {
+                          "x": 12,
+                          "y": 6,
+                          "content": "2",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      }
+                    },
+                    {
+                      "id": "XUqYY",
+                      "type": "ref",
+                      "ref": "3Ch75",
+                      "name": "Page 3",
+                      "fill": "#FFFFFF",
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "width": "fit_content",
+                      "height": "fit_content",
+                      "x": 178,
+                      "y": 0,
+                      "descendants": {
+                        "o1TbA": {
+                          "x": 12,
+                          "y": 6,
+                          "content": "3",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      }
+                    },
+                    {
+                      "id": "siKxQ",
+                      "type": "ref",
+                      "ref": "3Ch75",
+                      "name": "Next Button",
+                      "fill": "#FFFFFF",
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "width": "fit_content",
+                      "height": "fit_content",
+                      "x": 223,
+                      "y": 0,
+                      "descendants": {
+                        "o1TbA": {
+                          "x": 12,
+                          "y": 6,
+                          "content": "Next",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "edtzw",
+              "name": "Categories Sidebar",
+              "width": 324,
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "0a02u",
+                  "name": "Categories Title",
+                  "fill": "#000000",
+                  "content": "Categories",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "CJPSX",
+                  "name": "Category List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "9HcSh",
+                      "name": "Cat Engineering",
+                      "fill": "#000000",
+                      "content": "engineering",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "6kUus",
+                      "name": "Cat NextJs",
+                      "fill": "#000000",
+                      "content": "next-js",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fRaHx",
+                      "name": "Cat Architecture",
+                      "fill": "#000000",
+                      "content": "architecture",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "zxwyA",
+                      "name": "Cat Design",
+                      "fill": "#000000",
+                      "content": "design",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "7lzxo",
+                      "name": "Cat Workflow",
+                      "fill": "#000000",
+                      "content": "workflow",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dK4Wc",
+                      "name": "Cat Performance",
+                      "fill": "#000000",
+                      "content": "performance",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "q4guJ",
+                      "name": "Cat AI",
+                      "fill": "#000000",
+                      "content": "ai-workflows",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "AAPad",
+      "x": 3396,
+      "y": 0,
+      "name": "Button Component - Storybook",
+      "width": 1100,
+      "fill": "#FFFFFF",
+      "layout": "vertical",
+      "gap": 20,
+      "padding": 24,
+      "children": [
+        {
+          "type": "text",
+          "id": "qqE1e",
+          "name": "Showcase Title",
+          "fill": "#000000",
+          "content": "Button Component (Storybook)",
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "900"
+        },
+        {
+          "type": "frame",
+          "id": "3Ch75",
+          "name": "Component/Button",
+          "reusable": true,
+          "fill": "#FDE047",
+          "stroke": {
+            "thickness": 2,
+            "fill": "#000000"
+          },
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#000000",
+            "offset": {
+              "x": 4,
+              "y": 4
+            }
+          },
+          "gap": 8,
+          "padding": [
+            12,
+            20
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Hc7Zb",
+              "x": 0,
+              "y": 0,
+              "name": "Icon Start",
+              "enabled": false,
+              "width": 14,
+              "height": 14,
+              "fill": "#000000"
+            },
+            {
+              "type": "text",
+              "id": "o1TbA",
+              "name": "Label",
+              "fill": "#000000",
+              "content": "Click Here",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "eUrKb",
+              "x": 0,
+              "y": 0,
+              "name": "Icon End",
+              "enabled": false,
+              "width": 14,
+              "height": 14,
+              "fill": "#000000"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gd0yh",
+          "name": "Variant Row",
+          "gap": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "oQuZm",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "Primary",
+              "x": 0,
+              "y": 0,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "o1TbA": {
+                  "x": 20,
+                  "y": 12
+                }
+              }
+            },
+            {
+              "id": "mmKHq",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "Secondary",
+              "fill": "#FFFFFF",
+              "x": 136,
+              "y": 0,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "o1TbA": {
+                  "content": "Secondary Button",
+                  "x": 20,
+                  "y": 12
+                }
+              }
+            },
+            {
+              "id": "TvTHz",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "Tertiary",
+              "fill": "#86EFAC",
+              "x": 331,
+              "y": 0,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "o1TbA": {
+                  "content": "Tertiary Button",
+                  "x": 20,
+                  "y": 12
+                }
+              }
+            },
+            {
+              "id": "r4Vsn",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "Ghost",
+              "fill": "#FFFFFF00",
+              "effect": [],
+              "x": 503,
+              "y": 0,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "o1TbA": {
+                  "content": "Ghost Button",
+                  "x": 20,
+                  "y": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sNBdW",
+          "name": "Icon Variant Row",
+          "gap": 16,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "S05jp",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "With Icon",
+              "x": 0,
+              "y": 0,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "Hc7Zb": {
+                  "enabled": true,
+                  "x": 20,
+                  "y": 14.5
+                },
+                "o1TbA": {
+                  "content": "Save",
+                  "x": 42,
+                  "y": 12
+                }
+              }
+            },
+            {
+              "id": "w2MC7",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "Icon End",
+              "x": 116,
+              "y": 0,
+              "width": "fit_content",
+              "height": "fit_content",
+              "descendants": {
+                "o1TbA": {
+                  "content": "Download",
+                  "x": 20,
+                  "y": 12
+                },
+                "eUrKb": {
+                  "enabled": true,
+                  "x": 106,
+                  "y": 14.5
+                }
+              }
+            },
+            {
+              "id": "HxULS",
+              "type": "ref",
+              "ref": "3Ch75",
+              "name": "Icon Only",
+              "padding": 12,
+              "width": "fit_content",
+              "x": 272,
+              "y": 2.5,
+              "height": "fit_content",
+              "descendants": {
+                "Hc7Zb": {
+                  "enabled": true,
+                  "x": 12,
+                  "y": 12
+                },
+                "o1TbA": {
+                  "x": 34,
+                  "enabled": false
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

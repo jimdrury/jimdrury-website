@@ -89,4 +89,18 @@ describe("BlogCard", () => {
     expect(image).toHaveAttribute("loading", "eager");
     expect(image).toHaveAttribute("fetchpriority", "high");
   });
+
+  it("renders category as an overlay when image is present", () => {
+    render(
+      <BlogCard title="With image" imageSrc="/hero.jpg" category="Design" />,
+    );
+
+    expect(screen.getByText("Design")).toBeInTheDocument();
+  });
+
+  it("does not render category when image is missing", () => {
+    render(<BlogCard title="No image" category="Design" />);
+
+    expect(screen.queryByText("Design")).toBeNull();
+  });
 });

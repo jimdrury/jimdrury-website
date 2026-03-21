@@ -1,14 +1,5 @@
 import type { NextConfig } from "next";
 
-const DRAFT_COOKIE_NAME = "__prerender_bypass";
-const CURRENT_PREVIEW_MODE_ID = process.env.__NEXT_PREVIEW_MODE_ID;
-
-const draftCookieCondition = {
-  type: "cookie" as const,
-  key: DRAFT_COOKIE_NAME,
-  ...(CURRENT_PREVIEW_MODE_ID ? { value: CURRENT_PREVIEW_MODE_ID } : {}),
-};
-
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
@@ -17,8 +8,13 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/blog/:slug",
-        has: [{ type: "query", key: "_storyblok" }],
-        missing: [draftCookieCondition, { type: "query", key: "returnTo" }],
+        has: [
+          { type: "query", key: "_storyblok" },
+          { type: "query", key: "_storyblok_tk[space_id]" },
+          { type: "query", key: "_storyblok_tk[timestamp]" },
+          { type: "query", key: "_storyblok_tk[token]" },
+        ],
+        missing: [{ type: "query", key: "returnTo" }],
         destination: "/api/storyblok/enable-draft?returnTo=/blog/:slug",
         permanent: false,
       },
@@ -29,7 +25,7 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         {
           source: "/blog/:slug",
-          has: [{ type: "query", key: "_storyblok" }, draftCookieCondition],
+          has: [{ type: "query", key: "_storyblok" }],
           destination: "/blog/read/:slug",
         },
         {
@@ -81,6 +77,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "a.storyblok.com",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
       },
     ],
   },

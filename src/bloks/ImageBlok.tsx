@@ -2,12 +2,13 @@ import "server-only";
 import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
 import NextImage from "next/image";
 import type { FC } from "react";
-import { Media } from "@/components/media";
+import { Media, MediaLightbox } from "@/components/media";
 import { parseStoryblokImageDimensions } from "@/storyblok/image-dimensions";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 type ImageBlokData = SbBlokData & {
   image?: StoryblokAsset;
+  enable_lightbox?: boolean;
 };
 
 type ImageBlokProps = {
@@ -28,21 +29,34 @@ export const ImageBlok: FC<ImageBlokProps> = ({ blok }) => {
     return null;
   }
 
+  const imageElement = imageDimensions ? (
+    <NextImage
+      src={src}
+      alt={alt}
+      width={imageDimensions.width}
+      height={imageDimensions.height}
+      sizes="100vw"
+      style={{ width: "100%", height: "auto" }}
+      className="w-full object-cover"
+    />
+  ) : (
+    // biome-ignore lint/performance/noImgElement: fallback when intrinsic size is unknown
+    <img src={src} alt={alt} className="w-full object-cover" />
+  );
+
   return (
     <Media {...storyblokEditable(blok)} caption={caption}>
-      {imageDimensions ? (
-        <NextImage
+      {blok.enable_lightbox ? (
+        <MediaLightbox
           src={src}
           alt={alt}
-          width={imageDimensions.width}
-          height={imageDimensions.height}
-          sizes="100vw"
-          style={{ width: "100%", height: "auto" }}
-          className="w-full object-cover"
-        />
+          caption={caption}
+          imageDimensions={imageDimensions}
+        >
+          {imageElement}
+        </MediaLightbox>
       ) : (
-        // biome-ignore lint/performance/noImgElement: fallback when intrinsic size is unknown
-        <img src={src} alt={alt} className="w-full object-cover" />
+        imageElement
       )}
     </Media>
   );

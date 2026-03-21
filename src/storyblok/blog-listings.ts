@@ -12,6 +12,17 @@ import {
 
 const BLOG_FETCH_PER_PAGE = 100;
 
+type StoryblokTag = {
+  name?: string;
+  taggings_count?: number | string;
+};
+
+type StoryblokTagsResponse = {
+  data?: {
+    tags?: StoryblokTag[];
+  };
+};
+
 export const getArticlesByTag = async (
   tag: string,
   index: number,
@@ -75,6 +86,43 @@ export const getAllArticles = async (
   }
 
   return stories;
+};
+
+export const getBlogTags = async (
+  version: "draft" | "published" = "published",
+): Promise<{ slug: string; count: number }[]> => {
+  "use cache";
+  cacheLife("default");
+  cacheTag(`blog-tags-${version}`);
+
+  const storyblokApi = getStoryblokApi();
+  const response = (await storyblokApi.get("cdn/tags", {
+    version,
+    cv: getStoryblokCv(),
+    starts_with: BLOG_PREFIX,
+  })) as StoryblokTagsResponse;
+
+  return (response.data?.tags ?? [])
+    .map((tag) => {
+      const slug = (tag.name ?? "").trim();
+      const count =
+        typeof tag.taggings_count === "string"
+          ? Number.parseInt(tag.taggings_count, 10)
+          : (tag.taggings_count ?? 0);
+
+      return {
+        slug,
+        count: Number.isFinite(count) ? count : 0,
+      };
+    })
+    .filter((tag) => tag.slug.length > 0)
+    .sort((a, b) => {
+      if (b.count !== a.count) {
+        return b.count - a.count;
+      }
+
+      return a.slug.localeCompare(b.slug);
+    });
 };
 
 type StoryblokStoryResponse = {

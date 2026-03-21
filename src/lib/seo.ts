@@ -10,6 +10,15 @@ export const SITE_ORIGIN = "https://www.jimdrury.co.uk";
 export const SITE_NAME = "Jim Drury";
 const SITE_LOCALE = "en_GB";
 const SITE_LANGUAGE = "en-GB";
+const BLOG_INDEX_DESCRIPTION =
+  "Latest writing, ideas, and technical deep dives from Jim Drury.";
+const BLOG_INDEX_KEYWORDS = [
+  "blog",
+  "software engineering",
+  "web development",
+  "next.js",
+  "typescript",
+] as const;
 
 const normalizeText = (value: string | undefined): string | undefined => {
   const trimmed = value?.trim();
@@ -38,11 +47,217 @@ export const getArticlePath = (story: BlogStory): string => {
     return `/blog/${canonicalCategory}/${story.slug}`;
   }
 
-  return `/blog/read/${story.slug}`;
+  return `/blog/${story.slug}`;
 };
 
 export const getArticleCanonicalUrl = (story: BlogStory): string => {
   return toAbsoluteUrl(getArticlePath(story));
+};
+
+export const getBlogIndexPath = (page: number): string => {
+  return page > 1 ? `/blog?page=${page}` : "/blog";
+};
+
+export const getBlogCategoryPath = (category: string, page: number): string => {
+  const normalizedCategory = category.trim().toLowerCase();
+  const encodedCategory = encodeURIComponent(normalizedCategory);
+
+  if (page > 1) {
+    return `/blog/${encodedCategory}?page=${page}`;
+  }
+
+  return `/blog/${encodedCategory}`;
+};
+
+export const buildBlogIndexMetadata = (page: number): Metadata => {
+  const normalizedPage = Number.isFinite(page)
+    ? Math.max(1, Math.trunc(page))
+    : 1;
+  const canonicalPath = getBlogIndexPath(normalizedPage);
+  const title = normalizedPage > 1 ? `Blog - Page ${normalizedPage}` : "Blog";
+
+  return {
+    title,
+    description: BLOG_INDEX_DESCRIPTION,
+    keywords: [...BLOG_INDEX_KEYWORDS],
+    category: "technology",
+    alternates: {
+      canonical: canonicalPath,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description: BLOG_INDEX_DESCRIPTION,
+      url: canonicalPath,
+      siteName: SITE_NAME,
+      locale: SITE_LOCALE,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: BLOG_INDEX_DESCRIPTION,
+    },
+  };
+};
+
+export const buildBlogIndexJsonLd = ({
+  page,
+  stories,
+}: {
+  page: number;
+  stories: BlogStory[];
+}): Record<string, unknown> => {
+  const normalizedPage = Number.isFinite(page)
+    ? Math.max(1, Math.trunc(page))
+    : 1;
+  const canonicalPath = getBlogIndexPath(normalizedPage);
+  const canonicalUrl = toAbsoluteUrl(canonicalPath);
+  const pageName =
+    normalizedPage > 1 ? `Blog - Page ${normalizedPage}` : "Blog";
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: pageName,
+    description: BLOG_INDEX_DESCRIPTION,
+    inLanguage: SITE_LANGUAGE,
+    url: canonicalUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_ORIGIN,
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListOrder: "https://schema.org/ItemListOrderDescending",
+      numberOfItems: stories.length,
+      itemListElement: stories.map((story, index) => {
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          url: toAbsoluteUrl(getArticlePath(story)),
+          name: story.name,
+        };
+      }),
+    },
+  };
+};
+
+export const buildBlogCategoryMetadata = ({
+  category,
+  page,
+}: {
+  category: string;
+  page: number;
+}): Metadata => {
+  const normalizedPage = Number.isFinite(page)
+    ? Math.max(1, Math.trunc(page))
+    : 1;
+  const normalizedCategory = category.trim().toLowerCase();
+  const canonicalPath = getBlogCategoryPath(normalizedCategory, normalizedPage);
+  const title =
+    normalizedPage > 1
+      ? `Blog category: ${normalizedCategory} - Page ${normalizedPage}`
+      : `Blog category: ${normalizedCategory}`;
+  const description = `Posts tagged "${normalizedCategory}" from ${SITE_NAME}.`;
+  const keywords = [...BLOG_INDEX_KEYWORDS, normalizedCategory];
+
+  return {
+    title,
+    description,
+    keywords,
+    category: normalizedCategory,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: canonicalPath,
+      siteName: SITE_NAME,
+      locale: SITE_LOCALE,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+};
+
+export const buildBlogCategoryJsonLd = ({
+  category,
+  page,
+  stories,
+}: {
+  category: string;
+  page: number;
+  stories: BlogStory[];
+}): Record<string, unknown> => {
+  const normalizedPage = Number.isFinite(page)
+    ? Math.max(1, Math.trunc(page))
+    : 1;
+  const normalizedCategory = category.trim().toLowerCase();
+  const canonicalPath = getBlogCategoryPath(normalizedCategory, normalizedPage);
+  const canonicalUrl = toAbsoluteUrl(canonicalPath);
+  const pageName =
+    normalizedPage > 1
+      ? `Blog category: ${normalizedCategory} - Page ${normalizedPage}`
+      : `Blog category: ${normalizedCategory}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: pageName,
+    description: `Posts tagged "${normalizedCategory}" from ${SITE_NAME}.`,
+    inLanguage: SITE_LANGUAGE,
+    url: canonicalUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_ORIGIN,
+    },
+    about: {
+      "@type": "Thing",
+      name: normalizedCategory,
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListOrder: "https://schema.org/ItemListOrderDescending",
+      numberOfItems: stories.length,
+      itemListElement: stories.map((story, index) => {
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          url: toAbsoluteUrl(getArticlePath(story)),
+          name: story.name,
+        };
+      }),
+    },
+  };
 };
 
 export const getArticleExcerpt = (story: BlogStory): string | undefined => {
@@ -99,11 +314,11 @@ const getArticleKeywords = (story: BlogStory): string[] => {
 };
 
 export const getArticleOgImageUrl = (story: BlogStory): string => {
-  return toAbsoluteUrl(`/blog/read/${story.slug}/opengraph-image`);
+  return toAbsoluteUrl(`${getArticlePath(story)}/opengraph-image`);
 };
 
 export const getArticleTwitterImageUrl = (story: BlogStory): string => {
-  return toAbsoluteUrl(`/blog/read/${story.slug}/twitter-image`);
+  return toAbsoluteUrl(`${getArticlePath(story)}/twitter-image`);
 };
 
 const getFeaturedImage = (

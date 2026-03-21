@@ -20,16 +20,16 @@ export const Skeleton: FC = () => {
       <header>
         <div className="aspect-[16/9] w-full bg-zinc-200 md:aspect-[20/7] lg:aspect-[24/7]" />
         <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
-          <div className="border-4 border-zinc-300 bg-zinc-100 px-6 py-6 shadow-[8px_8px_0_0_rgba(0,0,0,0.08)]">
-            <div className="h-8 w-4/5 rounded bg-zinc-300 md:h-10" />
+          <div className="border-4 border-black bg-yellow-300 px-6 py-6 shadow-[8px_8px_0_0] shadow-black">
+            <div className="h-8 w-4/5 rounded bg-yellow-200 md:h-10" />
             <div className="mt-4 flex flex-col gap-3">
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-                <div className="h-4 w-48 rounded bg-zinc-200" />
-                <div className="h-4 w-20 rounded bg-zinc-200" />
+                <div className="h-4 w-48 rounded bg-yellow-200" />
+                <div className="h-4 w-20 rounded bg-yellow-200" />
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-7 w-16 rounded bg-zinc-200" />
-                <div className="h-7 w-20 rounded bg-zinc-200" />
+                <div className="h-7 w-16 rounded bg-yellow-200" />
+                <div className="h-7 w-20 rounded bg-yellow-200" />
               </div>
             </div>
           </div>

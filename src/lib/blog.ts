@@ -2,7 +2,11 @@ import "server-only";
 import { format, isValid, parseISO } from "date-fns";
 import { cacheLife, cacheTag } from "next/cache";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
-import { getArticlesByTag } from "@/storyblok/blog-listings";
+import {
+  getAllArticles,
+  getArticlesByTag,
+  getBlogTags,
+} from "@/storyblok/blog-listings";
 import {
   BLOG_ARCHIVE_PAGE_SIZE,
   BLOG_CONTENT_TYPE,
@@ -24,6 +28,13 @@ export type BlogArchivePagination = {
   totalPages: number;
   hasPrevious: boolean;
   hasNext: boolean;
+};
+
+export type BlogCategoryLink = {
+  slug: string;
+  label: string;
+  count: number;
+  href: string;
 };
 
 const normalizeCategory = (value: string): string => {
@@ -264,6 +275,99 @@ export const getDateArchive = async ({
       totalPages,
       hasPrevious: boundedPage > 1,
       hasNext: boundedPage < totalPages,
+    },
+  };
+};
+
+export const getBlogIndexArchive = async ({
+  page,
+  version,
+}: {
+  page: number;
+  version: "draft" | "published";
+}): Promise<{
+  stories: BlogStory[];
+  pagination: BlogArchivePagination;
+  categories: BlogCategoryLink[];
+}> => {
+  "use cache";
+  cacheLife("default");
+  cacheTag(`blog-index-${version}-page-${page}`);
+
+  const allStories = await getAllArticles(version);
+  const total = allStories.length;
+  const totalPages = Math.max(1, Math.ceil(total / BLOG_ARCHIVE_PAGE_SIZE));
+  const boundedPage = Math.min(Math.max(1, Math.trunc(page)), totalPages);
+  const startIndex = (boundedPage - 1) * BLOG_ARCHIVE_PAGE_SIZE;
+  const stories = allStories.slice(
+    startIndex,
+    startIndex + BLOG_ARCHIVE_PAGE_SIZE,
+  );
+
+  const categories = (await getBlogTags(version)).map((tag) => {
+    return {
+      slug: tag.slug,
+      label: tag.slug,
+      count: tag.count,
+      href: `/blog/${tag.slug}`,
+    };
+  });
+
+  return {
+    stories,
+    pagination: {
+      page: boundedPage,
+      pageSize: BLOG_ARCHIVE_PAGE_SIZE,
+      total,
+      totalPages,
+      hasPrevious: boundedPage > 1,
+      hasNext: boundedPage < totalPages,
+    },
+    categories,
+  };
+};
+
+export const getBlogCategoryArchive = async ({
+  category,
+  page,
+  version,
+}: {
+  category: string;
+  page: number;
+  version: "draft" | "published";
+}): Promise<{
+  stories: BlogStory[];
+  pagination: BlogArchivePagination;
+}> => {
+  "use cache";
+  cacheLife("default");
+  cacheTag(`blog-category-${category}-${version}-page-${page}`);
+
+  const normalizedCategory = category.trim();
+  const pageIndex = Number.isFinite(page)
+    ? Math.max(0, Math.trunc(page) - 1)
+    : 0;
+
+  const [stories, nextPageStories] = await Promise.all([
+    getArticlesByTag(normalizedCategory, pageIndex, version),
+    getArticlesByTag(normalizedCategory, pageIndex + 1, version),
+  ]);
+
+  const hasNext = nextPageStories.length > 0;
+  const boundedPage = Number.isFinite(page) ? Math.max(1, Math.trunc(page)) : 1;
+  const total = hasNext
+    ? boundedPage * BLOG_ARCHIVE_PAGE_SIZE + 1
+    : (boundedPage - 1) * BLOG_ARCHIVE_PAGE_SIZE + stories.length;
+
+  return {
+    stories,
+    pagination: {
+      page: boundedPage,
+      pageSize: BLOG_ARCHIVE_PAGE_SIZE,
+      total,
+      totalPages: hasNext ? boundedPage + 1 : boundedPage,
+      hasPrevious: boundedPage > 1,
+      hasNext,
     },
   };
 };

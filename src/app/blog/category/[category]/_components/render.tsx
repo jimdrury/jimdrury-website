@@ -2,12 +2,9 @@ import "server-only";
 
 import { draftMode } from "next/headers";
 import type { FC } from "react";
-import { getArticlesByTag } from "@/storyblok/blog-listings";
-import {
-  BLOG_ARCHIVE_PAGE_SIZE,
-  parsePageParam,
-} from "@/storyblok/blog-listings-utils";
-import { BlogArchive } from "./blog-archive";
+import { getBlogCategoryArchive, parsePageParam } from "@/lib/blog";
+import { buildBlogCategoryJsonLd, serializeJsonLd } from "@/lib/seo";
+import { BlogIndex } from "../../../_components/blog-index";
 
 type RenderProps = Pick<
   PageProps<"/blog/category/[category]">,
@@ -23,34 +20,30 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
   const { isEnabled } = await draftMode();
 
   const version = isEnabled ? "draft" : "published";
-
-  const pageIndex = page - 1;
-
-  const [stories, nextPageStories] = await Promise.all([
-    getArticlesByTag(category, pageIndex, version),
-    getArticlesByTag(category, pageIndex + 1, version),
-  ]);
-
-  const hasNext = nextPageStories.length > 0;
-  const total = hasNext
-    ? page * BLOG_ARCHIVE_PAGE_SIZE + 1
-    : (page - 1) * BLOG_ARCHIVE_PAGE_SIZE + stories.length;
+  const archive = await getBlogCategoryArchive({
+    category,
+    page,
+    version,
+  });
+  const jsonLd = serializeJsonLd(
+    buildBlogCategoryJsonLd({
+      category,
+      page,
+      stories: archive.stories,
+    }),
+  );
 
   return (
-    <BlogArchive
-      title={`Category: ${category}`}
-      pathname={`/blog/${category}`}
-      stories={stories}
-      pagination={{
-        page,
-        pageSize: BLOG_ARCHIVE_PAGE_SIZE,
-        total,
-        totalPages: hasNext ? page + 1 : page,
-        hasPrevious: page > 1,
-        hasNext,
-      }}
-      resolveHref={(story) => `/blog/${category}/${story.slug}`}
-      emptyMessage={`No posts found in "${category}".`}
-    />
+    <>
+      <script type="application/ld+json">{jsonLd}</script>
+      <BlogIndex
+        title={`Category: ${category}`}
+        subtitle={`Showing posts tagged "${category}".`}
+        pathname={`/blog/${category}`}
+        stories={archive.stories}
+        pagination={archive.pagination}
+        showCategorySidebar={false}
+      />
+    </>
   );
 };

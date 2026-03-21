@@ -10,11 +10,18 @@ const meta = {
   tags: ["autodocs"],
   args: {
     title: "Getting Started with Neobrutalism",
+    category: "Design",
     excerpt:
       "Learn how to build bold, retro-inspired interfaces using modern CSS and component patterns.",
     date: "April 1, 2025",
     dateTime: "2025-04-01",
     href: "/blog/getting-started-with-neobrutalism",
+    imageSrc: "https://picsum.photos/1600/900",
+    imageAlt: "Random placeholder landscape photo",
+    imageWidth: 1600,
+    imageHeight: 900,
+    imageLoading: "eager",
+    imageFetchPriority: "high",
   },
 } satisfies Meta<typeof BlogCard>;
 

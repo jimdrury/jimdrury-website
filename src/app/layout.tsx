@@ -2,8 +2,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { draftMode } from "next/headers";
 import Link from "next/link";
 import { type ReactNode, Suspense } from "react";
+import { DraftModeRefresh } from "@/components/draft-mode-refresh";
 import {
   Header,
   HeaderLogo,
@@ -45,11 +47,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const { isEnabled } = await draftMode();
+
   return (
     <html
       lang="en"
@@ -70,6 +74,7 @@ export default function RootLayout({
           </HeaderNav>
         </Header>
         <div className="-mt-16">{children}</div>
+        <DraftModeRefresh isEnabled={isEnabled} />
         <Analytics />
         <SpeedInsights />
       </body>

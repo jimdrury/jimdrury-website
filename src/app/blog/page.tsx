@@ -3,33 +3,25 @@ import type { FC } from "react";
 import { Suspense } from "react";
 
 import { parsePageParam } from "@/lib/blog";
-import { buildBlogCategoryMetadata } from "@/lib/seo";
+import { buildBlogIndexMetadata } from "@/lib/seo";
 import { Render } from "./_components/render";
 import { Skeleton } from "./_components/skeleton";
 
 export const generateMetadata = async ({
-  params,
   searchParams,
-}: PageProps<"/blog/category/[category]">): Promise<Metadata> => {
-  const { category } = await params;
+}: PageProps<"/blog">): Promise<Metadata> => {
   const resolvedSearchParams = await searchParams;
   const pageValue = resolvedSearchParams.page;
   const pageParam = Array.isArray(pageValue) ? pageValue[0] : pageValue;
   const page = parsePageParam(pageParam);
 
-  return buildBlogCategoryMetadata({
-    category,
-    page,
-  });
+  return buildBlogIndexMetadata(page);
 };
 
-const Page: FC<PageProps<"/blog/category/[category]">> = ({
-  params,
-  searchParams,
-}) => {
+const Page: FC<PageProps<"/blog">> = ({ searchParams }) => {
   return (
     <Suspense fallback={<Skeleton />}>
-      <Render params={params} searchParams={searchParams} />
+      <Render searchParams={searchParams} />
     </Suspense>
   );
 };

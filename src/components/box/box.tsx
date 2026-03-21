@@ -31,7 +31,7 @@ const paddingClasses: Record<BoxSpacing, string> = {
 };
 
 const marginClasses: Record<BoxSpacing, string> = {
-  none: "m-0",
+  none: "m-0 mb-6",
   xs: "m-2",
   sm: "m-4",
   md: "m-6",

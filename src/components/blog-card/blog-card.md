@@ -4,14 +4,15 @@ A simple link card for blog post previews with neobrutalism styling. Renders as 
 
 ## Props
 
-| Prop       | Type     | Default | Description                        |
-| ---------- | -------- | ------- | ---------------------------------- |
-| `title`    | `string` | —       | Post title (required)              |
-| `excerpt`  | `string` | —       | Short description, clamped to 2 lines |
-| `date`     | `string` | —       | Formatted display date             |
-| `dateTime` | `string` | —       | ISO date for `<time>` element      |
-| `href`     | `string` | —       | Link destination (renders as `<article>` when omitted) |
-| `children` | `ReactNode` | —    | Optional custom card content in place of title/excerpt/date layout |
+| Prop       | Type        | Default | Description                        |
+| ---------- | ----------- | ------- | ---------------------------------- |
+| `title`    | `string`    | —       | Post title (required)              |
+| `category` | `string`    | —       | Optional short label shown over the top-right of the image |
+| `excerpt`  | `string`    | —       | Short description, clamped to 2 lines |
+| `date`     | `string`    | —       | Formatted display date             |
+| `dateTime` | `string`    | —       | ISO date for `<time>` element      |
+| `href`     | `string`    | —       | Link destination (renders as `<article>` when omitted) |
+| `children` | `ReactNode` | —       | Optional custom card content in place of title/excerpt/date layout |
 
 Also accepts all standard `<a>` element props.
 

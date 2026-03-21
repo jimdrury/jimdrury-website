@@ -1,4 +1,4 @@
-import { asset, nestable } from "@jimdrury/storyblok-component-schema";
+import { asset, boolean, nestable } from "@jimdrury/storyblok-component-schema";
 
 export default nestable({
   name: "image",
@@ -9,6 +9,12 @@ export default nestable({
       name: "image",
       filetypes: ["images"],
       required: true,
+    }),
+    boolean({
+      name: "enable_lightbox",
+      description: "Allow this image to open in a lightbox on click",
+      default_value: false,
+      inline_label: true,
     }),
   ],
 });

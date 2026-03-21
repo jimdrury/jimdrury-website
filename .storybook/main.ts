@@ -9,7 +9,6 @@ const config: StorybookConfig = {
   ],
   addons: ["@storybook/addon-docs"],
   framework: "@storybook/nextjs-vite",
-  staticDirs: ["../public"],
   async viteFinal(config) {
     return mergeConfig(config, {
       resolve: {
