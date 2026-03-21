@@ -1,13 +1,13 @@
 import { blocks, nestable } from "@jimdrury/storyblok-component-schema";
 
 export default nestable({
-  name: "section",
-  display_name: "Section",
-  folder: "layouts",
+  name: "grid",
+  display_name: "Grid",
+  folder: "bloks",
   schema: [
     blocks({
-      name: "body",
-      allowed_folders: ["typography"],
+      name: "columns",
+      allowed_folders: ["bloks"],
     }),
   ],
 });

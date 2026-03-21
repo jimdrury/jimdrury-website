@@ -6,11 +6,12 @@ import {
   isValidElement,
   type ReactElement,
   type ReactNode,
+  type SVGProps,
 } from "react";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
-function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
+function HomeIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <>
       {/* biome-ignore lint/a11y/noSvgWithoutTitle: decorative; parent link has aria-label */}
@@ -34,7 +35,7 @@ function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function SlashSeparator(props: React.SVGProps<SVGSVGElement>) {
+function SlashSeparator(props: SVGProps<SVGSVGElement>) {
   return (
     <>
       {/* biome-ignore lint/a11y/noSvgWithoutTitle: decorative; wrapper list item is aria-hidden */}
