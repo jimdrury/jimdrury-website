@@ -1,36 +1,41 @@
 # Header
 
-A compound site header with neobrutalism styling. Compose with `HeaderLogo` and `HeaderNav` sub-components.
+A compound site header with dark glassmorphism styling. Semi-transparent black background with backdrop blur, yellow-300 accent text, and drop shadow.
 
 ## Sub-components
 
-| Component   | Element    | Description                          |
-| ----------- | ---------- | ------------------------------------ |
-| `Header`    | `<header>` | Outer container with bottom border   |
-| `HeaderLogo`| `<a>`/`<span>` | Bold logo; renders as a link only when `href` (or `asChild`) is provided |
-| `HeaderNav` | `<nav>`    | Navigation wrapper with a `<ul>`     |
+| Component         | Element        | Description                                                    |
+| ----------------- | -------------- | -------------------------------------------------------------- |
+| `Header`          | `<header>`     | Outer container with glassmorphism backdrop                    |
+| `HeaderLogo`      | `<a>`/`<span>` | Logo wrapper; renders as a link when `href` or `asChild` is provided |
+| `HeaderLogoBadge` | `<span>`       | Yellow badge pill for a logo monogram                          |
+| `HeaderNav`       | `<nav>`        | Navigation wrapper with a `<ul>`                               |
+| `HeaderNavLink`   | `<a>`/`<li>`   | Individual nav link with optional `active` underline state     |
 
 ## Usage
 
 ```tsx
-import { Header, HeaderLogo, HeaderNav } from "@/components/header";
+import { Header, HeaderLogo, HeaderLogoBadge, HeaderNav, HeaderNavLink } from "@/components/header";
 
 <Header>
-  <HeaderLogo href="/">Acme Co.</HeaderLogo>
+  <HeaderLogo href="/">
+    <HeaderLogoBadge>jd</HeaderLogoBadge>
+    <span className="text-base font-semibold">jimdrury</span>
+  </HeaderLogo>
   <HeaderNav>
-    <li><a href="/about">About</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/contact">Contact</a></li>
+    <HeaderNavLink href="/blog" active>Blog</HeaderNavLink>
+    <HeaderNavLink href="/projects">Projects</HeaderNavLink>
+    <HeaderNavLink href="/about">About</HeaderNavLink>
   </HeaderNav>
 </Header>
 ```
 
-## Logo only
+## With Next.js Link
 
 ```tsx
-<Header>
-  <HeaderLogo>My Brand</HeaderLogo>
-</Header>
+<HeaderNavLink asChild active>
+  <Link href="/blog">Blog</Link>
+</HeaderNavLink>
 ```
 
 ## Custom styling
@@ -38,7 +43,9 @@ import { Header, HeaderLogo, HeaderNav } from "@/components/header";
 All sub-components accept a `className` prop for overrides:
 
 ```tsx
-<Header className="bg-yellow-100">
-  <HeaderLogo className="text-2xl">Logo</HeaderLogo>
+<Header className="bg-black/90">
+  <HeaderLogo className="gap-3">
+    <HeaderLogoBadge>jd</HeaderLogoBadge>
+  </HeaderLogo>
 </Header>
 ```

@@ -13,34 +13,30 @@ export const Skeleton: FC = () => {
     "line-7",
     "line-8",
   ] as const;
-  const preContentKeys = ["pre-1", "pre-2"] as const;
-  const postContentKeys = ["post-1", "post-2"] as const;
+  const sidebarLinkKeys = ["link-1", "link-2", "link-3"] as const;
 
   return (
-    <main className="animate-pulse py-8 md:py-12" aria-busy="true">
-      <section className="mx-auto max-w-5xl px-4" aria-hidden="true">
-        <div className="h-64 w-full rounded bg-zinc-200 md:h-96" />
-        <div className="mt-6 h-10 w-4/5 rounded bg-zinc-200" />
-        <div className="mt-3 h-4 w-64 rounded bg-zinc-100" />
-      </section>
-
-      <div
-        className="mx-auto mt-8 max-w-6xl gap-y-6 px-4 md:grid md:gap-x-10 md:[grid-template-columns:minmax(0,3fr)_minmax(0,1fr)] lg:gap-x-12 lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]"
-        aria-hidden="true"
-      >
-        <aside className="order-1 space-y-4 md:order-none md:col-start-2 md:row-start-1">
-          {preContentKeys.map((key) => (
-            <div
-              key={`article-skeleton-${key}`}
-              className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]"
-            >
-              <div className="h-4 w-2/3 rounded bg-zinc-200" />
-              <div className="mt-3 h-4 w-full rounded bg-zinc-200" />
-              <div className="mt-2 h-4 w-5/6 rounded bg-zinc-200" />
+    <main className="animate-pulse" aria-busy="true" aria-hidden="true">
+      <header>
+        <div className="aspect-[16/9] w-full bg-zinc-200 md:aspect-[20/7] lg:aspect-[24/7]" />
+        <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
+          <div className="border-4 border-zinc-300 bg-zinc-100 px-6 py-6 shadow-[8px_8px_0_0_rgba(0,0,0,0.08)]">
+            <div className="h-8 w-4/5 rounded bg-zinc-300 md:h-10" />
+            <div className="mt-4 flex flex-col gap-3">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                <div className="h-4 w-48 rounded bg-zinc-200" />
+                <div className="h-4 w-20 rounded bg-zinc-200" />
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-16 rounded bg-zinc-200" />
+                <div className="h-7 w-20 rounded bg-zinc-200" />
+              </div>
             </div>
-          ))}
-        </aside>
+          </div>
+        </div>
+      </header>
 
+      <div className="mx-auto mt-8 max-w-6xl gap-y-6 px-4 flex flex-col md:grid md:gap-x-10 md:[grid-template-columns:minmax(0,3fr)_minmax(0,1fr)] lg:gap-x-12 lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]">
         <section className="order-2 space-y-4 pb-4 md:order-none md:col-start-1 md:row-start-1">
           <div className="h-8 w-2/3 rounded bg-zinc-200" />
           {bodyLineKeys.map((key, index) => (
@@ -53,16 +49,20 @@ export const Skeleton: FC = () => {
           ))}
         </section>
 
-        <aside className="order-3 space-y-4 md:col-start-2">
-          {postContentKeys.map((key) => (
-            <div
-              key={`article-skeleton-${key}`}
-              className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]"
-            >
-              <div className="h-24 w-full rounded bg-zinc-200" />
-              <div className="mt-3 h-4 w-3/4 rounded bg-zinc-200" />
+        <aside className="contents md:col-start-2 md:row-start-1 md:block md:space-y-4">
+          <div className="order-1 space-y-4 md:order-none">
+            <div className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
+              <div className="h-5 w-2/3 rounded bg-zinc-200" />
+              <div className="mt-3 space-y-2">
+                {sidebarLinkKeys.map((key) => (
+                  <div
+                    key={`article-skeleton-sidebar-${key}`}
+                    className="h-4 w-full rounded bg-zinc-200"
+                  />
+                ))}
+              </div>
             </div>
-          ))}
+          </div>
         </aside>
       </div>
     </main>

@@ -6,7 +6,7 @@
       "id": "bi8Au",
       "x": 0,
       "y": 0,
-      "name": "Frame",
+      "name": "Blog - Article",
       "clip": true,
       "width": 1440,
       "height": 1740,
@@ -199,7 +199,8 @@
                           "content": "So Vercel just dropped NextJS 16.2 with loads of really awesome features, but the one that blew my mind was the new AGENTS.md.",
                           "lineHeight": 1.6,
                           "fontFamily": "Inter",
-                          "fontSize": 16
+                          "fontSize": 16,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -248,7 +249,8 @@
                               "fill": "#64748b",
                               "content": "<!-- BEGIN:nextjs-agent-rules -->",
                               "fontFamily": "Source Code Pro",
-                              "fontSize": 13
+                              "fontSize": 13,
+                              "fontWeight": "normal"
                             },
                             {
                               "type": "text",
@@ -270,7 +272,8 @@
                               "content": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in",
                               "lineHeight": 1.5,
                               "fontFamily": "Source Code Pro",
-                              "fontSize": 13
+                              "fontSize": 13,
+                              "fontWeight": "normal"
                             },
                             {
                               "type": "text",
@@ -279,7 +282,8 @@
                               "fill": "#38bdf8",
                               "content": "`node_modules/next/dist/docs/`",
                               "fontFamily": "Source Code Pro",
-                              "fontSize": 13
+                              "fontSize": 13,
+                              "fontWeight": "normal"
                             },
                             {
                               "type": "text",
@@ -288,7 +292,8 @@
                               "fill": "#cbd5e1",
                               "content": "before writing any code. Heed deprecation notices.",
                               "fontFamily": "Source Code Pro",
-                              "fontSize": 13
+                              "fontSize": 13,
+                              "fontWeight": "normal"
                             },
                             {
                               "type": "text",
@@ -297,7 +302,8 @@
                               "fill": "#64748b",
                               "content": "<!-- END:nextjs-agent-rules -->",
                               "fontFamily": "Source Code Pro",
-                              "fontSize": 13
+                              "fontSize": 13,
+                              "fontWeight": "normal"
                             }
                           ]
                         }
@@ -311,7 +317,8 @@
                       "content": "It's simple, it's beautiful, and it's going to do exactly what it says on the tin!",
                       "lineHeight": 1.6,
                       "fontFamily": "Inter",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -340,7 +347,8 @@
                           "content": "So, it kicks off with a cool tip I got from a colleague at Google: use HTML-like tags to group related content. LLMs need extra help with markdown.",
                           "lineHeight": 1.6,
                           "fontFamily": "Inter",
-                          "fontSize": 16
+                          "fontSize": 16,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -352,7 +360,8 @@
                       "content": "Start by telling LLMs, \"This is NOT the Next.js you know\" steering them away from old data.",
                       "lineHeight": 1.6,
                       "fontFamily": "Inter",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "text",
@@ -362,7 +371,8 @@
                       "content": "Then direct them to node_modules/next/dist/docs/ for the latest info.",
                       "lineHeight": 1.6,
                       "fontFamily": "Inter",
-                      "fontSize": 16
+                      "fontSize": 16,
+                      "fontWeight": "normal"
                     },
                     {
                       "type": "frame",
@@ -381,7 +391,8 @@
                           "content": "Followed up by a clear instruction to read the deprecation notices. As LLMs often gloss over these and lean on training bias.",
                           "lineHeight": 1.6,
                           "fontFamily": "Inter",
-                          "fontSize": 16
+                          "fontSize": 16,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -423,7 +434,8 @@
                               "content": "This is the first time that I've seen agent docs through NPM packages, and I love it. It highlights and starts to combat what I thinks is the problems with Skills ... distribution.",
                               "lineHeight": 1.6,
                               "fontFamily": "Inter",
-                              "fontSize": 15
+                              "fontSize": 15,
+                              "fontWeight": "normal"
                             }
                           ]
                         },
@@ -445,7 +457,8 @@
                               "content": "Now dont get me wrong, I love a good skill, just write some markdown in a repo and boom, the npx skills command copies it into your local repo, and you're ready to go.",
                               "lineHeight": 1.6,
                               "fontFamily": "Inter",
-                              "fontSize": 15
+                              "fontSize": 15,
+                              "fontWeight": "normal"
                             }
                           ]
                         },
@@ -468,7 +481,8 @@
                               "content": "What skills doesnt do is then keep your skills up-to-date - that's something you have to run manually, and that's what this essentially does.",
                               "lineHeight": 1.6,
                               "fontFamily": "Inter",
-                              "fontSize": 15
+                              "fontSize": 15,
+                              "fontWeight": "normal"
                             }
                           ]
                         },
@@ -550,6 +564,148 @@
                       "fontFamily": "Inter",
                       "fontSize": 14,
                       "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "QOAw3",
+              "x": 0,
+              "y": 0,
+              "name": "header",
+              "width": 1440,
+              "height": 64,
+              "fill": "#000000CC",
+              "effect": [
+                {
+                  "type": "background_blur",
+                  "radius": 4
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "#00000040",
+                  "offset": {
+                    "x": 0,
+                    "y": 2
+                  },
+                  "blur": 8
+                }
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "pRUjr",
+                  "name": "Header Inner",
+                  "width": 1152,
+                  "height": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bupjK",
+                      "name": "Logo Group",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "5UXy3",
+                          "name": "Logo Badge",
+                          "fill": "#fde047",
+                          "cornerRadius": 4,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "B0e4w",
+                              "name": "Logo",
+                              "fill": "#000000",
+                              "content": "jd",
+                              "fontFamily": "Inter",
+                              "fontSize": 18,
+                              "fontWeight": "900"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "q5oJH",
+                          "name": "SiteName",
+                          "fill": "#fde047",
+                          "content": "jimdrury",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "HXPv3",
+                      "name": "Nav Links",
+                      "gap": 32,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "qHHGb",
+                          "name": "Nav Blog Active",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uLorB",
+                              "name": "Nav Blog",
+                              "fill": "#fde047",
+                              "content": "Blog",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "rectangle",
+                              "id": "E3cnR",
+                              "name": "Active Underline",
+                              "fill": "#fde047",
+                              "width": "fill_container",
+                              "height": 2
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Em77g",
+                          "name": "Nav Projects",
+                          "fill": "#fde047",
+                          "content": "Projects",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eMC1w",
+                          "name": "Nav About",
+                          "fill": "#fde047",
+                          "content": "About",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
                     }
                   ]
                 }
