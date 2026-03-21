@@ -81,7 +81,7 @@ export const BlogCard: FC<BlogCardProps> = ({
                 </time>
               </span>
             )}
-            <h3 className="mt-1 text-xl font-semibold">{title}</h3>
+            <h2 className="mt-1 text-xl font-semibold">{title}</h2>
             {excerpt && (
               <p className="mt-2 line-clamp-2 text-pretty">{excerpt}</p>
             )}
@@ -89,7 +89,7 @@ export const BlogCard: FC<BlogCardProps> = ({
               <div className="mt-auto flex justify-end pt-4">
                 <Button asChild expand>
                   <Link href={href} aria-label={`Read more about ${title}`}>
-                    Read more
+                    Read more about {title}
                   </Link>
                 </Button>
               </div>

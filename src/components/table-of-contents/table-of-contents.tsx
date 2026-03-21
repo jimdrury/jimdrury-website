@@ -4,6 +4,7 @@ import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
 import { getTableOfContentsHeadings } from "@/lib/storyblok-table-of-contents";
+import { cn } from "@/lib/utils";
 
 export const TableOfContents: FC = () => {
   const story = getCurrentStory();
@@ -14,22 +15,27 @@ export const TableOfContents: FC = () => {
   }
 
   return (
-    <section>
+    <section className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
       <Typography as="h2" size="lg" weight="bold" className="mb-3">
         On this page
       </Typography>
       <nav aria-label="Table of contents">
-        <ul className="space-y-1">
+        <ul className="space-y-2">
           {headings.map((heading) => (
             <li key={heading.id}>
               <Link
                 href={`#${heading.id}`}
-                className={heading.level === "h3" ? "pl-4" : undefined}
+                className={cn(
+                  "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200",
+                  heading.level === "h3" ? "pl-6" : undefined,
+                )}
               >
-                {heading.text}
+                <span className="truncate underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none]">
+                  {heading.text}
+                </span>
                 <FaAngleDoubleDown
                   aria-hidden
-                  className="inline-block ml-1.5 text-xs"
+                  className="shrink-0 text-xs text-zinc-700"
                 />
               </Link>
             </li>
