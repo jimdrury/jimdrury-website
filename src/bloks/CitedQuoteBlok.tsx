@@ -5,7 +5,7 @@ import {
   StoryblokServerRichText,
   storyblokEditable,
 } from "@storyblok/react/rsc";
-import type { FC, ReactElement } from "react";
+import { type FC, type ReactElement, use } from "react";
 import { CitedQuote } from "@/components/cited-quote";
 
 type CitedQuoteBlokData = SbBlokData & {
@@ -18,6 +18,13 @@ type CitedQuoteBlokProps = {
   blok: CitedQuoteBlokData;
 };
 
+const getCachedQuote = async (
+  quote: StoryblokRichTextNode<ReactElement>,
+): Promise<ReactElement> => {
+  "use cache";
+  return <StoryblokServerRichText doc={quote} />;
+};
+
 export const CitedQuoteBlok: FC<CitedQuoteBlokProps> = ({ blok }) => {
   if (!blok.quote || !blok.citation) {
     return null;
@@ -26,7 +33,7 @@ export const CitedQuoteBlok: FC<CitedQuoteBlokProps> = ({ blok }) => {
   return (
     <CitedQuote
       {...storyblokEditable(blok)}
-      quote={<StoryblokServerRichText doc={blok.quote} />}
+      quote={use(getCachedQuote(blok.quote))}
       citation={blok.citation}
       citation_context={blok.citation_context}
     />
