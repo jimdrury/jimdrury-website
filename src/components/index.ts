@@ -31,6 +31,7 @@ export * from "./stat";
 export * from "./surface";
 export * from "./tab";
 export * from "./table";
+export * from "./table-of-contents";
 export * from "./timeline";
 export * from "./toast";
 export * from "./typography";

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 const ROOT_PATH = "/";
 const DRAFT_COOKIE_NAME = "__prerender_bypass";
+const DRAFT_COOKIE_MAX_AGE_SECONDS = 2 * 60;
 const CURRENT_PREVIEW_MODE_ID = process.env.__NEXT_PREVIEW_MODE_ID;
 
 const getSafeReturnTo = (returnTo: string | null): string => {
@@ -49,6 +50,7 @@ export async function GET(request: Request) {
     response.cookies.set({
       name: DRAFT_COOKIE_NAME,
       value: partitionedDraftCookieValue,
+      maxAge: DRAFT_COOKIE_MAX_AGE_SECONDS,
       httpOnly: true,
       secure: true,
       sameSite: "none",

@@ -55,6 +55,7 @@ export default nestable({
             { name: "Dark", value: "dark" },
             { name: "Black", value: "black" },
             { name: "Yellow", value: "yellow" },
+            { name: "Blue", value: "blue" },
           ],
         }),
         option({

@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  description: "Personal site and writing by Jim Drury.",
   alternates: {
     canonical: "/",
   },
@@ -30,13 +29,11 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     title: SITE_NAME,
-    description: "Personal site and writing by Jim Drury.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
-    description: "Personal site and writing by Jim Drury.",
   },
 };
 

@@ -17,6 +17,20 @@ export default contentType({
       required: true,
     }),
     tab({
+      name: "side_bar",
+      display_name: "Side Bar",
+      fields: [
+        blocks({
+          name: "pre_content",
+          allowed_folders: ["layout", "components"],
+        }),
+        blocks({
+          name: "post_content",
+          allowed_folders: ["layout", "components"],
+        }),
+      ],
+    }),
+    tab({
       name: "metadata",
       display_name: "Metadata",
       fields: [

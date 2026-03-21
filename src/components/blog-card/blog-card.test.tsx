@@ -52,4 +52,41 @@ describe("BlogCard", () => {
 
     expect(screen.getByRole("article")).toHaveClass("custom-class");
   });
+
+  it("renders custom children instead of default card content", () => {
+    render(<BlogCard title="Post">Custom content</BlogCard>);
+
+    expect(screen.getByText("Custom content")).toBeInTheDocument();
+    expect(screen.queryByText("Post")).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Read more about/i })).toBeNull();
+  });
+
+  it("renders image with fallback alt and default dimensions", () => {
+    render(<BlogCard title="With image" imageSrc="/hero.jpg" />);
+
+    const image = screen.getByRole("img", { name: "With image" });
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute("width", "1600");
+    expect(image).toHaveAttribute("height", "1000");
+  });
+
+  it("renders image with explicit image props", () => {
+    render(
+      <BlogCard
+        title="With image"
+        imageSrc="/hero.jpg"
+        imageAlt="Custom alt"
+        imageWidth={1200}
+        imageHeight={630}
+        imageLoading="eager"
+        imageFetchPriority="high"
+      />,
+    );
+
+    const image = screen.getByRole("img", { name: "Custom alt" });
+    expect(image).toHaveAttribute("width", "1200");
+    expect(image).toHaveAttribute("height", "630");
+    expect(image).toHaveAttribute("loading", "eager");
+    expect(image).toHaveAttribute("fetchpriority", "high");
+  });
 });

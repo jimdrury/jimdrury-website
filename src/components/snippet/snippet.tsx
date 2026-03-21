@@ -74,6 +74,9 @@ export const Snippet: FC<SnippetProps> = async ({
     theme: "github-dark",
     decorations: highlights?.length ? buildDecorations(highlights) : undefined,
   });
+  const accessibleHtml = html
+    .replaceAll(/color:\s*#6A737D/gi, "color:#9CA3AF")
+    .replaceAll(/<pre([^>]*?)\s+tabindex="[^"]*"/gi, "<pre$1");
 
   return (
     <figure
@@ -102,7 +105,7 @@ export const Snippet: FC<SnippetProps> = async ({
           "[&_.snippet-line-remove]:bg-red-500/15 [&_.snippet-line-remove]:line-through [&_.snippet-line-remove]:opacity-70",
         )}
       >
-        {parse(html)}
+        {parse(accessibleHtml)}
       </div>
     </figure>
   );

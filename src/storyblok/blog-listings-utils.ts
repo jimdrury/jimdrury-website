@@ -14,6 +14,9 @@ type ImageBlok = {
 };
 
 type ArticleContent = {
+  body?: StoryblokBlok[];
+  pre_content?: StoryblokBlok[];
+  post_content?: StoryblokBlok[];
   component?: string;
   excerpt?: string;
   featured_image?: ImageBlok[];
@@ -21,6 +24,12 @@ type ArticleContent = {
   published_at?: string | null;
   story_name?: string;
   updated_at?: string | null;
+};
+
+type StoryblokBlok = {
+  _uid?: string;
+  component?: string;
+  [key: string]: unknown;
 };
 
 export type BlogStory = {

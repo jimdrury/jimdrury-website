@@ -33,7 +33,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
         height={height}
         className="aspect-[16/9] md:aspect-[20/7] lg:aspect-[24/7]"
       />
-      <div className="relative z-10 mx-auto -mt-12 w-full max-w-5xl px-4">
+      <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
         <div className="border-4 border-black bg-yellow-300 px-6 py-6 text-black shadow-[8px_8px_0_0]">
           <Typography
             as="h1"

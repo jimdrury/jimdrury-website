@@ -6,25 +6,11 @@ import { notFound } from "next/navigation";
 import type { FC } from "react";
 
 import { getDefaultStoryCategory } from "@/lib/blog";
+import { setCurrentStory } from "@/lib/current-story-context";
 import { buildArticleJsonLd, serializeJsonLd } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 
 type RenderProps = Pick<PageProps<"/blog/read/[slug]">, "params">;
-type StoryData = Awaited<ReturnType<typeof getArticleBySlug>>;
-type CachedStory = NonNullable<StoryData>;
-
-const mapStoryForRender = (story: CachedStory): CachedStory => {
-  return {
-    ...story,
-    content: {
-      categories: story.tag_list,
-      published_at: story.first_published_at ?? story.published_at,
-      ...story.content,
-      story_name: story.name,
-      updated_at: story.published_at,
-    },
-  };
-};
 
 export const Render: FC<RenderProps> = async ({ params }) => {
   const { slug } = await params;
@@ -40,13 +26,13 @@ export const Render: FC<RenderProps> = async ({ params }) => {
     notFound();
   }
 
-  const storyForRender = mapStoryForRender(story);
+  setCurrentStory(story);
   const jsonLd = serializeJsonLd(buildArticleJsonLd(story));
 
   return (
     <main>
       <script type="application/ld+json">{jsonLd}</script>
-      <StoryblokStory story={storyForRender} />
+      <StoryblokStory story={story} />
     </main>
   );
 };

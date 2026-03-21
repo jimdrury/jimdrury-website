@@ -11,6 +11,7 @@ import { PageBlok } from "@/bloks/PageBlok";
 import { RichTextBlok } from "@/bloks/RichTextBlok";
 import { SectionBlok } from "@/bloks/SectionBlok";
 import { SnippetBlok } from "@/bloks/SnippetBlok";
+import { TableOfContentsBlok } from "@/bloks/TableOfContentsBlok";
 import { TeaserBlok } from "@/bloks/TeaserBlok";
 import { TypographyBlok } from "@/bloks/TypographyBlok";
 import { VerticalSpacingBlok } from "@/bloks/VerticalSpacingBlok";
@@ -29,6 +30,7 @@ const getBlokComponents = () => {
     rich_text: RichTextBlok,
     section: SectionBlok,
     snippet: SnippetBlok,
+    table_of_contents: TableOfContentsBlok,
     teaser: TeaserBlok,
     typography: TypographyBlok,
     vertical_spacing: VerticalSpacingBlok,

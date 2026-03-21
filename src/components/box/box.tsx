@@ -9,7 +9,8 @@ export type BoxBackgroundColour =
   | "light_grey"
   | "dark"
   | "black"
-  | "yellow";
+  | "yellow"
+  | "blue";
 export type BoxTextColour = "default" | "black" | "white";
 
 export interface BoxProps extends ComponentPropsWithoutChildren<"div"> {
@@ -45,6 +46,7 @@ const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
   dark: "bg-zinc-800",
   black: "bg-black",
   yellow: "bg-yellow-300",
+  blue: "bg-blue-200",
 };
 
 const textColourClasses: Record<BoxTextColour, string> = {

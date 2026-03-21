@@ -50,15 +50,6 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
 
   return (
     <div className={cn("flex flex-col gap-3", className)} {...props}>
-      {normalizedCategories.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          {normalizedCategories.map((category) => (
-            <Button key={category} asChild variant="secondary" size="small">
-              <Link href={`/blog/${category}`}>{category}</Link>
-            </Button>
-          ))}
-        </div>
-      )}
       {(publishedLabel || readTimeLabel) && (
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           {publishedLabel && (
@@ -71,6 +62,15 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
               {readTimeLabel}
             </p>
           )}
+        </div>
+      )}
+      {normalizedCategories.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
+          {normalizedCategories.map((category) => (
+            <Button key={category} asChild variant="secondary" size="small">
+              <Link href={`/blog/${category}`}>{category}</Link>
+            </Button>
+          ))}
         </div>
       )}
     </div>
