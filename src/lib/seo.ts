@@ -25,6 +25,22 @@ const normalizeText = (value: string | undefined): string | undefined => {
   return trimmed && trimmed.length > 0 ? trimmed : undefined;
 };
 
+const formatCategoryLabel = (category: string): string => {
+  const trimmed = category.trim();
+  if (!trimmed) {
+    return "General";
+  }
+
+  return trimmed
+    .split(/[\s-]+/g)
+    .filter((segment) => segment.length > 0)
+    .map((segment) => {
+      const [first = "", ...rest] = segment;
+      return first.toUpperCase() + rest.join("");
+    })
+    .join(" ");
+};
+
 const isRecord = (value: unknown): value is Record<string, unknown> => {
   return typeof value === "object" && value !== null;
 };
@@ -75,10 +91,14 @@ export const buildBlogIndexMetadata = (page: number): Metadata => {
     : 1;
   const canonicalPath = getBlogIndexPath(normalizedPage);
   const title = normalizedPage > 1 ? `Blog - Page ${normalizedPage}` : "Blog";
+  const description =
+    normalizedPage > 1
+      ? `Page ${normalizedPage} of the ${SITE_NAME} blog: ${BLOG_INDEX_DESCRIPTION.toLowerCase()}`
+      : BLOG_INDEX_DESCRIPTION;
 
   return {
     title,
-    description: BLOG_INDEX_DESCRIPTION,
+    description,
     keywords: [...BLOG_INDEX_KEYWORDS],
     category: "technology",
     alternates: {
@@ -98,7 +118,7 @@ export const buildBlogIndexMetadata = (page: number): Metadata => {
     openGraph: {
       type: "website",
       title,
-      description: BLOG_INDEX_DESCRIPTION,
+      description,
       url: canonicalPath,
       siteName: SITE_NAME,
       locale: SITE_LOCALE,
@@ -106,7 +126,7 @@ export const buildBlogIndexMetadata = (page: number): Metadata => {
     twitter: {
       card: "summary_large_image",
       title,
-      description: BLOG_INDEX_DESCRIPTION,
+      description,
     },
   };
 };
@@ -165,12 +185,16 @@ export const buildBlogCategoryMetadata = ({
     ? Math.max(1, Math.trunc(page))
     : 1;
   const normalizedCategory = category.trim().toLowerCase();
+  const categoryLabel = formatCategoryLabel(normalizedCategory);
   const canonicalPath = getBlogCategoryPath(normalizedCategory, normalizedPage);
   const title =
     normalizedPage > 1
       ? `Blog category: ${normalizedCategory} - Page ${normalizedPage}`
       : `Blog category: ${normalizedCategory}`;
-  const description = `Posts tagged "${normalizedCategory}" from ${SITE_NAME}.`;
+  const description =
+    normalizedPage > 1
+      ? `Page ${normalizedPage} of ${SITE_NAME} posts in the ${categoryLabel} category.`
+      : `Posts from ${SITE_NAME} in the ${categoryLabel} category.`;
   const keywords = [...BLOG_INDEX_KEYWORDS, normalizedCategory];
 
   return {
@@ -221,6 +245,7 @@ export const buildBlogCategoryJsonLd = ({
     ? Math.max(1, Math.trunc(page))
     : 1;
   const normalizedCategory = category.trim().toLowerCase();
+  const categoryLabel = formatCategoryLabel(normalizedCategory);
   const canonicalPath = getBlogCategoryPath(normalizedCategory, normalizedPage);
   const canonicalUrl = toAbsoluteUrl(canonicalPath);
   const pageName =
@@ -232,7 +257,10 @@ export const buildBlogCategoryJsonLd = ({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: pageName,
-    description: `Posts tagged "${normalizedCategory}" from ${SITE_NAME}.`,
+    description:
+      normalizedPage > 1
+        ? `Page ${normalizedPage} of ${SITE_NAME} posts in the ${categoryLabel} category.`
+        : `Posts from ${SITE_NAME} in the ${categoryLabel} category.`,
     inLanguage: SITE_LANGUAGE,
     url: canonicalUrl,
     isPartOf: {

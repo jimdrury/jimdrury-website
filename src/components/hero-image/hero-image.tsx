@@ -33,11 +33,17 @@ export const HeroImage: FC<HeroImageProps> = ({
           height={height}
           sizes="100vw"
           priority
+          fetchPriority="high"
           className="block h-full w-full object-cover"
         />
       ) : (
         // biome-ignore lint/performance/noImgElement: fallback when intrinsic size is unknown
-        <img src={src} alt={alt} className="block h-full w-full object-cover" />
+        <img
+          src={src}
+          alt={alt}
+          fetchPriority="high"
+          className="block h-full w-full object-cover"
+        />
       )}
       {children && (
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-6 pb-6 pt-16">

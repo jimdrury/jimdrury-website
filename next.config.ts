@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   cacheComponents: true,
+  productionBrowserSourceMaps: true,
   async redirects() {
     return [
       {
