@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 import { cookies, draftMode } from "next/headers";
 import { NextResponse } from "next/server";
 import { environment } from "@/environment";
