@@ -68,10 +68,10 @@ export const BlogIndex: FC<BlogIndexProps> = ({
       </section>
       <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
         <div className="border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
-          <Typography as="h1" size="4xl" weight="black">
+          <Typography as="h1" size="3xl" weight="black">
             {title}
           </Typography>
-          <Typography as="p" size="sm" weight="semibold" className="mt-2">
+          <Typography as="p" size="sm" weight="bold" className="mt-2">
             {subtitle}
           </Typography>
         </div>
