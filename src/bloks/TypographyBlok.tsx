@@ -37,7 +37,9 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
       as={blok.as ?? "p"}
       id={headingId}
       tabIndex={headingId ? -1 : undefined}
-      className="whitespace-pre-wrap"
+      className={
+        headingId ? "whitespace-pre-wrap scroll-mt-20" : "whitespace-pre-wrap"
+      }
     >
       {blok.content}
     </Typography>
