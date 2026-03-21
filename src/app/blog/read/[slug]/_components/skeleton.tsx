@@ -36,8 +36,21 @@ export const Skeleton: FC = () => {
         </div>
       </header>
 
-      <div className="mx-auto mt-8 max-w-6xl gap-y-6 px-4 flex flex-col md:grid md:gap-x-10 md:[grid-template-columns:minmax(0,3fr)_minmax(0,1fr)] lg:gap-x-12 lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]">
-        <section className="order-2 space-y-4 pb-4 md:order-none md:col-start-1 md:row-start-1">
+      <div className="mx-auto mt-8 max-w-6xl gap-y-6 px-4 flex flex-col md:grid md:gap-x-10 md:gap-y-0 md:[grid-template-columns:minmax(0,3fr)_minmax(0,1fr)] lg:gap-x-12 lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]">
+        <div className="space-y-4 md:col-start-2 md:row-start-1">
+          <div className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
+            <div className="h-5 w-2/3 rounded bg-zinc-200" />
+            <div className="mt-3 space-y-2">
+              {sidebarLinkKeys.map((key) => (
+                <div
+                  key={`article-skeleton-sidebar-${key}`}
+                  className="h-4 w-full rounded bg-zinc-200"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        <section className="space-y-4 pb-4 md:col-start-1 md:row-start-1 md:row-span-2">
           <div className="h-8 w-2/3 rounded bg-zinc-200" />
           {bodyLineKeys.map((key, index) => (
             <div
@@ -48,22 +61,6 @@ export const Skeleton: FC = () => {
             />
           ))}
         </section>
-
-        <aside className="contents md:col-start-2 md:row-start-1 md:block md:space-y-4">
-          <div className="order-1 space-y-4 md:order-none">
-            <div className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
-              <div className="h-5 w-2/3 rounded bg-zinc-200" />
-              <div className="mt-3 space-y-2">
-                {sidebarLinkKeys.map((key) => (
-                  <div
-                    key={`article-skeleton-sidebar-${key}`}
-                    className="h-4 w-full rounded bg-zinc-200"
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </aside>
       </div>
     </main>
   );

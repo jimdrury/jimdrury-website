@@ -122,43 +122,45 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
       <div
         className={cn(
           "mx-auto mt-8 max-w-6xl px-4 gap-y-6 flex flex-col",
-          "md:grid md:gap-x-10",
+          "md:grid md:gap-x-10 md:gap-y-0",
           "md:[grid-template-columns:minmax(0,3fr)_minmax(0,1fr)]",
           "lg:gap-x-12",
           "lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]",
         )}
       >
+        {hasPreColumn ? (
+          <div className="space-y-4 md:col-start-2 md:row-start-1">
+            {preContentBloks.map((nestedBlok) => (
+              <StoryblokServerComponent
+                blok={nestedBlok}
+                key={nestedBlok._uid}
+              />
+            ))}
+          </div>
+        ) : null}
         <section
-          className="order-2 space-y-4 pb-4 md:order-none md:col-start-1 md:row-start-1"
+          className="space-y-4 pb-4 md:col-start-1 md:row-start-1 md:row-span-2"
           itemProp="articleBody"
         >
           {blok.body?.map((nestedBlok) => (
             <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </section>
-        {hasPreColumn || hasPostColumn ? (
-          <aside className="contents md:col-start-2 md:row-start-1 md:block md:space-y-4">
-            {hasPreColumn ? (
-              <div className="order-1 space-y-4 md:order-none">
-                {preContentBloks.map((nestedBlok) => (
-                  <StoryblokServerComponent
-                    blok={nestedBlok}
-                    key={nestedBlok._uid}
-                  />
-                ))}
-              </div>
-            ) : null}
-            {hasPostColumn ? (
-              <div className="order-3 space-y-4 md:order-none">
-                {postContentBloks.map((nestedBlok) => (
-                  <StoryblokServerComponent
-                    blok={nestedBlok}
-                    key={nestedBlok._uid}
-                  />
-                ))}
-              </div>
-            ) : null}
-          </aside>
+        {hasPostColumn ? (
+          <div
+            className={cn(
+              "space-y-4",
+              "md:col-start-2",
+              hasPreColumn ? "md:row-start-2 md:mt-4" : "md:row-start-1",
+            )}
+          >
+            {postContentBloks.map((nestedBlok) => (
+              <StoryblokServerComponent
+                blok={nestedBlok}
+                key={nestedBlok._uid}
+              />
+            ))}
+          </div>
         ) : null}
       </div>
     </article>
