@@ -3,13 +3,16 @@ import { describe, expect, it } from "vitest";
 import { BlogCard } from "./blog-card";
 
 describe("BlogCard", () => {
-  it("renders a link with the title", () => {
+  it("renders a read more link when href is provided", () => {
     render(<BlogCard title="Test Post" href="/blog/test" />);
 
-    const link = screen.getByRole("link");
+    const link = screen.getByRole("link", {
+      name: "Read more about Test Post",
+    });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/blog/test");
     expect(screen.getByText("Test Post")).toBeInTheDocument();
+    expect(screen.getByText("Read more")).toBeInTheDocument();
   });
 
   it("renders date when provided", () => {
@@ -47,6 +50,6 @@ describe("BlogCard", () => {
       <BlogCard title="Post" href="/blog/post" className="custom-class" />,
     );
 
-    expect(screen.getByRole("link")).toHaveClass("custom-class");
+    expect(screen.getByRole("article")).toHaveClass("custom-class");
   });
 });

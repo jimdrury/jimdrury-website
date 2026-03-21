@@ -1,15 +1,16 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
 
 :root {
   --focus-ring-inner: #ffffff;
   --focus-ring-outer: #000000;
   --focus-stack-sm:
-    2px 2px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner), 0 0
-    0 4px var(--focus-ring-outer);
+    2px 2px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
+    0 0 0 4px var(--focus-ring-outer);
   --focus-stack-md:
-    4px 4px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner), 0 0
-    0 4px var(--focus-ring-outer);
+    4px 4px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
+    0 0 0 4px var(--focus-ring-outer);
 }
 
 @utility focus-ring {
@@ -22,4 +23,12 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--focus-stack-sm);
+}
+
+.richtext-external-link-indicator a[target="_blank"]::after {
+  content: "\2197";
+  margin-left: 0.25rem;
+  display: inline-block;
+  font-size: 0.85em;
+  line-height: 1;
 }

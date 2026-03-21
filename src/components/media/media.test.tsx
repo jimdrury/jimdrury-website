@@ -4,19 +4,23 @@ import { Media } from "./media";
 
 describe("Media", () => {
   it("renders an image with the correct alt text", () => {
-    render(<Media src="https://placehold.co/600x400" alt="Test image" />);
+    render(
+      <Media>
+        {/* biome-ignore lint/performance/noImgElement: Unit test fixture uses plain img */}
+        <img src="https://placehold.co/600x400" alt="Test media" />
+      </Media>,
+    );
 
-    const img = screen.getByRole("img", { name: "Test image" });
+    const img = screen.getByRole("img", { name: "Test media" });
     expect(img).toHaveAttribute("src", "https://placehold.co/600x400");
   });
 
   it("renders a caption when provided", () => {
     render(
-      <Media
-        src="https://placehold.co/600x400"
-        alt="Test"
-        caption="Photo credit"
-      />,
+      <Media caption="Photo credit">
+        {/* biome-ignore lint/performance/noImgElement: Unit test fixture uses plain img */}
+        <img src="https://placehold.co/600x400" alt="Test" />
+      </Media>,
     );
 
     expect(screen.getByText("Photo credit")).toBeInTheDocument();
@@ -24,7 +28,10 @@ describe("Media", () => {
 
   it("does not render a caption when omitted", () => {
     const { container } = render(
-      <Media src="https://placehold.co/600x400" alt="Test" />,
+      <Media>
+        {/* biome-ignore lint/performance/noImgElement: Unit test fixture uses plain img */}
+        <img src="https://placehold.co/600x400" alt="Test" />
+      </Media>,
     );
 
     expect(container.querySelector("figcaption")).not.toBeInTheDocument();

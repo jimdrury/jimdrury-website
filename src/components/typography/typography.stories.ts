@@ -17,7 +17,7 @@ export const Default: Story = {
 };
 
 export const Heading: Story = {
-  args: { as: "h1", size: "3xl", weight: "bold", children: "Page Heading" },
+  args: { as: "h1", children: "Page Heading" },
 };
 
 export const Small: Story = {

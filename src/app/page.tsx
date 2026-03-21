@@ -1,17 +1,16 @@
-import { StoryblokStory } from "@storyblok/react/rsc";
-import { draftMode } from "next/headers";
-import { getStoryblokApi } from "@/storyblok";
+import type { FC } from "react";
+import { Suspense } from "react";
 
-export default async function Home() {
-  const { data } = await fetchData();
+import { Render } from "./_components/render";
+import { Skeleton } from "./_components/skeleton";
 
-  return <StoryblokStory story={data.story} />;
-}
+const Page: FC<PageProps<"/">> = () => {
+  return (
+    // Keep route composition in `page.tsx` and async runtime work in `_components/render.tsx`.
+    <Suspense fallback={<Skeleton />}>
+      <Render />
+    </Suspense>
+  );
+};
 
-async function fetchData() {
-  const { isEnabled } = await draftMode();
-  const storyblokApi = getStoryblokApi();
-  const version = isEnabled ? "draft" : "published";
-
-  return storyblokApi.get("cdn/stories/home", { version });
-}
+export default Page;

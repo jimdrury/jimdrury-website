@@ -66,4 +66,18 @@ describe("Button", () => {
     expect(screen.getByRole("button", { name: "Close" })).toHaveClass("p-3");
     expect(screen.getByText("Close")).toHaveClass("sr-only");
   });
+
+  it("applies expand classes when expand is true", () => {
+    render(
+      <Button type="button" expand>
+        Read more
+      </Button>,
+    );
+
+    expect(screen.getByRole("button", { name: "Read more" })).toHaveClass(
+      "before:absolute",
+      "before:inset-0",
+      "before:content-['']",
+    );
+  });
 });

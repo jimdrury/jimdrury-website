@@ -1,0 +1,78 @@
+import {
+  parseStoryblokImageDimensions,
+  type StoryblokImageDimensions,
+} from "./image-dimensions";
+import type { StoryblokAsset } from "./types";
+
+export const BLOG_PREFIX = "blog/";
+export const BLOG_CONTENT_TYPE = "article";
+export const BLOG_ARCHIVE_PAGE_SIZE = 10;
+
+type ImageBlok = {
+  component?: string;
+  image?: StoryblokAsset;
+};
+
+type ArticleContent = {
+  component?: string;
+  excerpt?: string;
+  featured_image?: ImageBlok[];
+  categories?: string[];
+  published_at?: string | null;
+  story_name?: string;
+  updated_at?: string | null;
+};
+
+export type BlogStory = {
+  id: number;
+  uuid?: string;
+  name: string;
+  slug: string;
+  full_slug: string;
+  tag_list?: string[];
+  first_published_at?: string | null;
+  published_at?: string | null;
+  content: ArticleContent;
+};
+
+export type StoryblokStoriesResponse = {
+  data?: {
+    stories?: BlogStory[];
+  };
+};
+
+export const isArticleStory = (story: BlogStory): boolean => {
+  return story.content?.component === BLOG_CONTENT_TYPE;
+};
+
+export const parsePageParam = (page: string | undefined): number => {
+  const parsed = Number.parseInt(page ?? "1", 10);
+  if (Number.isNaN(parsed) || parsed < 1) {
+    return 1;
+  }
+
+  return parsed;
+};
+
+export type { StoryblokImageDimensions };
+export { parseStoryblokImageDimensions };
+
+export const getFeaturedImageAsset = (
+  featuredImageBloks: ImageBlok[] | undefined,
+): StoryblokAsset | undefined => {
+  const featuredImageBlok = featuredImageBloks?.[0];
+  if (!featuredImageBlok || featuredImageBlok.component !== "image") {
+    return undefined;
+  }
+
+  const src = featuredImageBlok.image?.filename;
+  if (!src) {
+    return undefined;
+  }
+
+  return {
+    filename: src,
+    alt:
+      featuredImageBlok.image?.alt || featuredImageBlok.image?.meta_data?.alt,
+  };
+};

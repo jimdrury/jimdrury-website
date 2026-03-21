@@ -27,6 +27,30 @@ export const typographyVariants = cva("text-black", {
   },
 });
 
+type TypographySize = NonNullable<
+  VariantProps<typeof typographyVariants>["size"]
+>;
+type TypographyWeight = NonNullable<
+  VariantProps<typeof typographyVariants>["weight"]
+>;
+type TypographyHeadingTag = "h1" | "h2" | "h3" | "h4";
+
+const headingVariants: Record<
+  TypographyHeadingTag,
+  { size: TypographySize; weight: TypographyWeight }
+> = {
+  h1: { size: "3xl", weight: "black" },
+  h2: { size: "2xl", weight: "bold" },
+  h3: { size: "xl", weight: "bold" },
+  h4: { size: "lg", weight: "medium" },
+};
+
+const isTypographyHeadingTag = (
+  value: string,
+): value is TypographyHeadingTag => {
+  return value in headingVariants;
+};
+
 export interface TypographyProps
   extends ComponentPropsWithoutChildren<"p">,
     VariantProps<typeof typographyVariants> {
@@ -43,10 +67,19 @@ export const Typography: FC<TypographyProps> = ({
   ...props
 }) => {
   const Comp = as ?? "p";
+  const headingVariant =
+    typeof Comp === "string" && isTypographyHeadingTag(Comp)
+      ? headingVariants[Comp]
+      : undefined;
+  const resolvedSize = headingVariant?.size ?? size;
+  const resolvedWeight = headingVariant?.weight ?? weight;
 
   return (
     <Comp
-      className={cn(typographyVariants({ size, weight }), className)}
+      className={cn(
+        typographyVariants({ size: resolvedSize, weight: resolvedWeight }),
+        className,
+      )}
       {...props}
     >
       {children}

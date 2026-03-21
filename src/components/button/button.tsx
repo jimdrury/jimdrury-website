@@ -8,21 +8,33 @@ import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 border-2 border-black px-5 py-3 font-semibold text-black shadow-[4px_4px_0_0] transition-[background-color] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_#fde047,0_0_0_4px_#000,4px_4px_0_4px_#000]",
+  "inline-flex cursor-pointer items-center justify-center gap-2 border-2 border-black font-semibold text-black shadow-[4px_4px_0_0] transition-[background-color] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_#fde047,0_0_0_4px_#000,4px_4px_0_4px_#000]",
   {
     variants: {
       variant: {
-        primary:
-          "bg-yellow-300 hover:bg-yellow-400 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
-        secondary:
-          "bg-white hover:bg-yellow-300 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
-        tertiary:
-          "bg-green-300 hover:bg-green-400 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
+        primary: "bg-yellow-300 hover:bg-yellow-400",
+        secondary: "bg-white hover:bg-green-300",
+        tertiary: "bg-green-300 hover:bg-green-400",
         ghost: "bg-transparent shadow-none hover:bg-yellow-100",
+      },
+      size: {
+        default: "px-5 py-3",
+        small: "px-2 py-1 text-xs",
+      },
+      expand: {
+        true: "z-10 before:pointer-events-auto before:absolute before:inset-0 before:z-10 before:block before:content-['']",
+        false: "",
+      },
+      iconOnly: {
+        true: "p-3",
+        false: "",
       },
     },
     defaultVariants: {
       variant: "primary",
+      size: "default",
+      expand: false,
+      iconOnly: false,
     },
   },
 );
@@ -38,19 +50,29 @@ export interface ButtonProps
   iconPosition?: "start" | "end";
   /** Visually hide label text while keeping it accessible to screen readers. */
   iconOnly?: boolean;
+  /**
+   * Expands click target to the nearest positioned ancestor.
+   * Requires a parent container with `position: relative`.
+   */
+  expand?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
   asChild,
   className,
   variant,
+  size,
   children,
   icon: Icon,
   iconPosition = "start",
   iconOnly = false,
+  expand = false,
   ...props
 }) => {
-  const classes = cn(buttonVariants({ variant }), iconOnly && "p-3", className);
+  const classes = cn(
+    buttonVariants({ variant, size, expand, iconOnly }),
+    className,
+  );
 
   if (asChild) {
     return (

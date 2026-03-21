@@ -1,0 +1,41 @@
+import type { Metadata } from "next";
+import { draftMode } from "next/headers";
+import type { FC } from "react";
+import { Suspense } from "react";
+
+import { Skeleton } from "@/app/blog/read/[slug]/_components/skeleton";
+import { getDefaultStoryCategory } from "@/lib/blog";
+import { buildArticleMetadata } from "@/lib/seo";
+import { getArticleBySlug } from "@/storyblok/blog-listings";
+import { Render } from "./_components/render";
+
+export const generateMetadata = async ({
+  params,
+}: PageProps<"/blog/read/[slug]">): Promise<Metadata> => {
+  const { slug } = await params;
+  const { isEnabled } = await draftMode();
+  const version = isEnabled ? "draft" : "published";
+  const story = await getArticleBySlug({ slug, version });
+
+  if (!story || (!isEnabled && !getDefaultStoryCategory(story))) {
+    return {
+      title: "Article not found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  return buildArticleMetadata(story);
+};
+
+const Page: FC<PageProps<"/blog/read/[slug]">> = ({ params }) => {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <Render params={params} />
+    </Suspense>
+  );
+};
+
+export default Page;
