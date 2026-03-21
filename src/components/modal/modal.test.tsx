@@ -26,12 +26,14 @@ describe("ModalHeader", () => {
 
   it("renders a close button when onClose is provided", () => {
     render(<ModalHeader onClose={() => {}}>Title</ModalHeader>);
-    expect(screen.getByLabelText("Close")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
   });
 
   it("does not render a close button without onClose", () => {
     render(<ModalHeader>Title</ModalHeader>);
-    expect(screen.queryByLabelText("Close")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Close" }),
+    ).not.toBeInTheDocument();
   });
 });
 
