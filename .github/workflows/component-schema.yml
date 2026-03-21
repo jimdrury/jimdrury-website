@@ -1,0 +1,49 @@
+name: Storyblok component schema
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "components/**"
+      - ".component-schema.yaml"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Component schema plan
+        id: plan
+        env:
+          STORYBLOK_API_TOKEN: ${{ secrets.STORYBLOK_API_TOKEN }}
+          STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          yarn schema:plan 2>&1 | tee plan.log
+          if grep -Fq 'No changes.' plan.log; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Component schema apply
+        if: success() && steps.plan.outputs.has_changes == 'true'
+        env:
+          STORYBLOK_API_TOKEN: ${{ secrets.STORYBLOK_API_TOKEN }}
+          STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
+        run: yarn schema:apply

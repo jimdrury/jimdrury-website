@@ -2,7 +2,16 @@ import type { Preview } from "@storybook/nextjs-vite";
 import "../src/app/globals.css";
 
 const preview: Preview = {
+  decorators: [
+    (Story) => {
+      document.documentElement.style.colorScheme = "light";
+      return Story();
+    },
+  ],
   parameters: {
+    options: {
+      showRoots: false,
+    },
     nextjs: {
       appDirectory: true,
     },

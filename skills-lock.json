@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "skills": {
+    "asset": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "30835c9787ab64710cc773d12dc433e724040c1f4270b8fadbfa985a8e508e0b"
+    },
+    "blocks": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "fd550c8d7a0bb8771da8dcc76676f5c6fea0053f027ef119a86dd3563fc1c790"
+    },
+    "boolean": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "930d6fc03c7aca37187aa279ad30ef0c666b64e64328f6edddb31ac6e41c64c8"
+    },
+    "content-type": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "485c110d57d50966b7e4670a6956907fa6575d679b61f96e87d6d86e6a9234c2"
+    },
+    "create-component": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "5662f7d969d75a9dcdedd79e1944a3be3267b53c9800b075f2232b86ea05da54"
+    },
+    "datetime": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "cd8e2c79bcfcaeba40276d64acde49f0eb921197ff8b058be1de827e4cb34d96"
+    },
+    "install": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "b0b544590c63b04443f52e207575b0a8a8d03001f6e52c60b3da821f1a7d3f56"
+    },
+    "markdown": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "a7ffc0dd0eeaa8799b8b0926874a72a37ea873383755ad0114cdf4f54d9ed837"
+    },
+    "multiasset": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "2cf790b72fe03289f4118772ab58bdf88ef2ad54ecc4971ec7e636686d5e6f97"
+    },
+    "multilink": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "850e3cd54199d6a0d55a2219d9da70a611f982067afd54e7d6a866e8c73409f7"
+    },
+    "nestable": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "4485c3c6991ce6dfb2d2d2f6a22dd87969d8a09e76a8ed9ccb4cebaf78e0c7db"
+    },
+    "number": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "1835c6d2a917d2aad807e96ef6ab3f4c178156c26d2363794c83af5c9e126680"
+    },
+    "option": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "6c44342e13318d97bbf04b712885655ede8b9ea5de102e344e5e88d19e889d43"
+    },
+    "options": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "28a3030e5500a70747e8891972c0ab877bcf1aa6d076de6826abd8b55408a056"
+    },
+    "references": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "77f9660412baab1ce36d90b3816d89d7ea70c3142b2989103b3bbb42ebd54924"
+    },
+    "richtext": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "b0f301501a5acd0a532224ed56da9d249bad1e3b903f8b9e359249fce4931837"
+    },
+    "tab": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "54dabdc81a8baaa8019c32c5bd94a86f2b1d616783fab0a9c4bc16078da50e10"
+    },
+    "table": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "aa5792e9c7a1bad0aaee106c79b83408071436048f7d5583dd2178727f04d122"
+    },
+    "text": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "d96548664270b65d57aa299091041fcc98fe8c95ae486e61e081f2ed4b1b07bc"
+    },
+    "textarea": {
+      "source": "jimdrury/jimdrury-component-schema",
+      "sourceType": "github",
+      "computedHash": "06fd1b80bb2f6522fc2bc556bbac69150099971c4ece66350e807f39499a40c5"
+    }
+  }
+}
