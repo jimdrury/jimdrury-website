@@ -141,14 +141,6 @@ export const buildArticleMetadata = (story: BlogStory): Metadata => {
           height: 630,
           alt: imageAlt,
         },
-        ...(featuredImage
-          ? [
-              {
-                url: featuredImage.url,
-                alt: featuredImage.alt,
-              },
-            ]
-          : []),
       ],
     },
     twitter: {
@@ -168,10 +160,7 @@ export const buildArticleJsonLd = (
   const publishedTime = getArticlePublishedTime(story);
   const modifiedTime = getArticleModifiedTime(story) ?? publishedTime;
   const keywords = getArticleKeywords(story);
-  const featuredImage = getFeaturedImage(story);
-  const images = [featuredImage?.url, getArticleOgImageUrl(story)].filter(
-    (value): value is string => Boolean(value),
-  );
+  const images = [getArticleOgImageUrl(story)];
 
   return {
     "@context": "https://schema.org",

@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jim Drury Personal Website
 
-## Getting Started
+Source for [jimdrury.co.uk](https://www.jimdrury.co.uk), built with Next.js and Storyblok.
 
-First, run the development server:
+This repository is intentionally public so people can learn from the implementation and get inspired by patterns, structure, and content modeling decisions.
+
+## Purpose
+
+- Personal site and writing platform for Jim Drury.
+- Not an open source project and not seeking external contributions.
+- Pull requests are not expected.
+
+## Tech Stack
+
+- Next.js 16 + React 19
+- TypeScript
+- Tailwind CSS 4
+- Storyblok CMS
+- Storybook
+- Vitest + Testing Library
+- Biome
+
+## Local Development
+
+### Prerequisites
+
+- Node.js (current LTS recommended)
+- Corepack enabled (`corepack enable`)
+- Yarn 4 (managed via `packageManager` in `package.json`)
+
+### Setup
 
 ```bash
-npm run dev
-# or
+cp .env.example .env.local
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App runs at `https://localhost:3000` (HTTPS is enabled in dev).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env.local` and set:
 
-## Learn More
+- `STORYBLOK_ACCESS_TOKEN`
+- `STORYBLOK_API_TOKEN`
+- `STORYBLOK_SPACE_ID`
 
-To learn more about Next.js, take a look at the following resources:
+## Available Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `yarn dev` - start local dev server
+- `yarn build` - create production build
+- `yarn start` - run production server
+- `yarn lint` - run Biome checks
+- `yarn format` - apply Biome formatting
+- `yarn test` - run test suite once
+- `yarn test:watch` - run tests in watch mode
+- `yarn test:coverage` - run tests with coverage
+- `yarn storybook` - run Storybook locally
+- `yarn build-storybook` - build Storybook static output
+- `yarn schema:plan` - preview Storyblok schema changes
+- `yarn schema:apply` - apply Storyblok schema changes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License and Reuse
 
-## Deploy on Vercel
+This repository uses a custom source-available license in `LICENSE`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You are welcome to read the code and take inspiration, but you may not copy, republish, or reuse substantial portions of this project (including source, design, or content) without explicit written permission.
