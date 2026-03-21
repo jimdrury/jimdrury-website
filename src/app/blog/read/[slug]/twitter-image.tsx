@@ -1,6 +1,7 @@
 import { draftMode } from "next/headers";
 import { ImageResponse } from "next/og";
 
+import { getArticleExcerpt } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { getFeaturedImageAsset } from "@/storyblok/blog-listings-utils";
 import {
@@ -28,7 +29,8 @@ const TwitterImage: TwitterImageFn = async ({ params }) => {
   const payload = toSocialImagePayload({
     title: story?.name ?? "Article",
     excerpt:
-      story?.content?.excerpt ?? "Read the full article on jimdrury.co.uk",
+      (story ? getArticleExcerpt(story) : undefined) ??
+      "Read the full article on jimdrury.co.uk",
     featuredImageUrl: featuredImage?.filename,
   });
   const fonts = await getSocialImageFontOptions();

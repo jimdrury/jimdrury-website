@@ -16,6 +16,10 @@ const normalizeText = (value: string | undefined): string | undefined => {
   return trimmed && trimmed.length > 0 ? trimmed : undefined;
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === "object" && value !== null;
+};
+
 const toAbsoluteUrl = (value: string): string => {
   try {
     return new URL(value).toString();
@@ -41,11 +45,35 @@ export const getArticleCanonicalUrl = (story: BlogStory): string => {
   return toAbsoluteUrl(getArticlePath(story));
 };
 
+export const getArticleExcerpt = (story: BlogStory): string | undefined => {
+  const topLevelExcerpt = normalizeText(story.content?.excerpt);
+  if (topLevelExcerpt) {
+    return topLevelExcerpt;
+  }
+
+  const body = story.content?.body;
+  if (!Array.isArray(body)) {
+    return undefined;
+  }
+
+  for (const blok of body) {
+    if (!isRecord(blok)) {
+      continue;
+    }
+
+    const excerpt = normalizeText(
+      typeof blok.excerpt === "string" ? blok.excerpt : undefined,
+    );
+    if (excerpt) {
+      return excerpt;
+    }
+  }
+
+  return undefined;
+};
+
 const getArticleDescription = (story: BlogStory): string => {
-  return (
-    normalizeText(story.content?.excerpt) ??
-    `Read ${story.name} on ${SITE_NAME}.`
-  );
+  return getArticleExcerpt(story) ?? `Read ${story.name} on ${SITE_NAME}.`;
 };
 
 const getArticlePublishedTime = (story: BlogStory): string | undefined => {
