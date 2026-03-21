@@ -7,7 +7,7 @@ import { HeaderNavLink } from "./header";
 
 const links = [
   { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects" },
+  { href: "/projects", label: "Projects", prefetch: false },
   { href: "/about", label: "About", prefetch: false },
 ];
 
