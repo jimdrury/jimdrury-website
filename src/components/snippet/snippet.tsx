@@ -81,7 +81,7 @@ export const Snippet: FC<SnippetProps> = async ({
   return (
     <figure
       className={cn(
-        "overflow-hidden border-2 border-black bg-[#24292e] shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-md border-2 border-black bg-[#24292e] shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

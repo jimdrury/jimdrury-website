@@ -32,7 +32,7 @@ export const Skeleton: FC<SkeletonProps> = ({ showCategorySidebar = true }) => {
         <div className="aspect-[32/9] md:aspect-[40/7] lg:aspect-[48/7]" />
       </section>
       <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
-        <div className="border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
+        <div className="rounded-md border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
           <div className="h-9 w-40 rounded bg-yellow-200" />
           <div className="mt-3 h-4 w-80 rounded bg-yellow-200" />
         </div>
@@ -53,7 +53,7 @@ export const Skeleton: FC<SkeletonProps> = ({ showCategorySidebar = true }) => {
             {cardKeys.map((cardKey) => (
               <article
                 key={`blog-index-skeleton-${cardKey}`}
-                className="border-2 border-black bg-white shadow-[4px_4px_0_0]"
+                className="overflow-hidden rounded-md border-2 border-black bg-white shadow-[4px_4px_0_0]"
               >
                 <div className="h-55 border-b-2 border-black bg-zinc-200" />
                 <div className="space-y-3 p-4">
@@ -63,7 +63,7 @@ export const Skeleton: FC<SkeletonProps> = ({ showCategorySidebar = true }) => {
                   <div className="h-3 w-11/12 rounded bg-zinc-100" />
                   <div className="h-3 w-2/3 rounded bg-zinc-100" />
                   <div className="flex justify-end p-2">
-                    <div className="h-13 w-32 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+                    <div className="h-13 w-32 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
                   </div>
                 </div>
               </article>
@@ -72,12 +72,12 @@ export const Skeleton: FC<SkeletonProps> = ({ showCategorySidebar = true }) => {
 
           {showCategorySidebar ? (
             <aside className="space-y-3" aria-hidden="true">
-              <div className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
+              <div className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
                 <div className="mb-3 h-8 w-28 rounded bg-zinc-200" />
                 <div className="space-y-2">
-                  <div className="h-10 w-full border-2 border-black bg-white" />
-                  <div className="h-10 w-full border-2 border-black bg-white" />
-                  <div className="h-10 w-full border-2 border-black bg-white" />
+                  <div className="h-10 w-full rounded-md border-2 border-black bg-white" />
+                  <div className="h-10 w-full rounded-md border-2 border-black bg-white" />
+                  <div className="h-10 w-full rounded-md border-2 border-black bg-white" />
                 </div>
               </div>
             </aside>
@@ -85,11 +85,11 @@ export const Skeleton: FC<SkeletonProps> = ({ showCategorySidebar = true }) => {
         </section>
 
         <div className="mt-8 flex items-center gap-3" aria-hidden="true">
-          <div className="h-9 w-24 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
-          <div className="h-9 w-10 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
-          <div className="h-9 w-10 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
-          <div className="h-9 w-10 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
-          <div className="h-9 w-20 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+          <div className="h-9 w-24 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+          <div className="h-9 w-10 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+          <div className="h-9 w-10 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+          <div className="h-9 w-10 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+          <div className="h-9 w-20 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
         </div>
       </main>
     </>

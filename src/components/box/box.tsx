@@ -67,7 +67,7 @@ export const Box: FC<BoxProps> = ({
   return (
     <div
       className={cn(
-        "shadow-[6px_6px_0_0_#000]",
+        "rounded-md border-2 border-black shadow-[6px_6px_0_0_#000]",
         paddingClasses[padding],
         marginClasses[margin],
         backgroundColourClasses[backgroundColour],

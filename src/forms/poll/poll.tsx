@@ -72,7 +72,7 @@ export const Poll: FC<PollProps> = ({
     <PollContext.Provider value={contextValue}>
       <fieldset
         className={cn(
-          "min-w-0 border-2 border-black bg-white p-6 text-black shadow-[4px_4px_0_0]",
+          "min-w-0 rounded-md border-2 border-black bg-white p-6 text-black shadow-[4px_4px_0_0]",
           className,
         )}
         {...props}
@@ -119,7 +119,7 @@ export const PollOption: FC<PollOptionProps> = ({
     <label
       htmlFor={inputId}
       className={cn(
-        "flex w-full cursor-pointer items-center justify-between border-2 border-black px-4 py-3 font-semibold shadow-[2px_2px_0_0] hover:bg-yellow-100 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
+        "flex w-full cursor-pointer items-center justify-between rounded-md border-2 border-black px-4 py-3 font-semibold shadow-[2px_2px_0_0] hover:bg-yellow-100 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
         selected === value && "bg-yellow-50",
       )}
     >
@@ -134,7 +134,7 @@ export const PollOption: FC<PollOptionProps> = ({
           disabled={disabled}
           onChange={handleChange}
           className={cn(
-            "size-6 shrink-0 cursor-pointer border-2 border-black shadow-[2px_2px_0_0] shadow-black checked:bg-black focus-visible:focus-ring-sm",
+            "size-6 shrink-0 cursor-pointer rounded-full border-2 border-black shadow-[2px_2px_0_0] shadow-black checked:bg-black focus-visible:focus-ring-sm",
             className,
           )}
         />

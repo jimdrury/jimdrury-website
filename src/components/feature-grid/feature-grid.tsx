@@ -41,7 +41,7 @@ export const Feature: FC<FeatureProps> = ({
   return (
     <div
       className={cn(
-        "border-2 border-black bg-white text-black p-6 shadow-[4px_4px_0_0]",
+        "rounded-md border-2 border-black bg-white p-6 text-black shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

@@ -8,7 +8,7 @@ export interface TableProps extends ComponentPropsWithoutChildren<"table"> {
 
 export const Table: FC<TableProps> = ({ className, children, ...props }) => {
   return (
-    <div className="overflow-x-auto border-2 border-black shadow-[4px_4px_0_0]">
+    <div className="overflow-x-auto rounded-md border-2 border-black shadow-[4px_4px_0_0]">
       <table className={cn("w-full text-left text-sm", className)} {...props}>
         {children}
       </table>

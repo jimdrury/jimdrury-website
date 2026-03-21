@@ -23,7 +23,7 @@ export const Skeleton: FC = () => {
         {cardKeys.map((cardKey) => (
           <article
             key={`month-skeleton-${cardKey}`}
-            className="border-2 border-black bg-white p-4 shadow-[4px_4px_0_0] sm:p-6"
+            className="overflow-hidden rounded-md border-2 border-black bg-white p-4 shadow-[4px_4px_0_0] sm:p-6"
           >
             <div className="-mx-4 -mt-4 mb-3 border-b-2 border-black bg-zinc-100 sm:-mx-6 sm:-mt-6">
               <div className="h-48 w-full bg-zinc-200" />
@@ -34,7 +34,7 @@ export const Skeleton: FC = () => {
             <div className="mt-2 h-4 w-11/12 rounded bg-zinc-100" />
             <div className="mt-2 h-4 w-2/3 rounded bg-zinc-100" />
             <div className="mt-4 flex justify-end">
-              <div className="h-11 w-28 border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
+              <div className="h-11 w-28 rounded-md border-2 border-black bg-zinc-200 shadow-[4px_4px_0_0]" />
             </div>
           </article>
         ))}

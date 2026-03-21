@@ -23,7 +23,7 @@ export const Textarea: FC<TextareaProps> = ({
         id={id}
         rows={rows}
         className={cn(
-          "mt-0.5 w-full resize-none border-2 border-black shadow-[4px_4px_0_0] focus-visible:focus-ring sm:text-sm",
+          "mt-0.5 w-full resize-none rounded-md border-2 border-black shadow-[4px_4px_0_0] focus-visible:focus-ring sm:text-sm",
           className,
         )}
         {...props}

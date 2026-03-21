@@ -67,7 +67,7 @@ export const BlogIndex: FC<BlogIndexProps> = ({
         <div className="aspect-[32/9] md:aspect-[40/7] lg:aspect-[48/7]" />
       </section>
       <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
-        <div className="border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
+        <div className="rounded-md border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
           <Typography as="h1" size="3xl" weight="black">
             {title}
           </Typography>
@@ -169,7 +169,7 @@ export const BlogIndex: FC<BlogIndexProps> = ({
 
           {shouldShowCategorySidebar ? (
             <aside className="space-y-3">
-              <div className="rounded border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
+              <div className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
                 <Typography as="h2" size="lg" weight="bold" className="mb-3">
                   Categories
                 </Typography>
@@ -178,7 +178,7 @@ export const BlogIndex: FC<BlogIndexProps> = ({
                     <li key={category.slug}>
                       <Link
                         href={category.href}
-                        className="flex items-center justify-between gap-3 border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200"
+                        className="flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200"
                       >
                         <span className="truncate underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none]">
                           {category.label}

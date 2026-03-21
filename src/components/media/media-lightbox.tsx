@@ -64,7 +64,7 @@ export const MediaLightbox: FC<MediaLightboxProps> = ({
         {isMounted ? (
           <span
             aria-hidden
-            className="pointer-events-none absolute right-3 top-3 inline-flex items-center gap-1.5 border-2 border-black bg-yellow-300 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-black shadow-[2px_2px_0_0]"
+            className="pointer-events-none absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-md border-2 border-black bg-yellow-300 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-black shadow-[2px_2px_0_0]"
           >
             <FaSearchPlus className="size-3" />
             <span>Zoom</span>

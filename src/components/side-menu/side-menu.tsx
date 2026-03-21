@@ -15,7 +15,7 @@ export const SideMenu: FC<SideMenuProps> = ({
   return (
     <nav
       className={cn(
-        "w-64 border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
+        "w-64 overflow-hidden rounded-md border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

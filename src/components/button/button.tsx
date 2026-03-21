@@ -8,7 +8,7 @@ import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 border-2 border-black font-semibold text-black shadow-[4px_4px_0_0] transition-[background-color] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_#fde047,0_0_0_4px_#000,4px_4px_0_4px_#000]",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-black font-semibold text-black shadow-[4px_4px_0_0] transition-[background-color] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_#fde047,0_0_0_4px_#000,4px_4px_0_4px_#000]",
   {
     variants: {
       variant: {

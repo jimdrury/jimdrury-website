@@ -42,7 +42,7 @@ export const BlogCard: FC<BlogCardProps> = ({
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col border-2 border-black bg-white p-4 text-black shadow-[4px_4px_0_0] sm:p-6",
+        "relative flex h-full flex-col overflow-hidden rounded-md border-2 border-black bg-white p-4 text-black shadow-[4px_4px_0_0] sm:p-6",
         className,
       )}
       {...props}
@@ -64,7 +64,7 @@ export const BlogCard: FC<BlogCardProps> = ({
                 className="h-full w-full object-cover"
               />
               {category && (
-                <span className="absolute right-2 top-2 max-w-[70%] truncate border-2 border-black bg-white px-2 py-1 text-xs/none font-semibold uppercase shadow-[2px_2px_0_0] sm:right-3 sm:top-3">
+                <span className="absolute right-2 top-2 max-w-[70%] truncate rounded-md border-2 border-black bg-white px-2 py-1 text-xs/none font-semibold uppercase shadow-[2px_2px_0_0] sm:right-3 sm:top-3">
                   {category}
                 </span>
               )}

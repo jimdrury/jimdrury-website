@@ -37,7 +37,7 @@ export const VerticalMenuItem: FC<VerticalMenuItemProps> = ({
   ...props
 }) => {
   const linkClasses = cn(
-    "block cursor-pointer border-2 border-black px-4 py-2 font-semibold shadow-[2px_2px_0_0] hover:bg-yellow-100 focus-visible:focus-ring",
+    "block cursor-pointer rounded-md border-2 border-black px-4 py-2 font-semibold shadow-[2px_2px_0_0] hover:bg-yellow-100 focus-visible:focus-ring",
     active && "bg-yellow-300",
   );
 

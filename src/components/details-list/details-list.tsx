@@ -14,7 +14,7 @@ export const DetailsList: FC<DetailsListProps> = ({
   return (
     <dl
       className={cn(
-        "divide-y-2 divide-black border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-md divide-y-2 divide-black border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

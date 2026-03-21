@@ -22,7 +22,7 @@ export const QuantityInput: FC<QuantityInputProps> = ({
   return (
     <div
       className={cn(
-        "inline-flex items-center border-2 border-black shadow-[4px_4px_0_0]",
+        "inline-flex items-center overflow-hidden rounded-md border-2 border-black shadow-[4px_4px_0_0]",
         className,
       )}
     >

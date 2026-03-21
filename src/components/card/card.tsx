@@ -18,7 +18,7 @@ export const Card: FC<CardProps> = ({
   return (
     <Comp
       className={cn(
-        "border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-md border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

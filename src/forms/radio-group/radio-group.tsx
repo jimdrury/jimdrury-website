@@ -42,7 +42,7 @@ export const RadioOption: FC<RadioOptionProps> = ({
         type="radio"
         id={id}
         className={cn(
-          "size-6 cursor-pointer border-2 border-black shadow-[2px_2px_0_0] shadow-black checked:bg-black focus-visible:focus-ring-sm",
+          "size-6 cursor-pointer rounded-full border-2 border-black shadow-[2px_2px_0_0] shadow-black checked:bg-black focus-visible:focus-ring-sm",
           className,
         )}
         {...props}

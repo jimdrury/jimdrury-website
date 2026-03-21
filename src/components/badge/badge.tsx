@@ -6,7 +6,7 @@ import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
 
 export const badgeVariants = cva(
-  "inline-flex items-center border-2 border-black px-3 py-1.5 text-sm/none font-semibold shadow-[2px_2px_0_0]",
+  "inline-flex items-center rounded-md border-2 border-black px-3 py-1.5 text-sm/none font-semibold shadow-[2px_2px_0_0]",
   {
     variants: {
       variant: {

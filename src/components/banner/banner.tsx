@@ -21,7 +21,7 @@ export const Banner: FC<BannerProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-4 border-2 border-black bg-yellow-300 px-4 py-3 font-semibold shadow-[4px_4px_0_0]",
+        "flex items-center gap-4 rounded-md border-2 border-black bg-yellow-300 px-4 py-3 font-semibold shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

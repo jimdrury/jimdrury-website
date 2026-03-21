@@ -38,7 +38,7 @@ export const Modal: FC<ModalProps> = ({
       onClose={onClose}
       className={cn(
         /* Preflight sets margin:0 on * — native <dialog> centers via margin:auto in the top layer */
-        "m-auto max-h-[90dvh] w-full max-w-lg overflow-y-auto border-2 border-black bg-white p-0 text-black shadow-[8px_8px_0_0] backdrop:bg-black/50",
+        "m-auto max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-md border-2 border-black bg-white p-0 text-black shadow-[8px_8px_0_0] backdrop:bg-black/50",
         className,
       )}
       {...props}

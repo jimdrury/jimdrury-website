@@ -73,7 +73,7 @@ export const BlogArchive: FC<BlogArchiveProps> = ({
         {pagination.hasPrevious ? (
           <Link
             href={buildPaginationHref(pathname, pagination.page - 1)}
-            className="border-2 border-black bg-white px-4 py-2 font-semibold shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:focus-ring"
+            className="rounded-md border-2 border-black bg-white px-4 py-2 font-semibold shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:focus-ring"
           >
             Previous
           </Link>
@@ -86,7 +86,7 @@ export const BlogArchive: FC<BlogArchiveProps> = ({
         {pagination.hasNext ? (
           <Link
             href={buildPaginationHref(pathname, pagination.page + 1)}
-            className="border-2 border-black bg-white px-4 py-2 font-semibold shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:focus-ring"
+            className="rounded-md border-2 border-black bg-white px-4 py-2 font-semibold shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:focus-ring"
           >
             Next
           </Link>

@@ -262,7 +262,7 @@ export const DropdownTrigger: FC<DropdownTriggerProps> = ({
         toggle();
       }}
       className={cn(
-        "cursor-pointer border-2 border-black bg-white text-black px-4 py-2 font-semibold shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:focus-ring",
+        "cursor-pointer rounded-md border-2 border-black bg-white px-4 py-2 font-semibold text-black shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:focus-ring",
         className,
       )}
       {...props}
@@ -295,7 +295,7 @@ export const DropdownContent: FC<DropdownContentProps> = ({
         onKeyDown?.(e);
       }}
       className={cn(
-        "absolute left-0 z-10 mt-1 min-w-48 border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
+        "absolute left-0 z-10 mt-1 min-w-48 overflow-hidden rounded-md border-2 border-black bg-white text-black shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

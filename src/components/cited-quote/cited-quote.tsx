@@ -20,7 +20,7 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
   return (
     <figure
       className={cn(
-        "relative bg-zinc-100 px-5 py-4 shadow-[4px_4px_0_0_#000]",
+        "relative rounded-md border-2 border-black bg-zinc-100 px-5 py-4 shadow-[4px_4px_0_0_#000]",
         className,
       )}
       {...props}

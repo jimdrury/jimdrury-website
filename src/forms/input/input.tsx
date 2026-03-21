@@ -15,7 +15,7 @@ export const Input: FC<InputProps> = ({ className, label, id, ...props }) => {
       <input
         id={id}
         className={cn(
-          "mt-0.5 w-full border-2 border-black shadow-[4px_4px_0_0] focus-visible:focus-ring sm:text-sm",
+          "mt-0.5 w-full rounded-md border-2 border-black shadow-[4px_4px_0_0] focus-visible:focus-ring sm:text-sm",
           className,
         )}
         {...props}

@@ -5,7 +5,7 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const surfaceVariants = cva(
-  "border-2 border-black bg-white text-black",
+  "rounded-md border-2 border-black bg-white text-black",
   {
     variants: {
       variant: {

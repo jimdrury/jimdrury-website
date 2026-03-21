@@ -7,7 +7,7 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const toastVariants = cva(
-  "flex items-center gap-3 border-2 border-black p-4 shadow-[4px_4px_0_0]",
+  "flex items-center gap-3 rounded-md border-2 border-black p-4 shadow-[4px_4px_0_0]",
   {
     variants: {
       variant: {

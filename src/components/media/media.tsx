@@ -16,7 +16,7 @@ export const Media: FC<MediaProps> = ({
   return (
     <figure
       className={cn(
-        "overflow-hidden border-2 border-black shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-md border-2 border-black shadow-[4px_4px_0_0]",
         className,
       )}
       {...props}

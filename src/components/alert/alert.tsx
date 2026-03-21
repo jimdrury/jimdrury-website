@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const alertVariants = cva(
-  "border-2 border-black p-4 text-neutral-950 shadow-[4px_4px_0_0]",
+  "rounded-md border-2 border-black p-4 text-neutral-950 shadow-[4px_4px_0_0]",
   {
     variants: {
       variant: {
