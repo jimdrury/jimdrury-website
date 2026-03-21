@@ -1,0 +1,563 @@
+{
+  "version": "2.9",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "Frame",
+      "clip": true,
+      "width": 1440,
+      "height": 1740,
+      "fill": "#FFFFFF",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "RDlnD",
+          "x": 0,
+          "y": 0,
+          "name": "Article Page",
+          "width": 1440,
+          "height": 1740,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "oAUe9",
+              "x": 0,
+              "y": 0,
+              "name": "Hero Section",
+              "width": 1440,
+              "height": 500,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1774116440087.png",
+                "mode": "fill"
+              }
+            },
+            {
+              "type": "rectangle",
+              "id": "wj7NQ",
+              "x": 152,
+              "y": 460,
+              "name": "Title Card Shadow",
+              "fill": "#000000",
+              "width": 1152,
+              "height": 168
+            },
+            {
+              "type": "frame",
+              "id": "vuyzJ",
+              "x": 144,
+              "y": 452,
+              "name": "Title Card",
+              "width": 1152,
+              "fill": "#fde047",
+              "stroke": {
+                "thickness": 4,
+                "fill": "#000000"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "93mnM",
+                  "name": "Title",
+                  "fill": "#000000",
+                  "content": "NextJS 16.2 AGENTS.md could be the ultimate AI Hack!",
+                  "fontFamily": "Inter",
+                  "fontSize": 36,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "frame",
+                  "id": "kE77e",
+                  "name": "Stats Row",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "0kPA2",
+                      "name": "Published Label",
+                      "fill": "#000000",
+                      "content": "Published: Mar 21, 2026 1:43 PM",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "aCzqP",
+                      "name": "Read Time",
+                      "fill": "#000000",
+                      "content": "2 min read",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zh3CW",
+                  "name": "Badge Row",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ggTX9",
+                      "name": "Badge AI",
+                      "fill": "#000000",
+                      "cornerRadius": 4,
+                      "padding": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AKXGG",
+                          "name": "badgeAiText",
+                          "fill": "#FFFFFF",
+                          "content": "ai",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JkdHa",
+                      "name": "Badge Next",
+                      "fill": "#000000",
+                      "cornerRadius": 4,
+                      "padding": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NRUx1",
+                          "name": "badgeNextText",
+                          "fill": "#FFFFFF",
+                          "content": "next-js",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4d0Ax",
+              "x": 144,
+              "y": 660,
+              "name": "Content Grid",
+              "width": 1152,
+              "gap": 48,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "6gznW",
+                  "name": "Article Body",
+                  "width": 780,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gWize",
+                      "name": "Heading 1",
+                      "fill": "#000000",
+                      "content": "Mind Blowing Simplicity",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oKW8z",
+                      "name": "Paragraph 1 Wrap",
+                      "width": 780,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qYJtv",
+                          "name": "Paragraph 1",
+                          "fill": "#374151",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "So Vercel just dropped NextJS 16.2 with loads of really awesome features, but the one that blew my mind was the new AGENTS.md.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 16
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hwTqM",
+                      "name": "Code Block",
+                      "width": "fill_container",
+                      "fill": "#1e293b",
+                      "cornerRadius": 8,
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "z4KoP",
+                          "name": "Code Header",
+                          "width": "fill_container",
+                          "fill": "#334155",
+                          "cornerRadius": 8,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "DyJxh",
+                              "name": "codeIcon",
+                              "fill": "#94a3b8",
+                              "content": "AGENTS.md",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "expK8",
+                          "name": "Code Body",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 16,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "jtmAb",
+                              "name": "cl1",
+                              "fill": "#64748b",
+                              "content": "<!-- BEGIN:nextjs-agent-rules -->",
+                              "fontFamily": "Source Code Pro",
+                              "fontSize": 13
+                            },
+                            {
+                              "type": "text",
+                              "id": "rg8Ka",
+                              "name": "cl2",
+                              "fill": "#fbbf24",
+                              "content": "# This is NOT the Next.js you know",
+                              "fontFamily": "Source Code Pro",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "bMcNT",
+                              "name": "cl3",
+                              "fill": "#cbd5e1",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in",
+                              "lineHeight": 1.5,
+                              "fontFamily": "Source Code Pro",
+                              "fontSize": 13
+                            },
+                            {
+                              "type": "text",
+                              "id": "x2f3j",
+                              "name": "cl4",
+                              "fill": "#38bdf8",
+                              "content": "`node_modules/next/dist/docs/`",
+                              "fontFamily": "Source Code Pro",
+                              "fontSize": 13
+                            },
+                            {
+                              "type": "text",
+                              "id": "JavL9",
+                              "name": "cl5",
+                              "fill": "#cbd5e1",
+                              "content": "before writing any code. Heed deprecation notices.",
+                              "fontFamily": "Source Code Pro",
+                              "fontSize": 13
+                            },
+                            {
+                              "type": "text",
+                              "id": "z3KfS",
+                              "name": "cl6",
+                              "fill": "#64748b",
+                              "content": "<!-- END:nextjs-agent-rules -->",
+                              "fontFamily": "Source Code Pro",
+                              "fontSize": 13
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "lmYqK",
+                      "name": "Paragraph 2",
+                      "fill": "#374151",
+                      "content": "It's simple, it's beautiful, and it's going to do exactly what it says on the tin!",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "5SEFd",
+                      "name": "Heading 2",
+                      "fill": "#000000",
+                      "content": "How does it work?",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "b76qP",
+                      "name": "Paragraph 3 Wrap",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "w4Yji",
+                          "name": "Paragraph 3",
+                          "fill": "#374151",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "So, it kicks off with a cool tip I got from a colleague at Google: use HTML-like tags to group related content. LLMs need extra help with markdown.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 16
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "q9n3T",
+                      "name": "Paragraph 4",
+                      "fill": "#374151",
+                      "content": "Start by telling LLMs, \"This is NOT the Next.js you know\" steering them away from old data.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "15bsB",
+                      "name": "Paragraph 5",
+                      "fill": "#374151",
+                      "content": "Then direct them to node_modules/next/dist/docs/ for the latest info.",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ThdUf",
+                      "name": "Paragraph 6 Wrap",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Mul2h",
+                          "name": "Paragraph 6",
+                          "fill": "#374151",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Followed up by a clear instruction to read the deprecation notices. As LLMs often gloss over these and lean on training bias.",
+                          "lineHeight": 1.6,
+                          "fontFamily": "Inter",
+                          "fontSize": 16
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EImJB",
+                      "name": "Thoughts Blockquote",
+                      "width": "fill_container",
+                      "fill": "#f0f9ff",
+                      "cornerRadius": 8,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 24,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xUEmX",
+                          "name": "thoughtsTitle",
+                          "fill": "#000000",
+                          "content": "Thoughts",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yM0vs",
+                          "name": "Thoughts P1 Wrap",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "0axWl",
+                              "name": "tt1",
+                              "fill": "#374151",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "This is the first time that I've seen agent docs through NPM packages, and I love it. It highlights and starts to combat what I thinks is the problems with Skills ... distribution.",
+                              "lineHeight": 1.6,
+                              "fontFamily": "Inter",
+                              "fontSize": 15
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UYKNO",
+                          "name": "Thoughts P2 Wrap",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "S94SY",
+                              "name": "tt2",
+                              "fill": "#374151",
+                              "textGrowth": "fixed-width-height",
+                              "width": "fill_container",
+                              "height": 48,
+                              "content": "Now dont get me wrong, I love a good skill, just write some markdown in a repo and boom, the npx skills command copies it into your local repo, and you're ready to go.",
+                              "lineHeight": 1.6,
+                              "fontFamily": "Inter",
+                              "fontSize": 15
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "UB6Zc",
+                          "name": "Thoughts P3 Wrap",
+                          "width": "fill_container",
+                          "height": 48,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "6doIN",
+                              "name": "tt3",
+                              "fill": "#374151",
+                              "textGrowth": "fixed-width-height",
+                              "width": "fill_container",
+                              "height": 24,
+                              "content": "What skills doesnt do is then keep your skills up-to-date - that's something you have to run manually, and that's what this essentially does.",
+                              "lineHeight": 1.6,
+                              "fontFamily": "Inter",
+                              "fontSize": 15
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "DVjMr",
+                          "name": "Thoughts P4 Wrap",
+                          "width": 732,
+                          "height": 72,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "P99mu",
+                              "name": "tt4",
+                              "fill": "#000000",
+                              "textGrowth": "fixed-width-height",
+                              "width": "fill_container",
+                              "height": 24,
+                              "content": "Great work Guillermo and Team Vercel! Once again showing that innovation doesn't have to be complex, just smart!",
+                              "lineHeight": 1.6,
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "toJbc",
+                  "name": "Sidebar",
+                  "width": 324,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "3NVqu",
+                      "name": "sidebarTitle",
+                      "fill": "#000000",
+                      "content": "On this page",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FcOYE",
+                      "name": "link1",
+                      "fill": "#000000",
+                      "content": "Mind Blowing Simplicity",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nr6sG",
+                      "name": "link2",
+                      "fill": "#000000",
+                      "content": "How does it work?",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "lrY8m",
+                      "name": "link3",
+                      "fill": "#000000",
+                      "content": "Thoughts",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
