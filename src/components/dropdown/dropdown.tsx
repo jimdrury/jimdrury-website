@@ -6,6 +6,7 @@ import type {
   MutableRefObject,
   ReactNode,
   Ref,
+  RefObject,
 } from "react";
 import {
   createContext,
@@ -101,7 +102,7 @@ export const Dropdown: FC<DropdownProps> = ({
     }
   }, [closeMenu, open]);
 
-  useOnClickOutside(containerRef, () => {
+  useOnClickOutside(containerRef as RefObject<HTMLDivElement>, () => {
     if (isOpenRef.current) {
       closeMenu();
     }

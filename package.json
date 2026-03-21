@@ -20,10 +20,14 @@
     "@jimdrury/storyblok-component-schema": "0.4.4",
     "@radix-ui/react-slot": "^1.2.4",
     "@storyblok/react": "^6.1.0",
+    "@tiptap/core": "^3.20.4",
+    "@tiptap/pm": "^3.20.4",
+    "@tiptap/suggestion": "^3.20.4",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "emojibase": "^17.0.0",
     "html-react-parser": "^5.2.17",
     "next": "16.2.0",
     "react": "19.2.4",
@@ -59,7 +63,7 @@
     "storybook": "^10.3.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "^8.0.1",
+    "vite": "^7",
     "vitest": "^4.1.0"
   },
   "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7"
