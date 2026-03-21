@@ -6,7 +6,7 @@ type CurrentStoryContext = {
   story: BlogStory | null;
 };
 
-const getCurrentStoryContext = cache<CurrentStoryContext>(() => {
+const getCurrentStoryContext = cache((): CurrentStoryContext => {
   return {
     story: null,
   };

@@ -5,7 +5,9 @@ import {
   getTypographyHeadingIdByUid,
 } from "./storyblok-table-of-contents";
 
-const createStory = (body: unknown[]): BlogStory => {
+const createStory = (
+  body: NonNullable<BlogStory["content"]["body"]>,
+): BlogStory => {
   return {
     id: 1,
     name: "Story",
