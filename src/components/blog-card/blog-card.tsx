@@ -88,8 +88,8 @@ export const BlogCard: FC<BlogCardProps> = ({
             {href && (
               <div className="mt-auto flex justify-end pt-4">
                 <Button asChild expand>
-                  <Link href={href} aria-label={`Read more about ${title}`}>
-                    Read more about {title}
+                  <Link href={href}>
+                    Read more<span className="sr-only"> about {title}</span>
                   </Link>
                 </Button>
               </div>
