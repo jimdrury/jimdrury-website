@@ -14,16 +14,6 @@ const nextConfig: NextConfig = {
       "next/dist/build/polyfills/polyfill-module.js": noopPolyfillsPath,
     },
   },
-  webpack: (config) => {
-    config.resolve ??= {};
-    config.resolve.alias = {
-      ...(config.resolve.alias ?? {}),
-      "next/dist/build/polyfills/polyfill-module": noopPolyfillsPath,
-      "next/dist/build/polyfills/polyfill-module.js": noopPolyfillsPath,
-    };
-
-    return config;
-  },
   async redirects() {
     return [
       {
