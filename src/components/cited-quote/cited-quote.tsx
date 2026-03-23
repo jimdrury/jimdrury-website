@@ -20,7 +20,7 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
   return (
     <figure
       className={cn(
-        "relative rounded-md border-2 border-black bg-zinc-100 px-5 py-4 shadow-[4px_4px_0_0_#000]",
+        "relative rounded-md border-2 border-black bg-zinc-100 px-5 pt-5 pb-4 shadow-[4px_4px_0_0_#000]",
         className,
       )}
       {...props}
@@ -29,7 +29,7 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
         aria-hidden
         className="-top-3 -left-2 absolute size-9 rotate-[-8deg] text-yellow-500"
       />
-      <blockquote className="font-[family-name:var(--font-caveat)] text-2xl leading-relaxed text-black">
+      <blockquote className="font-[family-name:var(--font-patrick-hand)] text-2xl font-bold leading-none text-black">
         <div className="richtext-external-link-indicator [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3">
           {quote}
         </div>
