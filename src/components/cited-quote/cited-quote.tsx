@@ -27,9 +27,9 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
     >
       <FaQuoteLeft
         aria-hidden
-        className="-top-2 -left-1 absolute size-6 rotate-[-8deg] text-yellow-500"
+        className="-top-3 -left-2 absolute size-9 rotate-[-8deg] text-yellow-500"
       />
-      <blockquote className="text-lg font-medium leading-relaxed text-black">
+      <blockquote className="font-[family-name:var(--font-caveat)] text-2xl leading-relaxed text-black">
         <div className="richtext-external-link-indicator [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3">
           {quote}
         </div>

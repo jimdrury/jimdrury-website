@@ -71,7 +71,11 @@ const nextConfig: NextConfig = {
           destination: "/blog/read/:slug",
         },
         {
-          source: "/blog/:category((?!sitemap\\.xml).+)",
+          source: "/blog/sitemap.xml",
+          destination: "/blog/sitemap.xml",
+        },
+        {
+          source: "/blog/:category",
           destination: "/blog/category/:category",
         },
       ],
