@@ -1,6 +1,6 @@
 import type { SbBlokData } from "@storyblok/react/rsc";
 
-const WORDS_PER_MINUTE = 200;
+const WORDS_PER_MINUTE = 150;
 
 const isObject = (value: unknown): value is Record<string, unknown> => {
   return typeof value === "object" && value !== null;
