@@ -23,7 +23,7 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
 
   const story = getCurrentStory();
   const headingId =
-    blok.as === "h2" || blok.as === "h3"
+    blok.as === "h2" || blok.as === "h3" || blok.as === "h4"
       ? getTypographyHeadingIdByUid({
           uid: blok._uid,
           story,

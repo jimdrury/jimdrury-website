@@ -2,7 +2,7 @@ import "server-only";
 import GithubSlugger from "github-slugger";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 
-type TocHeadingLevel = "h2" | "h3";
+export type TocHeadingLevel = "h2" | "h3" | "h4";
 
 type StoryblokBlok = {
   _uid?: unknown;
@@ -20,7 +20,7 @@ export type TocHeading = {
 };
 
 const isTocHeadingLevel = (value: unknown): value is TocHeadingLevel => {
-  return value === "h2" || value === "h3";
+  return value === "h2" || value === "h3" || value === "h4";
 };
 
 const isStoryblokBlok = (value: unknown): value is StoryblokBlok => {

@@ -9,6 +9,7 @@ import { GridBlok } from "@/bloks/GridBlok";
 import { HeroImageBlok } from "@/bloks/HeroImageBlok";
 import { ImageBlok } from "@/bloks/ImageBlok";
 import { PageBlok } from "@/bloks/PageBlok";
+import { PromptBlok } from "@/bloks/PromptBlok";
 import { RichTextBlok } from "@/bloks/RichTextBlok";
 import { SectionBlok } from "@/bloks/SectionBlok";
 import { SnippetBlok } from "@/bloks/SnippetBlok";
@@ -29,6 +30,7 @@ const getBlokComponents = () => {
     hero_image: HeroImageBlok,
     image: ImageBlok,
     page: PageBlok,
+    prompt: PromptBlok,
     rich_text: RichTextBlok,
     section: SectionBlok,
     snippet: SnippetBlok,

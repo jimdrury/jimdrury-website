@@ -26,6 +26,7 @@ export * from "./link";
 export * from "./logo-cloud";
 export * from "./media";
 export * from "./modal";
+export * from "./prompt";
 export * from "./side-menu";
 export * from "./skip-link";
 export * from "./snippet";
