@@ -70,16 +70,13 @@ const nextConfig: NextConfig = {
           source: "/blog/:category/:slug",
           destination: "/blog/read/:slug",
         },
-        {
-          source: "/blog/sitemap.xml",
-          destination: "/blog/sitemap.xml",
-        },
+      ],
+      afterFiles: [
         {
           source: "/blog/:category",
           destination: "/blog/category/:category",
         },
       ],
-      afterFiles: [],
       fallback: [],
     };
   },
