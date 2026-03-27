@@ -66,6 +66,8 @@ export const HeaderLogoBadge: FC<HeaderLogoBadgeProps> = ({
         "rounded bg-yellow-300 px-2.5 py-1 text-lg font-black text-black",
         className,
       )}
+      aria-hidden
+      data-nosnippet=""
       {...props}
     >
       {children}

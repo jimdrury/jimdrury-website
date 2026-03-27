@@ -19,6 +19,7 @@ type ArticleContent = {
   post_content?: StoryblokBlok[];
   component?: string;
   excerpt?: string;
+  meta_description?: string;
   featured_image?: ImageBlok[];
   categories?: string[];
   published_at?: string | null;

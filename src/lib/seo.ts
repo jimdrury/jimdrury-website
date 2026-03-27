@@ -1,6 +1,7 @@
 import "server-only";
 import type { Metadata } from "next";
 import { getDefaultStoryCategory } from "@/lib/blog";
+import { estimateWordCount } from "@/lib/read-time";
 import {
   type BlogStory,
   getFeaturedImageAsset,
@@ -316,7 +317,11 @@ export const getArticleExcerpt = (story: BlogStory): string | undefined => {
 };
 
 const getArticleDescription = (story: BlogStory): string => {
-  return getArticleExcerpt(story) ?? `Read ${story.name} on ${SITE_NAME}.`;
+  return (
+    normalizeText(story.content?.meta_description) ??
+    getArticleExcerpt(story) ??
+    `Read ${story.name} on ${SITE_NAME}.`
+  );
 };
 
 const getArticlePublishedTime = (story: BlogStory): string | undefined => {
@@ -432,10 +437,12 @@ export const buildArticleJsonLd = (
   const modifiedTime = getArticleModifiedTime(story) ?? publishedTime;
   const keywords = getArticleKeywords(story);
   const images = [getArticleOgImageUrl(story)];
+  const wordCount = estimateWordCount(story.content.body);
+  const articleSection = getDefaultStoryCategory(story);
 
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: story.name,
     description,
     inLanguage: SITE_LANGUAGE,
@@ -458,6 +465,8 @@ export const buildArticleJsonLd = (
       url: SITE_ORIGIN,
     },
     keywords,
+    ...(wordCount > 0 && { wordCount }),
+    ...(articleSection && { articleSection }),
   };
 };
 

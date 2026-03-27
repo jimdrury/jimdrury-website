@@ -39,6 +39,12 @@ export default contentType({
           required: true,
           max_length: 200,
         }),
+        textarea({
+          name: "meta_description",
+          description:
+            "SEO meta description for search results. Falls back to the excerpt if left empty.",
+          max_length: 160,
+        }),
         blocks({
           name: "featured_image",
           allowed_components: [image],

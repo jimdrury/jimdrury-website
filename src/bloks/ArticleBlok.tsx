@@ -67,7 +67,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
     <article
       {...storyblokEditable(blok)}
       itemScope
-      itemType="https://schema.org/Article"
+      itemType="https://schema.org/BlogPosting"
     >
       {title && <meta itemProp="headline" content={title} />}
       {excerpt && <meta itemProp="description" content={excerpt} />}

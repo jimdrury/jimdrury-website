@@ -35,7 +35,7 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
 
   return (
     <section className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
-      <Typography as="h2" size="lg" weight="bold" className="mb-3">
+      <Typography as="p" size="lg" weight="bold" className="mb-3" aria-hidden>
         On this page
       </Typography>
       <nav aria-label="Table of contents">

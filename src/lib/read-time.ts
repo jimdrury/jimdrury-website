@@ -65,20 +65,21 @@ const extractBlokText = (blok: SbBlokData): string => {
   return parts.join(" ");
 };
 
-export const estimateReadTime = (body: SbBlokData[] | undefined): number => {
+export const estimateWordCount = (body: unknown[] | undefined): number => {
   if (!body || body.length === 0) {
-    return 1;
+    return 0;
   }
 
-  const text = body.map(extractBlokText).join(" ").trim();
+  const text = body.filter(isSbBlokData).map(extractBlokText).join(" ").trim();
+
   if (!text) {
-    return 1;
+    return 0;
   }
 
-  const words = text.split(/\s+/).filter((word) => word.length > 0).length;
-  if (words <= 0) {
-    return 1;
-  }
+  return text.split(/\s+/).filter((word) => word.length > 0).length;
+};
 
+export const estimateReadTime = (body: SbBlokData[] | undefined): number => {
+  const words = estimateWordCount(body);
   return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 };

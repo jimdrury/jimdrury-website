@@ -59,6 +59,8 @@ export const PromptCopyButton: FC<PromptCopyButtonProps> = ({ text }) => {
       className="shrink-0 px-3 py-1 text-xs"
       onClick={handleClick}
       aria-live="polite"
+      aria-label={copied ? "Copied to clipboard" : "Copy prompt to clipboard"}
+      data-nosnippet=""
     >
       {copied ? "Copied" : "Copy"}
     </Button>
