@@ -16,7 +16,6 @@ This repository is intentionally public so people can learn from the implementat
 - TypeScript
 - Tailwind CSS 4
 - Storyblok CMS
-- Storybook
 - Vitest + Testing Library
 - Biome
 
@@ -56,8 +55,6 @@ Copy `.env.example` to `.env.local` and set:
 - `yarn test` - run test suite once
 - `yarn test:watch` - run tests in watch mode
 - `yarn test:coverage` - run tests with coverage
-- `yarn storybook` - run Storybook locally
-- `yarn build-storybook` - build Storybook static output
 - `yarn schema:plan` - preview Storyblok schema changes
 - `yarn schema:apply` - apply Storyblok schema changes
 

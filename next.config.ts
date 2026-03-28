@@ -1,19 +1,10 @@
-import path from "node:path";
 import type { NextConfig } from "next";
-
-const noopPolyfillsPath = path.join(process.cwd(), "src/lib/noop-polyfills.ts");
 
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   cacheComponents: true,
   productionBrowserSourceMaps: true,
-  turbopack: {
-    resolveAlias: {
-      "next/dist/build/polyfills/polyfill-module": noopPolyfillsPath,
-      "next/dist/build/polyfills/polyfill-module.js": noopPolyfillsPath,
-    },
-  },
   async redirects() {
     return [
       {
