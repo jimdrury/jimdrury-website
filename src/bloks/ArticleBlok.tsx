@@ -5,14 +5,14 @@ import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
 import { estimateReadTime } from "@/lib/read-time";
 import { cn } from "@/lib/utils";
+import { transformStoryblokImage } from "@/storyblok/image-transform";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 const HERO_WIDTH = 1920;
 const HERO_HEIGHT = 1080;
-
-const toHeroSrc = (url: string) => `${url}/m/${HERO_WIDTH}x${HERO_HEIGHT}`;
+const HERO_QUALITY = 80;
 
 type ImageBlokData = SbBlokData & {
   image?: StoryblokAsset;
@@ -96,7 +96,11 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
       {title &&
         (featuredSrc ? (
           <ArticleHero
-            src={toHeroSrc(featuredSrc)}
+            src={transformStoryblokImage(featuredSrc, {
+              width: HERO_WIDTH,
+              height: HERO_HEIGHT,
+              quality: HERO_QUALITY,
+            })}
             alt={
               featuredImage?.alt ||
               featuredImage?.meta_data?.alt ||

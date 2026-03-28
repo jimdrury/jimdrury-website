@@ -1,14 +1,14 @@
 import "server-only";
 import type { FC } from "react";
 import { HeroImage } from "@/components/hero-image";
+import { transformStoryblokImage } from "@/storyblok/image-transform";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 const HERO_WIDTH = 1920;
 const HERO_HEIGHT = 1080;
-
-const toHeroSrc = (url: string) => `${url}/m/${HERO_WIDTH}x${HERO_HEIGHT}`;
+const HERO_QUALITY = 80;
 
 type HeroImageBlokData = SbBlokData & {
   image?: StoryblokAsset;
@@ -30,7 +30,11 @@ export const HeroImageBlok: FC<HeroImageBlokProps> = ({ blok }) => {
   return (
     <HeroImage
       {...storyblokEditable(blok)}
-      src={toHeroSrc(src)}
+      src={transformStoryblokImage(src, {
+        width: HERO_WIDTH,
+        height: HERO_HEIGHT,
+        quality: HERO_QUALITY,
+      })}
       alt={alt}
       width={HERO_WIDTH}
       height={HERO_HEIGHT}
