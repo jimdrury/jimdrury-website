@@ -9,7 +9,7 @@
       "name": "Blog - Article",
       "clip": true,
       "width": 1440,
-      "height": 1740,
+      "height": 1920,
       "fill": "#FFFFFF",
       "layout": "none",
       "children": [
@@ -20,7 +20,7 @@
           "y": 0,
           "name": "Article Page",
           "width": 1440,
-          "height": 1740,
+          "height": 1920,
           "fill": "#FFFFFF",
           "layout": "none",
           "children": [
@@ -704,6 +704,178 @@
                           "fontFamily": "Inter",
                           "fontSize": 14,
                           "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WDjec",
+              "x": 0,
+              "y": 1740,
+              "name": "Footer",
+              "width": 1440,
+              "height": 180,
+              "fill": "#111827",
+              "stroke": {
+                "thickness": {
+                  "top": 4
+                },
+                "fill": "#000000"
+              },
+              "layout": "vertical",
+              "padding": [
+                20,
+                0
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "dcjcB",
+                  "name": "Footer Inner",
+                  "width": 1152,
+                  "layout": "vertical",
+                  "gap": 14,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vfkh1",
+                      "name": "Social Links",
+                      "gap": 24,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "C6TQx",
+                          "name": "LinkedIn Item",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "KOMWS",
+                              "name": "LinkedIn Icon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "linkedin",
+                              "iconFontFamily": "lucide",
+                              "fill": "#F9FAFB"
+                            },
+                            {
+                              "type": "text",
+                              "id": "hPvIA",
+                              "name": "LinkedIn Link",
+                              "fill": "#F9FAFB",
+                              "content": "LinkedIn",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jQzuC",
+                          "name": "X Item",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "JS9fn",
+                              "name": "X Icon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "twitter",
+                              "iconFontFamily": "lucide",
+                              "fill": "#F9FAFB"
+                            },
+                            {
+                              "type": "text",
+                              "id": "oe75i",
+                              "name": "X Link",
+                              "fill": "#F9FAFB",
+                              "content": "X",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "I7LtU",
+                          "name": "GitHub Item",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "GxMsj",
+                              "name": "GitHub Icon",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "github",
+                              "iconFontFamily": "lucide",
+                              "fill": "#F9FAFB"
+                            },
+                            {
+                              "type": "text",
+                              "id": "lNie7",
+                              "name": "GitHub Link",
+                              "fill": "#F9FAFB",
+                              "content": "GitHub",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kma3h",
+                      "name": "Copyright",
+                      "fill": "#9CA3AF",
+                      "content": "© 2026 Jim Drury. All rights reserved.",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TTgGJ",
+                      "name": "Policy Links",
+                      "gap": 20,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ujLqm",
+                          "name": "Privacy Policy Link",
+                          "fill": "#9CA3AF",
+                          "content": "Privacy Policy",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "u5hU3",
+                          "name": "Cookie Policy Link",
+                          "fill": "#9CA3AF",
+                          "content": "Cookie Policy",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "600"
                         }
                       ]
                     }

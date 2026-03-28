@@ -9,6 +9,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${SITE_ORIGIN}/llms.txt`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${SITE_ORIGIN}/blog/sitemap.xml`,
       changeFrequency: "weekly",
       priority: 0.9,

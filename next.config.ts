@@ -8,6 +8,18 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/:path*",
+        has: [
+          { type: "query", key: "_storyblok" },
+          { type: "query", key: "_storyblok_tk[space_id]" },
+          { type: "query", key: "_storyblok_tk[timestamp]" },
+          { type: "query", key: "_storyblok_tk[token]" },
+        ],
+        missing: [{ type: "query", key: "returnTo" }],
+        destination: "/api/storyblok/enable-draft?returnTo=/:path*",
+        permanent: false,
+      },
+      {
         source: "/blog/:slug",
         has: [
           { type: "query", key: "_storyblok" },

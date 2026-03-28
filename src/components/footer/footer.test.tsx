@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Footer, FooterColumn } from "./footer";
+import { SiteFooter } from "./site-footer";
 
 describe("Footer", () => {
   it("renders as a footer element", () => {
@@ -44,5 +45,29 @@ describe("Footer", () => {
     render(<Footer data-testid="my-footer">Content</Footer>);
 
     expect(screen.getByTestId("my-footer")).toBeInTheDocument();
+  });
+
+  it("renders site footer with social and legal links", () => {
+    render(<SiteFooter currentYear={2026} />);
+
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+      "href",
+      "https://linked.in/jimdrury",
+    );
+    expect(screen.getByRole("link", { name: "X" })).toHaveAttribute(
+      "href",
+      "https://x.com/jim_drury",
+    );
+    expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+      "href",
+      "https://github.com/jimdrury",
+    );
+    expect(
+      screen.getByRole("link", { name: "Privacy Policy" }),
+    ).toHaveAttribute("href", "/legal/privacy-policy");
+    expect(screen.getByRole("link", { name: "Cookie Policy" })).toHaveAttribute(
+      "href",
+      "/legal/cookie-policy",
+    );
   });
 });

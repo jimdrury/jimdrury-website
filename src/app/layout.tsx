@@ -2,10 +2,11 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
-import { draftMode } from "next/headers";
+import { draftMode, headers } from "next/headers";
 import Link from "next/link";
 import { type ReactNode, Suspense } from "react";
 import { DraftModeRefresh } from "@/components/draft-mode-refresh";
+import { SiteFooter } from "@/components/footer";
 import {
   Header,
   HeaderLogo,
@@ -53,19 +54,26 @@ export const metadata: Metadata = {
   },
 };
 
+const getCurrentYear = async () => {
+  "use cache";
+  return new Date().getUTCFullYear();
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const { isEnabled } = await draftMode();
+  const [draftState] = await Promise.all([draftMode()]);
+  const { isEnabled } = draftState;
+  const currentYear = await getCurrentYear();
 
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
     >
-      <body>
+      <body className="flex min-h-screen flex-col">
         <Header>
           <HeaderLogo asChild>
             <Link href="/">
@@ -79,7 +87,8 @@ export default async function RootLayout({
             </Suspense>
           </HeaderNav>
         </Header>
-        <div className="-mt-16">{children}</div>
+        <main className="-mt-16 flex-1">{children}</main>
+        <SiteFooter currentYear={currentYear} />
         <DraftModeRefresh isEnabled={isEnabled} />
         <Analytics />
         <SpeedInsights />
