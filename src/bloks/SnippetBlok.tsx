@@ -21,6 +21,7 @@ type SnippetBlokData = SbBlokData & {
   contents?: CodeBlockPlugin;
   wrap_lines?: boolean;
   enable_copy_to_clipboard?: boolean;
+  variant?: "code" | "command_line";
 };
 
 type SnippetBlokProps = {
@@ -48,6 +49,7 @@ export const SnippetBlok: FC<SnippetBlokProps> = ({ blok }) => {
       highlights={highlights}
       wrapLines={blok.wrap_lines}
       enableCopyToClipboard={blok.enable_copy_to_clipboard}
+      variant={blok.variant}
     />
   );
 };

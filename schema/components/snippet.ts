@@ -1,6 +1,7 @@
 import {
   boolean,
   nestable,
+  option,
   pluginCodeBlock,
 } from "@jimdrury/storyblok-component-schema";
 
@@ -13,7 +14,19 @@ export default nestable({
       name: "contents",
       required: true,
       enable_title: true,
-      languages: ["tsx", "jsx", "json", "md", "js", "html", "css"],
+      languages: [
+        "tsx",
+        "jsx",
+        "json",
+        "md",
+        "js",
+        "html",
+        "css",
+        "bash",
+        "sh",
+        "zsh",
+        "shell",
+      ],
     }),
     boolean({
       name: "wrap_lines",
@@ -27,6 +40,16 @@ export default nestable({
         "Show a copy button that copies this snippet to the clipboard",
       default_value: false,
       inline_label: true,
+    }),
+    option({
+      name: "variant",
+      description:
+        "Use command line for terminal-style one-liners to visually distinguish them from regular code snippets",
+      default_value: "code",
+      options: [
+        { name: "Code", value: "code" },
+        { name: "Command line", value: "command_line" },
+      ],
     }),
   ],
 });

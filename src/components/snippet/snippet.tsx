@@ -1,5 +1,6 @@
 import parse from "html-react-parser";
 import type { FC } from "react";
+import { LuTerminal } from "react-icons/lu";
 import {
   SiCss,
   SiHtml5,
@@ -26,6 +27,7 @@ export interface SnippetProps extends ComponentPropsWithoutChildren<"figure"> {
   highlights?: LineHighlight[];
   wrapLines?: boolean;
   enableCopyToClipboard?: boolean;
+  variant?: "code" | "command_line";
 }
 
 const stateClass: Record<LineHighlight["state"], string> = {
@@ -44,10 +46,16 @@ const languageIcons: Record<string, FC<{ className?: string }>> = {
   markdown: SiMarkdown,
   html: SiHtml5,
   css: SiCss,
+  bash: LuTerminal,
+  sh: LuTerminal,
+  zsh: LuTerminal,
+  shell: LuTerminal,
 };
 
+const commandLineLanguages = new Set(["bash", "sh", "zsh", "shell"]);
+
 const LanguageIcon: FC<{ language: string }> = ({ language }) => {
-  const Icon = languageIcons[language];
+  const Icon = languageIcons[language.toLowerCase()];
   if (!Icon) return null;
   return <Icon className="size-4 shrink-0" aria-hidden />;
 };
@@ -66,9 +74,17 @@ export const Snippet: FC<SnippetProps> = async ({
   highlights,
   wrapLines = false,
   enableCopyToClipboard = false,
+  variant = "code",
   className,
   ...props
 }) => {
+  const isCommandLine = variant === "command_line";
+  const normalizedLanguage = language.toLowerCase();
+  const isCommandLineLanguage = commandLineLanguages.has(normalizedLanguage);
+  const showLanguageIcon =
+    title != null && title.length > 0
+      ? !isCommandLineLanguage || enableCopyToClipboard
+      : isCommandLineLanguage && enableCopyToClipboard;
   const html = await codeToHtml(code, {
     lang: language,
     theme: "github-dark",
@@ -76,20 +92,34 @@ export const Snippet: FC<SnippetProps> = async ({
   });
   const accessibleHtml = html
     .replaceAll(/color:\s*#6A737D/gi, "color:#9CA3AF")
-    .replaceAll(/<pre([^>]*?)\s+tabindex="[^"]*"/gi, "<pre$1");
+    .replaceAll(/<pre([^>]*?)\s+tabindex="[^"]*"/gi, "<pre$1")
+    .replaceAll(
+      /background-color:\s*#24292e/gi,
+      isCommandLine ? "background-color:#001b12" : "background-color:#24292e",
+    );
 
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border-2 border-black bg-[#24292e] shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-md border-2 shadow-[4px_4px_0_0]",
+        isCommandLine
+          ? "border-emerald-500 bg-[#00150f] shadow-emerald-900/60"
+          : "border-black bg-[#24292e]",
         className,
       )}
       {...props}
     >
       {(title || enableCopyToClipboard) && (
-        <figcaption className="flex items-center justify-between gap-3 border-b-2 border-black bg-zinc-800 px-4 py-2 font-mono text-sm font-semibold text-zinc-300">
+        <figcaption
+          className={cn(
+            "flex items-center justify-between gap-3 border-b-2 px-4 py-2 font-mono text-sm font-semibold",
+            isCommandLine
+              ? "border-emerald-500 bg-[#002317] text-emerald-300"
+              : "border-black bg-zinc-800 text-zinc-300",
+          )}
+        >
           <div className="flex min-w-0 items-center gap-2">
-            {title ? <LanguageIcon language={language} /> : null}
+            {showLanguageIcon ? <LanguageIcon language={language} /> : null}
             {title ? <span className="truncate">{title}</span> : null}
           </div>
           {enableCopyToClipboard ? <SnippetCopyButton /> : null}
