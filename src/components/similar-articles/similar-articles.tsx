@@ -38,11 +38,11 @@ export const SimilarArticles: FC<SimilarArticlesProps> = ({
       <ul className="space-y-3">
         {items.map((item) => (
           <li key={item.href}>
-            <article className="rounded-md border-2 border-black bg-white p-3">
+            <article className="relative rounded-md border-2 border-black bg-white p-3">
               <Typography as="h3" size="md" weight="bold">
                 <Link
                   href={item.href}
-                  className="underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none] hover:text-zinc-700"
+                  className="underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none] hover:text-zinc-700 before:pointer-events-auto before:absolute before:inset-0 before:z-10 before:block before:content-['']"
                 >
                   {item.title}
                 </Link>
