@@ -11,6 +11,22 @@ export const SITE_ORIGIN = "https://www.jimdrury.co.uk";
 export const SITE_NAME = "Jim Drury";
 const SITE_LOCALE = "en_GB";
 const SITE_LANGUAGE = "en-GB";
+const AUTHOR_JOB_TITLE = "Head of Platform Innovation";
+const AUTHOR_PROFILE_URLS = [
+  "https://linked.in/jimdrury",
+  "https://x.com/jim_drury",
+  "https://github.com/jimdrury",
+] as const;
+const AUTHOR_WORKS_FOR = {
+  "@type": "Organization",
+  name: "Virgin Media O2",
+  url: "https://www.virginmediao2.co.uk",
+  sameAs: [
+    "https://www.virginmedia.com",
+    "https://www.o2.co.uk",
+    "https://www.virginmediao2.co.uk",
+  ],
+} as const;
 const BLOG_INDEX_DESCRIPTION =
   "Latest writing, ideas, and technical deep dives from Jim Drury.";
 const BLOG_INDEX_KEYWORDS = [
@@ -439,6 +455,14 @@ export const buildArticleJsonLd = (
   const images = [getArticleOgImageUrl(story)];
   const wordCount = estimateWordCount(story.content.body);
   const articleSection = getDefaultStoryCategory(story);
+  const author = {
+    "@type": "Person",
+    name: SITE_NAME,
+    url: SITE_ORIGIN,
+    jobTitle: AUTHOR_JOB_TITLE,
+    sameAs: [...AUTHOR_PROFILE_URLS],
+    worksFor: AUTHOR_WORKS_FOR,
+  };
 
   return {
     "@context": "https://schema.org",
@@ -454,16 +478,8 @@ export const buildArticleJsonLd = (
     image: images,
     datePublished: publishedTime,
     dateModified: modifiedTime,
-    author: {
-      "@type": "Person",
-      name: SITE_NAME,
-      url: SITE_ORIGIN,
-    },
-    publisher: {
-      "@type": "Person",
-      name: SITE_NAME,
-      url: SITE_ORIGIN,
-    },
+    author,
+    publisher: author,
     keywords,
     ...(wordCount > 0 && { wordCount }),
     ...(articleSection && { articleSection }),
