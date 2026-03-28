@@ -109,6 +109,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
             width={HERO_WIDTH}
             height={HERO_HEIGHT}
             title={title}
+            excerpt={excerpt}
             categories={categories}
             publishedAt={publishedAt}
             readTime={readTime}
@@ -118,6 +119,16 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
             <Typography as="h1" size="3xl" weight="black">
               {title}
             </Typography>
+            {excerpt ? (
+              <Typography
+                as="p"
+                size="lg"
+                weight="medium"
+                className="mt-3 max-w-3xl text-balance"
+              >
+                {excerpt}
+              </Typography>
+            ) : null}
           </div>
         ))}
       <div

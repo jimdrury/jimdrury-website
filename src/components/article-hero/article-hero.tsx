@@ -9,6 +9,7 @@ export interface ArticleHeroProps {
   width?: number;
   height?: number;
   title: string;
+  excerpt?: string;
   categories?: string[];
   publishedAt?: string;
   readTime?: number;
@@ -20,6 +21,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
   width,
   height,
   title,
+  excerpt,
   categories,
   publishedAt,
   readTime,
@@ -43,8 +45,18 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           >
             {title}
           </Typography>
+          {excerpt ? (
+            <Typography
+              as="p"
+              size="lg"
+              weight="medium"
+              className="mt-3 max-w-3xl text-balance"
+            >
+              {excerpt}
+            </Typography>
+          ) : null}
           <ArticleStats
-            className="mt-4"
+            className={excerpt ? "mt-5" : "mt-4"}
             categories={categories}
             publishedAt={publishedAt}
             readTime={readTime}
