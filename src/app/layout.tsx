@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
-import { draftMode, headers } from "next/headers";
+import { draftMode } from "next/headers";
 import Link from "next/link";
 import { type ReactNode, Suspense } from "react";
 import { DraftModeRefresh } from "@/components/draft-mode-refresh";
