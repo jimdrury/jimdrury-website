@@ -1,0 +1,11 @@
+{
+  "aiModel": {
+    "allowlist": ["GPTBot", "ClaudeBot", "PerplexityBot", "Bingbot"],
+    "blocklist": []
+  },
+  "trainingData": {
+    "allowed": true,
+    "disallowed_paths": ["/api/", "/private/", "/draft/"],
+    "license": "CC-BY-4.0"
+  }
+}

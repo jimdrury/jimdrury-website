@@ -5,6 +5,7 @@ import { estimateWordCount } from "@/lib/read-time";
 import {
   type BlogStory,
   getFeaturedImageAsset,
+  parseStoryblokImageDimensions,
 } from "@/storyblok/blog-listings-utils";
 import type { StoryData } from "@/storyblok/lib";
 
@@ -14,7 +15,7 @@ const SITE_LOCALE = "en_GB";
 const SITE_LANGUAGE = "en-GB";
 const AUTHOR_JOB_TITLE = "Head of Platform Innovation";
 const AUTHOR_PROFILE_URLS = [
-  "https://linked.in/jimdrury",
+  "https://www.linkedin.com/in/jimdrury",
   "https://x.com/jim_drury",
   "https://github.com/jimdrury",
 ] as const;
@@ -30,6 +31,7 @@ const AUTHOR_WORKS_FOR = {
 } as const;
 const BLOG_INDEX_DESCRIPTION =
   "Latest writing, ideas, and technical deep dives from Jim Drury.";
+const ORGANIZATION_LOGO_URL = `${SITE_ORIGIN}/logo.png`;
 const BLOG_INDEX_KEYWORDS = [
   "blog",
   "software engineering",
@@ -385,6 +387,35 @@ const getFeaturedImage = (
   };
 };
 
+const getArticleJsonLdImage = (
+  story: BlogStory,
+  description: string,
+): Record<string, unknown> => {
+  const featuredImage = getFeaturedImage(story);
+  const imageName = featuredImage?.alt ?? `Featured image for ${story.name}`;
+  const dimensions = parseStoryblokImageDimensions(featuredImage?.url);
+
+  if (featuredImage && dimensions) {
+    return {
+      "@type": "ImageObject",
+      url: featuredImage.url,
+      width: dimensions.width,
+      height: dimensions.height,
+      name: imageName,
+      description,
+    };
+  }
+
+  return {
+    "@type": "ImageObject",
+    url: getArticleOgImageUrl(story),
+    width: 1200,
+    height: 630,
+    name: imageName,
+    description,
+  };
+};
+
 const getStaticPageDescription = (story: StoryData): string => {
   if (isRecord(story.content)) {
     const metaDescription = normalizeText(
@@ -544,7 +575,7 @@ export const buildArticleJsonLd = (
   const publishedTime = getArticlePublishedTime(story);
   const modifiedTime = getArticleModifiedTime(story) ?? publishedTime;
   const keywords = getArticleKeywords(story);
-  const images = [getArticleOgImageUrl(story)];
+  const image = getArticleJsonLdImage(story, description);
   const wordCount = estimateWordCount(story.content.body);
   const articleSection = getDefaultStoryCategory(story);
   const author = {
@@ -567,7 +598,7 @@ export const buildArticleJsonLd = (
       "@type": "WebPage",
       "@id": canonicalUrl,
     },
-    image: images,
+    image,
     datePublished: publishedTime,
     dateModified: modifiedTime,
     author,
@@ -575,6 +606,48 @@ export const buildArticleJsonLd = (
     keywords,
     ...(wordCount > 0 && { wordCount }),
     ...(articleSection && { articleSection }),
+  };
+};
+
+export const buildArticleBreadcrumbJsonLd = (
+  story: BlogStory,
+): Record<string, unknown> => {
+  const canonicalCategory = getDefaultStoryCategory(story);
+  const itemListElement: Record<string, unknown>[] = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: SITE_ORIGIN,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: toAbsoluteUrl("/blog"),
+    },
+  ];
+
+  if (canonicalCategory) {
+    itemListElement.push({
+      "@type": "ListItem",
+      position: 3,
+      name: formatCategoryLabel(canonicalCategory),
+      item: toAbsoluteUrl(getBlogCategoryPath(canonicalCategory, 1)),
+    });
+  }
+
+  itemListElement.push({
+    "@type": "ListItem",
+    position: itemListElement.length + 1,
+    name: story.name,
+    item: toAbsoluteUrl(getArticlePath(story)),
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement,
   };
 };
 
@@ -619,6 +692,22 @@ export const buildStaticPageJsonLd = ({
       name: SITE_NAME,
       url: SITE_ORIGIN,
       sameAs: [...AUTHOR_PROFILE_URLS],
+    },
+  };
+};
+
+export const buildOrganizationJsonLd = (): Record<string, unknown> => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_ORIGIN,
+    logo: ORGANIZATION_LOGO_URL,
+    description: BLOG_INDEX_DESCRIPTION,
+    sameAs: [...AUTHOR_PROFILE_URLS],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Professional Services",
     },
   };
 };

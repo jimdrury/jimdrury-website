@@ -6,7 +6,11 @@ import { notFound } from "next/navigation";
 import type { FC } from "react";
 
 import { getDefaultStoryCategory } from "@/lib/blog";
-import { buildArticleJsonLd, serializeJsonLd } from "@/lib/seo";
+import {
+  buildArticleBreadcrumbJsonLd,
+  buildArticleJsonLd,
+  serializeJsonLd,
+} from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { StoryContent } from "@/storyblok/renderer";
 
@@ -30,11 +34,13 @@ export const Render: FC<RenderProps> = async ({ params }) => {
     notFound();
   }
 
-  const jsonLd = serializeJsonLd(buildArticleJsonLd(story));
+  const articleJsonLd = serializeJsonLd(buildArticleJsonLd(story));
+  const breadcrumbJsonLd = serializeJsonLd(buildArticleBreadcrumbJsonLd(story));
 
   return (
     <main>
-      <script type="application/ld+json">{jsonLd}</script>
+      <script type="application/ld+json">{articleJsonLd}</script>
+      <script type="application/ld+json">{breadcrumbJsonLd}</script>
       {isEnabled ? (
         <StoryPreview storyId={story.id} story={story}>
           <StoryContent story={story} />

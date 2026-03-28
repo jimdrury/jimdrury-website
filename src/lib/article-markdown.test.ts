@@ -1,4 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("@/lib/blog", () => {
+  return {
+    getDefaultStoryCategory: vi.fn(() => "nextjs"),
+    getStoryDateTime: vi.fn(() => "2026-03-21T12:00:00.000Z"),
+    formatStoryDate: vi.fn(() => "Mar 21, 2026"),
+  };
+});
+
 import { renderArticleMarkdown } from "@/lib/article-markdown";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 

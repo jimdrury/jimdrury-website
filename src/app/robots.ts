@@ -8,12 +8,18 @@ const SITEMAP_URLS = [
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      // Keep internal endpoints and private URLs out of search results.
-      disallow: ["/api/", "/private/", "/draft/"],
-    },
+    rules: [
+      { userAgent: "GPTBot", allow: "/" },
+      { userAgent: "ClaudeBot", allow: "/" },
+      { userAgent: "PerplexityBot", allow: "/" },
+      { userAgent: "Bingbot", allow: "/" },
+      {
+        userAgent: "*",
+        allow: "/",
+        // Keep internal endpoints and private URLs out of search results.
+        disallow: ["/api/", "/private/", "/draft/"],
+      },
+    ],
     sitemap: SITEMAP_URLS,
     host: SITE_ORIGIN,
   };

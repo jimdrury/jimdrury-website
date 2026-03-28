@@ -5,7 +5,14 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
-import { buildStaticPageJsonLd, serializeJsonLd } from "@/lib/seo";
+import {
+  buildArticleBreadcrumbJsonLd,
+  buildArticleJsonLd,
+  buildOrganizationJsonLd,
+  buildStaticPageJsonLd,
+  serializeJsonLd,
+} from "@/lib/seo";
+import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import type { StoryData } from "@/storyblok/lib";
 import { StoryContent } from "@/storyblok/renderer";
 import { fetchStoryBySlug } from "./story";
@@ -16,12 +23,21 @@ const StoryPreview = dynamic(() =>
 
 type RenderProps = Pick<PageProps<"/[...slug]">, "params" | "searchParams">;
 
-const isNonArticleStory = (story: StoryData): boolean => {
-  return !(
-    typeof story.content === "object" &&
-    story.content !== null &&
-    "component" in story.content &&
-    story.content.component === "article"
+const isArticleStory = (story: StoryData): story is BlogStory => {
+  if (
+    typeof story.content !== "object" ||
+    story.content === null ||
+    !("component" in story.content) ||
+    story.content.component !== "article"
+  ) {
+    return false;
+  }
+
+  return (
+    typeof story.id === "number" &&
+    typeof story.slug === "string" &&
+    typeof story.full_slug === "string" &&
+    typeof story.name === "string"
   );
 };
 
@@ -42,13 +58,33 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
     notFound();
   }
 
-  const jsonLd = isNonArticleStory(story)
+  const articleStory = isArticleStory(story) ? story : null;
+  const staticPageJsonLd = !articleStory
     ? serializeJsonLd(buildStaticPageJsonLd({ story, slug: storySlug }))
     : null;
+  const articleJsonLd = articleStory
+    ? serializeJsonLd(buildArticleJsonLd(articleStory))
+    : null;
+  const articleBreadcrumbJsonLd = articleStory
+    ? serializeJsonLd(buildArticleBreadcrumbJsonLd(articleStory))
+    : null;
+  const organizationJsonLd =
+    storySlug === "" ? serializeJsonLd(buildOrganizationJsonLd()) : null;
 
   const storyContent = (
     <>
-      {jsonLd ? <script type="application/ld+json">{jsonLd}</script> : null}
+      {staticPageJsonLd ? (
+        <script type="application/ld+json">{staticPageJsonLd}</script>
+      ) : null}
+      {articleJsonLd ? (
+        <script type="application/ld+json">{articleJsonLd}</script>
+      ) : null}
+      {articleBreadcrumbJsonLd ? (
+        <script type="application/ld+json">{articleBreadcrumbJsonLd}</script>
+      ) : null}
+      {organizationJsonLd ? (
+        <script type="application/ld+json">{organizationJsonLd}</script>
+      ) : null}
       <StoryContent story={story} />
     </>
   );
