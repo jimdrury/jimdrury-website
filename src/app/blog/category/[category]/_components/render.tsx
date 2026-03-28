@@ -1,9 +1,15 @@
 import "server-only";
 
 import { draftMode } from "next/headers";
+import { redirect } from "next/navigation";
 import type { FC } from "react";
 import { getBlogCategoryArchive, parsePageParam } from "@/lib/blog";
-import { buildBlogCategoryJsonLd, serializeJsonLd } from "@/lib/seo";
+import {
+  buildBlogCategoryJsonLd,
+  getArticlePath,
+  serializeJsonLd,
+} from "@/lib/seo";
+import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { BlogIndex } from "../../../_components/blog-index";
 
 type RenderProps = Pick<
@@ -13,6 +19,7 @@ type RenderProps = Pick<
 
 export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
   const { category } = await params;
+  const normalizedCategory = category.trim();
   const resolvedSearchParams = await searchParams;
   const pageValue = resolvedSearchParams.page;
   const pageParam = Array.isArray(pageValue) ? pageValue[0] : pageValue;
@@ -21,13 +28,31 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
 
   const version = isEnabled ? "draft" : "published";
   const archive = await getBlogCategoryArchive({
-    category,
+    category: normalizedCategory,
     page,
     version,
   });
+
+  if (page === 1 && archive.stories.length === 0) {
+    const article = await getArticleBySlug({
+      slug: normalizedCategory,
+      version,
+    });
+
+    if (article) {
+      const categoryPath = `/blog/${normalizedCategory}`;
+      const articlePath = getArticlePath(article);
+      redirect(
+        articlePath === categoryPath
+          ? `/blog/read/${article.slug}`
+          : articlePath,
+      );
+    }
+  }
+
   const jsonLd = serializeJsonLd(
     buildBlogCategoryJsonLd({
-      category,
+      category: normalizedCategory,
       page,
       stories: archive.stories,
     }),
@@ -37,9 +62,9 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
     <>
       <script type="application/ld+json">{jsonLd}</script>
       <BlogIndex
-        title={`Category: ${category}`}
-        subtitle={`Showing posts tagged "${category}".`}
-        pathname={`/blog/${category}`}
+        title={`Category: ${normalizedCategory}`}
+        subtitle={`Showing posts tagged "${normalizedCategory}".`}
+        pathname={`/blog/${normalizedCategory}`}
         stories={archive.stories}
         pagination={archive.pagination}
         showCategorySidebar={false}
