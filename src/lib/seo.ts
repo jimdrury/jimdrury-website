@@ -6,6 +6,7 @@ import {
   type BlogStory,
   getFeaturedImageAsset,
 } from "@/storyblok/blog-listings-utils";
+import type { StoryData } from "@/storyblok/lib";
 
 export const SITE_ORIGIN = "https://www.jimdrury.co.uk";
 export const SITE_NAME = "Jim Drury";
@@ -384,6 +385,44 @@ const getFeaturedImage = (
   };
 };
 
+const getStaticPageDescription = (story: StoryData): string => {
+  if (isRecord(story.content)) {
+    const metaDescription = normalizeText(
+      typeof story.content.meta_description === "string"
+        ? story.content.meta_description
+        : undefined,
+    );
+    if (metaDescription) {
+      return metaDescription;
+    }
+    const excerpt = normalizeText(
+      typeof story.content.excerpt === "string"
+        ? story.content.excerpt
+        : undefined,
+    );
+    if (excerpt) {
+      return excerpt;
+    }
+  }
+
+  const title = normalizeText(story.name ?? undefined) ?? "this page";
+  return `Read ${title} on ${SITE_NAME}.`;
+};
+
+const getStaticPageDate = (
+  story: StoryData,
+  key: "published_at" | "first_published_at",
+): string | undefined => {
+  if (!isRecord(story)) {
+    return undefined;
+  }
+  return normalizeText(typeof story[key] === "string" ? story[key] : undefined);
+};
+
+const isArticleStoryData = (story: StoryData): boolean => {
+  return isRecord(story.content) && story.content.component === "article";
+};
+
 export const buildArticleMetadata = (story: BlogStory): Metadata => {
   const description = getArticleDescription(story);
   const canonicalPath = getArticlePath(story);
@@ -444,6 +483,62 @@ export const buildArticleMetadata = (story: BlogStory): Metadata => {
   };
 };
 
+export const buildStaticPageMetadata = ({
+  story,
+  slug,
+}: {
+  story: StoryData;
+  slug: string;
+}): Metadata => {
+  if (isArticleStoryData(story)) {
+    return {};
+  }
+
+  const title = normalizeText(story.name ?? undefined) ?? "Page";
+  const description = getStaticPageDescription(story);
+  const canonicalPath = `/${slug}`;
+  const publishedTime =
+    getStaticPageDate(story, "first_published_at") ??
+    getStaticPageDate(story, "published_at");
+  const modifiedTime =
+    getStaticPageDate(story, "published_at") ??
+    getStaticPageDate(story, "first_published_at");
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: canonicalPath,
+      siteName: SITE_NAME,
+      locale: SITE_LOCALE,
+      publishedTime,
+      modifiedTime,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+};
+
 export const buildArticleJsonLd = (
   story: BlogStory,
 ): Record<string, unknown> => {
@@ -483,6 +578,51 @@ export const buildArticleJsonLd = (
     keywords,
     ...(wordCount > 0 && { wordCount }),
     ...(articleSection && { articleSection }),
+  };
+};
+
+export const buildStaticPageJsonLd = ({
+  story,
+  slug,
+}: {
+  story: StoryData;
+  slug: string;
+}): Record<string, unknown> => {
+  const canonicalUrl = toAbsoluteUrl(`/${slug}`);
+  const title = normalizeText(story.name ?? undefined) ?? "Page";
+  const description = getStaticPageDescription(story);
+  const publishedTime =
+    getStaticPageDate(story, "first_published_at") ??
+    getStaticPageDate(story, "published_at");
+  const modifiedTime =
+    getStaticPageDate(story, "published_at") ??
+    getStaticPageDate(story, "first_published_at");
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    headline: title,
+    description,
+    inLanguage: SITE_LANGUAGE,
+    url: canonicalUrl,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
+    datePublished: publishedTime,
+    dateModified: modifiedTime,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_ORIGIN,
+    },
+    author: {
+      "@type": "Person",
+      name: SITE_NAME,
+      url: SITE_ORIGIN,
+      sameAs: [...AUTHOR_PROFILE_URLS],
+    },
   };
 };
 

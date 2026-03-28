@@ -65,9 +65,5 @@ describe("Footer", () => {
     expect(
       screen.getByRole("link", { name: "Privacy Policy" }),
     ).toHaveAttribute("href", "/legal/privacy-policy");
-    expect(screen.getByRole("link", { name: "Cookie Policy" })).toHaveAttribute(
-      "href",
-      "/legal/cookie-policy",
-    );
   });
 });

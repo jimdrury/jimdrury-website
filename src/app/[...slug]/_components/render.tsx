@@ -1,13 +1,14 @@
 import "server-only";
 
-import { cacheLife, cacheTag } from "next/cache";
 import dynamic from "next/dynamic";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
-import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
+import { buildStaticPageJsonLd, serializeJsonLd } from "@/lib/seo";
+import type { StoryData } from "@/storyblok/lib";
 import { StoryContent } from "@/storyblok/renderer";
+import { fetchStoryBySlug } from "./story";
 
 const StoryPreview = dynamic(() =>
   import("@/storyblok/preview").then((mod) => mod.StoryPreview),
@@ -15,10 +16,13 @@ const StoryPreview = dynamic(() =>
 
 type RenderProps = Pick<PageProps<"/[...slug]">, "params" | "searchParams">;
 
-type StoryblokStoryResponse = {
-  data?: {
-    story?: Parameters<typeof StoryContent>[0]["story"];
-  };
+const isNonArticleStory = (story: StoryData): boolean => {
+  return !(
+    typeof story.content === "object" &&
+    story.content !== null &&
+    "component" in story.content &&
+    story.content.component === "article"
+  );
 };
 
 export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
@@ -32,44 +36,30 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
     : Boolean(storyblokParam);
   const shouldUseDraftVersion = isEnabled || isStoryblokPreviewRequest;
   const version = shouldUseDraftVersion ? "draft" : "published";
-  const story = await fetchData({ slug: storySlug, version });
+  const story = await fetchStoryBySlug({ slug: storySlug, version });
 
   if (!story) {
     notFound();
   }
 
+  const jsonLd = isNonArticleStory(story)
+    ? serializeJsonLd(buildStaticPageJsonLd({ story, slug: storySlug }))
+    : null;
+
+  const storyContent = (
+    <>
+      {jsonLd ? <script type="application/ld+json">{jsonLd}</script> : null}
+      <StoryContent story={story} />
+    </>
+  );
+
   if (!isEnabled) {
-    return <StoryContent story={story} />;
+    return storyContent;
   }
 
   return (
     <StoryPreview storyId={story.id ?? 0} story={story}>
-      <StoryContent story={story} />
+      {storyContent}
     </StoryPreview>
   );
-};
-
-const fetchData = async ({
-  slug,
-  version,
-}: {
-  slug: string;
-  version: "draft" | "published";
-}) => {
-  "use cache";
-  cacheLife("default");
-  cacheTag(`story-page`);
-  cacheTag(`story-page-${slug}-${version}`);
-  const storyblokApi = getStoryblokApi();
-
-  try {
-    const response = (await storyblokApi.get(`cdn/stories/${slug}`, {
-      version,
-      cv: getStoryblokCv(),
-    })) as StoryblokStoryResponse;
-
-    return response.data?.story ?? null;
-  } catch {
-    return null;
-  }
 };
