@@ -1,11 +1,11 @@
 import "server-only";
+import { type FC, type ReactElement, use } from "react";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
-  StoryblokServerRichText,
   storyblokEditable,
-} from "@storyblok/react/rsc";
-import { type FC, type ReactElement, use } from "react";
+} from "@/storyblok/lib";
+import { RichText } from "@/storyblok/renderer";
 
 type RichTextBlokData = SbBlokData & {
   content?: StoryblokRichTextNode<ReactElement>;
@@ -19,7 +19,7 @@ const getCachedRichText = async (
   doc: StoryblokRichTextNode<ReactElement>,
 ): Promise<ReactElement> => {
   "use cache";
-  return <StoryblokServerRichText doc={doc} />;
+  return <RichText doc={doc} />;
 };
 
 export const RichTextBlok: FC<RichTextBlokProps> = ({ blok }) => {

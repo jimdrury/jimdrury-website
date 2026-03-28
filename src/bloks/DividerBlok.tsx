@@ -1,8 +1,8 @@
 import "server-only";
-import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { Divider } from "@/components/divider";
 import { cn } from "@/lib/utils";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type DividerSpacing = "none" | "sm" | "md" | "lg";
 

@@ -1,11 +1,8 @@
 import "server-only";
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { cn } from "@/lib/utils";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 
 type MaxWidth =
   | "sm"
@@ -61,7 +58,7 @@ export const SectionBlok: FC<SectionBlokProps> = ({ blok }) => {
     >
       <div className={cn("mx-auto space-y-4 px-4", maxWidthClasses[maxWidth])}>
         {blok.body?.map((nestedBlok) => (
-          <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+          <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
         ))}
       </div>
     </section>

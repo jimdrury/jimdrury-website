@@ -1,12 +1,12 @@
 import "server-only";
+import { type FC, type ReactElement, use } from "react";
+import { CitedQuote } from "@/components/cited-quote";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
-  StoryblokServerRichText,
   storyblokEditable,
-} from "@storyblok/react/rsc";
-import { type FC, type ReactElement, use } from "react";
-import { CitedQuote } from "@/components/cited-quote";
+} from "@/storyblok/lib";
+import { RichText } from "@/storyblok/renderer";
 
 type CitedQuoteBlokData = SbBlokData & {
   quote?: StoryblokRichTextNode<ReactElement>;
@@ -22,7 +22,7 @@ const getCachedQuote = async (
   quote: StoryblokRichTextNode<ReactElement>,
 ): Promise<ReactElement> => {
   "use cache";
-  return <StoryblokServerRichText doc={quote} />;
+  return <RichText doc={quote} />;
 };
 
 export const CitedQuoteBlok: FC<CitedQuoteBlokProps> = ({ blok }) => {

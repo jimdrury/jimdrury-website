@@ -1,7 +1,8 @@
-import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
+import "server-only";
 import type { FC } from "react";
 import { Surface } from "@/components/surface";
 import { Typography } from "@/components/typography";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type FeatureBlokData = SbBlokData & {
   name?: string;

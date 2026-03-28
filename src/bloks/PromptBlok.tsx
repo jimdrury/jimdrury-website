@@ -1,13 +1,13 @@
 import "server-only";
+import { type FC, type ReactElement, use } from "react";
+import { Prompt } from "@/components/prompt";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
-  StoryblokServerRichText,
   storyblokEditable,
-} from "@storyblok/react/rsc";
-import { type FC, type ReactElement, use } from "react";
-import { Prompt } from "@/components/prompt";
-import { richTextToPlainText } from "@/lib/storyblok-richtext-to-plain-text";
+} from "@/storyblok/lib";
+import { RichText } from "@/storyblok/renderer";
+import { richTextToPlainText } from "@/storyblok/richtext-to-plain-text";
 
 type PromptBlokData = SbBlokData & {
   title?: string;
@@ -29,7 +29,7 @@ const getCachedRichText = async (
   doc: StoryblokRichTextNode<ReactElement>,
 ): Promise<ReactElement> => {
   "use cache";
-  return <StoryblokServerRichText doc={doc} />;
+  return <RichText doc={doc} />;
 };
 
 export const PromptBlok: FC<PromptBlokProps> = ({ blok }) => {

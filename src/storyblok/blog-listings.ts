@@ -29,7 +29,7 @@ export const getArticlesByTag = async (
   version: "draft" | "published" = "published",
 ): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("default");
+  cacheLife("minutes");
   cacheTag(`blog-articles-${tag}-${index}-${version}`);
 
   const normalizedTag = tag.trim();
@@ -57,7 +57,7 @@ export const getAllArticles = async (
   version: "draft" | "published" = "published",
 ): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("default");
+  cacheLife("minutes");
   cacheTag(`blog-articles-all-${version}`);
 
   const storyblokApi = getStoryblokApi();
@@ -92,7 +92,7 @@ export const getBlogTags = async (
   version: "draft" | "published" = "published",
 ): Promise<{ slug: string; count: number }[]> => {
   "use cache";
-  cacheLife("default");
+  cacheLife("minutes");
   cacheTag(`blog-tags-${version}`);
 
   const storyblokApi = getStoryblokApi();
@@ -139,7 +139,7 @@ export const getArticleBySlug = async ({
   version: "draft" | "published";
 }): Promise<BlogStory | null> => {
   "use cache";
-  cacheLife("default");
+  cacheLife("minutes");
   cacheTag(`blog-article-${slug}-${version}`);
 
   const normalizedSlug = slug.trim();

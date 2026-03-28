@@ -1,8 +1,8 @@
 import "server-only";
-import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { TableOfContents } from "@/components/table-of-contents";
-import type { TocHeadingLevel } from "@/lib/storyblok-table-of-contents";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import type { TocHeadingLevel } from "@/storyblok/table-of-contents";
 
 type TableOfContentsBlokData = SbBlokData & {
   max_heading_level?: TocHeadingLevel;

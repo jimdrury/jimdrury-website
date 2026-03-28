@@ -3,9 +3,11 @@ import { FaAngleDoubleDown } from "react-icons/fa";
 import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
-import type { TocHeadingLevel } from "@/lib/storyblok-table-of-contents";
-import { getTableOfContentsHeadings } from "@/lib/storyblok-table-of-contents";
 import { cn } from "@/lib/utils";
+import {
+  getTableOfContentsHeadings,
+  type TocHeadingLevel,
+} from "@/storyblok/table-of-contents";
 
 export interface TableOfContentsProps {
   maxHeadingLevel?: TocHeadingLevel;

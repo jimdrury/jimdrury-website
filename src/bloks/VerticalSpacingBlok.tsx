@@ -1,11 +1,8 @@
 import "server-only";
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { cn } from "@/lib/utils";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 
 type VerticalSpacingSize = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -44,7 +41,7 @@ export const VerticalSpacingBlok: FC<VerticalSpacingBlokProps> = ({ blok }) => {
     <section {...storyblokEditable(blok)} className={cn("w-full space-y-4")}>
       <div className={spacerHeightClasses[size]} aria-hidden="true" />
       {blok.body?.map((nestedBlok) => (
-        <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}
       <div className={spacerHeightClasses[size]} aria-hidden="true" />
     </section>

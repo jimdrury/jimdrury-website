@@ -1,11 +1,8 @@
 import "server-only";
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { HeroImage } from "@/components/hero-image";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 const HERO_WIDTH = 1920;
@@ -39,7 +36,7 @@ export const HeroImageBlok: FC<HeroImageBlokProps> = ({ blok }) => {
       height={HERO_HEIGHT}
     >
       {blok.overlay?.map((nestedBlok) => (
-        <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}
     </HeroImage>
   );

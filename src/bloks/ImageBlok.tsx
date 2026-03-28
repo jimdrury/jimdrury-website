@@ -1,9 +1,9 @@
 import "server-only";
-import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
 import NextImage from "next/image";
 import type { FC } from "react";
 import { Media, MediaLightbox } from "@/components/media";
 import { parseStoryblokImageDimensions } from "@/storyblok/image-dimensions";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 type ImageBlokData = SbBlokData & {

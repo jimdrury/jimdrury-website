@@ -1,8 +1,8 @@
 import "server-only";
-import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
 import type { FC } from "react";
 import type { LineHighlight } from "@/components/snippet";
 import { Snippet } from "@/components/snippet";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type CodeBlockHighlight = {
   line: number;

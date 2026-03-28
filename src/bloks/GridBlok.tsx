@@ -1,9 +1,7 @@
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
+import "server-only";
 import type { FC } from "react";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 
 type GridBlokData = SbBlokData & {
   columns?: SbBlokData[];
@@ -17,7 +15,7 @@ export const GridBlok: FC<GridBlokProps> = ({ blok }) => {
   return (
     <div {...storyblokEditable(blok)} className="grid gap-4 md:grid-cols-2">
       {blok.columns?.map((nestedBlok) => (
-        <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}
     </div>
   );

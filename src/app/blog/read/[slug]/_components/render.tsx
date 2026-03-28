@@ -1,14 +1,18 @@
 import "server-only";
 
-import { StoryblokStory } from "@storyblok/react/rsc";
+import dynamic from "next/dynamic";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
 import { getDefaultStoryCategory } from "@/lib/blog";
-import { setCurrentStory } from "@/lib/current-story-context";
 import { buildArticleJsonLd, serializeJsonLd } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
+import { StoryContent } from "@/storyblok/renderer";
+
+const StoryPreview = dynamic(() =>
+  import("@/storyblok/preview").then((mod) => mod.StoryPreview),
+);
 
 type RenderProps = Pick<PageProps<"/blog/read/[slug]">, "params">;
 
@@ -26,13 +30,18 @@ export const Render: FC<RenderProps> = async ({ params }) => {
     notFound();
   }
 
-  setCurrentStory(story);
   const jsonLd = serializeJsonLd(buildArticleJsonLd(story));
 
   return (
     <main>
       <script type="application/ld+json">{jsonLd}</script>
-      <StoryblokStory story={story} />
+      {isEnabled ? (
+        <StoryPreview storyId={story.id} story={story}>
+          <StoryContent story={story} />
+        </StoryPreview>
+      ) : (
+        <StoryContent story={story} />
+      )}
     </main>
   );
 };

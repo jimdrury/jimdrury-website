@@ -1,9 +1,9 @@
 import "server-only";
-import { type SbBlokData, storyblokEditable } from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
-import { getTypographyHeadingIdByUid } from "@/lib/storyblok-table-of-contents";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { getTypographyHeadingIdByUid } from "@/storyblok/table-of-contents";
 
 type TypographyTag = "p" | "h1" | "h2" | "h3" | "h4";
 

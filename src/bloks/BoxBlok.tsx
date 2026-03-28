@@ -1,9 +1,4 @@
 import "server-only";
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
 import type { FC } from "react";
 import {
   Box,
@@ -11,6 +6,8 @@ import {
   type BoxSpacing,
   type BoxTextColour,
 } from "@/components/box";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 
 type BoxBlokData = SbBlokData & {
   body?: SbBlokData[];
@@ -34,7 +31,7 @@ export const BoxBlok: FC<BoxBlokProps> = ({ blok }) => {
       textColour={blok.text_colour ?? "default"}
     >
       {blok.body?.map((nestedBlok) => (
-        <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}
     </Box>
   );

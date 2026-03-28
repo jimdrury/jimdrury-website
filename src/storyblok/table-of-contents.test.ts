@@ -3,7 +3,7 @@ import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import {
   getTableOfContentsHeadingsFromBloks,
   getTypographyHeadingIdByUid,
-} from "./storyblok-table-of-contents";
+} from "./table-of-contents";
 
 const createStory = (
   body: NonNullable<BlogStory["content"]["body"]>,

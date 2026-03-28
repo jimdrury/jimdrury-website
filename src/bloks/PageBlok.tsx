@@ -1,9 +1,7 @@
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
+import "server-only";
 import type { FC } from "react";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 
 type PageBlokData = SbBlokData & {
   body?: SbBlokData[];
@@ -17,7 +15,7 @@ export const PageBlok: FC<PageBlokProps> = ({ blok }) => {
   return (
     <main {...storyblokEditable(blok)}>
       {blok.body?.map((nestedBlok) => (
-        <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}
     </main>
   );

@@ -1,15 +1,12 @@
 import "server-only";
-import {
-  type SbBlokData,
-  StoryblokServerComponent,
-  storyblokEditable,
-} from "@storyblok/react/rsc";
 import type { FC } from "react";
 import { ArticleHero } from "@/components/article-hero";
 import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
 import { estimateReadTime } from "@/lib/read-time";
 import { cn } from "@/lib/utils";
+import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 const HERO_WIDTH = 1920;
@@ -131,10 +128,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
         {hasPreColumn ? (
           <div className="space-y-4 md:col-start-2 md:row-start-1">
             {preContentBloks.map((nestedBlok) => (
-              <StoryblokServerComponent
-                blok={nestedBlok}
-                key={nestedBlok._uid}
-              />
+              <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
             ))}
           </div>
         ) : null}
@@ -143,7 +137,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
           itemProp="articleBody"
         >
           {blok.body?.map((nestedBlok) => (
-            <StoryblokServerComponent blok={nestedBlok} key={nestedBlok._uid} />
+            <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
           ))}
         </section>
         {hasPostColumn ? (
@@ -155,10 +149,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
             )}
           >
             {postContentBloks.map((nestedBlok) => (
-              <StoryblokServerComponent
-                blok={nestedBlok}
-                key={nestedBlok._uid}
-              />
+              <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
             ))}
           </div>
         ) : null}

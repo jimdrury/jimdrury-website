@@ -1,4 +1,4 @@
-import type { StoryblokRichTextNode } from "@storyblok/react/rsc";
+import type { StoryblokRichTextNode } from "@/storyblok/lib";
 
 /**
  * Recursively extracts plain text from a Storyblok richtext document,

@@ -1,4 +1,4 @@
-import type { SbBlokData } from "@storyblok/react/rsc";
+import type { SbBlokData } from "@/storyblok/lib";
 
 const WORDS_PER_MINUTE = 150;
 
