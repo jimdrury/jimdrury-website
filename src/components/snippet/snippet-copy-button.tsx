@@ -4,10 +4,6 @@ import type { FC } from "react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/button";
 
-type SnippetCopyButtonProps = {
-  code: string;
-};
-
 const copyText = async (value: string): Promise<void> => {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(value);
@@ -25,7 +21,13 @@ const copyText = async (value: string): Promise<void> => {
   document.body.removeChild(textarea);
 };
 
-export const SnippetCopyButton: FC<SnippetCopyButtonProps> = ({ code }) => {
+const getSnippetText = (button: HTMLButtonElement): string | null => {
+  const figure = button.closest("figure");
+  const codeElement = figure?.querySelector("pre code");
+  return codeElement?.textContent?.trimEnd() ?? null;
+};
+
+export const SnippetCopyButton: FC = () => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -42,9 +44,16 @@ export const SnippetCopyButton: FC<SnippetCopyButtonProps> = ({ code }) => {
     };
   }, [copied]);
 
-  const handleClick = async (): Promise<void> => {
+  const handleClick = async (button: HTMLButtonElement): Promise<void> => {
     try {
-      await copyText(code);
+      const snippetText = getSnippetText(button);
+
+      if (!snippetText) {
+        setCopied(false);
+        return;
+      }
+
+      await copyText(snippetText);
       setCopied(true);
     } catch {
       setCopied(false);
@@ -57,7 +66,7 @@ export const SnippetCopyButton: FC<SnippetCopyButtonProps> = ({ code }) => {
       size="small"
       variant="secondary"
       className="shrink-0 px-3 py-1 text-xs"
-      onClick={handleClick}
+      onClick={(event) => void handleClick(event.currentTarget)}
       aria-live="polite"
       aria-label={copied ? "Copied to clipboard" : "Copy code to clipboard"}
       data-nosnippet=""

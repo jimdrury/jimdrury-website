@@ -92,7 +92,7 @@ export const Snippet: FC<SnippetProps> = async ({
             {title ? <LanguageIcon language={language} /> : null}
             {title ? <span className="truncate">{title}</span> : null}
           </div>
-          {enableCopyToClipboard ? <SnippetCopyButton code={code} /> : null}
+          {enableCopyToClipboard ? <SnippetCopyButton /> : null}
         </figcaption>
       )}
       <div

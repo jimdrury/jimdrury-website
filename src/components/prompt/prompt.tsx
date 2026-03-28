@@ -26,14 +26,18 @@ export const Prompt: FC<PromptProps> = ({
         className="mt-2.5 size-5 shrink-0 text-purple-600"
         aria-hidden
       />
-      <figure className="min-w-0 flex-1 overflow-hidden rounded-md border-2 border-black bg-zinc-50 shadow-[4px_4px_0_0]">
+      <figure
+        className="min-w-0 flex-1 overflow-hidden rounded-md border-2 border-black bg-zinc-50 shadow-[4px_4px_0_0]"
+        data-prompt-title={title}
+      >
         {(title || copyText) && (
           <figcaption className="flex items-center justify-between gap-3 border-b-2 border-black bg-gradient-to-r from-purple-600 to-blue-500 px-4 py-2 font-mono text-sm font-semibold text-white">
             <span className="truncate">&lt;{title}&gt;</span>
-            {copyText ? <PromptCopyButton text={copyText} /> : null}
+            {copyText ? <PromptCopyButton /> : null}
           </figcaption>
         )}
         <div
+          data-prompt-copy-content=""
           className={cn(
             "prose prose-sm max-w-none px-4 py-3 font-mono",
             "prose-headings:font-bold prose-headings:text-black",

@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  type ISbEventPayload,
-  type ISbStoryData,
-  loadStoryblokBridge,
-} from "@storyblok/js";
+import type { ISbEventPayload, ISbStoryData } from "@storyblok/js";
 import {
   type FC,
   type ReactNode,
@@ -17,6 +13,9 @@ import { renderStoryPreview } from "@/storyblok/actions/render-story-preview";
 import type { StoryData } from "@/storyblok/lib";
 
 const INPUT_DEBOUNCE_MS = 250;
+const STORYBLOK_BRIDGE_SCRIPT_URL =
+  "https://app.storyblok.com/f/storyblok-v2-latest.js";
+const STORYBLOK_BRIDGE_SELECTOR = 'script[data-storyblok-bridge="true"]';
 
 export interface StoryPreviewProps {
   storyId: number;
@@ -33,6 +32,47 @@ const isMatchingStory = (
   incomingStory: ISbStoryData | StoryData,
 ): boolean => {
   return typeof incomingStory.id === "number" && incomingStory.id === storyId;
+};
+
+const loadStoryblokBridgeScript = async (): Promise<void> => {
+  if (window.StoryblokBridge) {
+    return;
+  }
+
+  const existingScript = document.querySelector<HTMLScriptElement>(
+    STORYBLOK_BRIDGE_SELECTOR,
+  );
+
+  if (existingScript) {
+    await new Promise<void>((resolve, reject) => {
+      if (window.StoryblokBridge) {
+        resolve();
+        return;
+      }
+
+      const handleLoad = () => resolve();
+      const handleError = () =>
+        reject(new Error("Failed to load Storyblok Bridge script."));
+
+      existingScript.addEventListener("load", handleLoad, { once: true });
+      existingScript.addEventListener("error", handleError, { once: true });
+    });
+    return;
+  }
+
+  await new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = STORYBLOK_BRIDGE_SCRIPT_URL;
+    script.async = true;
+    script.dataset.storyblokBridge = "true";
+    script.addEventListener("load", () => resolve(), { once: true });
+    script.addEventListener(
+      "error",
+      () => reject(new Error("Failed to load Storyblok Bridge script.")),
+      { once: true },
+    );
+    document.head.appendChild(script);
+  });
 };
 
 export const StoryPreview: FC<StoryPreviewProps> = ({
@@ -79,7 +119,7 @@ export const StoryPreview: FC<StoryPreviewProps> = ({
     };
 
     const initBridge = async () => {
-      await loadStoryblokBridge();
+      await loadStoryblokBridgeScript();
 
       if (!window.StoryblokBridge) {
         return;
