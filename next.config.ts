@@ -35,11 +35,11 @@ const nextConfig: NextConfig = {
         },
         {
           source: "/blog/:slug.md",
-          destination: "/blog/read/:slug.md",
+          destination: "/blog/read/:slug/markdown",
         },
         {
           source: "/blog/:category/:slug.md",
-          destination: "/blog/read/:slug.md?category=:category",
+          destination: "/blog/read/:slug/markdown?category=:category",
         },
         {
           source: "/blog/:slug/twitter-image",
@@ -66,7 +66,7 @@ const nextConfig: NextConfig = {
           destination: "/blog/date/:year/:month/:day",
         },
         {
-          source: "/blog/:category/:slug((?!.*\\.md$).*)",
+          source: "/blog/:category/:slug",
           destination: "/blog/read/:slug",
         },
       ],

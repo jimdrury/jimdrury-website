@@ -31,11 +31,11 @@ export const GET = async (_request: Request, context?: RouteContext) => {
     return new Response("Not Found", { status: 404 });
   }
 
-  if (!isEnabled && !getDefaultStoryCategory(story)) {
+  const canonicalCategory = getDefaultStoryCategory(story);
+  if (!isEnabled && !canonicalCategory) {
     return new Response("Not Found", { status: 404 });
   }
 
-  const canonicalCategory = getDefaultStoryCategory(story);
   if (
     canonicalCategory &&
     requestedCategory &&
