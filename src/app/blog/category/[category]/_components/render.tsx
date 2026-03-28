@@ -9,7 +9,7 @@ import {
   getArticlePath,
   serializeJsonLd,
 } from "@/lib/seo";
-import { getArticleBySlug } from "@/storyblok/blog-listings";
+import { getAllArticles } from "@/storyblok/blog-listings";
 import { BlogIndex } from "../../../_components/blog-index";
 
 type RenderProps = Pick<
@@ -34,10 +34,10 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
   });
 
   if (page === 1 && archive.stories.length === 0) {
-    const article = await getArticleBySlug({
-      slug: normalizedCategory,
-      version,
-    });
+    const allArticles = await getAllArticles(version);
+    const article = allArticles.find(
+      (story) => story.slug === normalizedCategory,
+    );
 
     if (article) {
       const categoryPath = `/blog/${normalizedCategory}`;
