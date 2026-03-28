@@ -4,6 +4,7 @@ import { ImageResponse } from "next/og";
 import { getArticleExcerpt } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { getFeaturedImageAsset } from "@/storyblok/blog-listings-utils";
+import { transformStoryblokImage } from "@/storyblok/image-transform";
 import {
   getSocialImageFontOptions,
   SocialImage,
@@ -26,12 +27,20 @@ const TwitterImage: TwitterImageFn = async ({ params }) => {
   const version = isEnabled ? "draft" : "published";
   const story = await getArticleBySlug({ slug, version });
   const featuredImage = getFeaturedImageAsset(story?.content?.featured_image);
+  const featuredImageUrl = featuredImage?.filename;
+  const optimizedFeaturedImageUrl = featuredImageUrl
+    ? transformStoryblokImage(featuredImageUrl, {
+        width: size.width,
+        height: size.height,
+        quality: 72,
+      })
+    : undefined;
   const payload = toSocialImagePayload({
     title: story?.name ?? "Article",
     excerpt:
       (story ? getArticleExcerpt(story) : undefined) ??
       "Read the full article on jimdrury.co.uk",
-    featuredImageUrl: featuredImage?.filename,
+    featuredImageUrl: optimizedFeaturedImageUrl,
   });
   const fonts = await getSocialImageFontOptions();
 
