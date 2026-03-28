@@ -4,6 +4,7 @@ import type { FC } from "react";
 import { SimilarArticles } from "@/components/similar-articles";
 import { formatStoryDate, getStoryDateTime } from "@/lib/blog";
 import { getCurrentStory } from "@/lib/current-story-context";
+import { getArticlePath } from "@/lib/seo";
 import { getLatestArticlesSeed } from "@/storyblok/blog-listings";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
@@ -110,7 +111,7 @@ export const SimilarArticlesBlok: FC<SimilarArticlesBlokProps> = async ({
     <div {...storyblokEditable(blok)}>
       <SimilarArticles
         items={selectedStories.map(({ story }) => ({
-          href: `/${story.full_slug}`,
+          href: getArticlePath(story),
           title: story.name,
           excerpt: story.content.excerpt?.trim(),
           publishedAt: formatStoryDate(story),
