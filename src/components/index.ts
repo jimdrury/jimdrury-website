@@ -28,6 +28,7 @@ export * from "./media";
 export * from "./modal";
 export * from "./prompt";
 export * from "./side-menu";
+export * from "./similar-articles";
 export * from "./skip-link";
 export * from "./snippet";
 export * from "./stat";

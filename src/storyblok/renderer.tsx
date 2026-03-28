@@ -11,6 +11,7 @@ import { PageBlok } from "@/bloks/PageBlok";
 import { PromptBlok } from "@/bloks/PromptBlok";
 import { RichTextBlok } from "@/bloks/RichTextBlok";
 import { SectionBlok } from "@/bloks/SectionBlok";
+import { SimilarArticlesBlok } from "@/bloks/SimilarArticlesBlok";
 import { SnippetBlok } from "@/bloks/SnippetBlok";
 import { TableOfContentsBlok } from "@/bloks/TableOfContentsBlok";
 import { TeaserBlok } from "@/bloks/TeaserBlok";
@@ -35,6 +36,7 @@ export const BlokRenderer = createBlokRenderer({
   prompt: PromptBlok,
   rich_text: RichTextBlok,
   section: SectionBlok,
+  similar_articles: SimilarArticlesBlok,
   snippet: SnippetBlok,
   table_of_contents: TableOfContentsBlok,
   teaser: TeaserBlok,

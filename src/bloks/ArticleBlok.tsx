@@ -59,6 +59,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
   const postContentBloks = blok.post_content ?? [];
   const hasPreColumn = preContentBloks.length > 0;
   const hasPostColumn = postContentBloks.length > 0;
+  const hasSidebarContent = hasPreColumn || hasPostColumn;
 
   return (
     <article
@@ -141,14 +142,14 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
         )}
       >
         {hasPreColumn ? (
-          <div className="space-y-4 md:col-start-2 md:row-start-1">
+          <div className="space-y-4 md:hidden">
             {preContentBloks.map((nestedBlok) => (
               <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
             ))}
           </div>
         ) : null}
         <section
-          className="space-y-4 pb-4 md:col-start-1 md:row-start-1 md:row-span-2"
+          className="space-y-4 pb-0 md:col-start-1 md:row-start-1 md:pb-4"
           itemProp="articleBody"
         >
           {blok.body?.map((nestedBlok) => (
@@ -156,17 +157,29 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
           ))}
         </section>
         {hasPostColumn ? (
-          <div
-            className={cn(
-              "space-y-4",
-              "md:col-start-2",
-              hasPreColumn ? "md:row-start-2 md:mt-4" : "md:row-start-1",
-            )}
-          >
+          <div className="space-y-4 md:hidden">
             {postContentBloks.map((nestedBlok) => (
               <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
             ))}
           </div>
+        ) : null}
+        {hasSidebarContent ? (
+          <aside className="hidden space-y-8 md:col-start-2 md:row-start-1 md:block md:self-start">
+            {hasPreColumn ? (
+              <div className="space-y-4">
+                {preContentBloks.map((nestedBlok) => (
+                  <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+                ))}
+              </div>
+            ) : null}
+            {hasPostColumn ? (
+              <div className="space-y-4">
+                {postContentBloks.map((nestedBlok) => (
+                  <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+                ))}
+              </div>
+            ) : null}
+          </aside>
         ) : null}
       </div>
     </article>

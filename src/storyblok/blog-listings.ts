@@ -11,6 +11,7 @@ import {
 } from "@/storyblok/blog-listings-utils";
 
 const BLOG_FETCH_PER_PAGE = 100;
+const SIMILAR_ARTICLES_SEED_SIZE = 25;
 
 type StoryblokTag = {
   name?: string;
@@ -86,6 +87,27 @@ export const getAllArticles = async (
   }
 
   return stories;
+};
+
+export const getLatestArticlesSeed = async (
+  version: "draft" | "published" = "published",
+): Promise<BlogStory[]> => {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag(`blog-articles-seed-${version}`);
+
+  const storyblokApi = getStoryblokApi();
+  const response = (await storyblokApi.get("cdn/stories", {
+    version,
+    cv: getStoryblokCv(),
+    starts_with: BLOG_PREFIX,
+    content_type: BLOG_CONTENT_TYPE,
+    sort_by: "first_published_at:desc",
+    page: 1,
+    per_page: SIMILAR_ARTICLES_SEED_SIZE,
+  })) as StoryblokStoriesResponse;
+
+  return (response.data?.stories ?? []).filter(isArticleStory);
 };
 
 export const getBlogTags = async (
