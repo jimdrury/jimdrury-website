@@ -10,7 +10,7 @@ import { Skeleton } from "./_components/skeleton";
 export const generateMetadata = async ({
   params,
   searchParams,
-}: PageProps<"/blog/category/[category]">): Promise<Metadata> => {
+}: PageProps<"/blog/[category]">): Promise<Metadata> => {
   const { category } = await params;
   const resolvedSearchParams = await searchParams;
   const pageValue = resolvedSearchParams.page;
@@ -23,10 +23,7 @@ export const generateMetadata = async ({
   });
 };
 
-const Page: FC<PageProps<"/blog/category/[category]">> = ({
-  params,
-  searchParams,
-}) => {
+const Page: FC<PageProps<"/blog/[category]">> = ({ params, searchParams }) => {
   return (
     <Suspense fallback={<Skeleton />}>
       <Render params={params} searchParams={searchParams} />

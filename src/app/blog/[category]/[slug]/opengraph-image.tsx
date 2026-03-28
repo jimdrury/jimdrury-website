@@ -18,7 +18,7 @@ export const alt = socialImageAlt;
 export const size = socialImageSize;
 export const contentType = socialImageContentType;
 
-type OpenGraphImageProps = Pick<PageProps<"/blog/read/[slug]">, "params">;
+type OpenGraphImageProps = Pick<PageProps<"/blog/[category]/[slug]">, "params">;
 type OpenGraphImageFn = (props: OpenGraphImageProps) => Promise<ImageResponse>;
 
 const OpenGraphImage: OpenGraphImageFn = async ({ params }) => {

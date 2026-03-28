@@ -18,7 +18,7 @@ export const alt = socialImageAlt;
 export const size = socialImageSize;
 export const contentType = socialImageContentType;
 
-type TwitterImageProps = Pick<PageProps<"/blog/read/[slug]">, "params">;
+type TwitterImageProps = Pick<PageProps<"/blog/[category]/[slug]">, "params">;
 type TwitterImageFn = (props: TwitterImageProps) => Promise<ImageResponse>;
 
 const TwitterImage: TwitterImageFn = async ({ params }) => {

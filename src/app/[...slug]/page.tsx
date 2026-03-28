@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { Suspense } from "react";
-import { Render } from "@/app/[...slug]/_components/render";
-import { Skeleton } from "@/app/[...slug]/_components/skeleton";
-import { fetchStoryBySlug } from "@/app/[...slug]/_components/story";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { Render } from "./_components/render";
+import { Skeleton } from "./_components/skeleton";
+import { fetchStoryBySlug } from "./_components/story";
 
 export const generateMetadata = async ({
   params,

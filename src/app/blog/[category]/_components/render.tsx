@@ -4,10 +4,10 @@ import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { getBlogCategoryArchive, parsePageParam } from "@/lib/blog";
 import { buildBlogCategoryJsonLd, serializeJsonLd } from "@/lib/seo";
-import { BlogIndex } from "../../../_components/blog-index";
+import { BlogIndex } from "../../_components/blog-index";
 
 type RenderProps = Pick<
-  PageProps<"/blog/category/[category]">,
+  PageProps<"/blog/[category]">,
   "params" | "searchParams"
 >;
 

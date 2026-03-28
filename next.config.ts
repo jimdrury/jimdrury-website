@@ -8,18 +8,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/",
-        has: [
-          { type: "query", key: "_storyblok" },
-          { type: "query", key: "_storyblok_tk[space_id]" },
-          { type: "query", key: "_storyblok_tk[timestamp]" },
-          { type: "query", key: "_storyblok_tk[token]" },
-        ],
-        missing: [{ type: "query", key: "returnTo" }],
-        destination: "/api/storyblok/enable-draft?returnTo=/home",
-        permanent: false,
-      },
-      {
         source: "/:path*",
         has: [
           { type: "query", key: "_storyblok" },
@@ -27,20 +15,11 @@ const nextConfig: NextConfig = {
           { type: "query", key: "_storyblok_tk[timestamp]" },
           { type: "query", key: "_storyblok_tk[token]" },
         ],
-        missing: [{ type: "query", key: "returnTo" }],
-        destination: "/api/storyblok/enable-draft?returnTo=/:path*",
-        permanent: false,
-      },
-      {
-        source: "/blog/:slug",
-        has: [
-          { type: "query", key: "_storyblok" },
-          { type: "query", key: "_storyblok_tk[space_id]" },
-          { type: "query", key: "_storyblok_tk[timestamp]" },
-          { type: "query", key: "_storyblok_tk[token]" },
+        missing: [
+          { type: "query", key: "returnTo" },
+          { type: "cookie", key: "__prerender_bypass" },
         ],
-        missing: [{ type: "query", key: "returnTo" }],
-        destination: "/api/storyblok/enable-draft?returnTo=/blog/:slug",
+        destination: "/api/storyblok/enable-draft?returnTo=/:path*",
         permanent: false,
       },
     ];
@@ -49,62 +28,18 @@ const nextConfig: NextConfig = {
     return {
       beforeFiles: [
         {
+          source: "/blog/:slug",
+          has: [
+            { type: "query", key: "_storyblok" },
+            { type: "cookie", key: "__prerender_bypass" },
+          ],
+          destination: "/blog/edit/:slug",
+        },
+        {
           source: "/",
           destination: "/home",
         },
-        {
-          source: "/blog/:slug",
-          has: [{ type: "query", key: "_storyblok" }],
-          destination: "/blog/read/:slug",
-        },
-        {
-          source: "/blog/:slug/opengraph-image",
-          destination: "/blog/read/:slug/opengraph-image",
-        },
-        {
-          source: "/blog/:slug.md",
-          destination: "/blog/read/:slug/markdown",
-        },
-        {
-          source: "/blog/:category/:slug.md",
-          destination: "/blog/read/:slug/markdown?category=:category",
-        },
-        {
-          source: "/blog/:slug/twitter-image",
-          destination: "/blog/read/:slug/twitter-image",
-        },
-        {
-          source: "/blog/:category/:slug/opengraph-image",
-          destination: "/blog/read/:slug/opengraph-image",
-        },
-        {
-          source: "/blog/:category/:slug/twitter-image",
-          destination: "/blog/read/:slug/twitter-image",
-        },
-        {
-          source: "/blog/:year(\\d{4})",
-          destination: "/blog/date/:year",
-        },
-        {
-          source: "/blog/:year(\\d{4})/:month(\\d{2})",
-          destination: "/blog/date/:year/:month",
-        },
-        {
-          source: "/blog/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})",
-          destination: "/blog/date/:year/:month/:day",
-        },
-        {
-          source: "/blog/:category/:slug",
-          destination: "/blog/read/:slug",
-        },
       ],
-      afterFiles: [
-        {
-          source: "/blog/:category",
-          destination: "/blog/category/:category",
-        },
-      ],
-      fallback: [],
     };
   },
   images: {

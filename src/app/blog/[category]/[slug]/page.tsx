@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { Suspense } from "react";
-
-import { Skeleton } from "@/app/blog/read/[slug]/_components/skeleton";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import { buildArticleMetadata } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { Render } from "./_components/render";
+import { Skeleton } from "./_components/skeleton";
 
 export const generateMetadata = async ({
   params,
-}: PageProps<"/blog/read/[slug]">): Promise<Metadata> => {
+}: PageProps<"/blog/[category]/[slug]">): Promise<Metadata> => {
   const { slug } = await params;
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
@@ -30,7 +29,7 @@ export const generateMetadata = async ({
   return buildArticleMetadata(story);
 };
 
-const Page: FC<PageProps<"/blog/read/[slug]">> = ({ params }) => {
+const Page: FC<PageProps<"/blog/[category]/[slug]">> = ({ params }) => {
   return (
     <Suspense fallback={<Skeleton />}>
       <Render params={params} />

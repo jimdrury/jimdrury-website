@@ -18,7 +18,7 @@ const StoryPreview = dynamic(() =>
   import("@/storyblok/preview").then((mod) => mod.StoryPreview),
 );
 
-type RenderProps = Pick<PageProps<"/blog/read/[slug]">, "params">;
+type RenderProps = Pick<PageProps<"/blog/[category]/[slug]">, "params">;
 
 export const Render: FC<RenderProps> = async ({ params }) => {
   const { slug } = await params;
