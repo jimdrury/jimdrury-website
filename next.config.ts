@@ -66,7 +66,7 @@ const nextConfig: NextConfig = {
           destination: "/blog/date/:year/:month/:day",
         },
         {
-          source: "/blog/:category/:slug",
+          source: "/blog/:category/:slug((?!.*\\.md$).*)",
           destination: "/blog/read/:slug",
         },
       ],
