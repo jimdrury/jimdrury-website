@@ -1,24 +1,26 @@
 import "server-only";
 
 import { draftMode } from "next/headers";
-import { notFound, redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
-import { getDefaultStoryCategory } from "@/lib/blog";
 import { renderArticleMarkdown } from "@/lib/article-markdown";
+import { getDefaultStoryCategory } from "@/lib/blog";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 
 type RouteContext = {
-  params: Promise<{ slug: string }>;
+  params?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const GET = async (_request: Request, context: RouteContext) => {
-  const { slug } = await context.params;
+export const GET = async (_request: Request, context?: RouteContext) => {
+  const params = (await context?.params) ?? {};
+  const slugValue = params.slug;
+  const slug = typeof slugValue === "string" ? slugValue : "";
   const normalizedSlug = slug.trim();
   const requestUrl = new URL(_request.url);
   const requestedCategory = requestUrl.searchParams.get("category")?.trim();
 
   if (!normalizedSlug) {
-    notFound();
+    return new Response("Not Found", { status: 404 });
   }
 
   const { isEnabled } = await draftMode();
@@ -26,11 +28,11 @@ export const GET = async (_request: Request, context: RouteContext) => {
   const story = await getArticleBySlug({ slug: normalizedSlug, version });
 
   if (!story) {
-    notFound();
+    return new Response("Not Found", { status: 404 });
   }
 
   if (!isEnabled && !getDefaultStoryCategory(story)) {
-    notFound();
+    return new Response("Not Found", { status: 404 });
   }
 
   const canonicalCategory = getDefaultStoryCategory(story);
@@ -39,7 +41,9 @@ export const GET = async (_request: Request, context: RouteContext) => {
     requestedCategory &&
     requestedCategory.toLowerCase() !== canonicalCategory.toLowerCase()
   ) {
-    redirect(`/blog/${canonicalCategory}/${normalizedSlug}.md`);
+    return NextResponse.redirect(
+      new URL(`/blog/${canonicalCategory}/${normalizedSlug}.md`, _request.url),
+    );
   }
 
   const markdown = renderArticleMarkdown(story);

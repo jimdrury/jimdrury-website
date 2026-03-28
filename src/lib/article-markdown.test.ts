@@ -69,7 +69,9 @@ describe("renderArticleMarkdown", () => {
     expect(markdown).toContain('title: "Markdown Output Test"');
     expect(markdown).toContain('slug: "markdown-output-test"');
     expect(markdown).toContain('path: "/blog/nextjs/markdown-output-test"');
-    expect(markdown).toContain('canonical_url: "https://www.jimdrury.co.uk/blog/nextjs/markdown-output-test"');
+    expect(markdown).toContain(
+      'canonical_url: "https://www.jimdrury.co.uk/blog/nextjs/markdown-output-test"',
+    );
     expect(markdown).toContain('excerpt: "Test excerpt"');
     expect(markdown).toContain("tags:");
     expect(markdown).toContain('  - "nextjs"');

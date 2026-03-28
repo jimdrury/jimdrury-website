@@ -1,6 +1,10 @@
 import "server-only";
 
-import { formatStoryDate, getDefaultStoryCategory, getStoryDateTime } from "@/lib/blog";
+import {
+  formatStoryDate,
+  getDefaultStoryCategory,
+  getStoryDateTime,
+} from "@/lib/blog";
 import {
   getArticleCanonicalUrl,
   getArticleExcerpt,
@@ -393,7 +397,9 @@ const buildFrontMatter = (story: BlogStory): string => {
 
   if (Array.isArray(story.tag_list) && story.tag_list.length > 0) {
     lines.push("tags:");
-    for (const tag of story.tag_list.map((value) => value.trim()).filter(Boolean)) {
+    for (const tag of story.tag_list
+      .map((value) => value.trim())
+      .filter(Boolean)) {
       lines.push(`  - ${yamlScalar(tag)}`);
     }
   }
