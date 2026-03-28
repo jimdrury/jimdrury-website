@@ -71,9 +71,6 @@ const nextConfig: NextConfig = {
       fallback: [],
     };
   },
-  typescript: {
-    tsconfigPath: "tsconfig.build.json",
-  },
   images: {
     remotePatterns: [
       {
