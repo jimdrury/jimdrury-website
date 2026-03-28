@@ -34,6 +34,14 @@ const nextConfig: NextConfig = {
           destination: "/blog/read/:slug/opengraph-image",
         },
         {
+          source: "/blog/:slug.md",
+          destination: "/blog/read/:slug/markdown",
+        },
+        {
+          source: "/blog/:category/:slug.md",
+          destination: "/blog/read/:slug/markdown?category=:category",
+        },
+        {
           source: "/blog/:slug/twitter-image",
           destination: "/blog/read/:slug/twitter-image",
         },
