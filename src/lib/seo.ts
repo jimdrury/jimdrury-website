@@ -416,7 +416,12 @@ const getStaticPageDate = (
   if (!isRecord(story)) {
     return undefined;
   }
-  return normalizeText(typeof story[key] === "string" ? story[key] : undefined);
+  const storyRecord = story as Record<string, unknown>;
+  return normalizeText(
+    typeof storyRecord[key] === "string"
+      ? (storyRecord[key] as string)
+      : undefined,
+  );
 };
 
 const isArticleStoryData = (story: StoryData): boolean => {
@@ -497,12 +502,6 @@ export const buildStaticPageMetadata = ({
   const title = normalizeText(story.name ?? undefined) ?? "Page";
   const description = getStaticPageDescription(story);
   const canonicalPath = `/${slug}`;
-  const publishedTime =
-    getStaticPageDate(story, "first_published_at") ??
-    getStaticPageDate(story, "published_at");
-  const modifiedTime =
-    getStaticPageDate(story, "published_at") ??
-    getStaticPageDate(story, "first_published_at");
 
   return {
     title,
@@ -528,8 +527,6 @@ export const buildStaticPageMetadata = ({
       url: canonicalPath,
       siteName: SITE_NAME,
       locale: SITE_LOCALE,
-      publishedTime,
-      modifiedTime,
     },
     twitter: {
       card: "summary_large_image",
