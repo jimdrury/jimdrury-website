@@ -2487,6 +2487,1846 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "7wmH3",
+      "x": 4616,
+      "y": 0,
+      "name": "About Page",
+      "width": 1440,
+      "fill": "#FFFFFF",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "3baRT",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 72,
+          "fill": "#0B1220",
+          "padding": [
+            0,
+            144
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "Z3vga",
+              "name": "logo",
+              "fill": "#FFFFFF",
+              "content": "Jim Drury",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "lFsfG",
+              "name": "nav",
+              "fill": "#93C5FD",
+              "content": "About",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "0irX7",
+          "name": "Intro + Picture",
+          "width": "fill_container",
+          "fill": "#F8FAFC",
+          "gap": 64,
+          "padding": [
+            80,
+            144
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "rDkXP",
+              "name": "introCol",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OoB2O",
+                  "name": "title",
+                  "fill": "#0F172A",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Hi, I am Jim. I build practical AI and web systems.",
+                  "lineHeight": 1.05,
+                  "fontFamily": "Inter",
+                  "fontSize": 54,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "k83oZ",
+                  "name": "blurb",
+                  "fill": "#334155",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "I help teams ship resilient products with clean architecture, sharp DX, and measurable outcomes. I care about simple systems that scale and content that teaches.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 24,
+              "id": "nORBR",
+              "name": "Portrait",
+              "metadata": {
+                "type": "unsplash",
+                "username": "d_orfeo",
+                "link": "https://unsplash.com/@d_orfeo",
+                "author": "Idriss Orfeo"
+              },
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1659025162770-dca6368ddbd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzQ3MTI1MTJ8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "width": 420,
+              "height": 420,
+              "stroke": {
+                "thickness": 3,
+                "fill": "#0F172A"
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qoPEy",
+          "name": "Public Events",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            72,
+            144,
+            52,
+            144
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "mvCjz",
+              "name": "eventsTitle",
+              "fill": "#0F172A",
+              "content": "Public Events",
+              "fontFamily": "Inter",
+              "fontSize": 42,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "zyTIH",
+              "name": "Events List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nk0lA",
+                  "name": "event1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VLW9Q",
+                      "name": "ev1meta",
+                      "fill": "#475569",
+                      "content": "Mar 2026 - London, UK",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sj1k5",
+                      "name": "ev1title",
+                      "fill": "#0F172A",
+                      "content": "AI Builder Summit - Keynote",
+                      "fontFamily": "Inter",
+                      "fontSize": 26,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "2WWea",
+                      "name": "ev1desc",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Delivered a keynote on designing developer tools that keep humans in the loop, with examples from production Next.js and Storyblok systems.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "4lGaq",
+                  "name": "event2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "5J7zu",
+                      "name": "ev2meta",
+                      "fill": "#475569",
+                      "content": "Nov 2025 - Berlin, DE",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "uUwYq",
+                      "name": "ev2title",
+                      "fill": "#0F172A",
+                      "content": "Type-Safe Frontend Meetup - Speaker",
+                      "fontFamily": "Inter",
+                      "fontSize": 26,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZjeOJ",
+                      "name": "ev2desc",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Shared practical patterns for route typing, schema-driven content, and reliable UI composition in large React teams.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "snN9W",
+                  "name": "event3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hd13r",
+                      "name": "ev3meta",
+                      "fill": "#475569",
+                      "content": "Jun 2025 - Amsterdam, NL",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fu32a",
+                      "name": "ev3title",
+                      "fill": "#0F172A",
+                      "content": "Modern CMS Forum - Panel",
+                      "fontFamily": "Inter",
+                      "fontSize": 26,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "E5cBb",
+                      "name": "ev3desc",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Panel discussion on content modeling, editorial workflows, and integrating AI-assisted authoring without losing governance.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sFtcx",
+          "name": "Accolades",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            16,
+            144,
+            56,
+            144
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "Lkzxl",
+              "name": "recognitionTitle",
+              "fill": "#0F172A",
+              "content": "Accolades",
+              "fontFamily": "Inter",
+              "fontSize": 42,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "PddVq",
+              "name": "recognitionIntro",
+              "fill": "#334155",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Industry accolades for shipping meaningful products with editorial and engineering excellence.",
+              "lineHeight": 1.4,
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "V7Z9I",
+              "name": "Recognition List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sBeSH",
+                  "name": "award1",
+                  "width": "fill_container",
+                  "fill": "#F8FAFC",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "padding": [
+                    16,
+                    18
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "6yqzs",
+                      "name": "award1Title",
+                      "fill": "#0F172A",
+                      "content": "Storyblok MVP - Changemaker",
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pqnZy",
+                      "name": "award1Year",
+                      "fill": "#2563EB",
+                      "content": "2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CPfwX",
+                  "name": "award2",
+                  "width": "fill_container",
+                  "fill": "#F8FAFC",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "padding": [
+                    16,
+                    18
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lDTp4",
+                      "name": "award2Title",
+                      "fill": "#0F172A",
+                      "content": "Storyblok Innovation of the Year",
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "goV1n",
+                      "name": "award2Year",
+                      "fill": "#2563EB",
+                      "content": "2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HNHXM",
+          "name": "Career History",
+          "width": "fill_container",
+          "fill": "#F8FAFC",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            16,
+            144,
+            72,
+            144
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "eythp",
+              "name": "careerTitle",
+              "fill": "#0F172A",
+              "content": "Career History",
+              "fontFamily": "Inter",
+              "fontSize": 42,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "IupHb",
+              "name": "Career List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "9n9m5",
+                  "name": "row1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "#CBD5E1"
+                  },
+                  "gap": 24,
+                  "padding": [
+                    18,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "hx297",
+                      "name": "year1",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": 120,
+                      "content": "2024 - Present",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xifvo",
+                      "name": "detail1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "4s4SN",
+                          "name": "role1",
+                          "fill": "#0F172A",
+                          "content": "Independent Consultant - Product + Platform",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "nsWHF",
+                          "name": "desc1",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Advising teams on architecture, performance, and AI-native product strategy while shipping production-grade web systems.",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "f1Mab",
+                  "name": "row2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "#CBD5E1"
+                  },
+                  "gap": 24,
+                  "padding": [
+                    18,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "npi9B",
+                      "name": "year2",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": 120,
+                      "content": "2021 - 2024",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Fr5JM",
+                      "name": "detail2",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SaO5Z",
+                          "name": "role2",
+                          "fill": "#0F172A",
+                          "content": "Lead Frontend Engineer - Growth Platform",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IlvKK",
+                          "name": "desc2",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Led cross-functional delivery for customer-facing experiences, design system maturity, and experimentation infrastructure.",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zKrgB",
+                  "name": "row3",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "#CBD5E1"
+                  },
+                  "gap": 24,
+                  "padding": [
+                    18,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "NNYmy",
+                      "name": "year3",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": 120,
+                      "content": "2018 - 2021",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "osTEG",
+                      "name": "detail3",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "L31GT",
+                          "name": "role3",
+                          "fill": "#0F172A",
+                          "content": "Senior Frontend Engineer - SaaS Product Team",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JWpv3",
+                          "name": "desc3",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Built performant React interfaces, introduced stronger type boundaries, and partnered with design to improve consistency at scale.",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oZnKE",
+                  "name": "row4",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "padding": [
+                    18,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fmfr6",
+                      "name": "year4",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": 120,
+                      "content": "2014 - 2018",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pw1Bv",
+                      "name": "detail4",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nLf69",
+                          "name": "role4",
+                          "fill": "#0F172A",
+                          "content": "Web Developer - Digital Agency",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "AGPYf",
+                          "name": "desc4",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Delivered websites and campaign experiences for a range of clients, balancing creative direction with maintainable implementation.",
+                          "lineHeight": 1.4,
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Euufm",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#0B1220",
+          "layout": "vertical",
+          "padding": [
+            24,
+            144
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "429oc",
+              "name": "footerText",
+              "fill": "#CBD5E1",
+              "content": "Built with curiosity, shipped with care.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "cIIYD",
+      "x": 3120,
+      "y": 1623,
+      "name": "Career History - Mobile",
+      "width": 390,
+      "fill": "#F8FAFC",
+      "layout": "vertical",
+      "gap": 20,
+      "padding": [
+        20,
+        20,
+        36,
+        20
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "neDnx",
+          "name": "careerTitle",
+          "fill": "#0F172A",
+          "content": "Career History",
+          "fontFamily": "Inter",
+          "fontSize": 34,
+          "fontWeight": "900"
+        },
+        {
+          "type": "frame",
+          "id": "C5Ot5",
+          "name": "Career List",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "MF4Bz",
+              "name": "row1",
+              "width": "fill_container",
+              "stroke": {
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "#CBD5E1"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hL7JY",
+                  "name": "year1",
+                  "fill": "#1E293B",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "2024 - Present",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "C5o2U",
+                  "name": "detail1",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "r1Gz9",
+                      "name": "role1",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Independent Consultant - Product + Platform",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hb2H0",
+                      "name": "desc1",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Advising teams on architecture, performance, and AI-native product strategy while shipping production-grade web systems.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "DhlCy",
+              "name": "row2",
+              "width": "fill_container",
+              "stroke": {
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "#CBD5E1"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "XIMU9",
+                  "name": "year2",
+                  "fill": "#1E293B",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "2021 - 2024",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "nqPUa",
+                  "name": "detail2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YrSyZ",
+                      "name": "role2",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Lead Frontend Engineer - Growth Platform",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sjqSZ",
+                      "name": "desc2",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Led cross-functional delivery for customer-facing experiences, design system maturity, and experimentation infrastructure.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sKvaC",
+              "name": "row3",
+              "width": "fill_container",
+              "stroke": {
+                "thickness": {
+                  "bottom": 1
+                },
+                "fill": "#CBD5E1"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GMZpO",
+                  "name": "year3",
+                  "fill": "#1E293B",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "2018 - 2021",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "sqBAg",
+                  "name": "detail3",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QUBAi",
+                      "name": "role3",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Senior Frontend Engineer - SaaS Product Team",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "EgtmM",
+                      "name": "desc3",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Built performant React interfaces, introduced stronger type boundaries, and partnered with design to improve consistency at scale.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "fYK0c",
+              "name": "row4",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "padding": [
+                12,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "TT6DV",
+                  "name": "year4",
+                  "fill": "#1E293B",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "2014 - 2018",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "n6Qxo",
+                  "name": "detail4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GmdTH",
+                      "name": "role4",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Web Developer - Digital Agency",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LwtDx",
+                      "name": "desc4",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Delivered websites and campaign experiences for a range of clients, balancing creative direction with maintainable implementation.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dsQ1T",
+      "x": 6196,
+      "y": 0,
+      "name": "About Page - Mobile",
+      "width": 390,
+      "fill": "#FFFFFF",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "pMBEL",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 60,
+          "fill": "#0B1220",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "L1Q7n",
+              "name": "logo",
+              "fill": "#FFFFFF",
+              "content": "Jim Drury",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "fhRKl",
+              "name": "nav",
+              "fill": "#93C5FD",
+              "content": "About",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GezQZ",
+          "name": "Intro + Picture",
+          "width": "fill_container",
+          "fill": "#F8FAFC",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            28,
+            20,
+            32,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "MQSVU",
+              "name": "introCol",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "KuaYI",
+                  "name": "title",
+                  "fill": "#0F172A",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Hi, I am Jim. I build practical AI and web systems.",
+                  "lineHeight": 1.08,
+                  "fontFamily": "Inter",
+                  "fontSize": 38,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "ExD7F",
+                  "name": "blurb",
+                  "fill": "#334155",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "I help teams ship resilient products with clean architecture, sharp DX, and measurable outcomes. I care about simple systems that scale and content that teaches.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 18,
+              "id": "OB34d",
+              "name": "Portrait",
+              "metadata": {
+                "type": "unsplash",
+                "username": "d_orfeo",
+                "link": "https://unsplash.com/@d_orfeo",
+                "author": "Idriss Orfeo"
+              },
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1659025162770-dca6368ddbd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzQ3MTI1MTJ8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "width": "fill_container",
+              "height": 280,
+              "stroke": {
+                "thickness": 3,
+                "fill": "#0F172A"
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bC0fe",
+          "name": "Public Events",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            36,
+            20,
+            28,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "0zydL",
+              "name": "eventsTitle",
+              "fill": "#0F172A",
+              "content": "Public Events",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "6i2aF",
+              "name": "Events List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "pwnMQ",
+                  "name": "event1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tGRZq",
+                      "name": "ev1meta",
+                      "fill": "#475569",
+                      "content": "Mar 2026 - London, UK",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "8FRKn",
+                      "name": "ev1title",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "AI Builder Summit - Keynote",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "h5vQK",
+                      "name": "ev1desc",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Delivered a keynote on designing developer tools that keep humans in the loop, with examples from production Next.js and Storyblok systems.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "BNF2t",
+                  "name": "event2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TeNf0",
+                      "name": "ev2meta",
+                      "fill": "#475569",
+                      "content": "Nov 2025 - Berlin, DE",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hCsrn",
+                      "name": "ev2title",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Type-Safe Frontend Meetup - Speaker",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "j6Y9m",
+                      "name": "ev2desc",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Shared practical patterns for route typing, schema-driven content, and reliable UI composition in large React teams.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PK0oI",
+                  "name": "event3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nkPEV",
+                      "name": "ev3meta",
+                      "fill": "#475569",
+                      "content": "Jun 2025 - Amsterdam, NL",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "32dgX",
+                      "name": "ev3title",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Modern CMS Forum - Panel",
+                      "lineHeight": 1.2,
+                      "fontFamily": "Inter",
+                      "fontSize": 22,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Mn4Mf",
+                      "name": "ev3desc",
+                      "fill": "#334155",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Panel discussion on content modeling, editorial workflows, and integrating AI-assisted authoring without losing governance.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "3XKds",
+          "name": "Accolades",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            8,
+            20,
+            32,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "sVIwM",
+              "name": "recognitionTitle",
+              "fill": "#0F172A",
+              "content": "Accolades",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "5CP8Y",
+              "name": "recognitionIntro",
+              "fill": "#334155",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Industry accolades for shipping meaningful products with editorial and engineering excellence.",
+              "lineHeight": 1.45,
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "zZIDx",
+              "name": "Recognition List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TvbhC",
+                  "name": "award1",
+                  "width": "fill_container",
+                  "fill": "#F8FAFC",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": [
+                    14,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "10Dbg",
+                      "name": "award1Title",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Storyblok MVP - Changemaker",
+                      "lineHeight": 1.25,
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "buP98",
+                      "name": "award1Year",
+                      "fill": "#2563EB",
+                      "content": "2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LRTWg",
+                  "name": "award2",
+                  "width": "fill_container",
+                  "fill": "#F8FAFC",
+                  "cornerRadius": 14,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 6,
+                  "padding": [
+                    14,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "OO1kq",
+                      "name": "award2Title",
+                      "fill": "#0F172A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Storyblok Innovation of the Year",
+                      "lineHeight": 1.25,
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    },
+                    {
+                      "type": "text",
+                      "id": "R1wSr",
+                      "name": "award2Year",
+                      "fill": "#2563EB",
+                      "content": "2025",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "olVDw",
+          "name": "Career History",
+          "width": "fill_container",
+          "fill": "#F8FAFC",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            8,
+            20,
+            36,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "6yqmk",
+              "name": "careerTitle",
+              "fill": "#0F172A",
+              "content": "Career History",
+              "fontFamily": "Inter",
+              "fontSize": 32,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "3Qg3Y",
+              "name": "Career List",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "92QUH",
+                  "name": "row1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "u3mVY",
+                      "name": "year1",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "2024 - Present",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OfTP7",
+                      "name": "detail1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i0HiA",
+                          "name": "role1",
+                          "fill": "#0F172A",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Independent Consultant - Product + Platform",
+                          "lineHeight": 1.2,
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "waqlE",
+                          "name": "desc1",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Advising teams on architecture, performance, and AI-native product strategy while shipping production-grade web systems.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zPsn8",
+                  "name": "row2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "9nJmc",
+                      "name": "year2",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "2021 - 2024",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WfZRg",
+                      "name": "detail2",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i622J",
+                          "name": "role2",
+                          "fill": "#0F172A",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Lead Frontend Engineer - Growth Platform",
+                          "lineHeight": 1.2,
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "lYCnV",
+                          "name": "desc2",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Led cross-functional delivery for customer-facing experiences, design system maturity, and experimentation infrastructure.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1x7fk",
+                  "name": "row3",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": {
+                      "bottom": 1
+                    },
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ckl4o",
+                      "name": "year3",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "2018 - 2021",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NDikS",
+                      "name": "detail3",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "WhFqx",
+                          "name": "role3",
+                          "fill": "#0F172A",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Senior Frontend Engineer - SaaS Product Team",
+                          "lineHeight": 1.2,
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ImN2F",
+                          "name": "desc3",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Built performant React interfaces, introduced stronger type boundaries, and partnered with design to improve consistency at scale.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7ukCy",
+                  "name": "row4",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": [
+                    12,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YzNnq",
+                      "name": "year4",
+                      "fill": "#1E293B",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "2014 - 2018",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SNilC",
+                      "name": "detail4",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Z6dfL",
+                          "name": "role4",
+                          "fill": "#0F172A",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Web Developer - Digital Agency",
+                          "lineHeight": 1.2,
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "800"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zIIZ9",
+                          "name": "desc4",
+                          "fill": "#334155",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Delivered websites and campaign experiences for a range of clients, balancing creative direction with maintainable implementation.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "Inter",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZRStg",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#0B1220",
+          "layout": "vertical",
+          "padding": 20,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "63sff",
+              "name": "footerText",
+              "fill": "#CBD5E1",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Built with curiosity, shipped with care.",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
