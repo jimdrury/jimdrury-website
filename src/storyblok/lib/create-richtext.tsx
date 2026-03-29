@@ -29,10 +29,6 @@ const normalizeRichTextText = (text: string): string => {
 const normalizeRichTextNode = (
   node: StoryblokRichTextNode<ReactElement>,
 ): StoryblokRichTextNode<ReactElement> => {
-  if (typeof node === "string") {
-    return normalizeRichTextText(node) as StoryblokRichTextNode<ReactElement>;
-  }
-
   if (!node || typeof node !== "object") {
     return node;
   }
