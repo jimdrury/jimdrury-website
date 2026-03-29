@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
   cacheComponents: true,
   productionBrowserSourceMaps: true,
+  experimental: {
+    serverComponentsHmrCache: false,
+  },
   async redirects() {
     return [
       {
