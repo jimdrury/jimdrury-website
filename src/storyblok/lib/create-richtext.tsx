@@ -26,6 +26,34 @@ const normalizeRichTextText = (text: string): string => {
   return text.replace(NON_BREAKING_SPACE_REGEX, " ");
 };
 
+const normalizeRichTextNode = (
+  node: StoryblokRichTextNode<ReactElement>,
+): StoryblokRichTextNode<ReactElement> => {
+  if (typeof node === "string") {
+    return normalizeRichTextText(node) as StoryblokRichTextNode<ReactElement>;
+  }
+
+  if (!node || typeof node !== "object") {
+    return node;
+  }
+
+  const normalizedNode: StoryblokRichTextNode<ReactElement> = {
+    ...node,
+  };
+
+  if ("text" in normalizedNode && typeof normalizedNode.text === "string") {
+    normalizedNode.text = normalizeRichTextText(normalizedNode.text);
+  }
+
+  if ("content" in normalizedNode && Array.isArray(normalizedNode.content)) {
+    normalizedNode.content = normalizedNode.content.map((child) =>
+      normalizeRichTextNode(child as StoryblokRichTextNode<ReactElement>),
+    );
+  }
+
+  return normalizedNode;
+};
+
 const toCamelCase = (value: string): string => {
   return value.replace(/-([a-z])/g, (_, character: string) =>
     character.toUpperCase(),
@@ -111,6 +139,7 @@ export const createRichText = (
   BlokRenderer: FC<BlokRendererProps>,
 ): FC<RichTextProps> => {
   const RichText: FC<RichTextProps> = ({ doc }) => {
+    const normalizedDoc = normalizeRichTextNode(doc);
     const resolver = richTextResolver<ReactElement>({
       renderFn: createElement,
       textFn: (text) => (
@@ -129,7 +158,7 @@ export const createRichText = (
       },
     });
 
-    const rendered = resolver.render(doc);
+    const rendered = resolver.render(normalizedDoc);
 
     return <>{normalizeElementAttributes(rendered)}</>;
   };
