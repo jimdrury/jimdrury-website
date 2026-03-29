@@ -6,7 +6,6 @@ import {
   type StoryblokRichTextNode,
   storyblokEditable,
 } from "@/storyblok/lib";
-import { RichText } from "@/storyblok/renderer";
 
 type CitedQuoteBlokData = SbBlokData & {
   quote?: StoryblokRichTextNode<ReactElement>;
@@ -22,6 +21,8 @@ const getCachedQuote = async (
   quote: StoryblokRichTextNode<ReactElement>,
 ): Promise<ReactElement> => {
   "use cache";
+  // Dynamic import breaks the circular dep: renderer.tsx → CitedQuoteBlok → renderer.tsx
+  const { RichText } = await import("@/storyblok/renderer");
   return <RichText doc={quote} />;
 };
 
