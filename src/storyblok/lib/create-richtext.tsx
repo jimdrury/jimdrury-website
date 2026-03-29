@@ -20,6 +20,12 @@ type ReactElementWithProps = ReactElement<{
   [key: string]: unknown;
 }>;
 
+const NON_BREAKING_SPACE_REGEX = /\u00a0/g;
+
+const normalizeRichTextText = (text: string): string => {
+  return text.replace(NON_BREAKING_SPACE_REGEX, " ");
+};
+
 const toCamelCase = (value: string): string => {
   return value.replace(/-([a-z])/g, (_, character: string) =>
     character.toUpperCase(),
@@ -107,7 +113,9 @@ export const createRichText = (
   const RichText: FC<RichTextProps> = ({ doc }) => {
     const resolver = richTextResolver<ReactElement>({
       renderFn: createElement,
-      textFn: (text) => <Fragment key={`rt-${text}`}>{text}</Fragment>,
+      textFn: (text) => (
+        <Fragment key={`rt-${text}`}>{normalizeRichTextText(text)}</Fragment>
+      ),
       keyedResolvers: true,
       tiptapExtensions: {
         blok: ComponentBlok.configure({
