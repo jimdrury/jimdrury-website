@@ -19,6 +19,7 @@ const AUTHOR_PROFILE_URLS = [
   "https://x.com/jim_drury",
   "https://github.com/jimdrury",
 ] as const;
+const AUTHOR_ABOUT_URL = `${SITE_ORIGIN}/about`;
 const AUTHOR_WORKS_FOR = {
   "@type": "Organization",
   name: "Virgin Media O2",
@@ -29,6 +30,17 @@ const AUTHOR_WORKS_FOR = {
     "https://www.virginmediao2.co.uk",
   ],
 } as const;
+const AUTHOR_KNOWS_ABOUT = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "AI coding agents",
+  "headless CMS",
+  "Claude Code",
+  "web performance",
+  "frontend architecture",
+  "design systems",
+] as const;
 const BLOG_INDEX_DESCRIPTION =
   "Latest writing, ideas, and technical deep dives from Jim Drury.";
 const ORGANIZATION_LOGO_URL = `${SITE_ORIGIN}/logo.png`;
@@ -581,7 +593,7 @@ export const buildArticleJsonLd = (
   const author = {
     "@type": "Person",
     name: SITE_NAME,
-    url: SITE_ORIGIN,
+    url: AUTHOR_ABOUT_URL,
     jobTitle: AUTHOR_JOB_TITLE,
     sameAs: [...AUTHOR_PROFILE_URLS],
     worksFor: AUTHOR_WORKS_FOR,
@@ -690,9 +702,24 @@ export const buildStaticPageJsonLd = ({
     author: {
       "@type": "Person",
       name: SITE_NAME,
-      url: SITE_ORIGIN,
+      url: AUTHOR_ABOUT_URL,
+      jobTitle: AUTHOR_JOB_TITLE,
       sameAs: [...AUTHOR_PROFILE_URLS],
+      worksFor: AUTHOR_WORKS_FOR,
     },
+  };
+};
+
+export const buildPersonJsonLd = (): Record<string, unknown> => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: SITE_NAME,
+    url: AUTHOR_ABOUT_URL,
+    jobTitle: AUTHOR_JOB_TITLE,
+    worksFor: AUTHOR_WORKS_FOR,
+    sameAs: [...AUTHOR_PROFILE_URLS],
+    knowsAbout: [...AUTHOR_KNOWS_ABOUT],
   };
 };
 

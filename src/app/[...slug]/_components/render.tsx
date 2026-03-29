@@ -9,6 +9,7 @@ import {
   buildArticleBreadcrumbJsonLd,
   buildArticleJsonLd,
   buildOrganizationJsonLd,
+  buildPersonJsonLd,
   buildStaticPageJsonLd,
   serializeJsonLd,
 } from "@/lib/seo";
@@ -70,6 +71,8 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
     : null;
   const organizationJsonLd =
     storySlug === "" ? serializeJsonLd(buildOrganizationJsonLd()) : null;
+  const personJsonLd =
+    storySlug === "about" ? serializeJsonLd(buildPersonJsonLd()) : null;
 
   const storyContent = (
     <>
@@ -84,6 +87,9 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
       ) : null}
       {organizationJsonLd ? (
         <script type="application/ld+json">{organizationJsonLd}</script>
+      ) : null}
+      {personJsonLd ? (
+        <script type="application/ld+json">{personJsonLd}</script>
       ) : null}
       <StoryContent story={story} />
     </>

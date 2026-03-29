@@ -41,29 +41,22 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
       ? `${Math.max(1, Math.trunc(readTime))} min read`
       : null;
 
-  const hasContent =
-    normalizedCategories.length > 0 || !!publishedLabel || !!readTimeLabel;
-
-  if (!hasContent) {
-    return null;
-  }
-
   return (
     <div className={cn("flex flex-col gap-3", className)} {...props}>
-      {(publishedLabel || readTimeLabel) && (
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          {publishedLabel && (
-            <p className="text-sm font-bold">
-              Published: <span className="font-medium">{publishedLabel}</span>
-            </p>
-          )}
-          {readTimeLabel && (
-            <p className="w-full text-sm font-bold md:w-auto">
-              {readTimeLabel}
-            </p>
-          )}
-        </div>
-      )}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <p className="text-sm font-bold">
+          By{" "}
+          <Link href="/about" className="underline hover:no-underline">
+            Jim Drury
+          </Link>
+        </p>
+        {publishedLabel && (
+          <p className="text-sm font-bold">
+            Published: <span className="font-medium">{publishedLabel}</span>
+          </p>
+        )}
+        {readTimeLabel && <p className="text-sm font-bold">{readTimeLabel}</p>}
+      </div>
       {normalizedCategories.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
           {normalizedCategories.map((category) => (

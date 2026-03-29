@@ -85,6 +85,11 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
         className="sr-only"
       >
         <span itemProp="name">Jim Drury</span>
+        <meta itemProp="url" content="https://www.jimdrury.co.uk/about" />
+        <meta itemProp="jobTitle" content="Head of Platform Innovation" />
+        <link itemProp="sameAs" href="https://www.linkedin.com/in/jimdrury" />
+        <link itemProp="sameAs" href="https://x.com/jim_drury" />
+        <link itemProp="sameAs" href="https://github.com/jimdrury" />
       </span>
       <span
         itemProp="publisher"
@@ -93,6 +98,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
         className="sr-only"
       >
         <span itemProp="name">Jim Drury</span>
+        <meta itemProp="url" content="https://www.jimdrury.co.uk/about" />
       </span>
       {title &&
         (featuredSrc ? (
