@@ -44,6 +44,8 @@ const AUTHOR_KNOWS_ABOUT = [
 const BLOG_INDEX_DESCRIPTION =
   "Latest writing, ideas, and technical deep dives from Jim Drury.";
 const ORGANIZATION_LOGO_URL = `${SITE_ORIGIN}/logo.png`;
+const PERSON_DESCRIPTION =
+  "Jim Drury is Head of Platform Innovation at Virgin Media O2 and writes about Next.js, TypeScript, AI coding agents, and frontend architecture.";
 const BLOG_INDEX_KEYWORDS = [
   "blog",
   "software engineering",
@@ -51,6 +53,12 @@ const BLOG_INDEX_KEYWORDS = [
   "next.js",
   "typescript",
 ] as const;
+const KNOWN_ACRONYMS: Readonly<Record<string, string>> = {
+  ai: "AI",
+  api: "API",
+  cms: "CMS",
+  css: "CSS",
+};
 
 const normalizeText = (value: string | undefined): string | undefined => {
   const trimmed = value?.trim();
@@ -67,6 +75,11 @@ const formatCategoryLabel = (category: string): string => {
     .split(/[\s-]+/g)
     .filter((segment) => segment.length > 0)
     .map((segment) => {
+      const normalizedSegment = segment.toLowerCase();
+      const knownAcronym = KNOWN_ACRONYMS[normalizedSegment];
+      if (knownAcronym) {
+        return knownAcronym;
+      }
       const [first = "", ...rest] = segment;
       return first.toUpperCase() + rest.join("");
     })
@@ -544,7 +557,7 @@ export const buildStaticPageMetadata = ({
 
   const title = normalizeText(story.name ?? undefined) ?? "Page";
   const description = getStaticPageDescription(story);
-  const canonicalPath = `/${slug}`;
+  const canonicalPath = slug === "home" ? "/" : `/${slug}`;
 
   return {
     title,
@@ -598,6 +611,15 @@ export const buildArticleJsonLd = (
     sameAs: [...AUTHOR_PROFILE_URLS],
     worksFor: AUTHOR_WORKS_FOR,
   };
+  const publisher = {
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_ORIGIN,
+    logo: {
+      "@type": "ImageObject",
+      url: ORGANIZATION_LOGO_URL,
+    },
+  };
 
   return {
     "@context": "https://schema.org",
@@ -614,7 +636,11 @@ export const buildArticleJsonLd = (
     datePublished: publishedTime,
     dateModified: modifiedTime,
     author,
-    publisher: author,
+    publisher,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["[itemprop='headline']", "[itemprop='description']"],
+    },
     keywords,
     ...(wordCount > 0 && { wordCount }),
     ...(articleSection && { articleSection }),
@@ -670,7 +696,8 @@ export const buildStaticPageJsonLd = ({
   story: StoryData;
   slug: string;
 }): Record<string, unknown> => {
-  const canonicalUrl = toAbsoluteUrl(`/${slug}`);
+  const canonicalPath = slug === "home" ? "/" : `/${slug}`;
+  const canonicalUrl = toAbsoluteUrl(canonicalPath);
   const title = normalizeText(story.name ?? undefined) ?? "Page";
   const description = getStaticPageDescription(story);
   const publishedTime =
@@ -716,6 +743,8 @@ export const buildPersonJsonLd = (): Record<string, unknown> => {
     "@type": "Person",
     name: SITE_NAME,
     url: AUTHOR_ABOUT_URL,
+    image: ORGANIZATION_LOGO_URL,
+    description: PERSON_DESCRIPTION,
     jobTitle: AUTHOR_JOB_TITLE,
     worksFor: AUTHOR_WORKS_FOR,
     sameAs: [...AUTHOR_PROFILE_URLS],

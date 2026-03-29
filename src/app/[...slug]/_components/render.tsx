@@ -70,7 +70,7 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
     ? serializeJsonLd(buildArticleBreadcrumbJsonLd(articleStory))
     : null;
   const organizationJsonLd =
-    storySlug === "" ? serializeJsonLd(buildOrganizationJsonLd()) : null;
+    storySlug === "home" ? serializeJsonLd(buildOrganizationJsonLd()) : null;
   const personJsonLd =
     storySlug === "about" ? serializeJsonLd(buildPersonJsonLd()) : null;
 

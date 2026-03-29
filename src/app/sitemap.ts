@@ -9,14 +9,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${SITE_ORIGIN}/about`,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_ORIGIN}/blog`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${SITE_ORIGIN}/llms.txt`,
       changeFrequency: "weekly",
       priority: 0.8,
-    },
-    {
-      url: `${SITE_ORIGIN}/blog/sitemap.xml`,
-      changeFrequency: "weekly",
-      priority: 0.9,
     },
   ];
 }

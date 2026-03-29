@@ -63,6 +63,23 @@ describe("buildOrganizationJsonLd", () => {
   });
 });
 
+describe("buildArticleJsonLd", () => {
+  it("uses Organization publisher with logo", async () => {
+    const { buildArticleJsonLd } = await import("@/lib/seo");
+    const jsonLd = buildArticleJsonLd(makeStory() as never);
+
+    expect(jsonLd.publisher).toMatchObject({
+      "@type": "Organization",
+      name: "Jim Drury",
+      url: "https://www.jimdrury.co.uk",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.jimdrury.co.uk/logo.png",
+      },
+    });
+  });
+});
+
 describe("buildArticleBreadcrumbJsonLd", () => {
   it("returns home, blog, category, and article breadcrumb items", async () => {
     vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
@@ -88,7 +105,7 @@ describe("buildArticleBreadcrumbJsonLd", () => {
         {
           "@type": "ListItem",
           position: 3,
-          name: "Ai",
+          name: "AI",
           item: "https://www.jimdrury.co.uk/blog/ai",
         },
         {

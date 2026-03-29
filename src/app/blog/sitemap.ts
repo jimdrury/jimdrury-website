@@ -1,20 +1,23 @@
 import type { MetadataRoute } from "next";
-import { getArticleCanonicalUrl, SITE_ORIGIN } from "@/lib/seo";
+import { getDefaultStoryCategory } from "@/lib/blog";
+import { getArticleCanonicalUrl } from "@/lib/seo";
 import { getAllArticles } from "@/storyblok/blog-listings";
-
-const ROOT_URLS = [`${SITE_ORIGIN}/blog`] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const stories = await getAllArticles("published");
-  const urls = new Set<string>(ROOT_URLS);
+  const entries: MetadataRoute.Sitemap = [];
 
   for (const story of stories) {
-    urls.add(getArticleCanonicalUrl(story));
+    if (!getDefaultStoryCategory(story)) {
+      continue;
+    }
+    entries.push({
+      url: getArticleCanonicalUrl(story),
+      lastModified: story.published_at ?? story.first_published_at ?? undefined,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    });
   }
 
-  return [...urls].map((url) => ({
-    url,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
+  return entries;
 }

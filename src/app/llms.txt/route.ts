@@ -39,7 +39,7 @@ const LLMSTXT_CONTENT = [
   "## Author",
   "- Jim Drury",
   "- Head of Platform Innovation, Virgin Media O2",
-  "- https://linked.in/jimdrury",
+  "- https://www.linkedin.com/in/jimdrury",
   "- https://x.com/jim_drury",
   "- https://github.com/jimdrury",
   "",
