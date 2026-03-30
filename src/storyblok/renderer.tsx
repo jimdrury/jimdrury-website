@@ -3,6 +3,7 @@ import { AccoladeBlok } from "@/bloks/AccoladeBlok";
 import { ArticleBlok } from "@/bloks/ArticleBlok";
 import { BoxBlok } from "@/bloks/BoxBlok";
 import { CareerHistoryItemBlok } from "@/bloks/CareerHistoryItemBlok";
+import { CarouselBlok } from "@/bloks/CarouselBlok";
 import { CitedQuoteBlok } from "@/bloks/CitedQuoteBlok";
 import { DividerBlok } from "@/bloks/DividerBlok";
 import { FeatureBlok } from "@/bloks/FeatureBlok";
@@ -33,6 +34,7 @@ export const BlokRenderer = createBlokRenderer({
   article: ArticleBlok,
   box: BoxBlok,
   career_history_item: CareerHistoryItemBlok,
+  carousel: CarouselBlok,
   cited_quote: CitedQuoteBlok,
   divider: DividerBlok,
   feature: FeatureBlok,

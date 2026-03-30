@@ -12,6 +12,7 @@ export * from "./breadcrumb";
 export * from "./button";
 export * from "./card";
 export * from "./career-history";
+export * from "./carousel";
 export * from "./cited-quote";
 export * from "./details-list";
 export * from "./divider";

@@ -113,9 +113,14 @@ const normalizeElementAttributes = (node: ReactNode): ReactNode => {
     Record<string, unknown>
   >((result, key) => {
     let propValue = element.props[key];
-    const normalizedKey = attributeMap[key] ?? key;
+    const trimmedKey = key.trim();
+    const lowerKey = trimmedKey.toLowerCase();
+    const normalizedKey = attributeMap[lowerKey] ?? trimmedKey;
 
-    if (key === "style" && typeof propValue === "string") {
+    if (
+      normalizedKey === "style" &&
+      (typeof propValue === "string" || propValue instanceof String)
+    ) {
       propValue = parseStyle(propValue);
     }
 
