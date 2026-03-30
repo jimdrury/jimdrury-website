@@ -22,8 +22,8 @@ export const CarouselBlok: FC<CarouselBlokProps> = ({ blok }) => {
     <Carousel
       {...storyblokEditable(blok)}
       title={blok.title}
-      slides={blok.images.map((imageBlok) => ({
-        id: imageBlok._uid,
+      slides={blok.images.map((imageBlok, index) => ({
+        id: imageBlok._uid ?? `${blok._uid ?? "carousel"}-slide-${index}`,
         content: <BlokRenderer blok={imageBlok} />,
       }))}
     />
