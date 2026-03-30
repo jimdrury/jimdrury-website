@@ -32,7 +32,6 @@ export * from "./media-video-link";
 export * from "./modal";
 export * from "./prompt";
 export * from "./public-event";
-export * from "./public-events";
 export * from "./side-menu";
 export * from "./similar-articles";
 export * from "./skip-link";
