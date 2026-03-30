@@ -125,11 +125,11 @@ describe("resolveUrlsFromSlug", () => {
     expect(urls).toEqual(["https://www.jimdrury.co.uk/blog/ai/test-article"]);
   });
 
-  it("falls back to full_slug-based URL for blog posts without a story", async () => {
+  it("returns empty array for blog posts when story is not available", async () => {
     const { resolveUrlsFromSlug } = await import("@/lib/indexnow");
 
     const urls = resolveUrlsFromSlug("blog/test-article", null);
-    expect(urls).toEqual(["https://www.jimdrury.co.uk/blog/test-article"]);
+    expect(urls).toEqual([]);
   });
 
   it("maps 'home' slug to site root", async () => {

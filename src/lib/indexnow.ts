@@ -72,7 +72,10 @@ export const resolveUrlsFromSlug = (
   fullSlug: string,
   story: BlogStory | null,
 ): string[] => {
-  if (fullSlug.startsWith(BLOG_PREFIX) && story) {
+  if (fullSlug.startsWith(BLOG_PREFIX)) {
+    if (!story) {
+      return [];
+    }
     return [getArticleCanonicalUrl(story)];
   }
 
