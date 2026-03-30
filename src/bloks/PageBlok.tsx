@@ -9,6 +9,7 @@ import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type PageBlokData = SbBlokData & {
+  header?: string;
   body?: SbBlokData[];
 };
 
