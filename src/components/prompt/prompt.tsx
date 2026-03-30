@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from "react";
-import { PiSparkleFill } from "react-icons/pi";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import { PromptCopyButton } from "./prompt-copy-button";
@@ -18,14 +17,7 @@ export const Prompt: FC<PromptProps> = ({
   ...props
 }) => {
   return (
-    <div
-      className={cn("flex max-w-prose items-start gap-3", className)}
-      {...props}
-    >
-      <PiSparkleFill
-        className="mt-2.5 size-5 shrink-0 text-purple-600"
-        aria-hidden
-      />
+    <div className={cn("max-w-prose", className)} {...props}>
       <figure
         className="min-w-0 flex-1 overflow-hidden rounded-md border-2 border-black bg-zinc-50 shadow-[4px_4px_0_0]"
         data-prompt-title={title}
@@ -39,7 +31,7 @@ export const Prompt: FC<PromptProps> = ({
         <div
           data-prompt-copy-content=""
           className={cn(
-            "prose prose-sm max-w-none px-4 py-3 font-mono",
+            "prose prose-sm max-w-none overflow-x-auto px-4 py-3 font-mono",
             "prose-headings:font-bold prose-headings:text-black",
             "prose-p:my-2 prose-p:leading-relaxed",
             "prose-code:rounded prose-code:bg-zinc-200 prose-code:px-1 prose-code:py-0.5 prose-code:text-xs prose-code:before:content-none prose-code:after:content-none",

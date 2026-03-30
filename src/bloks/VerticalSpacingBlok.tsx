@@ -39,11 +39,9 @@ export const VerticalSpacingBlok: FC<VerticalSpacingBlokProps> = ({ blok }) => {
 
   return (
     <section {...storyblokEditable(blok)} className={cn("w-full space-y-4")}>
-      <div className={spacerHeightClasses[size]} aria-hidden="true" />
       {blok.body?.map((nestedBlok) => (
         <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}
-      <div className={spacerHeightClasses[size]} aria-hidden="true" />
     </section>
   );
 };
