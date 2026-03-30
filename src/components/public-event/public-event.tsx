@@ -53,7 +53,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
   const safeLinkUrl = linkUrl?.trim();
   const safeLinkText = linkText?.trim() || "View event details ->";
   const formattedDate = formatEventDate(eventDate);
-  const detailsLine = [formattedDate, safeOrganizer, safeAddress]
+  const detailsLine = [formattedDate, safeOrganizer]
     .filter((value) => Boolean(value))
     .join(" - ");
   const startTimestamp = Date.parse(eventDate);
