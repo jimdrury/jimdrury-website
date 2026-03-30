@@ -1,10 +1,18 @@
+import { revalidateTag } from "next/cache";
 import { environment } from "@/environment";
+import { ALL_CONTENT_CACHE_TAGS } from "@/lib/cache-tags";
 import {
   parseWebhookPayload,
   resolveUrlsFromStory,
   submitToIndexNow,
 } from "@/lib/indexnow";
 import { fetchStoryBySlug } from "@/lib/indexnow-story";
+
+const invalidateAllContentTags = (): void => {
+  for (const tag of ALL_CONTENT_CACHE_TAGS) {
+    revalidateTag(tag, "max");
+  }
+};
 
 export async function POST(request: Request) {
   const rawBody = await request.text();
@@ -13,8 +21,16 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid payload" }, { status: 400 });
   }
 
+  // Route Handlers cannot call updateTag in Next.js; revalidate all tags here.
+  invalidateAllContentTags();
+
   if (payload.action !== "story.published") {
-    return Response.json({ ok: true, skipped: true, action: payload.action });
+    return Response.json({
+      ok: true,
+      skipped: true,
+      action: payload.action,
+      invalidatedTags: ALL_CONTENT_CACHE_TAGS,
+    });
   }
 
   if (!payload.full_slug) {
@@ -48,5 +64,6 @@ export async function POST(request: Request) {
     ok: indexNowResponse.ok,
     status: indexNowResponse.status,
     urls,
+    invalidatedTags: ALL_CONTENT_CACHE_TAGS,
   });
 }

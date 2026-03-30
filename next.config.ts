@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
   cacheComponents: true,
+  cacheLife: {
+    ultraLong: {
+      stale: 60 * 60 * 24,
+      revalidate: 60 * 60 * 24 * 30,
+      expire: 60 * 60 * 24 * 365 * 5,
+    },
+  },
   productionBrowserSourceMaps: true,
   experimental: {
     serverComponentsHmrCache: false,

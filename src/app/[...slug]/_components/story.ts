@@ -1,6 +1,11 @@
 import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
+import {
+  getStoryPageTag,
+  getStorySlugVersionTag,
+  getStoryVersionTag,
+} from "@/lib/cache-tags";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import type { StoryData } from "@/storyblok/lib";
 
@@ -18,9 +23,10 @@ export const fetchStoryBySlug = async ({
   version: "draft" | "published";
 }): Promise<StoryData | null> => {
   "use cache";
-  cacheLife("default");
-  cacheTag("story-page");
-  cacheTag(`story-page-${slug}-${version}`);
+  cacheLife("ultraLong");
+  cacheTag(getStoryPageTag());
+  cacheTag(getStoryVersionTag(version));
+  cacheTag(getStorySlugVersionTag({ slug, version }));
   const storyblokApi = getStoryblokApi();
 
   try {

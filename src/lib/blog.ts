@@ -1,6 +1,13 @@
 import "server-only";
 import { format, isValid, parseISO } from "date-fns";
 import { cacheLife, cacheTag } from "next/cache";
+import {
+  BLOG_SCOPES,
+  getBlogCategoryPageTag,
+  getBlogDateArchiveTag,
+  getBlogIndexPageTag,
+  getBlogVersionTag,
+} from "@/lib/cache-tags";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import {
   getAllArticles,
@@ -123,8 +130,9 @@ const getStoriesByDatePrefix = async ({
   version: "draft" | "published";
 }): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("default");
-  cacheTag(`blog-date-archive-${datePrefix}-${version}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.dateArchive, version }));
+  cacheTag(getBlogDateArchiveTag({ datePrefix, version }));
 
   const storyblokApi = getStoryblokApi();
   const stories: BlogStory[] = [];
@@ -291,8 +299,9 @@ export const getBlogIndexArchive = async ({
   categories: BlogCategoryLink[];
 }> => {
   "use cache";
-  cacheLife("default");
-  cacheTag(`blog-index-${version}-page-${page}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.index, version }));
+  cacheTag(getBlogIndexPageTag({ page, version }));
 
   const allStories = await getAllArticles(version);
   const total = allStories.length;
@@ -340,8 +349,9 @@ export const getBlogCategoryArchive = async ({
   pagination: BlogArchivePagination;
 }> => {
   "use cache";
-  cacheLife("default");
-  cacheTag(`blog-category-${category}-${version}-page-${page}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.category, version }));
+  cacheTag(getBlogCategoryPageTag({ category, page, version }));
 
   const normalizedCategory = category.trim();
   const pageIndex = Number.isFinite(page)

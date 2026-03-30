@@ -1,5 +1,12 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
+import {
+  BLOG_SCOPES,
+  getBlogArticleSlugTag,
+  getBlogArticlesByTagIndexTag,
+  getBlogArticlesByTagTag,
+  getBlogVersionTag,
+} from "@/lib/cache-tags";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import {
   BLOG_ARCHIVE_PAGE_SIZE,
@@ -30,16 +37,30 @@ export const getArticlesByTag = async (
   version: "draft" | "published" = "published",
 ): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("minutes");
-  cacheTag(`blog-articles-${tag}-${index}-${version}`);
-
   const normalizedTag = tag.trim();
   if (!normalizedTag) {
     return [];
   }
 
-  const storyblokApi = getStoryblokApi();
   const pageIndex = Number.isFinite(index) ? Math.max(0, Math.trunc(index)) : 0;
+  const cacheTagValue = getBlogArticlesByTagIndexTag({
+    tag: normalizedTag,
+    index: pageIndex,
+    version,
+  });
+
+  const blogVersionTag = getBlogVersionTag({
+    scope: BLOG_SCOPES.articlesByTag,
+    version,
+  });
+
+  cacheLife("ultraLong");
+  cacheTag(blogVersionTag);
+  cacheTag(getBlogArticlesByTagTag({ tag: normalizedTag, version }));
+  cacheTag(cacheTagValue);
+
+  const storyblokApi = getStoryblokApi();
+
   const response = (await storyblokApi.get("cdn/stories", {
     version,
     cv: getStoryblokCv(),
@@ -58,8 +79,8 @@ export const getAllArticles = async (
   version: "draft" | "published" = "published",
 ): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("minutes");
-  cacheTag(`blog-articles-all-${version}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.allArticles, version }));
 
   const storyblokApi = getStoryblokApi();
   const stories: BlogStory[] = [];
@@ -93,8 +114,8 @@ export const getLatestArticlesSeed = async (
   version: "draft" | "published" = "published",
 ): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("minutes");
-  cacheTag(`blog-articles-seed-${version}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.latestSeed, version }));
 
   const storyblokApi = getStoryblokApi();
   const response = (await storyblokApi.get("cdn/stories", {
@@ -114,8 +135,8 @@ export const getBlogTags = async (
   version: "draft" | "published" = "published",
 ): Promise<{ slug: string; count: number }[]> => {
   "use cache";
-  cacheLife("minutes");
-  cacheTag(`blog-tags-${version}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.tags, version }));
 
   const storyblokApi = getStoryblokApi();
   const response = (await storyblokApi.get("cdn/tags", {
@@ -161,13 +182,14 @@ export const getArticleBySlug = async ({
   version: "draft" | "published";
 }): Promise<BlogStory | null> => {
   "use cache";
-  cacheLife("minutes");
-  cacheTag(`blog-article-${slug}-${version}`);
+  cacheLife("ultraLong");
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.article, version }));
 
   const normalizedSlug = slug.trim();
   if (!normalizedSlug) {
     return null;
   }
+  cacheTag(getBlogArticleSlugTag({ slug: normalizedSlug, version }));
 
   const storyblokApi = getStoryblokApi();
 

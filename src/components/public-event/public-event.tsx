@@ -66,7 +66,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
 
       <p
         itemProp="description"
-        className="whitespace-pre-wrap text-[17px] leading-[1.4] text-slate-700"
+        className="whitespace-pre-wrap text-pretty text-[17px] leading-[1.4] text-slate-700"
       >
         {description}
       </p>

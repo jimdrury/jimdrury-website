@@ -4,6 +4,7 @@ import { cacheLife, cacheTag } from "next/cache";
 import dynamic from "next/dynamic";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
+import { getHomePageTag } from "@/lib/cache-tags";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import { StoryContent } from "@/storyblok/renderer";
 
@@ -29,8 +30,8 @@ export const Render: FC = async () => {
 
 const fetchData = async (version: "draft" | "published") => {
   "use cache";
-  cacheLife("default");
-  cacheTag(`home-page`);
+  cacheLife("ultraLong");
+  cacheTag(getHomePageTag());
   const storyblokApi = getStoryblokApi();
 
   return storyblokApi.get("cdn/stories/home", {
