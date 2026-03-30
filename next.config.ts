@@ -35,6 +35,10 @@ const nextConfig: NextConfig = {
           destination: "/blog/_/:slug",
         },
         {
+          source: "/:key.txt",
+          destination: "/api/indexnow?key=:key",
+        },
+        {
           source: "/",
           destination: "/home",
         },
