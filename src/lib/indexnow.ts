@@ -3,6 +3,8 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { environment } from "@/environment";
 import { getArticleCanonicalUrl, SITE_ORIGIN } from "@/lib/seo";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
+import { BLOG_CONTENT_TYPE } from "@/storyblok/blog-listings-utils";
+import type { StoryData } from "@/storyblok/lib";
 
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/IndexNow";
 const SITE_HOST = "www.jimdrury.co.uk";
@@ -66,13 +68,20 @@ export const parseWebhookPayload = (
   }
 };
 
-const BLOG_PREFIX = "blog/";
+const isArticle = (story: StoryData): story is StoryData & BlogStory => {
+  const content = story.content;
+  return (
+    typeof content === "object" &&
+    content !== null &&
+    (content as Record<string, unknown>).component === BLOG_CONTENT_TYPE
+  );
+};
 
-export const resolveUrlsFromSlug = (
+export const resolveUrlsFromStory = (
   fullSlug: string,
-  story: BlogStory | null,
+  story: StoryData | null,
 ): string[] => {
-  if (fullSlug.startsWith(BLOG_PREFIX) && story) {
+  if (story && isArticle(story)) {
     return [getArticleCanonicalUrl(story)];
   }
 

@@ -18,13 +18,28 @@ vi.mock("@/lib/seo", () => ({
   ),
 }));
 
-const makeStory = (overrides: Partial<Record<string, unknown>> = {}) => ({
+vi.mock("@/storyblok/blog-listings-utils", () => ({
+  BLOG_CONTENT_TYPE: "article",
+}));
+
+const makeArticleStory = (
+  overrides: Partial<Record<string, unknown>> = {},
+) => ({
   id: 42,
   name: "Test Article",
   slug: "test-article",
   full_slug: "blog/test-article",
   content: { component: "article", body: [] },
   tag_list: ["ai"],
+  ...overrides,
+});
+
+const makePageStory = (overrides: Partial<Record<string, unknown>> = {}) => ({
+  id: 99,
+  name: "About",
+  slug: "about",
+  full_slug: "about",
+  content: { component: "page", body: [] },
   ...overrides,
 });
 
@@ -116,40 +131,41 @@ describe("parseWebhookPayload", () => {
   });
 });
 
-describe("resolveUrlsFromSlug", () => {
-  it("returns canonical URL for blog posts with a story", async () => {
-    const { resolveUrlsFromSlug } = await import("@/lib/indexnow");
-    const story = makeStory();
+describe("resolveUrlsFromStory", () => {
+  it("returns canonical URL for article content type", async () => {
+    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+    const story = makeArticleStory();
 
-    const urls = resolveUrlsFromSlug("blog/test-article", story as never);
+    const urls = resolveUrlsFromStory("blog/test-article", story as never);
     expect(urls).toEqual(["https://www.jimdrury.co.uk/blog/ai/test-article"]);
   });
 
-  it("falls back to full_slug-based URL for blog posts without a story", async () => {
-    const { resolveUrlsFromSlug } = await import("@/lib/indexnow");
+  it("returns slug-based URL for non-article content types", async () => {
+    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+    const story = makePageStory();
 
-    const urls = resolveUrlsFromSlug("blog/test-article", null);
-    expect(urls).toEqual(["https://www.jimdrury.co.uk/blog/test-article"]);
-  });
-
-  it("maps 'home' slug to site root", async () => {
-    const { resolveUrlsFromSlug } = await import("@/lib/indexnow");
-
-    const urls = resolveUrlsFromSlug("home", null);
-    expect(urls).toEqual(["https://www.jimdrury.co.uk/"]);
-  });
-
-  it("handles static pages", async () => {
-    const { resolveUrlsFromSlug } = await import("@/lib/indexnow");
-
-    const urls = resolveUrlsFromSlug("about", null);
+    const urls = resolveUrlsFromStory("about", story as never);
     expect(urls).toEqual(["https://www.jimdrury.co.uk/about"]);
   });
 
-  it("strips trailing slash from slug", async () => {
-    const { resolveUrlsFromSlug } = await import("@/lib/indexnow");
+  it("returns slug-based URL when story is null", async () => {
+    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
 
-    const urls = resolveUrlsFromSlug("about/", null);
+    const urls = resolveUrlsFromStory("about", null);
+    expect(urls).toEqual(["https://www.jimdrury.co.uk/about"]);
+  });
+
+  it("maps 'home' slug to site root", async () => {
+    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+
+    const urls = resolveUrlsFromStory("home", null);
+    expect(urls).toEqual(["https://www.jimdrury.co.uk/"]);
+  });
+
+  it("strips trailing slash from slug", async () => {
+    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+
+    const urls = resolveUrlsFromStory("about/", null);
     expect(urls).toEqual(["https://www.jimdrury.co.uk/about"]);
   });
 });
