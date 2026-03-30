@@ -1,6 +1,6 @@
 import "server-only";
 import type { FC } from "react";
-import { PublicEventsToggle } from "@/components/public-events";
+import { Accordion } from "@/components/accordion";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
@@ -37,12 +37,12 @@ export const PublicEventsBlok: FC<PublicEventsBlokProps> = ({ blok }) => {
   }
 
   return (
-    <section {...storyblokEditable(blok)} className="space-y-4">
-      <PublicEventsToggle initialVisibleCount={2}>
+    <section {...storyblokEditable(blok)}>
+      <Accordion className="space-y-5">
         {events.map((eventBlok) => (
           <BlokRenderer blok={eventBlok} key={eventBlok._uid} />
         ))}
-      </PublicEventsToggle>
+      </Accordion>
     </section>
   );
 };

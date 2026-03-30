@@ -5,7 +5,7 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export interface CareerHistoryItemProps
-  extends ComponentPropsWithoutChildren<"li"> {
+  extends ComponentPropsWithoutChildren<"div"> {
   from: string;
   to?: string;
   role: string;
@@ -43,9 +43,9 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
   }`;
 
   return (
-    <li
+    <div
       className={cn(
-        "grid gap-2 border-b border-black py-3 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-6 md:py-4",
+        "grid gap-2 border-b border-black pb-3 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-6 md:pb-4",
         className,
       )}
       {...props}
@@ -70,6 +70,6 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
           {description}
         </div>
       </div>
-    </li>
+    </div>
   );
 };

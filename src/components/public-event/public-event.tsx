@@ -1,12 +1,14 @@
 import { format, isValid, parseISO } from "date-fns";
 import type { FC } from "react";
+import { AccordionItem } from "@/components/accordion";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export interface PublicEventProps
-  extends ComponentPropsWithoutChildren<"section"> {
+  extends ComponentPropsWithoutChildren<"details"> {
   eventDate: string;
   meta?: string;
+  defaultExpanded?: boolean;
   title: string;
   description: string;
   linkText?: string;
@@ -24,6 +26,7 @@ const formatEventDate = (value: string): string => {
 export const PublicEvent: FC<PublicEventProps> = ({
   eventDate,
   meta,
+  defaultExpanded = false,
   title,
   description,
   linkText,
@@ -38,11 +41,20 @@ export const PublicEvent: FC<PublicEventProps> = ({
   const metaLine = safeMeta ? `${formattedDate} - ${safeMeta}` : formattedDate;
 
   return (
-    <section
-      className={cn(
-        "w-full rounded-md border-[3px] border-black bg-white p-5 shadow-[8px_8px_0_0_#000]",
-        className,
-      )}
+    <AccordionItem
+      title={title}
+      open={defaultExpanded}
+      header={
+        <span className="min-w-0">
+          <span className="block text-sm font-bold text-slate-600">
+            {metaLine}
+          </span>
+          <span className="block text-lg font-extrabold leading-tight text-slate-900">
+            {title}
+          </span>
+        </span>
+      }
+      className={cn("w-full", className)}
       itemScope
       itemType="https://schema.org/Event"
       {...props}
@@ -52,21 +64,14 @@ export const PublicEvent: FC<PublicEventProps> = ({
       <meta itemProp="startDate" content={eventDate} />
       {safeLinkUrl ? <meta itemProp="url" content={safeLinkUrl} /> : null}
 
-      <p className="text-sm font-bold text-slate-600">{metaLine}</p>
-      <h2
-        itemProp="name"
-        className="mt-1 text-[26px] font-extrabold text-slate-900"
-      >
-        {title}
-      </h2>
       <p
         itemProp="description"
-        className="mt-2 whitespace-pre-wrap text-[17px] leading-[1.4] text-slate-700"
+        className="whitespace-pre-wrap text-[17px] leading-[1.4] text-slate-700"
       >
         {description}
       </p>
       {safeLinkUrl ? (
-        <p className="mt-2 text-[15px] font-bold">
+        <p className="mt-3 text-[15px] font-bold">
           <a
             href={safeLinkUrl}
             target="_blank"
@@ -78,6 +83,6 @@ export const PublicEvent: FC<PublicEventProps> = ({
           </a>
         </p>
       ) : null}
-    </section>
+    </AccordionItem>
   );
 };

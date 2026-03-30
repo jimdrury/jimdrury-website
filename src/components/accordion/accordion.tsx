@@ -1,12 +1,17 @@
-import { createContext, type FC, type ReactNode, useContext } from "react";
+import {
+  Children,
+  cloneElement,
+  type FC,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 import { FaChevronDown } from "react-icons/fa";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
 
 export type { IconReference };
-
-const AccordionGroupedContext = createContext(false);
 
 export interface AccordionProps extends ComponentPropsWithoutChildren<"div"> {
   children?: ReactNode;
@@ -20,20 +25,30 @@ export const Accordion: FC<AccordionProps> = ({
   grouped = false,
   ...props
 }) => {
+  const renderedChildren = grouped
+    ? Children.map(children, (child) => {
+        if (!isValidElement(child)) {
+          return child;
+        }
+
+        return cloneElement(child as ReactElement<{ grouped?: boolean }>, {
+          grouped: true,
+        });
+      })
+    : children;
+
   return (
-    <AccordionGroupedContext.Provider value={grouped}>
-      <div
-        className={cn(
-          grouped
-            ? "overflow-hidden rounded-md divide-y-2 divide-black border-2 border-black shadow-[4px_4px_0_0]"
-            : "space-y-3",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    </AccordionGroupedContext.Provider>
+    <div
+      className={cn(
+        grouped
+          ? "overflow-hidden rounded-md divide-y-2 divide-black border-2 border-black shadow-[4px_4px_0_0]"
+          : "space-y-3",
+        className,
+      )}
+      {...props}
+    >
+      {renderedChildren}
+    </div>
   );
 };
 
@@ -41,6 +56,10 @@ export interface AccordionItemProps
   extends ComponentPropsWithoutChildren<"details"> {
   children?: ReactNode;
   title: string;
+  /** Internal flag injected by Accordion when `grouped` is enabled. */
+  grouped?: boolean;
+  /** Custom summary content; when provided, replaces the default title text node. */
+  header?: ReactNode;
   /** Optional leading icon before the title; chevron expand indicator stays on the right. */
   icon?: IconReference;
 }
@@ -48,11 +67,12 @@ export interface AccordionItemProps
 export const AccordionItem: FC<AccordionItemProps> = ({
   className,
   title,
+  grouped = false,
+  header,
   children,
   icon: LeadingIcon,
   ...props
 }) => {
-  const grouped = useContext(AccordionGroupedContext);
   const sizeClass = grouped ? "size-5" : "size-4";
   const leadingIconClassName = cn("shrink-0", sizeClass);
   const chevronClassName = cn(
@@ -80,9 +100,11 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           {LeadingIcon ? (
             <LeadingIcon aria-hidden className={leadingIconClassName} />
           ) : null}
-          <span className={cn("font-semibold", !grouped && "text-black")}>
-            {title}
-          </span>
+          {header ?? (
+            <span className={cn("font-semibold", !grouped && "text-black")}>
+              {title}
+            </span>
+          )}
         </span>
         <FaChevronDown aria-hidden className={chevronClassName} />
       </summary>

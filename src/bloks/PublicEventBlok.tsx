@@ -6,6 +6,7 @@ import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 type PublicEventBlokData = SbBlokData & {
   event_date?: string;
   meta?: string;
+  is_expanded?: boolean;
   title?: string;
   description?: string;
   link_text?: string;
@@ -26,6 +27,7 @@ export const PublicEventBlok: FC<PublicEventBlokProps> = ({ blok }) => {
       {...storyblokEditable(blok)}
       eventDate={blok.event_date}
       meta={blok.meta}
+      defaultExpanded={blok.is_expanded}
       title={blok.title}
       description={blok.description}
       linkText={blok.link_text}

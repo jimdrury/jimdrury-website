@@ -1,4 +1,5 @@
 import {
+  boolean,
   datetime,
   nestable,
   tab,
@@ -41,6 +42,12 @@ export default nestable({
           name: "meta",
           description:
             "Optional location or context metadata shown next to the formatted date.",
+        }),
+        boolean({
+          name: "is_expanded",
+          default_value: false,
+          description:
+            "When enabled, this speaking engagement is expanded by default.",
         }),
       ],
     }),
