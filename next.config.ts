@@ -30,14 +30,6 @@ const nextConfig: NextConfig = {
     return {
       beforeFiles: [
         {
-          source: "/blog/:slug",
-          has: [
-            { type: "query", key: "_storyblok" },
-            { type: "cookie", key: "__prerender_bypass" },
-          ],
-          destination: "/blog/edit/:slug",
-        },
-        {
           source: "/",
           destination: "/home",
         },

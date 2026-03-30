@@ -1,5 +1,6 @@
 import { draftMode } from "next/headers";
 import { ImageResponse } from "next/og";
+import { connection } from "next/server";
 
 import { getArticleExcerpt } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
@@ -22,6 +23,7 @@ type TwitterImageProps = Pick<PageProps<"/blog/[category]/[slug]">, "params">;
 type TwitterImageFn = (props: TwitterImageProps) => Promise<ImageResponse>;
 
 const TwitterImage: TwitterImageFn = async ({ params }) => {
+  await connection();
   const { slug } = await params;
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";

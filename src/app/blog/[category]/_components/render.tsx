@@ -1,6 +1,7 @@
 import "server-only";
 
 import { draftMode } from "next/headers";
+import { connection } from "next/server";
 import type { FC } from "react";
 import { getBlogCategoryArchive, parsePageParam } from "@/lib/blog";
 import { buildBlogCategoryJsonLd, serializeJsonLd } from "@/lib/seo";
@@ -12,6 +13,7 @@ type RenderProps = Pick<
 >;
 
 export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
+  await connection();
   const { category } = await params;
   const resolvedSearchParams = await searchParams;
   const pageValue = resolvedSearchParams.page;
