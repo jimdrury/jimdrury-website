@@ -1,4 +1,3 @@
-import { createHmac } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/environment", () => ({
@@ -6,7 +5,6 @@ vi.mock("@/environment", () => ({
     STORYBLOK_ACCESS_TOKEN: "test-token",
     STORYBLOK_SPACE_ID: "12345",
     INDEXNOW_KEY: "abc123indexnowkey",
-    STORYBLOK_WEBHOOK_SECRET: "test-webhook-secret",
   },
 }));
 
@@ -41,45 +39,6 @@ const makePageStory = (overrides: Partial<Record<string, unknown>> = {}) => ({
   full_slug: "about",
   content: { component: "page", body: [] },
   ...overrides,
-});
-
-describe("verifyWebhookSignature", () => {
-  it("returns true for a valid signature", async () => {
-    const { verifyWebhookSignature } = await import("@/lib/indexnow");
-    const payload = '{"action":"story.published"}';
-    const signature = createHmac("sha1", "test-webhook-secret")
-      .update(payload)
-      .digest("hex");
-
-    expect(verifyWebhookSignature(payload, signature)).toBe(true);
-  });
-
-  it("returns false for an invalid signature", async () => {
-    const { verifyWebhookSignature } = await import("@/lib/indexnow");
-    expect(
-      verifyWebhookSignature('{"action":"story.published"}', "bad-sig"),
-    ).toBe(false);
-  });
-
-  it("returns false when signature is null", async () => {
-    const { verifyWebhookSignature } = await import("@/lib/indexnow");
-    expect(verifyWebhookSignature('{"action":"story.published"}', null)).toBe(
-      false,
-    );
-  });
-
-  it("returns false when secret is not configured", async () => {
-    const envMod = await import("@/environment");
-    const original = envMod.environment.STORYBLOK_WEBHOOK_SECRET;
-    (envMod.environment as Record<string, unknown>).STORYBLOK_WEBHOOK_SECRET =
-      undefined;
-
-    const { verifyWebhookSignature } = await import("@/lib/indexnow");
-    expect(verifyWebhookSignature('{"action":"test"}', "some-sig")).toBe(false);
-
-    (envMod.environment as Record<string, unknown>).STORYBLOK_WEBHOOK_SECRET =
-      original;
-  });
 });
 
 describe("parseWebhookPayload", () => {

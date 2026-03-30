@@ -1,5 +1,4 @@
 import "server-only";
-import { createHmac, timingSafeEqual } from "node:crypto";
 import { environment } from "@/environment";
 import { getArticleCanonicalUrl, SITE_ORIGIN } from "@/lib/seo";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
@@ -15,28 +14,6 @@ type StoryblokWebhookPayload = {
   story_id?: number;
   full_slug?: string;
   space_id?: number;
-};
-
-export const verifyWebhookSignature = (
-  payload: string,
-  signature: string | null,
-): boolean => {
-  const secret = environment.STORYBLOK_WEBHOOK_SECRET;
-  if (!secret) {
-    return false;
-  }
-
-  if (!signature) {
-    return false;
-  }
-
-  const expected = createHmac("sha1", secret).update(payload).digest("hex");
-
-  if (expected.length !== signature.length) {
-    return false;
-  }
-
-  return timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 };
 
 export const parseWebhookPayload = (
