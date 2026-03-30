@@ -1,7 +1,7 @@
 import {
   blocks,
+  boolean,
   contentType,
-  option,
 } from "@jimdrury/storyblok-component-schema";
 
 export default contentType({
@@ -9,10 +9,9 @@ export default contentType({
   display_name: "Page",
   folder: "pages",
   schema: [
-    option({
+    boolean({
       name: "header",
-      options: [],
-      source: "internal",
+      default_value: true,
       required: false,
     }),
     blocks({
