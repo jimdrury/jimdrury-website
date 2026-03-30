@@ -121,7 +121,7 @@ const normalizeElementAttributes = (node: ReactNode): ReactNode => {
       normalizedKey === "style" &&
       (typeof propValue === "string" || propValue instanceof String)
     ) {
-      propValue = parseStyle(propValue);
+      propValue = parseStyle(String(propValue));
     }
 
     result[normalizedKey] = propValue;
