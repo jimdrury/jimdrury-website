@@ -38,7 +38,7 @@ export const Render: FC<RenderProps> = async ({ params }) => {
     notFound();
   }
 
-  if (canonicalCategory && category !== canonicalCategory) {
+  if (!isEnabled && canonicalCategory && category !== canonicalCategory) {
     redirect(`/blog/${canonicalCategory}/${slug}`);
   }
 
