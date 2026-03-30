@@ -41,7 +41,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
             as="h1"
             size="3xl"
             weight="black"
-            className="text-balance"
+            className="article-headline text-balance"
           >
             {title}
           </Typography>
@@ -50,7 +50,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
               as="p"
               size="lg"
               weight="medium"
-              className="mt-3 max-w-3xl text-balance"
+              className="article-description mt-3 max-w-3xl text-balance"
             >
               {excerpt}
             </Typography>

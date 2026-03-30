@@ -44,6 +44,8 @@ const AUTHOR_KNOWS_ABOUT = [
 const BLOG_INDEX_DESCRIPTION =
   "Latest writing, ideas, and technical deep dives from Jim Drury.";
 const ORGANIZATION_LOGO_URL = `${SITE_ORIGIN}/logo.png`;
+const PERSON_IMAGE_URL =
+  "https://a.storyblok.com/f/291093583118629/1463x3182/3fe55ff77b/profile-picture-full.jpg?cv=1774741806321";
 const PERSON_DESCRIPTION =
   "Jim Drury is Head of Platform Innovation at Virgin Media O2 and writes about Next.js, TypeScript, AI coding agents, and frontend architecture.";
 const BLOG_INDEX_KEYWORDS = [
@@ -639,7 +641,7 @@ export const buildArticleJsonLd = (
     publisher,
     speakable: {
       "@type": "SpeakableSpecification",
-      cssSelector: ["[itemprop='headline']", "[itemprop='description']"],
+      cssSelector: [".article-headline", ".article-description"],
     },
     keywords,
     ...(wordCount > 0 && { wordCount }),
@@ -743,7 +745,7 @@ export const buildPersonJsonLd = (): Record<string, unknown> => {
     "@type": "Person",
     name: SITE_NAME,
     url: AUTHOR_ABOUT_URL,
-    image: ORGANIZATION_LOGO_URL,
+    image: PERSON_IMAGE_URL,
     description: PERSON_DESCRIPTION,
     jobTitle: AUTHOR_JOB_TITLE,
     worksFor: AUTHOR_WORKS_FOR,
@@ -763,7 +765,7 @@ export const buildOrganizationJsonLd = (): Record<string, unknown> => {
     sameAs: [...AUTHOR_PROFILE_URLS],
     contactPoint: {
       "@type": "ContactPoint",
-      contactType: "Professional Services",
+      contactType: "technical support",
     },
   };
 };

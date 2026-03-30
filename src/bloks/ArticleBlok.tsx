@@ -123,7 +123,12 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
           />
         ) : (
           <div className="mx-auto max-w-5xl px-4">
-            <Typography as="h1" size="3xl" weight="black">
+            <Typography
+              as="h1"
+              size="3xl"
+              weight="black"
+              className="article-headline"
+            >
               {title}
             </Typography>
             {excerpt ? (
@@ -131,7 +136,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = ({ blok }) => {
                 as="p"
                 size="lg"
                 weight="medium"
-                className="mt-3 max-w-3xl text-balance"
+                className="article-description mt-3 max-w-3xl text-balance"
               >
                 {excerpt}
               </Typography>

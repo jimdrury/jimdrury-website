@@ -51,7 +51,7 @@ describe("buildOrganizationJsonLd", () => {
         "Latest writing, ideas, and technical deep dives from Jim Drury.",
       contactPoint: {
         "@type": "ContactPoint",
-        contactType: "Professional Services",
+        contactType: "technical support",
       },
     });
 
@@ -60,6 +60,22 @@ describe("buildOrganizationJsonLd", () => {
       "https://x.com/jim_drury",
       "https://github.com/jimdrury",
     ]);
+  });
+});
+
+describe("buildPersonJsonLd", () => {
+  it("uses a person headshot image URL", async () => {
+    const { buildPersonJsonLd } = await import("@/lib/seo");
+    const jsonLd = buildPersonJsonLd();
+
+    expect(jsonLd).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Jim Drury",
+      url: "https://www.jimdrury.co.uk/about",
+      image:
+        "https://a.storyblok.com/f/291093583118629/1463x3182/3fe55ff77b/profile-picture-full.jpg?cv=1774741806321",
+    });
   });
 });
 

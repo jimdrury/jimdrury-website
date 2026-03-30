@@ -1,5 +1,5 @@
 import "server-only";
-import { type FC, type ReactElement, use } from "react";
+import type { FC, ReactElement } from "react";
 import { Prompt } from "@/components/prompt";
 import {
   type SbBlokData,
@@ -25,13 +25,6 @@ const buildCopyText = (title: string | undefined, body: string): string => {
   return `<${title}>\n${trimmed}\n</${title}>`;
 };
 
-const getCachedRichText = async (
-  doc: StoryblokRichTextNode<ReactElement>,
-): Promise<ReactElement> => {
-  "use cache";
-  return <RichText doc={doc} />;
-};
-
 export const PromptBlok: FC<PromptBlokProps> = ({ blok }) => {
   if (!blok.content) {
     return null;
@@ -43,7 +36,7 @@ export const PromptBlok: FC<PromptBlokProps> = ({ blok }) => {
 
   return (
     <Prompt {...storyblokEditable(blok)} title={blok.title} copyText={copyText}>
-      {use(getCachedRichText(blok.content))}
+      <RichText doc={blok.content} />
     </Prompt>
   );
 };
