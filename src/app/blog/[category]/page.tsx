@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import type { FC } from "react";
 import { Suspense } from "react";
 
@@ -11,6 +12,7 @@ export const generateMetadata = async ({
   params,
   searchParams,
 }: PageProps<"/blog/[category]">): Promise<Metadata> => {
+  await connection();
   const { category } = await params;
   const resolvedSearchParams = await searchParams;
   const pageValue = resolvedSearchParams.page;

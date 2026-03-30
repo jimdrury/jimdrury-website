@@ -2,7 +2,8 @@ import "server-only";
 
 import dynamic from "next/dynamic";
 import { draftMode } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { connection } from "next/server";
 import type { FC } from "react";
 
 import { getDefaultStoryCategory } from "@/lib/blog";
@@ -21,7 +22,8 @@ const StoryPreview = dynamic(() =>
 type RenderProps = Pick<PageProps<"/blog/[category]/[slug]">, "params">;
 
 export const Render: FC<RenderProps> = async ({ params }) => {
-  const { slug } = await params;
+  await connection();
+  const { category, slug } = await params;
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
   const story = await getArticleBySlug({ slug, version });
@@ -30,8 +32,14 @@ export const Render: FC<RenderProps> = async ({ params }) => {
     notFound();
   }
 
-  if (!isEnabled && !getDefaultStoryCategory(story)) {
+  const canonicalCategory = getDefaultStoryCategory(story);
+
+  if (!isEnabled && !canonicalCategory) {
     notFound();
+  }
+
+  if (canonicalCategory && category !== canonicalCategory) {
+    redirect(`/blog/${canonicalCategory}/${slug}`);
   }
 
   const articleJsonLd = serializeJsonLd(buildArticleJsonLd(story));
