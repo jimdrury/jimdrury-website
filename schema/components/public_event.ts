@@ -1,4 +1,5 @@
 import {
+  asset,
   boolean,
   datetime,
   nestable,
@@ -38,10 +39,28 @@ export default nestable({
           required: true,
           description: "Primary event date.",
         }),
-        text({
-          name: "meta",
+        datetime({
+          name: "end_date",
           description:
-            "Optional location or context metadata shown next to the formatted date.",
+            "Optional end date/time. Leave blank for single-day events.",
+        }),
+        text({
+          name: "organizer",
+          description: "Event organizer name.",
+        }),
+        text({
+          name: "address",
+          description: "Event location address.",
+        }),
+        text({
+          name: "performer",
+          description:
+            "Optional performer or speaker. Falls back to organizer when blank.",
+        }),
+        text({
+          name: "event_status",
+          description:
+            "Optional schema.org event status URL (for example: https://schema.org/EventCancelled).",
         }),
         boolean({
           name: "is_expanded",
@@ -55,6 +74,11 @@ export default nestable({
       name: "link",
       display_name: "Link",
       fields: [
+        asset({
+          name: "image",
+          filetypes: ["images"],
+          description: "Optional event image for SEO structured data.",
+        }),
         text({
           name: "link_text",
           description:

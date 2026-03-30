@@ -2,10 +2,16 @@ import "server-only";
 import type { FC } from "react";
 import { PublicEvent } from "@/components/public-event";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import type { StoryblokAsset } from "@/storyblok/types";
 
 type PublicEventBlokData = SbBlokData & {
   event_date?: string;
-  meta?: string;
+  end_date?: string;
+  organizer?: string;
+  address?: string;
+  performer?: string;
+  event_status?: string;
+  image?: StoryblokAsset;
   is_expanded?: boolean;
   title?: string;
   description?: string;
@@ -26,7 +32,12 @@ export const PublicEventBlok: FC<PublicEventBlokProps> = ({ blok }) => {
     <PublicEvent
       {...storyblokEditable(blok)}
       eventDate={blok.event_date}
-      meta={blok.meta}
+      endDate={blok.end_date}
+      organizer={blok.organizer}
+      address={blok.address}
+      performer={blok.performer}
+      eventStatus={blok.event_status}
+      imageUrl={blok.image?.filename}
       defaultExpanded={blok.is_expanded}
       title={blok.title}
       description={blok.description}

@@ -7,7 +7,12 @@ import { cn } from "@/lib/utils";
 export interface PublicEventProps
   extends ComponentPropsWithoutChildren<"details"> {
   eventDate: string;
-  meta?: string;
+  endDate?: string;
+  organizer?: string;
+  address?: string;
+  performer?: string;
+  eventStatus?: string;
+  imageUrl?: string;
   defaultExpanded?: boolean;
   title: string;
   description: string;
@@ -25,7 +30,12 @@ const formatEventDate = (value: string): string => {
 
 export const PublicEvent: FC<PublicEventProps> = ({
   eventDate,
-  meta,
+  endDate,
+  organizer,
+  address,
+  performer,
+  eventStatus,
+  imageUrl,
   defaultExpanded = false,
   title,
   description,
@@ -34,11 +44,25 @@ export const PublicEvent: FC<PublicEventProps> = ({
   className,
   ...props
 }) => {
-  const safeMeta = meta?.trim();
+  const safeOrganizer = organizer?.trim();
+  const safeAddress = address?.trim();
+  const safePerformer = performer?.trim() || safeOrganizer;
+  const safeEventStatus =
+    eventStatus?.trim() || "https://schema.org/EventScheduled";
+  const safeImageUrl = imageUrl?.trim();
   const safeLinkUrl = linkUrl?.trim();
   const safeLinkText = linkText?.trim() || "View event details ->";
   const formattedDate = formatEventDate(eventDate);
-  const metaLine = safeMeta ? `${formattedDate} - ${safeMeta}` : formattedDate;
+  const detailsLine = [formattedDate, safeOrganizer, safeAddress]
+    .filter((value) => Boolean(value))
+    .join(" - ");
+  const startTimestamp = Date.parse(eventDate);
+  const endTimestamp = endDate ? Date.parse(endDate) : Number.NaN;
+  const hasDistinctEndDate =
+    Number.isFinite(startTimestamp) &&
+    Number.isFinite(endTimestamp) &&
+    startTimestamp !== endTimestamp;
+  const safeEndDate = hasDistinctEndDate ? endDate?.trim() : undefined;
 
   return (
     <AccordionItem
@@ -47,7 +71,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
       header={
         <span className="min-w-0">
           <span className="block text-sm font-bold text-slate-600">
-            {metaLine}
+            {detailsLine}
           </span>
           <span className="block text-lg font-extrabold leading-tight text-slate-900">
             {title}
@@ -62,7 +86,40 @@ export const PublicEvent: FC<PublicEventProps> = ({
       <meta itemProp="name" content={title} />
       <meta itemProp="description" content={description} />
       <meta itemProp="startDate" content={eventDate} />
+      {safeEndDate ? <meta itemProp="endDate" content={safeEndDate} /> : null}
+      <meta itemProp="eventStatus" content={safeEventStatus} />
       {safeLinkUrl ? <meta itemProp="url" content={safeLinkUrl} /> : null}
+      {safeImageUrl ? <meta itemProp="image" content={safeImageUrl} /> : null}
+      {safeOrganizer ? (
+        <span
+          itemProp="organizer"
+          itemScope
+          itemType="https://schema.org/Organization"
+        >
+          <meta itemProp="name" content={safeOrganizer} />
+        </span>
+      ) : null}
+      {safePerformer ? (
+        <span
+          itemProp="performer"
+          itemScope
+          itemType="https://schema.org/Person"
+        >
+          <meta itemProp="name" content={safePerformer} />
+        </span>
+      ) : null}
+      {safeAddress ? (
+        <span itemProp="location" itemScope itemType="https://schema.org/Place">
+          <meta itemProp="name" content={safeAddress} />
+          <meta itemProp="address" content={safeAddress} />
+        </span>
+      ) : null}
+      {safeLinkUrl ? (
+        <span itemProp="offers" itemScope itemType="https://schema.org/Offer">
+          <meta itemProp="url" content={safeLinkUrl} />
+          <meta itemProp="availability" content="https://schema.org/InStock" />
+        </span>
+      ) : null}
 
       <p
         itemProp="description"
