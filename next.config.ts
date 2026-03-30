@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
     return {
       beforeFiles: [
         {
+          source: "/blog/:slug",
+          has: [{ type: "query", key: "_storyblok" }],
+          destination: "/blog/_/:slug",
+        },
+        {
           source: "/",
           destination: "/home",
         },
