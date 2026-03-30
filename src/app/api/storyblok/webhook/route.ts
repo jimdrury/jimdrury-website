@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const rawBody = await request.text();
   const signature = request.headers.get("webhook-signature");
 
-  if (environment.STORYBLOK_WEBHOOK_SECRET) {
+  if (environment.STORYBLOK_WEBHOOK_SECRET && signature) {
     if (!verifyWebhookSignature(rawBody, signature)) {
       return Response.json(
         { error: "Invalid webhook signature" },
