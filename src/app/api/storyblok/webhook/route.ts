@@ -1,13 +1,11 @@
 import { environment } from "@/environment";
 import {
   parseWebhookPayload,
-  resolveUrlsFromSlug,
+  resolveUrlsFromStory,
   submitToIndexNow,
   verifyWebhookSignature,
 } from "@/lib/indexnow";
-import { getArticleBySlug } from "@/storyblok/blog-listings";
-
-const BLOG_PREFIX = "blog/";
+import { fetchStoryBySlug } from "@/lib/indexnow-story";
 
 export async function POST(request: Request) {
   const rawBody = await request.text();
@@ -45,15 +43,12 @@ export async function POST(request: Request) {
     );
   }
 
-  const isBlogPost = payload.full_slug.startsWith(BLOG_PREFIX);
-  let story = null;
+  const story = await fetchStoryBySlug({
+    slug: payload.full_slug,
+    version: "published",
+  });
 
-  if (isBlogPost) {
-    const slug = payload.full_slug.slice(BLOG_PREFIX.length);
-    story = await getArticleBySlug({ slug, version: "published" });
-  }
-
-  const urls = resolveUrlsFromSlug(payload.full_slug, story);
+  const urls = resolveUrlsFromStory(payload.full_slug, story);
 
   if (urls.length === 0) {
     return Response.json({ ok: true, skipped: true, reason: "no_urls" });
