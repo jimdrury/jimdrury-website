@@ -47,7 +47,7 @@ export const SiteFooter: FC<SiteFooterProps> = ({
       )}
       {...props}
     >
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-6 sm:px-6">
+      <div className="container mx-auto flex flex-col items-center gap-3 px-4 py-6 sm:px-6">
         <nav aria-label="Social links">
           <ul className="flex items-center gap-6">
             {SOCIAL_LINKS.map(({ href, label, IconComponent }) => (

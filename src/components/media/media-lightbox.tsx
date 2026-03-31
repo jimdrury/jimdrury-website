@@ -71,7 +71,7 @@ export const MediaLightbox: FC<MediaLightboxProps> = ({
           </span>
         ) : null}
       </button>
-      <Modal open={isOpen} onClose={handleClose} className="max-w-6xl">
+      <Modal open={isOpen} onClose={handleClose} className="max-w-8xl">
         <ModalHeader onClose={handleClose}>Image Preview</ModalHeader>
         <ModalBody className="bg-black p-3 sm:p-4">
           {imageDimensions ? (

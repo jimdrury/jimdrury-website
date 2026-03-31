@@ -1,11 +1,17 @@
 # Typography
 
-Body and heading text with consistent type scale and weight. Polymorphic: pass `as` to render as any React element (`h1`, `span`, `li`, etc.). Heading tags (`h1`-`h4`) use a fixed style preset for consistency. Extends native `<p>` props for the default element.
+Body and heading text aligned with Pencil (`neo_pencil.pen`): `typo-size`, `typo-leading`, `typo-tracking`, `typo-font`, and **`typo-weight` fixed per size step**. **Inter** (`--font-inter`) for `xs`–`2xl`, **Anton** (`--font-anton`) for `3xl`–`8xl`. Renders a **`p`** by default, or set **`asChild`** to merge styles onto a single child via Radix `Slot` (e.g. `<Typography asChild size="3xl"><h1>…</h1></Typography>`). Text color matches Pencil `fg-primary` (`#1a1a1a`). Implemented as a client component (`"use client"`) for `Slot`.
+
+Export **`TYPOGRAPHY_HEADING_PRESETS`** maps `h1`–`h4` → `{ size }` for Storyblok-style semantic headings (weight follows that size).
 
 ## Import
 
 ```tsx
-import { Typography, typographyVariants } from "@/components/typography";
+import {
+  Typography,
+  typographyVariants,
+  TYPOGRAPHY_HEADING_PRESETS,
+} from "@/components/typography";
 ```
 
 ## Usage
@@ -18,40 +24,29 @@ import { Typography, typographyVariants } from "@/components/typography";
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `as` | `ElementType` | `"p"` | Element or component to render. |
-| `size` | `"xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "3xl"` | `"md"` | Tailwind text size classes for non-heading elements. |
-| `weight` | `"normal" \| "medium" \| "bold" \| "black"` | `"medium"` | Font weight for non-heading elements. |
-| `className` | `string` | — | Merged with typography variants. |
+| `asChild` | `boolean` | `false` | Merge typography classes onto the single child (`Slot`). |
+| `size` | `"xs"` … `"8xl"` | `"md"` | Type scale step; **weight is determined by this step only**. |
+| `uppercase` | `boolean` | `false` | Applies `uppercase` (all-caps styling). |
 | `children` | `ReactNode` | — | Content. |
-| *…rest* | `ComponentProps<"p">` | — | Props forwarded to the rendered element (e.g. `id`, `role` when `as` allows). |
+| *…rest* | `ComponentProps<"p">` (no `className`) | — | Props forwarded to the rendered element. **`className` is not supported** — wrap with a parent or put layout classes on the child when using `asChild`. |
 
-## Variants
+## Weight per size (Pencil `typo-weight`)
 
-**`size`**
+| Sizes | Weight |
+|-------|--------|
+| `xs`, `sm`, `md` | normal |
+| `lg` | medium |
+| `xl` | semibold |
+| `2xl`–`4xl` | bold |
+| `5xl`–`6xl` | extrabold |
+| `7xl`–`8xl` | black |
 
-- `xs` → `text-xs`
-- `sm` → `text-sm`
-- `md` → `text-base`
-- `lg` → `text-lg`
-- `xl` → `text-xl`
-- `2xl` → `text-2xl`
-- `3xl` → `text-3xl`
+## `TYPOGRAPHY_HEADING_PRESETS` (semantic tag → size)
 
-**`weight`**
-
-- `normal` → `font-normal`
-- `medium` → `font-medium`
-- `bold` → `font-bold`
-- `black` → `font-black`
-
-Base: `text-black`.
-
-**Heading presets (`as`)**
-
-- `h1` → `size="3xl"` + `weight="black"`
-- `h2` → `size="2xl"` + `weight="bold"`
-- `h3` → `size="xl"` + `weight="bold"`
-- `h4` → `size="lg"` + `weight="medium"`
+- `h1` → `3xl`
+- `h2` → `2xl`
+- `h3` → `xl`
+- `h4` → `lg`
 
 ## Composable examples
 
@@ -62,12 +57,12 @@ import { Surface } from "@/components/surface";
 import { Typography } from "@/components/typography";
 
 <Surface padding="md">
-  <Typography as="h3" size="xl" weight="bold">
-    Release notes
+  <Typography asChild size="xl">
+    <h3>Release notes</h3>
   </Typography>
-  <Typography as="p" size="sm" weight="normal" className="mt-2 text-zinc-700">
-    Build 2025.03 — polish and fixes.
-  </Typography>
+  <div className="mt-2 text-zinc-700">
+    <Typography size="sm">Build 2025.03 — polish and fixes.</Typography>
+  </div>
 </Surface>
 ```
 
@@ -78,7 +73,7 @@ import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
 
 <li>
-  <Typography as="span" size="md">
+  <Typography>
     Read the docs:{" "}
     <Link href="/docs" variant="subtle">
       getting started
@@ -93,11 +88,24 @@ import { Typography } from "@/components/typography";
 import { Typography } from "@/components/typography";
 
 <section>
-  <Typography as="h1">
-    Neobrutalist UI
+  <Typography asChild size="3xl">
+    <h1>Neobrutalist UI</h1>
   </Typography>
-  <Typography as="h2" className="mt-4">
-    Primitives that slap.
-  </Typography>
+  <div className="mt-4">
+    <Typography asChild size="2xl">
+      <h2>Primitives that slap.</h2>
+    </Typography>
+  </div>
 </section>
+```
+
+**`asChild` with a link**
+
+```tsx
+import Link from "next/link";
+import { Typography } from "@/components/typography";
+
+<Typography asChild size="lg">
+  <Link href="/blog">Blog</Link>
+</Typography>
 ```

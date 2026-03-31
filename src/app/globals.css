@@ -3,13 +3,15 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --focus-ring-inner: #ffffff;
-  --focus-ring-outer: #000000;
+  /* Matches Pencil design tokens (neo_pencil.pen): border + offset shadow */
+  --color-border-strong: #1a1a1a;
+  --focus-ring-inner: #fffdf5;
+  --focus-ring-outer: #1a1a1a;
   --focus-stack-sm:
     2px 2px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
     0 0 0 4px var(--focus-ring-outer);
   --focus-stack-md:
-    4px 4px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
+    6px 6px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
     0 0 0 4px var(--focus-ring-outer);
 }
 
@@ -35,6 +37,10 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  background-color: #fffdf5;
 }
 
 @media (prefers-reduced-motion: reduce) {

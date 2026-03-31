@@ -1,7 +1,13 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
+import {
+  Anton,
+  Geist,
+  Geist_Mono,
+  Inter,
+  Patrick_Hand,
+} from "next/font/google";
 import { draftMode } from "next/headers";
 import Link from "next/link";
 import { type ReactNode, Suspense } from "react";
@@ -10,12 +16,24 @@ import { SiteFooter } from "@/components/footer";
 import {
   Header,
   HeaderLogo,
-  HeaderLogoBadge,
   HeaderNav,
   HeaderNavLinks,
 } from "@/components/header";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-anton",
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,15 +89,12 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
+      className={`${inter.variable} ${anton.variable} ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
     >
       <body className="flex min-h-screen flex-col">
         <Header>
           <HeaderLogo asChild>
-            <Link href="/">
-              <HeaderLogoBadge>jd</HeaderLogoBadge>
-              <span className="text-base font-semibold">jimdrury</span>
-            </Link>
+            <Link href="/">JIMDRURY.</Link>
           </HeaderLogo>
           <HeaderNav>
             <Suspense>
@@ -87,7 +102,7 @@ export default async function RootLayout({
             </Suspense>
           </HeaderNav>
         </Header>
-        <main className="-mt-16 flex-1">{children}</main>
+        <main className="flex-1">{children}</main>
         <SiteFooter currentYear={currentYear} />
         <DraftModeRefresh isEnabled={isEnabled} />
         <Analytics />

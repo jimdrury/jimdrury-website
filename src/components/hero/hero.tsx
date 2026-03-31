@@ -19,11 +19,8 @@ export const Hero: FC<HeroProps> = ({
   ...props
 }) => {
   return (
-    <section className={cn("w-full bg-white", className)} {...props}>
-      <div
-        className="mx-auto flex w-full flex-col items-center gap-5 pt-7 md:gap-8 md:pt-16 lg:flex-row lg:gap-16 lg:pt-20 pb-6"
-        style={{ maxWidth: "72rem" }}
-      >
+    <section className={cn("w-full", className)} {...props}>
+      <div className="mx-auto flex w-full flex-col items-center gap-5 pt-7 md:gap-8 md:pt-16 lg:flex-row lg:gap-16 lg:pt-20 pb-6">
         <div className="w-full shrink-0 lg:w-[26.25rem]">
           <div className="rounded-md border-4 border-black shadow-[8px_8px_0_0_#000]">
             <NextImage
@@ -36,7 +33,7 @@ export const Hero: FC<HeroProps> = ({
             />
           </div>
         </div>
-        <div className="flex w-full flex-col gap-3 lg:flex-1 lg:gap-5">
+        <div className="prose">
           <h1 className="text-balance text-[2.375rem] font-black leading-[1.08] text-slate-900 md:text-[3.375rem] md:leading-[1.05]">
             {title}
           </h1>

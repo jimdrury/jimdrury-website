@@ -7,7 +7,7 @@ export const Skeleton: FC = () => {
 
   return (
     <main
-      className="mx-auto w-full max-w-5xl animate-pulse px-4 py-10"
+      className="container mx-auto animate-pulse px-4 py-10"
       aria-busy="true"
     >
       <div className="h-10 w-72 rounded bg-zinc-200" />

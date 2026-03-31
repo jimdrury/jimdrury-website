@@ -2,21 +2,28 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { FC, ReactNode } from "react";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
-import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
 
+/**
+ * Matches Pencil `Component/Badge` in neo_pencil.pen: pill, 3px border, softened hard shadow,
+ * Inter 12px / bold / 1.5px tracking, uppercase label. Variant axis aligns with Button
+ * (`$btn-fill` / `$btn-text` in the design file).
+ */
 export const badgeVariants = cva(
-  "inline-flex items-center rounded-md border-2 border-black px-3 py-1.5 text-sm/none font-semibold shadow-[2px_2px_0_0]",
+  "inline-flex max-w-full min-w-0 items-center justify-center rounded-full border-[3px] border-[#1a1a1a] px-4 py-1.5 font-[family-name:var(--font-inter)] text-[12px] font-bold uppercase leading-none tracking-[1.5px] text-[#1a1a1a] shadow-[4px_4px_0_0_#1a1a1a]",
   {
     variants: {
       variant: {
-        info: "bg-blue-100",
-        success: "bg-green-100",
-        error: "bg-red-100",
-        warning: "bg-yellow-100",
+        primary: "bg-[#ff6b6b]",
+        secondary: "bg-[#fffdf5]",
+        tertiary: "bg-[#a8d8ea]",
+        highlight: "bg-[#ffe156]",
+        dark: "bg-[#1a1a1a] text-[#fffdf5]",
       },
     },
-    defaultVariants: { variant: "info" },
+    defaultVariants: {
+      variant: "primary",
+    },
   },
 );
 
@@ -25,10 +32,6 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants> {
   children?: ReactNode;
   asChild?: boolean;
-  /** Decorative icon; wrapped with `aria-hidden`. Ignored when `asChild` — put the icon inside your child. */
-  icon?: IconReference;
-  /** @default "start" */
-  iconPosition?: "start" | "end";
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -36,36 +39,14 @@ export const Badge: FC<BadgeProps> = ({
   className,
   variant,
   children,
-  icon: Icon,
-  iconPosition = "start",
   ...props
 }) => {
-  const styles = cn(
-    badgeVariants({ variant }),
-    Icon && !asChild && "gap-1.5",
-    className,
-  );
+  const styles = cn(badgeVariants({ variant }), className);
   const Comp = asChild ? Slot : "span";
-
-  if (asChild) {
-    return (
-      <Comp className={styles} {...props}>
-        {children}
-      </Comp>
-    );
-  }
-
-  const iconEl = Icon ? (
-    <span className="inline-flex shrink-0" aria-hidden>
-      <Icon className="size-[1em] shrink-0" />
-    </span>
-  ) : null;
 
   return (
     <Comp className={styles} {...props}>
-      {iconEl && iconPosition === "start" ? iconEl : null}
       {children}
-      {iconEl && iconPosition === "end" ? iconEl : null}
     </Comp>
   );
 };

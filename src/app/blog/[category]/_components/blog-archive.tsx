@@ -35,14 +35,16 @@ export const BlogArchive: FC<BlogArchiveProps> = ({
   emptyMessage,
 }) => {
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-14 md:py-16">
-      <Typography as="h1" size="3xl" weight="black">
-        {title}
+    <main className="container mx-auto px-4 py-14 md:py-16">
+      <Typography asChild size="3xl">
+        <h1>{title}</h1>
       </Typography>
       {stories.length === 0 ? (
-        <Typography as="p" className="mt-6" size="lg" weight="normal">
-          {emptyMessage}
-        </Typography>
+        <div className="mt-6">
+          <Typography asChild size="lg">
+            <p>{emptyMessage}</p>
+          </Typography>
+        </div>
       ) : (
         <section className="mt-8 grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-6">
           {stories.map((story, index) => {
@@ -86,8 +88,10 @@ export const BlogArchive: FC<BlogArchiveProps> = ({
         ) : (
           <span />
         )}
-        <Typography as="p" size="sm" weight="medium">
-          Page {pagination.page} of {pagination.totalPages}
+        <Typography asChild size="lg">
+          <p>
+            Page {pagination.page} of {pagination.totalPages}
+          </p>
         </Typography>
         {pagination.hasNext ? (
           <Link

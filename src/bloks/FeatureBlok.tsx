@@ -15,8 +15,8 @@ type FeatureBlokProps = {
 export const FeatureBlok: FC<FeatureBlokProps> = ({ blok }) => {
   return (
     <Surface {...storyblokEditable(blok)} className="p-4" padding="sm">
-      <Typography as="span" weight="bold">
-        {blok.name}
+      <Typography asChild size="xl">
+        <span>{blok.name}</span>
       </Typography>
     </Surface>
   );

@@ -3,26 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
-import { HeaderNavLink } from "./header";
+import { HeaderCta, HeaderNavLink } from "./header";
 
-const links = [
-  { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects", prefetch: false },
-  { href: "/about", label: "About", prefetch: false },
-];
+const links = [{ href: "/blog", label: "Blog" }];
 
 export const HeaderNavLinks: FC = () => {
   const pathname = usePathname();
 
   return (
     <>
-      {links.map(({ href, label, prefetch }) => (
+      {links.map(({ href, label }) => (
         <HeaderNavLink key={href} asChild active={pathname.startsWith(href)}>
-          <Link href={href} prefetch={prefetch}>
-            {label}
-          </Link>
+          <Link href={href}>{label}</Link>
         </HeaderNavLink>
       ))}
+      <HeaderCta asChild>
+        <Link href="/about" prefetch={false}>
+          About
+        </Link>
+      </HeaderCta>
     </>
   );
 };

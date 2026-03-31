@@ -44,7 +44,6 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
         pathname={`/blog/${category}`}
         stories={archive.stories}
         pagination={archive.pagination}
-        showCategorySidebar={false}
       />
     </>
   );

@@ -1,6 +1,8 @@
 import "server-only";
 import { AccoladeBlok } from "@/bloks/AccoladeBlok";
 import { ArticleBlok } from "@/bloks/ArticleBlok";
+import { BadgeBlok } from "@/bloks/BadgeBlok";
+import { BlogGridBlok } from "@/bloks/BlogGridBlok";
 import { BoxBlok } from "@/bloks/BoxBlok";
 import { CareerHistoryItemBlok } from "@/bloks/CareerHistoryItemBlok";
 import { CarouselBlok } from "@/bloks/CarouselBlok";
@@ -13,6 +15,7 @@ import { HeroBlok } from "@/bloks/HeroBlok";
 import { ImageBlok } from "@/bloks/ImageBlok";
 import { MediaVideoLinkBlok } from "@/bloks/MediaVideoLinkBlok";
 import { PageBlok } from "@/bloks/PageBlok";
+import { PageHeaderBlok } from "@/bloks/PageHeaderBlok";
 import { PromptBlok } from "@/bloks/PromptBlok";
 import { PublicEventBlok } from "@/bloks/PublicEventBlok";
 import { PublicEventsBlok } from "@/bloks/PublicEventsBlok";
@@ -32,6 +35,8 @@ import {
 export const BlokRenderer = createBlokRenderer({
   accolade: AccoladeBlok,
   article: ArticleBlok,
+  badge: BadgeBlok,
+  blog_grid: BlogGridBlok,
   box: BoxBlok,
   career_history_item: CareerHistoryItemBlok,
   carousel: CarouselBlok,
@@ -44,6 +49,7 @@ export const BlokRenderer = createBlokRenderer({
   image: ImageBlok,
   media_video_link: MediaVideoLinkBlok,
   page: PageBlok,
+  page_header: PageHeaderBlok,
   prompt: PromptBlok,
   public_event: PublicEventBlok,
   public_events: PublicEventsBlok,

@@ -6,7 +6,7 @@ import type { StoryblokAsset } from "./types";
 
 export const BLOG_PREFIX = "blog/";
 export const BLOG_CONTENT_TYPE = "article";
-export const BLOG_ARCHIVE_PAGE_SIZE = 10;
+export const BLOG_ARCHIVE_PAGE_SIZE = 9;
 
 type ImageBlok = {
   component?: string;

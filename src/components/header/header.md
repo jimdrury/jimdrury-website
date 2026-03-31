@@ -1,31 +1,29 @@
 # Header
 
-A compound site header with dark glassmorphism styling. Semi-transparent black background with backdrop blur, yellow-300 accent text, and drop shadow.
+A compound site header with brutalist styling. Light background, bold border-bottom, Anton logo, uppercase nav links, and a yellow CTA button with offset shadow.
 
 ## Sub-components
 
-| Component         | Element        | Description                                                    |
-| ----------------- | -------------- | -------------------------------------------------------------- |
-| `Header`          | `<header>`     | Outer container with glassmorphism backdrop                    |
-| `HeaderLogo`      | `<a>`/`<span>` | Logo wrapper; renders as a link when `href` or `asChild` is provided |
-| `HeaderLogoBadge` | `<span>`       | Yellow badge pill for a logo monogram                          |
-| `HeaderNav`       | `<nav>`        | Navigation wrapper with a `<ul>`                               |
-| `HeaderNavLink`   | `<a>`/`<li>`   | Individual nav link with optional `active` underline state     |
+| Component       | Element        | Description                                                          |
+| --------------- | -------------- | -------------------------------------------------------------------- |
+| `Header`        | `<header>`     | Outer sticky container with border-bottom                            |
+| `HeaderLogo`    | `<a>`/`<span>` | Logo in Anton font; renders as a link when `href` or `asChild` is provided |
+| `HeaderNav`     | `<nav>`        | Navigation wrapper with a `<ul>`                                     |
+| `HeaderNavLink` | `<a>`/`<li>`   | Individual nav link — uppercase, bold, with opacity active state     |
+| `HeaderCta`     | `<a>`/`<li>`   | Yellow CTA button with brutalist border and offset shadow            |
 
 ## Usage
 
 ```tsx
-import { Header, HeaderLogo, HeaderLogoBadge, HeaderNav, HeaderNavLink } from "@/components/header";
+import { Header, HeaderLogo, HeaderNav, HeaderNavLink, HeaderCta } from "@/components/header";
 
 <Header>
-  <HeaderLogo href="/">
-    <HeaderLogoBadge>jd</HeaderLogoBadge>
-    <span className="text-base font-semibold">jimdrury</span>
-  </HeaderLogo>
+  <HeaderLogo href="/">JIMDRURY.</HeaderLogo>
   <HeaderNav>
-    <HeaderNavLink href="/blog" active>Blog</HeaderNavLink>
-    <HeaderNavLink href="/projects">Projects</HeaderNavLink>
+    <HeaderNavLink href="/projects" active>Work</HeaderNavLink>
     <HeaderNavLink href="/about">About</HeaderNavLink>
+    <HeaderNavLink href="/blog">Blog</HeaderNavLink>
+    <HeaderCta href="/contact">Get in Touch</HeaderCta>
   </HeaderNav>
 </Header>
 ```
@@ -34,8 +32,12 @@ import { Header, HeaderLogo, HeaderLogoBadge, HeaderNav, HeaderNavLink } from "@
 
 ```tsx
 <HeaderNavLink asChild active>
-  <Link href="/blog">Blog</Link>
+  <Link href="/projects">Work</Link>
 </HeaderNavLink>
+
+<HeaderCta asChild>
+  <Link href="/contact">Get in Touch</Link>
+</HeaderCta>
 ```
 
 ## Custom styling
@@ -43,9 +45,7 @@ import { Header, HeaderLogo, HeaderLogoBadge, HeaderNav, HeaderNavLink } from "@
 All sub-components accept a `className` prop for overrides:
 
 ```tsx
-<Header className="bg-black/90">
-  <HeaderLogo className="gap-3">
-    <HeaderLogoBadge>jd</HeaderLogoBadge>
-  </HeaderLogo>
+<Header className="px-6">
+  <HeaderLogo className="text-2xl">JIMDRURY.</HeaderLogo>
 </Header>
 ```

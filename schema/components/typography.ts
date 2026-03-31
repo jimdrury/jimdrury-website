@@ -14,7 +14,7 @@ export default nestable({
       name: "as",
       default_value: "p",
       description:
-        "Heading levels use predefined size and weight for consistency.",
+        "Heading levels use predefined size (weight follows the scale for that size).",
       options: [
         { name: "Paragraph", value: "p" },
         { name: "Heading 1", value: "h1" },
