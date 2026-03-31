@@ -11,7 +11,6 @@ import { DividerBlok } from "@/bloks/DividerBlok";
 import { FeatureBlok } from "@/bloks/FeatureBlok";
 import { GridBlok } from "@/bloks/GridBlok";
 import { GridItemBlok } from "@/bloks/GridItemBlok";
-import { HeroBlok } from "@/bloks/HeroBlok";
 import { ImageBlok } from "@/bloks/ImageBlok";
 import { MediaVideoLinkBlok } from "@/bloks/MediaVideoLinkBlok";
 import { PageBlok } from "@/bloks/PageBlok";
@@ -45,7 +44,6 @@ export const BlokRenderer = createBlokRenderer({
   feature: FeatureBlok,
   grid: GridBlok,
   grid_item: GridItemBlok,
-  hero: HeroBlok,
   image: ImageBlok,
   media_video_link: MediaVideoLinkBlok,
   page: PageBlok,

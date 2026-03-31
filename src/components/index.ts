@@ -14,8 +14,6 @@ export * from "./divider";
 export * from "./draft-mode-refresh";
 export * from "./footer";
 export * from "./header";
-export * from "./hero";
-export * from "./hero-image";
 export * from "./icon";
 export * from "./link";
 export * from "./media";

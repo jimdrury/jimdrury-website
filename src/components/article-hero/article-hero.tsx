@@ -1,7 +1,7 @@
+import Image from "next/image";
 import type { FC } from "react";
 import { ArticleStats } from "@/components/article-stats";
 import { Badge } from "@/components/badge";
-import { HeroImage } from "@/components/hero-image";
 import { Typography } from "@/components/typography";
 
 export interface ArticleHeroProps {
@@ -31,13 +31,16 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
 
   return (
     <header className="relative">
-      <HeroImage
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        className="aspect-[16/9] lg:aspect-[20/7]"
-      />
+      <div className="aspect-[16/9] overflow-hidden lg:aspect-[20/7]">
+        <Image
+          src={src}
+          alt={alt}
+          width={width ?? 1920}
+          height={height ?? 1080}
+          sizes="100vw"
+          className="h-full w-full object-cover"
+        />
+      </div>
       <div className="relative z-10 w-full lg:container lg:mx-auto lg:px-12 2xl:max-w-6xl">
         <div className="border-b-[3px] border-black bg-[#ffe156] px-5 py-6 lg:hidden">
           {primaryCategory ? (

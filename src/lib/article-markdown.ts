@@ -348,7 +348,7 @@ const renderBlok = (blok: StoryblokBlok): string => {
     return renderSnippet(blok);
   }
 
-  if (blok.component === "image" || blok.component === "hero_image") {
+  if (blok.component === "image") {
     return renderImage(blok);
   }
 
