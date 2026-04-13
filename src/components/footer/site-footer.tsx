@@ -3,7 +3,6 @@ import type { FC } from "react";
 import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { Icon } from "@/components/icon";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -42,42 +41,41 @@ export const SiteFooter: FC<SiteFooterProps> = ({
   return (
     <footer
       className={cn(
-        "border-t-2 border-black bg-slate-900 text-zinc-100",
+        "flex flex-col items-center gap-2 bg-[var(--fg-primary)] px-5 py-8 text-[var(--fg-inverse)] sm:gap-6 sm:px-12 sm:py-10",
         className,
       )}
       {...props}
     >
-      <div className="container mx-auto flex flex-col items-center gap-3 px-4 py-6 sm:px-6">
+      <p className="font-[family-name:var(--font-geist-mono)] text-xs font-semibold uppercase tracking-[2px] sm:text-sm">
+        Jim Drury &copy; {currentYear}
+      </p>
+      <p className="font-[family-name:var(--font-anton)] text-xl uppercase tracking-[2px] sm:text-2xl">
+        Built with boldness.
+      </p>
+      <div className="flex w-full items-center justify-between">
         <nav aria-label="Social links">
-          <ul className="flex items-center gap-6">
+          <ul className="flex items-center gap-4 sm:gap-5">
             {SOCIAL_LINKS.map(({ href, label, IconComponent }) => (
               <li key={href} className="list-none">
                 <a
                   href={href}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 transition-opacity hover:opacity-80 focus-visible:focus-ring"
+                  aria-label={label}
+                  className="inline-flex text-[var(--fg-inverse)] transition-opacity hover:opacity-80 focus-visible:focus-ring-sm"
                 >
-                  <Icon size="sm">
-                    <IconComponent className="size-3.5" />
-                  </Icon>
-                  <span>{label}</span>
+                  <IconComponent className="size-[18px] sm:size-5" />
                 </a>
               </li>
             ))}
           </ul>
         </nav>
-        <p className="text-xs text-zinc-300">
-          &copy; {currentYear} Jim Drury. All rights reserved.
-        </p>
-        <div className="flex items-center text-xs font-medium text-zinc-400">
-          <Link
-            href="/legal/privacy-policy"
-            className="transition-colors hover:text-zinc-200 focus-visible:focus-ring"
-          >
-            Privacy Policy
-          </Link>
-        </div>
+        <Link
+          href="/legal/privacy-policy"
+          className="font-[family-name:var(--font-geist-mono)] text-xs font-semibold tracking-[2px] text-[var(--fg-inverse)] transition-opacity hover:opacity-80 focus-visible:focus-ring-sm sm:text-sm"
+        >
+          Privacy Policy
+        </Link>
       </div>
     </footer>
   );

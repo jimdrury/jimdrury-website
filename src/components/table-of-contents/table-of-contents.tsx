@@ -37,10 +37,10 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
   }
 
   return (
-    <section className="rounded-md border-[3px] border-black bg-[#f5f0e1] p-4 shadow-[4px_4px_0_0_#1a1a1a] md:p-6">
+    <section className="rounded-md border-[3px] border-black bg-[var(--bg-secondary)] p-4 shadow-[4px_4px_0_0_var(--fg-primary)] md:p-6">
       <details className="group lg:hidden" open>
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-          <Typography asChild size="2xl" uppercase aria-hidden>
+          <Typography asChild size="2xl" textTransform="uppercase" aria-hidden>
             <h2>On This Page</h2>
           </Typography>
           <FiChevronDown
@@ -73,11 +73,9 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
         </nav>
       </details>
       <div className="hidden lg:block">
-        <div className="mb-4 flex items-center">
-          <Typography asChild size="2xl" uppercase aria-hidden>
-            <h2>On This Page</h2>
-          </Typography>
-        </div>
+        <Typography asChild size="2xl" textTransform="uppercase" aria-hidden>
+          <h2 className="mb-4">On This Page</h2>
+        </Typography>
         <nav aria-label="Table of contents">
           <ul className="space-y-2">
             {headings.map((heading) => (

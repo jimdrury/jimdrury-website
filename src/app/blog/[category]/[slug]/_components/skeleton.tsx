@@ -2,65 +2,66 @@ import "server-only";
 
 import type { FC } from "react";
 
-export const Skeleton: FC = () => {
-  const bodyLineKeys = [
-    "line-1",
-    "line-2",
-    "line-3",
-    "line-4",
-    "line-5",
-    "line-6",
-    "line-7",
-    "line-8",
-  ] as const;
-  const sidebarLinkKeys = ["link-1", "link-2", "link-3"] as const;
+const relatedCardKeys = ["card-1", "card-2", "card-3"] as const;
 
+export const Skeleton: FC = () => {
   return (
     <main className="animate-pulse" aria-busy="true" aria-hidden="true">
-      <header>
-        <div className="aspect-[16/9] w-full bg-zinc-200 md:aspect-[20/7] lg:aspect-[24/7]" />
-        <div className="relative z-10 mx-auto -mt-12 w-full px-4">
-          <div className="rounded-md border-4 border-black bg-yellow-300 px-6 py-6 shadow-[8px_8px_0_0] shadow-black">
-            <div className="h-8 w-4/5 rounded bg-yellow-200 md:h-10" />
-            <div className="mt-4 flex flex-col gap-3">
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-                <div className="h-4 w-48 rounded bg-yellow-200" />
-                <div className="h-4 w-20 rounded bg-yellow-200" />
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-16 rounded bg-yellow-200" />
-                <div className="h-7 w-20 rounded bg-yellow-200" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Hero image */}
+      <div className="aspect-[3/2] w-full bg-stone-200 border-b-[3px] border-stone-300 md:aspect-[3/1]" />
 
-      <div className="container mx-auto mt-8 gap-y-6 px-4 flex flex-col md:grid md:gap-x-10 md:gap-y-0 md:[grid-template-columns:minmax(0,3fr)_minmax(0,1fr)] lg:gap-x-12 lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]">
-        <div className="space-y-4 md:col-start-2 md:row-start-1">
-          <div className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
-            <div className="h-5 w-2/3 rounded bg-zinc-200" />
-            <div className="mt-3 space-y-2">
-              {sidebarLinkKeys.map((key) => (
-                <div
-                  key={`article-skeleton-sidebar-${key}`}
-                  className="h-4 w-full rounded bg-zinc-200"
-                />
-              ))}
-            </div>
+      {/* Article header */}
+      <div className="w-full px-5 py-8 flex flex-col gap-4 md:px-[200px] md:py-12 md:gap-5">
+        <div className="h-[22px] w-20 rounded-full bg-stone-300 md:h-[26px] md:w-[90px]" />
+        <div className="flex flex-col gap-3">
+          <div className="h-10 w-[350px] rounded bg-stone-300 md:h-[52px] md:w-[800px]" />
+          <div className="h-10 w-60 rounded bg-stone-300 md:h-[52px] md:w-[500px]" />
+        </div>
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="h-9 w-9 shrink-0 rounded-full bg-stone-300 md:h-11 md:w-11" />
+          <div className="flex flex-col gap-1.5">
+            <div className="h-3 w-24 rounded bg-stone-300 md:h-3.5 md:w-[120px]" />
+            <div className="h-2.5 w-32 rounded bg-stone-200 md:h-3 md:w-40" />
           </div>
         </div>
-        <section className="space-y-4 pb-4 md:col-start-1 md:row-start-1 md:row-span-2">
-          <div className="h-8 w-2/3 rounded bg-zinc-200" />
-          {bodyLineKeys.map((key, index) => (
+      </div>
+
+      {/* Article body */}
+      <div className="w-full px-5 pb-8 flex flex-col gap-5 md:px-[200px] md:pb-12 md:gap-6">
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-[86%] rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-3/4 rounded bg-stone-300 md:h-3" />
+        <div className="h-6 w-[200px] rounded bg-stone-300 md:h-7 md:w-80" />
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-[89%] rounded bg-stone-300 md:h-3" />
+        <div className="h-[200px] w-full rounded-lg border-[3px] border-stone-300 bg-stone-200 md:h-[320px]" />
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-full rounded bg-stone-300 md:h-3" />
+        <div className="h-2.5 w-[83%] rounded bg-stone-300 md:h-3" />
+      </div>
+
+      {/* Related posts */}
+      <div className="w-full border-t-[3px] border-stone-300 px-5 py-8 flex flex-col gap-6 md:px-20 md:py-12 md:gap-8">
+        <div className="h-6 w-[180px] rounded bg-stone-300 md:h-7 md:w-[220px]" />
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+          {relatedCardKeys.map((key) => (
             <div
-              key={`article-skeleton-body-${key}`}
-              className={`h-4 rounded bg-zinc-100 ${
-                index % 3 === 2 ? "w-10/12" : "w-full"
-              }`}
-            />
+              key={`article-skeleton-related-${key}`}
+              className="overflow-hidden rounded-lg border-[3px] border-stone-300 shadow-[6px_6px_0_0_#DDD5C4] last:hidden sm:last:block md:last:block"
+            >
+              <div className="h-40 w-full bg-stone-200 md:h-[180px]" />
+              <div className="flex flex-col gap-2 p-4 md:p-5">
+                <div className="h-[18px] w-12 rounded-full bg-stone-300" />
+                <div className="h-[18px] w-full rounded bg-stone-300" />
+                <div className="h-2.5 w-full rounded bg-stone-200" />
+                <div className="h-8 w-[90px] rounded bg-stone-300" />
+              </div>
+            </div>
           ))}
-        </section>
+        </div>
       </div>
     </main>
   );

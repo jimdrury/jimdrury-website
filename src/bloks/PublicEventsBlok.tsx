@@ -1,6 +1,6 @@
 import "server-only";
 import type { FC } from "react";
-import { Accordion } from "@/components/accordion";
+import { PaginatedList } from "@/components/paginated-list";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
@@ -15,6 +15,8 @@ type PublicEventsBlokData = SbBlokData & {
 type PublicEventsBlokProps = {
   blok: PublicEventsBlokData;
 };
+
+const EVENTS_PER_PAGE = 3;
 
 const getEventTimestamp = (value: string | undefined): number => {
   if (!value) {
@@ -38,11 +40,14 @@ export const PublicEventsBlok: FC<PublicEventsBlokProps> = ({ blok }) => {
 
   return (
     <section {...storyblokEditable(blok)}>
-      <Accordion className="space-y-5">
+      <PaginatedList
+        className="@container flex flex-col gap-12"
+        pageSize={EVENTS_PER_PAGE}
+      >
         {events.map((eventBlok) => (
           <BlokRenderer blok={eventBlok} key={eventBlok._uid} />
         ))}
-      </Accordion>
+      </PaginatedList>
     </section>
   );
 };

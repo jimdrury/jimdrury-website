@@ -3,6 +3,7 @@ import { draftMode } from "next/headers";
 import { connection } from "next/server";
 import type { FC } from "react";
 import { Suspense } from "react";
+import { BackToTop } from "@/components/back-to-top";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import { buildArticleMetadata } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
@@ -33,9 +34,12 @@ export const generateMetadata = async ({
 
 const Page: FC<PageProps<"/blog/[category]/[slug]">> = ({ params }) => {
   return (
-    <Suspense fallback={<Skeleton />}>
-      <Render params={params} />
-    </Suspense>
+    <>
+      <Suspense fallback={<Skeleton />}>
+        <Render params={params} />
+      </Suspense>
+      <BackToTop />
+    </>
   );
 };
 

@@ -14,7 +14,7 @@ type PageBlokProps = {
 
 export const PageBlok: FC<PageBlokProps> = ({ blok }) => {
   return (
-    <main {...storyblokEditable(blok)} className="space-y-6 pb-6">
+    <main {...storyblokEditable(blok)} className="pb-6">
       {blok.body?.map((nestedBlok) => (
         <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
       ))}

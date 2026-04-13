@@ -75,14 +75,10 @@ export const getFeaturedImageAsset = (
     return undefined;
   }
 
-  const src = featuredImageBlok.image?.filename;
-  if (!src) {
+  const image = featuredImageBlok.image;
+  if (!image?.filename) {
     return undefined;
   }
 
-  return {
-    filename: src,
-    alt:
-      featuredImageBlok.image?.alt || featuredImageBlok.image?.meta_data?.alt,
-  };
+  return image;
 };

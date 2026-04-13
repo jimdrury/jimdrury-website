@@ -60,7 +60,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
             readTime={readTime}
           />
         </div>
-        <div className="absolute -bottom-32 -left-[3px] z-10 hidden w-full max-w-[860px] rounded-md border-[3px] border-black bg-[#ffe156] px-10 py-9 text-black shadow-[8px_8px_0_0_#1a1a1a] lg:block xl:-bottom-36">
+        <div className="absolute -bottom-32 -left-[3px] z-10 hidden w-full max-w-[860px] rounded-md border-[3px] border-black bg-[var(--bg-accent-yellow)] px-10 py-9 text-black shadow-[8px_8px_0_0_var(--fg-primary)] lg:block xl:-bottom-36">
           {primaryCategory ? (
             <Badge variant="tertiary" className="mb-5">
               {primaryCategory}
@@ -73,7 +73,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           </div>
           {excerpt ? (
             <div className="mt-4 text-balance">
-              <Typography asChild size="md">
+              <Typography asChild size="base">
                 <p>{excerpt}</p>
               </Typography>
             </div>

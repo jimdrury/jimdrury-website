@@ -84,9 +84,9 @@ describe("Typography", () => {
     expect(heading).toHaveClass("text-[14px]");
   });
 
-  it("applies uppercase when uppercase is true", () => {
+  it("applies uppercase when textTransform is uppercase", () => {
     render(
-      <Typography data-testid="upper" uppercase>
+      <Typography data-testid="upper" textTransform="uppercase">
         Caps
       </Typography>,
     );

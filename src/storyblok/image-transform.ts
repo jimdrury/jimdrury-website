@@ -1,4 +1,5 @@
 import "server-only";
+import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import type { StoryblokImageDimensions } from "@/storyblok/image-dimensions";
 
 const STORYBLOK_ASSET_HOST = "a.storyblok.com";
@@ -7,9 +8,11 @@ type StoryblokTransformOptions = {
   width: number;
   height?: number;
   quality?: number;
+  /** Storyblok asset `focus` string; appended as `filters:focal(...)` when valid. */
+  focus?: string | null;
 };
 
-const isStoryblokAsset = (value: string): boolean => {
+export const isStoryblokImageServiceUrl = (value: string): boolean => {
   try {
     const url = new URL(value);
     return url.hostname === STORYBLOK_ASSET_HOST;
@@ -30,7 +33,7 @@ export const transformStoryblokImage = (
   src: string,
   options: StoryblokTransformOptions,
 ): string => {
-  if (!isStoryblokAsset(src)) {
+  if (!isStoryblokImageServiceUrl(src)) {
     return src;
   }
 
@@ -42,10 +45,22 @@ export const transformStoryblokImage = (
   const height = sanitizePositiveInteger(options.height ?? 0);
   const quality = sanitizePositiveInteger(options.quality ?? 0);
   const base = src.split("/m/")[0] ?? src;
-  const qualitySegment =
-    quality > 0 ? `/filters:quality(${Math.min(quality, 100)})` : "";
+  const sanitizedFocus = sanitizeStoryblokFocusValue(
+    options.focus ?? undefined,
+  );
 
-  return `${base}/m/${width}x${height}${qualitySegment}`;
+  const filterParts: string[] = [];
+  if (quality > 0) {
+    filterParts.push(`quality(${Math.min(quality, 100)})`);
+  }
+  if (sanitizedFocus) {
+    filterParts.push(`focal(${sanitizedFocus})`);
+  }
+
+  const filtersSegment =
+    filterParts.length > 0 ? `/filters:${filterParts.join(":")}` : "";
+
+  return `${base}/m/${width}x${height}${filtersSegment}`;
 };
 
 export const constrainStoryblokDimensions = (

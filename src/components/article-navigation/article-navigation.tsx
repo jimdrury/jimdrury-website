@@ -69,7 +69,7 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
 
   return (
     <nav
-      className="mx-auto flex w-full items-center justify-between gap-4 border-t-[3px] border-[#1a1a1a] px-5 py-6 md:px-12 md:py-10 2xl:max-w-6xl"
+      className="mx-auto flex w-full items-center justify-between gap-4 border-t-[3px] border-[var(--fg-primary)] px-5 py-6 md:px-12 md:py-10 2xl:max-w-6xl"
       aria-label="Article navigation"
     >
       {previousStory ? (

@@ -9,6 +9,7 @@ import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
 import { estimateReadTime } from "@/lib/read-time";
 import { getSimilarArticleItems } from "@/lib/similar-articles";
+import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import { transformStoryblokImage } from "@/storyblok/image-transform";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
@@ -115,6 +116,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
               width: HERO_WIDTH,
               height: HERO_HEIGHT,
               quality: HERO_QUALITY,
+              focus: sanitizeStoryblokFocusValue(featuredImage?.focus),
             })}
             alt={
               featuredImage?.alt ||
@@ -138,7 +140,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
             </div>
             {excerpt ? (
               <div className="article-description mt-3 text-balance lg:mt-4">
-                <Typography asChild size="md">
+                <Typography asChild size="base">
                   <p>{excerpt}</p>
                 </Typography>
               </div>

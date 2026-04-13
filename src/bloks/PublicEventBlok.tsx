@@ -2,7 +2,7 @@ import "server-only";
 import type { FC } from "react";
 import { PublicEvent } from "@/components/public-event";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
-import type { StoryblokAsset } from "@/storyblok/types";
+import { BlokRenderer } from "@/storyblok/renderer";
 
 type PublicEventBlokData = SbBlokData & {
   event_date?: string;
@@ -11,10 +11,9 @@ type PublicEventBlokData = SbBlokData & {
   address?: string;
   performer?: string;
   event_status?: string;
-  image?: StoryblokAsset;
-  is_expanded?: boolean;
   title?: string;
   description?: string;
+  badge?: SbBlokData[];
   link_text?: string;
   link_url?: string;
 };
@@ -28,6 +27,12 @@ export const PublicEventBlok: FC<PublicEventBlokProps> = ({ blok }) => {
     return null;
   }
 
+  const [badgeBlok] = blok.badge ?? [];
+  const badgeNode =
+    badgeBlok?.component === "badge" ? (
+      <BlokRenderer blok={badgeBlok} key={badgeBlok._uid} />
+    ) : null;
+
   return (
     <PublicEvent
       {...storyblokEditable(blok)}
@@ -37,10 +42,9 @@ export const PublicEventBlok: FC<PublicEventBlokProps> = ({ blok }) => {
       address={blok.address}
       performer={blok.performer}
       eventStatus={blok.event_status}
-      imageUrl={blok.image?.filename}
-      defaultExpanded={blok.is_expanded}
       title={blok.title}
       description={blok.description}
+      badge={badgeNode}
       linkText={blok.link_text}
       linkUrl={blok.link_url}
     />

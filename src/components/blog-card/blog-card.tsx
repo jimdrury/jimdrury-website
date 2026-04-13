@@ -44,8 +44,7 @@ export const BlogCard: FC<BlogCardProps> = ({
   return (
     <article
       className={cn(
-        // Pencil `Component/BlogCard` (v3fwK): $radius-md 8, border 3, 8×8 shadow, $bg-primary
-        "flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[#1a1a1a] bg-[#fffdf5] text-[#1a1a1a] shadow-[8px_8px_0_0_#1a1a1a]",
+        "flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] text-[var(--fg-primary)] shadow-[8px_8px_0_0_var(--fg-primary)]",
         className,
       )}
       {...props}
@@ -83,18 +82,18 @@ export const BlogCard: FC<BlogCardProps> = ({
             {date && (
               <time
                 dateTime={dateTime}
-                className="font-[family-name:var(--font-inter)] text-[12px] font-bold tracking-[1.5px] text-[#3d3d3d]"
+                className="font-[family-name:var(--font-inter)] text-[12px] font-bold tracking-[1.5px] text-[var(--fg-secondary)]"
               >
                 {date}
               </time>
             )}
-            <h2 className="font-[family-name:var(--font-anton)] text-[28px] font-bold leading-[1.15] tracking-[1px] text-[#1a1a1a]">
+            <h2 className="font-[family-name:var(--font-anton)] text-[28px] font-bold leading-[1.15] tracking-[1px] text-[var(--fg-primary)]">
               {title}
             </h2>
             {excerpt ? (
               <div className="line-clamp-3 text-pretty">
                 <Typography size="sm" asChild>
-                  <p className="text-[#3d3d3d]">{excerpt}</p>
+                  <p className="text-[var(--fg-secondary)]">{excerpt}</p>
                 </Typography>
               </div>
             ) : null}

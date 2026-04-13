@@ -43,7 +43,7 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[1.5px] text-[#3d3d3d] md:text-xs",
+        "flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[1.5px] text-[var(--fg-secondary)] md:text-xs",
         className,
       )}
       {...props}

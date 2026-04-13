@@ -2,34 +2,140 @@ import "server-only";
 
 import type { FC } from "react";
 
+import { HERO_CONTENT_INNER_CLASS } from "@/components/hero";
+import { cn } from "@/lib/utils";
+
+const SKEL = "rounded bg-[#C8BBAA]";
+const SKEL_LIGHT = "rounded bg-[#DDD5C4]";
+const PILL = "rounded-full bg-[#C8BBAA]";
+const IMG = "bg-[#D5CCBA]";
+const TICKER_ITEM = "rounded bg-[#333]";
+
 export const Skeleton: FC = () => {
   return (
-    <main aria-busy="true">
-      <section className="w-full bg-black" aria-hidden="true">
-        <div className="aspect-[32/9] md:aspect-[40/7] lg:aspect-[48/7]" />
-      </section>
+    <div className="animate-pulse bg-[var(--bg-primary)]" aria-busy="true">
+      {/* Hero — mirrors flex-col-reverse lg:flex-row from Hero component */}
+      <div
+        className={cn(
+          "flex flex-col-reverse gap-6 py-10 lg:flex-row lg:items-start lg:gap-[60px] lg:py-20",
+          HERO_CONTENT_INNER_CLASS,
+        )}
+      >
+        {/* Text column */}
+        <div className="flex flex-1 flex-col gap-5 lg:gap-6">
+          <div className={`${PILL} h-[26px] w-24`} />
+          <div className="flex flex-col gap-3">
+            <div className={`${SKEL} h-16 w-full lg:h-20`} />
+            <div className={`${SKEL} h-16 w-4/5 lg:h-20 lg:w-3/5`} />
+          </div>
+          <div className="flex flex-col gap-2.5">
+            <div className={`${SKEL} h-4 w-full`} />
+            <div className={`${SKEL} h-4 w-full`} />
+            <div className={`${SKEL} h-4 w-3/4 lg:w-1/2`} />
+          </div>
+        </div>
 
-      <div className="relative z-10 mx-auto -mt-12 w-full px-4">
-        <div className="animate-pulse rounded-md border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
-          <div className="h-9 w-64 rounded bg-yellow-200" />
-          <div className="mt-2 h-4 w-48 rounded bg-yellow-200" />
+        {/* Portrait column */}
+        <div className="w-full shrink-0 lg:w-[480px]">
+          <div
+            className={cn(
+              IMG,
+              "h-[300px] w-full rounded-xl border-[3px] border-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)] lg:h-[352px] lg:shadow-[8px_8px_0_0_var(--fg-primary)]",
+            )}
+          />
         </div>
       </div>
 
-      <div className="container mx-auto mt-8 grid animate-pulse gap-y-6 px-4 pb-12 md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] md:gap-x-10 md:gap-y-0 md:pb-14 lg:gap-x-12 lg:[grid-template-columns:minmax(0,5fr)_minmax(0,2fr)]">
-        <section className="space-y-4 pb-0 md:col-start-1 md:row-start-1 md:pb-4">
-          <div className="h-6 w-3/4 rounded bg-zinc-200" />
-          <div className="h-6 w-full rounded bg-zinc-200" />
-          <div className="h-6 w-5/6 rounded bg-zinc-200" />
-          <div className="h-40 w-full rounded border-2 border-black bg-zinc-100" />
-          <div className="h-6 w-2/3 rounded bg-zinc-200" />
-          <div className="h-6 w-11/12 rounded bg-zinc-200" />
-        </section>
-        <aside
-          aria-hidden="true"
-          className="hidden md:col-start-2 md:row-start-1 md:block md:self-start"
-        />
+      {/* Ticker — dark band with word + star placeholders */}
+      <div className="overflow-hidden bg-[var(--fg-primary)] px-5 py-3 lg:px-12 lg:py-4">
+        <div className="flex items-center gap-4 lg:gap-12">
+          <div className={`${TICKER_ITEM} h-4 w-20 lg:h-5 lg:w-24`} />
+          <div className={`${TICKER_ITEM} h-2.5 w-2.5 rounded-full`} />
+          <div className={`${TICKER_ITEM} h-4 w-14 lg:h-5 lg:w-16`} />
+          <div className={`${TICKER_ITEM} h-2.5 w-2.5 rounded-full`} />
+          <div className={`${TICKER_ITEM} h-4 w-24 lg:h-5 lg:w-28`} />
+          <div className={`${TICKER_ITEM} h-2.5 w-2.5 rounded-full`} />
+          <div className={`${TICKER_ITEM} hidden h-5 w-20 lg:block`} />
+          <div
+            className={`${TICKER_ITEM} hidden h-2.5 w-2.5 rounded-full lg:block`}
+          />
+        </div>
       </div>
-    </main>
+
+      {/* Content Band 1 — grid layout (e.g. award cards) */}
+      <div className="w-full py-[48px] lg:py-[80px]">
+        <div
+          className={cn("space-y-8 lg:space-y-12", HERO_CONTENT_INNER_CLASS)}
+        >
+          <div className="flex flex-col gap-3">
+            <div className={`${SKEL} h-9 w-52 lg:h-11 lg:w-72`} />
+            <div className={`${SKEL_LIGHT} h-4 w-64 lg:w-80`} />
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {(["a", "b", "c"] as const).map((key) => (
+              <div
+                key={key}
+                className={cn(
+                  `${IMG} h-44 rounded-xl lg:h-52`,
+                  key === "c" && "hidden lg:block",
+                )}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Content Band 2 — stack layout with secondary bg (e.g. video list) */}
+      <div className="w-full bg-[var(--bg-secondary)] py-[48px] lg:py-[80px]">
+        <div
+          className={cn("space-y-8 lg:space-y-12", HERO_CONTENT_INNER_CLASS)}
+        >
+          <div className="flex items-end justify-between">
+            <div className={`${SKEL} h-9 w-52 lg:h-11 lg:w-72`} />
+            <div className={`${SKEL} h-8 w-16 rounded lg:w-20`} />
+          </div>
+          <div className="flex flex-col gap-4">
+            {(["a", "b"] as const).map((key) => (
+              <div key={key} className="flex items-start gap-4">
+                <div
+                  className={`${IMG} h-24 w-36 shrink-0 rounded-lg lg:h-28 lg:w-44`}
+                />
+                <div className="flex flex-1 flex-col gap-2.5">
+                  <div className={`${SKEL} h-4 w-full lg:h-[18px]`} />
+                  <div className={`${SKEL} h-4 w-3/4 lg:h-[18px]`} />
+                  <div className={`${SKEL_LIGHT} h-3 w-full`} />
+                  <div className={`${SKEL_LIGHT} h-3 w-2/3`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Content Band 3 — stack layout (e.g. career history / events) */}
+      <div className="w-full py-[48px] lg:py-[80px]">
+        <div
+          className={cn("space-y-8 lg:space-y-12", HERO_CONTENT_INNER_CLASS)}
+        >
+          <div className={`${SKEL} h-9 w-52 lg:h-11 lg:w-72`} />
+          <div className="flex flex-col gap-6">
+            {(["a", "b", "c"] as const).map((key) => (
+              <div
+                key={key}
+                className="flex flex-col gap-2.5 lg:flex-row lg:gap-12"
+              >
+                <div className={`${SKEL_LIGHT} h-4 w-32 shrink-0 lg:w-40`} />
+                <div className="flex flex-1 flex-col gap-2">
+                  <div className={`${SKEL} h-5 w-full lg:w-3/5`} />
+                  <div className={`${SKEL_LIGHT} h-3.5 w-1/2 lg:w-1/4`} />
+                  <div className={`${SKEL_LIGHT} h-3 w-full`} />
+                  <div className={`${SKEL_LIGHT} h-3 w-5/6`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

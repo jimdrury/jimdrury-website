@@ -1,6 +1,7 @@
 import {
   datetime,
   nestable,
+  option,
   richtext,
   text,
 } from "@jimdrury/storyblok-component-schema";
@@ -35,6 +36,20 @@ export default nestable({
     text({
       name: "website_url",
       description: "Optional company website URL (https://...).",
+    }),
+    option({
+      name: "colour",
+      required: true,
+      description: "Card background accent colour.",
+      default_value: "yellow",
+      options: [
+        { name: "Yellow", value: "yellow" },
+        { name: "Blue", value: "blue" },
+        { name: "Green", value: "green" },
+        { name: "Pink", value: "pink" },
+        { name: "Orange", value: "orange" },
+        { name: "Purple", value: "purple" },
+      ],
     }),
     richtext({
       name: "description",

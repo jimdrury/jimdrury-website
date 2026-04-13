@@ -25,18 +25,18 @@ const bodyRows: ScaleRow[] = [
   { label: "2xl", size: "2xl", text: pangram },
   { label: "xl", size: "xl", text: pangram },
   { label: "lg", size: "lg", text: pangram },
-  { label: "base", size: "md", text: pangram },
+  { label: "base", size: "base", text: pangram },
   { label: "sm", size: "sm", text: pangram },
   { label: "xs", size: "xs", text: pangram },
 ];
 
 const Divider: FC = () => (
-  <div aria-hidden className="h-[3px] w-full shrink-0 bg-[#1a1a1a]" />
+  <div aria-hidden className="h-[3px] w-full shrink-0 bg-[var(--fg-primary)]" />
 );
 
 const ScaleRowView: FC<ScaleRow> = ({ label, size, text }) => (
   <div className="flex items-center gap-5">
-    <span className="w-12 shrink-0 font-bold font-[family-name:var(--font-inter)] text-[11px] text-[#3d3d3d] tracking-[2px]">
+    <span className="w-12 shrink-0 font-bold font-[family-name:var(--font-inter)] text-[11px] text-[var(--fg-secondary)] tracking-[2px]">
       {label}
     </span>
     <Typography size={size}>{text}</Typography>
@@ -45,11 +45,11 @@ const ScaleRowView: FC<ScaleRow> = ({ label, size, text }) => (
 
 export const TypographyScaleShowcase: FC = () => {
   return (
-    <div className="mx-auto flex w-full max-w-[900px] flex-col gap-7 rounded-xl border-[3px] border-[#1a1a1a] bg-[#F5F0E1] p-12">
-      <h1 className="font-[family-name:var(--font-anton)] text-[28px] leading-none tracking-[2px] text-[#1a1a1a] uppercase">
+    <div className="mx-auto flex w-full max-w-[900px] flex-col gap-7 rounded-xl border-[3px] border-[var(--fg-primary)] bg-[var(--bg-secondary)] p-12">
+      <h1 className="font-[family-name:var(--font-anton)] text-[28px] leading-none tracking-[2px] text-[var(--fg-primary)] uppercase">
         Typography scale
       </h1>
-      <p className="font-[family-name:var(--font-inter)] text-[13px] font-medium leading-normal text-[#3d3d3d]">
+      <p className="font-[family-name:var(--font-inter)] text-[13px] font-medium leading-normal text-[var(--fg-secondary)]">
         Single component · theme axis &apos;size&apos; · auto font, tracking,
         and leading (weight follows size)
       </p>

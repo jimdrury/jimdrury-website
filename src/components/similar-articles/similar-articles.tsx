@@ -28,20 +28,18 @@ export const SimilarArticles: FC<SimilarArticlesProps> = ({
   return (
     <section
       className={cn(
-        "rounded-md border-[3px] border-black bg-[#f5f0e1] p-4 shadow-[4px_4px_0_0_#1a1a1a] md:p-6",
+        "rounded-md border-[3px] border-black bg-[var(--bg-secondary)] p-4 shadow-[4px_4px_0_0_var(--fg-primary)] md:p-6",
         className,
       )}
       aria-label="Similar articles"
     >
-      <div className="mb-4 flex items-center">
-        <Typography asChild size="2xl" uppercase>
-          <h2>Similar Articles</h2>
-        </Typography>
-      </div>
+      <Typography asChild size="2xl" textTransform="uppercase">
+        <h2 className="mb-4">Similar Articles</h2>
+      </Typography>
       <ul className="space-y-3">
         {items.map((item, index) => (
           <li key={item.href}>
-            <article className="relative overflow-hidden rounded-md border-[2px] border-black bg-[#fffdf5]">
+            <article className="relative overflow-hidden rounded-md border-[2px] border-black bg-[var(--bg-primary)]">
               {item.imageSrc ? (
                 <div className="relative h-[120px] w-full overflow-hidden border-b-[2px] border-black">
                   <Image
@@ -56,7 +54,7 @@ export const SimilarArticles: FC<SimilarArticlesProps> = ({
                   {item.category ? (
                     <Badge
                       variant={badgeVariants[index % badgeVariants.length]}
-                      className="absolute right-3 top-3 px-3 py-1 text-[10px] tracking-[1px] shadow-[4px_4px_0_0_#1a1a1a]"
+                      className="absolute right-3 top-3 px-3 py-1 text-[10px] tracking-[1px] shadow-[4px_4px_0_0_var(--fg-primary)]"
                     >
                       {item.category}
                     </Badge>

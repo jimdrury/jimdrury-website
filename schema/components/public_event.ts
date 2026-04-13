@@ -1,12 +1,12 @@
 import {
-  asset,
-  boolean,
+  blocks,
   datetime,
   nestable,
   tab,
   text,
   textarea,
 } from "@jimdrury/storyblok-component-schema";
+import badge from "./badge";
 
 export default nestable({
   name: "public_event",
@@ -27,6 +27,12 @@ export default nestable({
           name: "description",
           required: true,
           description: "Short event summary.",
+        }),
+        blocks({
+          name: "badge",
+          description: "Optional Badge (at most one).",
+          allowed_components: [badge],
+          maximum: 1,
         }),
       ],
     }),
@@ -62,23 +68,12 @@ export default nestable({
           description:
             "Optional schema.org event status URL (for example: https://schema.org/EventCancelled).",
         }),
-        boolean({
-          name: "is_expanded",
-          default_value: false,
-          description:
-            "When enabled, this speaking engagement is expanded by default.",
-        }),
       ],
     }),
     tab({
       name: "link",
       display_name: "Link",
       fields: [
-        asset({
-          name: "image",
-          filetypes: ["images"],
-          description: "Optional event image for SEO structured data.",
-        }),
         text({
           name: "link_text",
           description:

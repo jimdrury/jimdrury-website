@@ -2,11 +2,34 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --max-width-prose: 80ch;
+}
+
 :root {
-  /* Matches Pencil design tokens (neo_pencil.pen): border + offset shadow */
+  /* Surfaces (Pencil neo_pencil.pen) */
+  --bg-primary: #fffdf5;
+  --bg-secondary: #f5f0e1;
+
+  /* Accent tints (Pencil neo_pencil.pen) */
+  --bg-accent-yellow: #ffe156;
+  --bg-accent-orange: #ff9f43;
+  --bg-accent-pink: #ff6b6b;
+  --bg-accent-purple: #c4b5fd;
+  --bg-accent-blue: #a8d8ea;
+  --bg-accent-green: #7ed957;
+
+  /* Foregrounds (Pencil neo_pencil.pen) */
+  --fg-primary: #1a1a1a;
+  --fg-secondary: #3d3d3d;
+  --fg-inverse: #fffdf5;
+
+  /* Borders */
   --color-border-strong: #1a1a1a;
-  --focus-ring-inner: #fffdf5;
-  --focus-ring-outer: #1a1a1a;
+
+  /* Focus rings (derived from tokens) */
+  --focus-ring-inner: var(--bg-primary);
+  --focus-ring-outer: var(--fg-primary);
   --focus-stack-sm:
     2px 2px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
     0 0 0 4px var(--focus-ring-outer);
@@ -40,7 +63,7 @@ html {
 }
 
 body {
-  background-color: #fffdf5;
+  background-color: var(--bg-primary);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,16 +1,18 @@
 import "server-only";
-import { AccoladeBlok } from "@/bloks/AccoladeBlok";
 import { ArticleBlok } from "@/bloks/ArticleBlok";
+import { AwardBlok } from "@/bloks/AwardBlok";
 import { BadgeBlok } from "@/bloks/BadgeBlok";
 import { BlogGridBlok } from "@/bloks/BlogGridBlok";
 import { BoxBlok } from "@/bloks/BoxBlok";
 import { CareerHistoryItemBlok } from "@/bloks/CareerHistoryItemBlok";
 import { CarouselBlok } from "@/bloks/CarouselBlok";
 import { CitedQuoteBlok } from "@/bloks/CitedQuoteBlok";
+import { ContentBandBlok } from "@/bloks/ContentBandBlok";
 import { DividerBlok } from "@/bloks/DividerBlok";
 import { FeatureBlok } from "@/bloks/FeatureBlok";
 import { GridBlok } from "@/bloks/GridBlok";
 import { GridItemBlok } from "@/bloks/GridItemBlok";
+import { HeroBlok } from "@/bloks/HeroBlok";
 import { ImageBlok } from "@/bloks/ImageBlok";
 import { MediaVideoLinkBlok } from "@/bloks/MediaVideoLinkBlok";
 import { PageBlok } from "@/bloks/PageBlok";
@@ -23,6 +25,8 @@ import { SectionBlok } from "@/bloks/SectionBlok";
 import { SimilarArticlesBlok } from "@/bloks/SimilarArticlesBlok";
 import { SnippetBlok } from "@/bloks/SnippetBlok";
 import { TableOfContentsBlok } from "@/bloks/TableOfContentsBlok";
+import { TickerBlok } from "@/bloks/TickerBlok";
+import { TickerWordBlok } from "@/bloks/TickerWordBlok";
 import { TypographyBlok } from "@/bloks/TypographyBlok";
 import { VerticalSpacingBlok } from "@/bloks/VerticalSpacingBlok";
 import {
@@ -32,18 +36,20 @@ import {
 } from "@/storyblok/lib";
 
 export const BlokRenderer = createBlokRenderer({
-  accolade: AccoladeBlok,
   article: ArticleBlok,
+  award: AwardBlok,
   badge: BadgeBlok,
   blog_grid: BlogGridBlok,
   box: BoxBlok,
   career_history_item: CareerHistoryItemBlok,
   carousel: CarouselBlok,
   cited_quote: CitedQuoteBlok,
+  content_band: ContentBandBlok,
   divider: DividerBlok,
   feature: FeatureBlok,
   grid: GridBlok,
   grid_item: GridItemBlok,
+  hero: HeroBlok,
   image: ImageBlok,
   media_video_link: MediaVideoLinkBlok,
   page: PageBlok,
@@ -56,6 +62,8 @@ export const BlokRenderer = createBlokRenderer({
   similar_articles: SimilarArticlesBlok,
   snippet: SnippetBlok,
   table_of_contents: TableOfContentsBlok,
+  ticker: TickerBlok,
+  ticker_word: TickerWordBlok,
   typography: TypographyBlok,
   vertical_spacing: VerticalSpacingBlok,
 });

@@ -4,50 +4,46 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { FC, ReactNode } from "react";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
+import type { TypographySize } from "./typography-size";
 
-/**
- * Matches Pencil `neo_pencil.pen` tokens: `typo-size`, `typo-leading`, `typo-tracking`,
- * `typo-font` (Inter for xs–2xl, Anton for 3xl–8xl), `typo-weight` fixed per step.
- * Fonts: `--font-inter`, `--font-anton` from `src/app/layout.tsx`.
- * Use `font-[family-name:var(--…)]` (not `font-[var(--…)]`) so Tailwind v4 emits `font-family`, not `font-weight`.
- */
-export const typographyVariants = cva("text-[#1a1a1a]", {
+// font-[family-name:var(--…)] (not font-[var(--…)]) — Tailwind v4 emits font-family, not font-weight.
+const typographySizeVariants = {
+  xs: "font-[family-name:var(--font-inter)] text-[12px] leading-[1.5] tracking-[0em] font-normal",
+  sm: "font-[family-name:var(--font-inter)] text-[14px] leading-[1.5] tracking-[0em] font-normal",
+  base: "font-[family-name:var(--font-inter)] text-[16px] leading-[1.5] tracking-[0em] font-normal",
+  lg: "font-[family-name:var(--font-inter)] text-[18px] leading-[1.5] tracking-[0em] font-medium",
+  xl: "font-[family-name:var(--font-inter)] text-[20px] leading-[1.375] tracking-[-0.5px] font-semibold",
+  "2xl":
+    "font-[family-name:var(--font-inter)] text-[24px] leading-[1.375] tracking-[-0.5px] font-bold",
+  "3xl":
+    "font-[family-name:var(--font-anton)] text-[30px] leading-[1.25] tracking-[1.5px] font-bold",
+  "4xl":
+    "font-[family-name:var(--font-anton)] text-[36px] leading-[1.25] tracking-[2px] font-bold",
+  "5xl":
+    "font-[family-name:var(--font-anton)] text-[48px] leading-[1.1] tracking-[2.5px] font-extrabold",
+  "6xl":
+    "font-[family-name:var(--font-anton)] text-[60px] leading-[1.1] tracking-[3px] font-extrabold",
+  "7xl":
+    "font-[family-name:var(--font-anton)] text-[72px] leading-[1] tracking-[3.5px] font-black",
+  "8xl":
+    "font-[family-name:var(--font-anton)] text-[96px] leading-[1] tracking-[5px] font-black",
+} satisfies Record<TypographySize, string>;
+
+export const typographyVariants = cva("text-[var(--fg-primary)]", {
   variants: {
-    size: {
-      xs: "font-[family-name:var(--font-inter)] text-[12px] leading-[1.5] tracking-[0em] font-normal",
-      sm: "font-[family-name:var(--font-inter)] text-[14px] leading-[1.5] tracking-[0em] font-normal",
-      md: "font-[family-name:var(--font-inter)] text-[16px] leading-[1.5] tracking-[0em] font-normal",
-      lg: "font-[family-name:var(--font-inter)] text-[18px] leading-[1.5] tracking-[0em] font-medium",
-      xl: "font-[family-name:var(--font-inter)] text-[20px] leading-[1.375] tracking-[-0.5px] font-semibold",
-      "2xl":
-        "font-[family-name:var(--font-inter)] text-[24px] leading-[1.375] tracking-[-0.5px] font-bold",
-      "3xl":
-        "font-[family-name:var(--font-anton)] text-[30px] leading-[1.25] tracking-[1.5px] font-bold",
-      "4xl":
-        "font-[family-name:var(--font-anton)] text-[36px] leading-[1.25] tracking-[2px] font-bold",
-      "5xl":
-        "font-[family-name:var(--font-anton)] text-[48px] leading-[1.1] tracking-[2.5px] font-extrabold",
-      "6xl":
-        "font-[family-name:var(--font-anton)] text-[60px] leading-[1.1] tracking-[3px] font-extrabold",
-      "7xl":
-        "font-[family-name:var(--font-anton)] text-[72px] leading-[1] tracking-[3.5px] font-black",
-      "8xl":
-        "font-[family-name:var(--font-anton)] text-[96px] leading-[1] tracking-[5px] font-black",
-    },
-    uppercase: {
-      true: "uppercase",
-      false: "",
+    size: typographySizeVariants,
+    textTransform: {
+      none: "",
+      uppercase: "uppercase",
+      lowercase: "lowercase",
+      capitalize: "capitalize",
     },
   },
   defaultVariants: {
-    size: "md",
-    uppercase: false,
+    size: "base",
+    textTransform: "none",
   },
 });
-
-export type TypographySize = NonNullable<
-  VariantProps<typeof typographyVariants>["size"]
->;
 
 /** Use with `asChild` + `<h1>`–`<h4>` when mirroring semantic heading scale (size picks weight). */
 export const TYPOGRAPHY_HEADING_PRESETS: Record<
@@ -74,13 +70,13 @@ export interface TypographyProps
 export const Typography: FC<TypographyProps> = ({
   asChild = false,
   size,
-  uppercase = false,
+  textTransform = "none",
   children,
   ...props
 }) => {
-  const resolvedSize = size ?? "md";
+  const resolvedSize = size ?? "base";
 
-  const classes = typographyVariants({ size: resolvedSize, uppercase });
+  const classes = typographyVariants({ size: resolvedSize, textTransform });
 
   if (asChild) {
     return (

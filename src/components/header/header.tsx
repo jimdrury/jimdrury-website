@@ -12,7 +12,7 @@ export const Header: FC<HeaderProps> = ({ className, children, ...props }) => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex items-center justify-between border-b-[3px] border-[#1a1a1a] bg-[#fffdf5] px-4 py-5 lg:px-12",
+        "sticky top-0 z-50 flex items-center justify-between border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] px-4 py-5 lg:px-12",
         className,
       )}
       {...props}
@@ -39,7 +39,7 @@ export const HeaderLogo: FC<HeaderLogoProps> = ({
     <Comp
       href={asChild || !href ? undefined : href}
       className={cn(
-        "font-[family-name:var(--font-anton)] text-[2rem] leading-none tracking-tight text-[#1a1a1a] focus-visible:focus-ring",
+        "font-[family-name:var(--font-anton)] text-[2rem] leading-none tracking-tight text-[var(--fg-primary)] focus-visible:focus-ring",
         className,
       )}
       {...props}
@@ -83,7 +83,7 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
     <li className="list-none">
       <Comp
         className={cn(
-          "text-sm font-bold uppercase tracking-[1px] text-[#1a1a1a] transition-opacity focus-visible:focus-ring-sm",
+          "text-sm font-bold uppercase tracking-[1px] text-[var(--fg-primary)] transition-opacity focus-visible:focus-ring-sm",
           active ? "opacity-100" : "opacity-70 hover:opacity-100",
           className,
         )}

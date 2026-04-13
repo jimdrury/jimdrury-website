@@ -50,47 +50,43 @@ export const BlogGrid: FC<BlogGridProps> = ({
 
   return (
     <>
-      <main className="mx-auto container px-4">
-        <section>
-          {stories.length === 0 ? (
-            <Typography asChild size="lg">
-              <p>No posts found.</p>
-            </Typography>
-          ) : (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {stories.map((story, index) => {
-                const featuredImage = getFeaturedImageAsset(
-                  story.content.featured_image,
-                );
-                const imageSrc = featuredImage?.filename;
-                const imageDimensions = parseStoryblokImageDimensions(imageSrc);
+      {stories.length === 0 ? (
+        <Typography asChild size="lg">
+          <p>No posts found.</p>
+        </Typography>
+      ) : (
+        <section className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {stories.map((story, index) => {
+            const featuredImage = getFeaturedImageAsset(
+              story.content.featured_image,
+            );
+            const imageSrc = featuredImage?.filename;
+            const imageDimensions = parseStoryblokImageDimensions(imageSrc);
 
-                return (
-                  <BlogCard
-                    key={story.id}
-                    href={getArticlePath(story)}
-                    title={story.name}
-                    excerpt={story.content.excerpt}
-                    date={formatStoryDate(story)}
-                    dateTime={getStoryDateTime(story)}
-                    imageSrc={imageSrc}
-                    imageAlt={featuredImage?.alt || story.name}
-                    imageWidth={imageDimensions?.width}
-                    imageHeight={imageDimensions?.height}
-                    imageLoading={index < 3 ? "eager" : "lazy"}
-                    imageFetchPriority={index === 0 ? "high" : "auto"}
-                    category={getDefaultStoryCategory(story) ?? undefined}
-                  />
-                );
-              })}
-            </div>
-          )}
+            return (
+              <BlogCard
+                key={story.id}
+                href={getArticlePath(story)}
+                title={story.name}
+                excerpt={story.content.excerpt}
+                date={formatStoryDate(story)}
+                dateTime={getStoryDateTime(story)}
+                imageSrc={imageSrc}
+                imageAlt={featuredImage?.alt || story.name}
+                imageWidth={imageDimensions?.width}
+                imageHeight={imageDimensions?.height}
+                imageLoading={index < 3 ? "eager" : "lazy"}
+                imageFetchPriority={index === 0 ? "high" : "auto"}
+                category={getDefaultStoryCategory(story) ?? undefined}
+              />
+            );
+          })}
         </section>
-      </main>
+      )}
 
       {pagination.totalPages > 1 ? (
         <nav
-          className="flex w-full flex-wrap items-center justify-center gap-4 border-t-[3px] border-[#1a1a1a] px-6 py-12 md:px-20"
+          className="flex w-full flex-wrap items-center justify-center gap-4 border-t-[3px] border-[var(--fg-primary)] px-6 py-12 md:px-20"
           aria-label="Pagination"
         >
           {pagination.hasPrevious ? (

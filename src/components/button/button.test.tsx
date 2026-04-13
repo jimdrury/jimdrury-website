@@ -20,7 +20,9 @@ describe("Button", () => {
       </Button>,
     );
 
-    expect(screen.getByTestId("component")).toHaveClass("bg-[#a8d8ea]");
+    expect(screen.getByTestId("component")).toHaveClass(
+      "bg-[var(--bg-accent-blue)]",
+    );
   });
 
   it("applies expand classes when expand is true", () => {
