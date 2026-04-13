@@ -3,6 +3,7 @@ import { ImageResponse } from "next/og";
 import { connection } from "next/server";
 
 import { getArticleExcerpt } from "@/lib/seo";
+import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { getFeaturedImageAsset } from "@/storyblok/blog-listings-utils";
 import { transformStoryblokImage } from "@/storyblok/image-transform";
@@ -35,6 +36,7 @@ const TwitterImage: TwitterImageFn = async ({ params }) => {
         width: size.width,
         height: size.height,
         quality: 72,
+        focus: sanitizeStoryblokFocusValue(featuredImage?.focus),
       })
     : undefined;
   const payload = toSocialImagePayload({

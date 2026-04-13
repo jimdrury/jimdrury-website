@@ -6,7 +6,7 @@ import type { StoryblokAsset } from "./types";
 
 export const BLOG_PREFIX = "blog/";
 export const BLOG_CONTENT_TYPE = "article";
-export const BLOG_ARCHIVE_PAGE_SIZE = 10;
+export const BLOG_ARCHIVE_PAGE_SIZE = 9;
 
 type ImageBlok = {
   component?: string;
@@ -75,14 +75,10 @@ export const getFeaturedImageAsset = (
     return undefined;
   }
 
-  const src = featuredImageBlok.image?.filename;
-  if (!src) {
+  const image = featuredImageBlok.image;
+  if (!image?.filename) {
     return undefined;
   }
 
-  return {
-    filename: src,
-    alt:
-      featuredImageBlok.image?.alt || featuredImageBlok.image?.meta_data?.alt,
-  };
+  return image;
 };

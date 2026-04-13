@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { FC, ReactNode } from "react";
+import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
+import { Typography } from "@/components/typography";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +44,7 @@ export const BlogCard: FC<BlogCardProps> = ({
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col overflow-hidden rounded-md border-2 border-black bg-white p-4 text-black shadow-[4px_4px_0_0] sm:p-6",
+        "flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] text-[var(--fg-primary)] shadow-[8px_8px_0_0_var(--fg-primary)]",
         className,
       )}
       {...props}
@@ -52,48 +54,63 @@ export const BlogCard: FC<BlogCardProps> = ({
       ) : (
         <>
           {imageSrc && (
-            <div className="relative -mx-4 -mt-4 mb-3 aspect-[16/9] overflow-hidden border-b-2 border-black bg-zinc-100 sm:-mx-6 sm:-mt-6">
-              <Image
-                src={imageSrc}
-                alt={imageAlt ?? title}
-                width={imageWidth ?? 1600}
-                height={imageHeight ?? 1000}
-                loading={imageLoading}
-                fetchPriority={imageFetchPriority}
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="h-full w-full object-cover"
-              />
+            <div className="relative w-full shrink-0">
+              <div className="h-[220px] w-full overflow-hidden bg-zinc-100">
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt ?? title}
+                  width={imageWidth ?? 1600}
+                  height={imageHeight ?? 1000}
+                  loading={imageLoading}
+                  fetchPriority={imageFetchPriority}
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="h-full w-full object-cover"
+                />
+              </div>
               {category && (
-                <span className="absolute right-2 top-2 max-w-[70%] truncate rounded-md border-2 border-black bg-white px-2 py-1 text-xs/none font-semibold uppercase shadow-[2px_2px_0_0] sm:right-3 sm:top-3">
+                <Badge
+                  variant="highlight"
+                  className="absolute bottom-[-10px] left-4 z-10"
+                >
                   {category}
-                </span>
+                </Badge>
               )}
             </div>
           )}
-          <div className="flex grow flex-col">
+          <div className="flex flex-1 flex-col gap-3 p-6">
+            <div className="h-0.5 shrink-0" aria-hidden />
             {date && (
-              <span className="inline-flex items-center gap-1.5">
-                <time
-                  dateTime={dateTime}
-                  className="text-xs/none font-semibold uppercase"
-                >
-                  {date}
-                </time>
-              </span>
+              <time
+                dateTime={dateTime}
+                className="font-[family-name:var(--font-inter)] text-[12px] font-bold tracking-[1.5px] text-[var(--fg-secondary)]"
+              >
+                {date}
+              </time>
             )}
-            <h2 className="mt-1 text-xl font-semibold">{title}</h2>
-            {excerpt && (
-              <p className="mt-2 line-clamp-2 text-pretty">{excerpt}</p>
-            )}
-            {href && (
-              <div className="mt-auto flex justify-end pt-4">
-                <Button asChild expand>
-                  <Link href={href}>
-                    Read more<span className="sr-only"> about {title}</span>
-                  </Link>
-                </Button>
+            <h2 className="font-[family-name:var(--font-anton)] text-[28px] font-bold leading-[1.15] tracking-[1px] text-[var(--fg-primary)]">
+              {title}
+            </h2>
+            {excerpt ? (
+              <div className="line-clamp-3 text-pretty">
+                <Typography size="sm" asChild>
+                  <p className="text-[var(--fg-secondary)]">{excerpt}</p>
+                </Typography>
               </div>
-            )}
+            ) : null}
+            {href ? (
+              <>
+                <div className="h-2 shrink-0" aria-hidden />
+                <div className="min-h-0 flex-1" aria-hidden />
+                <div className="flex shrink-0 justify-end">
+                  <Button asChild>
+                    <Link href={href}>
+                      Read more
+                      <span className="sr-only"> about {title}</span>
+                    </Link>
+                  </Button>
+                </div>
+              </>
+            ) : null}
           </div>
         </>
       )}

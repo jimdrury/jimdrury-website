@@ -48,8 +48,11 @@ const backgroundStyles: Record<
   white: { backgroundColor: "#ffffff", color: "#000000" },
   light_grey: { backgroundColor: "#f4f4f5", color: "#000000" },
   dark: { backgroundColor: "#27272a", color: "#ffffff" },
-  black: { backgroundColor: "#000000", color: "#ffffff" },
-  yellow: { backgroundColor: "#fde047", color: "#000000" },
+  black: { backgroundColor: "#000000", color: "var(--fg-inverse)" },
+  yellow: {
+    backgroundColor: "var(--bg-accent-yellow)",
+    color: "var(--fg-primary)",
+  },
 };
 
 const paddingTopValues: Record<SectionPadding, string> = {
@@ -85,7 +88,7 @@ export const SectionBlok: FC<SectionBlokProps> = ({ blok }) => {
       }}
     >
       <div
-        className="w-full space-y-4"
+        className="@container w-full space-y-4"
         style={{ maxWidth: maxWidthValues[maxWidth] }}
       >
         {blok.body?.map((nestedBlok) => (

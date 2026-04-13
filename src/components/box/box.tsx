@@ -42,11 +42,11 @@ const marginClasses: Record<BoxSpacing, string> = {
 const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
   none: "",
   white: "bg-white",
-  light_grey: "bg-zinc-100",
+  light_grey: "bg-[var(--bg-secondary)]",
   dark: "bg-zinc-800",
   black: "bg-black",
-  yellow: "bg-yellow-300",
-  blue: "bg-blue-200",
+  yellow: "bg-[var(--bg-accent-yellow)]",
+  blue: "bg-[var(--bg-accent-blue)]",
 };
 
 const textColourClasses: Record<BoxTextColour, string> = {

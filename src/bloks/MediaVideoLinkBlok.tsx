@@ -5,11 +5,8 @@ import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type MediaVideoLinkBlokData = SbBlokData & {
   title?: string;
-  meta?: string;
   description?: string;
   youtube_url?: string;
-  cta_text?: string;
-  channel?: string;
 };
 
 type MediaVideoLinkBlokProps = {
@@ -26,10 +23,7 @@ export const MediaVideoLinkBlok: FC<MediaVideoLinkBlokProps> = ({ blok }) => {
       {...storyblokEditable(blok)}
       title={blok.title}
       youtubeUrl={blok.youtube_url}
-      meta={blok.meta}
       description={blok.description}
-      ctaText={blok.cta_text}
-      channel={blok.channel}
     />
   );
 };

@@ -5,17 +5,13 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
-import {
-  buildArticleBreadcrumbJsonLd,
-  buildArticleJsonLd,
-  buildOrganizationJsonLd,
-  buildPersonJsonLd,
-  buildStaticPageJsonLd,
-  serializeJsonLd,
-} from "@/lib/seo";
-import type { BlogStory } from "@/storyblok/blog-listings-utils";
-import type { StoryData } from "@/storyblok/lib";
+import { setCurrentSearchParams } from "@/lib/search-params-context";
 import { StoryContent } from "@/storyblok/renderer";
+import { ArticleBreadcrumbJsonLd } from "./json-ld/article-breadcrumb-json-ld";
+import { ArticleJsonLd } from "./json-ld/article-json-ld";
+import { OrganizationJsonLd } from "./json-ld/organization-json-ld";
+import { PersonJsonLd } from "./json-ld/person-json-ld";
+import { StaticPageJsonLd } from "./json-ld/static-page-json-ld";
 import { fetchStoryBySlug } from "./story";
 
 const StoryPreview = dynamic(() =>
@@ -24,29 +20,12 @@ const StoryPreview = dynamic(() =>
 
 type RenderProps = Pick<PageProps<"/[...slug]">, "params" | "searchParams">;
 
-const isArticleStory = (story: StoryData): story is BlogStory => {
-  if (
-    typeof story.content !== "object" ||
-    story.content === null ||
-    !("component" in story.content) ||
-    story.content.component !== "article"
-  ) {
-    return false;
-  }
-
-  return (
-    typeof story.id === "number" &&
-    typeof story.slug === "string" &&
-    typeof story.full_slug === "string" &&
-    typeof story.name === "string"
-  );
-};
-
 export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
   const { slug } = await params;
   const storySlug = slug.join("/");
   const { isEnabled } = await draftMode();
   const resolvedSearchParams = await searchParams;
+  setCurrentSearchParams(resolvedSearchParams, `/${storySlug}`);
   const storyblokParam = resolvedSearchParams._storyblok;
   const isStoryblokPreviewRequest = Array.isArray(storyblokParam)
     ? storyblokParam.length > 0
@@ -59,38 +38,13 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
     notFound();
   }
 
-  const articleStory = isArticleStory(story) ? story : null;
-  const staticPageJsonLd = !articleStory
-    ? serializeJsonLd(buildStaticPageJsonLd({ story, slug: storySlug }))
-    : null;
-  const articleJsonLd = articleStory
-    ? serializeJsonLd(buildArticleJsonLd(articleStory))
-    : null;
-  const articleBreadcrumbJsonLd = articleStory
-    ? serializeJsonLd(buildArticleBreadcrumbJsonLd(articleStory))
-    : null;
-  const organizationJsonLd =
-    storySlug === "home" ? serializeJsonLd(buildOrganizationJsonLd()) : null;
-  const personJsonLd =
-    storySlug === "about" ? serializeJsonLd(buildPersonJsonLd()) : null;
-
   const storyContent = (
     <>
-      {staticPageJsonLd ? (
-        <script type="application/ld+json">{staticPageJsonLd}</script>
-      ) : null}
-      {articleJsonLd ? (
-        <script type="application/ld+json">{articleJsonLd}</script>
-      ) : null}
-      {articleBreadcrumbJsonLd ? (
-        <script type="application/ld+json">{articleBreadcrumbJsonLd}</script>
-      ) : null}
-      {organizationJsonLd ? (
-        <script type="application/ld+json">{organizationJsonLd}</script>
-      ) : null}
-      {personJsonLd ? (
-        <script type="application/ld+json">{personJsonLd}</script>
-      ) : null}
+      <StaticPageJsonLd story={story} storySlug={storySlug} />
+      <ArticleJsonLd story={story} />
+      <ArticleBreadcrumbJsonLd story={story} />
+      <OrganizationJsonLd storySlug={storySlug} />
+      <PersonJsonLd storySlug={storySlug} />
       <StoryContent story={story} />
     </>
   );

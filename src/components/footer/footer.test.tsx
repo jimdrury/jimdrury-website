@@ -50,6 +50,9 @@ describe("Footer", () => {
   it("renders site footer with social and legal links", () => {
     render(<SiteFooter currentYear={2026} />);
 
+    expect(screen.getByText("Jim Drury © 2026")).toBeInTheDocument();
+    expect(screen.getByText("Built with boldness.")).toBeInTheDocument();
+
     expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
       "href",
       "https://linked.in/jimdrury",

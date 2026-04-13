@@ -1,6 +1,6 @@
 # Button
 
-Primary action control with neobrutalist styling: thick black border, hard offset shadow, and a yellow hover fill on the default variant. Uses Radix `Slot` when `asChild` is true so you can render a different element (for example a Next.js link) while keeping button styles.
+Primary action control styled to match the Pencil design system (`Component/Button` in `neo_pencil.pen`): 3px `#1a1a1a` border, 6×6px offset shadow, 16×32px padding, 8px gap, 12px radius (`rounded-xl`, matches Pencil `radius-lg`), uppercase-leaning label treatment (`font-extrabold`, `tracking-[1px]`). Uses Radix `Slot` when `asChild` is true so you can render a different element (for example a Next.js link) while keeping button styles.
 
 ## Import
 
@@ -25,7 +25,7 @@ import { Button } from "@/components/button";
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `"default" \| "ghost"` | `"default"` | Visual style (see Variants). |
+| `variant` | `"primary" \| "secondary" \| "tertiary" \| "highlight" \| "dark" \| "ghost"` | `"primary"` | Visual style (see Variants). |
 | `asChild` | `boolean` | `false` | Merge props onto the child element via `@radix-ui/react-slot` instead of rendering a `<button>`. |
 | `icon` | `ReactNode` | — | Decorative icon (`aria-hidden` wrapper). Ignored when `asChild` — put the icon inside your child. |
 | `iconPosition` | `"start" \| "end"` | `"start"` | Only used with `icon` and without `asChild`. |
@@ -35,12 +35,16 @@ import { Button } from "@/components/button";
 
 ## Variants
 
-- **`default`** — White background, black `border-2`, `shadow-[4px_4px_0_0]`, `hover:bg-yellow-300`.
-- **`ghost`** — Transparent background, no shadow, `hover:bg-yellow-100`.
+- **`primary`** — Fill `#ff6b6b` (coral), dark text.
+- **`secondary`** — Fill `#fffdf5` (cream), dark text.
+- **`tertiary`** — Fill `#a8d8ea` (blue), dark text.
+- **`highlight`** — Fill `#ffe156` (yellow), dark text.
+- **`dark`** — Fill `#1a1a1a`, cream text `#fffdf5`.
+- **`ghost`** — Transparent fill, no shadow, subtle cream hover.
 
-**Focus** — pure Tailwind utilities on the component: `focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_#fde047,0_0_0_4px_#000,4px_4px_0_4px_#000]`.
+**Focus** — ring uses cream inner `#fffdf5`, dark outer `#1a1a1a`, and preserves the 6px offset shadow stack (non-ghost).
 
-Base classes (all variants): `inline-flex items-center justify-center gap-2 border-2 border-black px-5 py-3 font-semibold text-black … transition`.
+Base classes (all non-ghost variants): `border-[3px] border-[#1a1a1a] shadow-[6px_6px_0_0_#1a1a1a] gap-2 px-8 py-4 text-base font-extrabold tracking-[1px]`.
 
 ## Composable examples
 
@@ -71,12 +75,12 @@ import NextLink from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import { Button } from "@/components/button";
 
-<Button asChild variant="default">
+<Button asChild variant="primary">
   <NextLink href="/pricing">View pricing</NextLink>
 </Button>
 
 {/* Icon with asChild: single child — icon lives inside; merged styles include gap-2 */}
-<Button asChild variant="default">
+<Button asChild variant="primary">
   <NextLink href="/next">
     Continue
     <FaArrowRight aria-hidden className="size-[1em] shrink-0" />

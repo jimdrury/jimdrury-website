@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { FaAngleDoubleDown } from "react-icons/fa";
+import { FiChevronDown } from "react-icons/fi";
 import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
 import { getCurrentStory } from "@/lib/current-story-context";
@@ -36,33 +37,69 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
   }
 
   return (
-    <section className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
-      <Typography as="p" size="lg" weight="bold" className="mb-3" aria-hidden>
-        On this page
-      </Typography>
-      <nav aria-label="Table of contents">
-        <ul className="space-y-2">
-          {headings.map((heading) => (
-            <li key={heading.id}>
-              <Link
-                href={`#${heading.id}`}
-                className={cn(
-                  "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200",
-                  indentByLevel[heading.level],
-                )}
-              >
-                <span className="truncate underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none]">
-                  {heading.text}
-                </span>
-                <FaAngleDoubleDown
-                  aria-hidden
-                  className="shrink-0 text-xs text-zinc-700"
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <section className="rounded-md border-[3px] border-black bg-[var(--bg-secondary)] p-4 shadow-[4px_4px_0_0_var(--fg-primary)] md:p-6">
+      <details className="group lg:hidden" open>
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+          <Typography asChild size="2xl" textTransform="uppercase" aria-hidden>
+            <h2>On This Page</h2>
+          </Typography>
+          <FiChevronDown
+            aria-hidden
+            className="shrink-0 text-lg text-zinc-700 transition-transform group-open:rotate-180"
+          />
+        </summary>
+        <nav aria-label="Table of contents" className="mt-4">
+          <ul className="space-y-2">
+            {headings.map((heading) => (
+              <li key={heading.id}>
+                <Link
+                  href={`#${heading.id}`}
+                  className={cn(
+                    "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200",
+                    indentByLevel[heading.level],
+                  )}
+                >
+                  <span className="truncate underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none]">
+                    {heading.text}
+                  </span>
+                  <FaAngleDoubleDown
+                    aria-hidden
+                    className="shrink-0 text-xs text-zinc-700"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
+      <div className="hidden lg:block">
+        <Typography asChild size="2xl" textTransform="uppercase" aria-hidden>
+          <h2 className="mb-4">On This Page</h2>
+        </Typography>
+        <nav aria-label="Table of contents">
+          <ul className="space-y-2">
+            {headings.map((heading) => (
+              <li key={heading.id}>
+                <Link
+                  href={`#${heading.id}`}
+                  className={cn(
+                    "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200",
+                    indentByLevel[heading.level],
+                  )}
+                >
+                  <span className="truncate underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none]">
+                    {heading.text}
+                  </span>
+                  <FaAngleDoubleDown
+                    aria-hidden
+                    className="shrink-0 text-xs text-zinc-700"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </section>
   );
 };

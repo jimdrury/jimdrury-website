@@ -90,13 +90,13 @@ export const AccordionItem: FC<AccordionItemProps> = ({
     >
       <summary
         className={cn(
-          "flex cursor-pointer items-center justify-between gap-4 bg-white px-4 py-3 font-medium text-gray-900",
+          "flex cursor-pointer items-start justify-between gap-4 bg-white px-4 py-3 font-medium text-gray-900",
           grouped
             ? "hover:bg-yellow-100 focus-visible:bg-yellow-100 focus-visible:focus-ring"
             : "rounded-md border-2 border-black text-black shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:bg-yellow-100 focus-visible:focus-ring",
         )}
       >
-        <span className="flex min-w-0 flex-1 items-center gap-3">
+        <span className="flex min-w-0 flex-1 items-start gap-3">
           {LeadingIcon ? (
             <LeadingIcon aria-hidden className={leadingIconClassName} />
           ) : null}
@@ -106,7 +106,10 @@ export const AccordionItem: FC<AccordionItemProps> = ({
             </span>
           )}
         </span>
-        <FaChevronDown aria-hidden className={chevronClassName} />
+        <FaChevronDown
+          aria-hidden
+          className={cn(chevronClassName, "self-center")}
+        />
       </summary>
       <div className={cn("p-4", grouped && "border-t-2 border-black")}>
         {children}

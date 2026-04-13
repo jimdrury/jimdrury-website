@@ -1,5 +1,6 @@
 import "server-only";
 import type { FC, ReactElement } from "react";
+import type { CareerHistoryColour } from "@/components/career-history";
 import { CareerHistoryItem } from "@/components/career-history";
 import {
   type SbBlokData,
@@ -14,6 +15,7 @@ type CareerHistoryItemBlokData = SbBlokData & {
   role?: string;
   company?: string;
   website_url?: string;
+  colour?: CareerHistoryColour;
   description?: StoryblokRichTextNode<ReactElement>;
 };
 
@@ -36,6 +38,7 @@ export const CareerHistoryItemBlok: FC<CareerHistoryItemBlokProps> = ({
       role={blok.role}
       company={blok.company}
       companyWebsiteUrl={blok.website_url}
+      colour={blok.colour}
       description={<RichText doc={blok.description} />}
     />
   );

@@ -64,7 +64,7 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between border-b-2 border-black bg-yellow-300 px-4 py-3",
+        "flex items-center justify-between border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-accent-yellow)] px-4 py-3",
         className,
       )}
       {...props}
@@ -75,10 +75,10 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
           type="button"
           variant="secondary"
           onClick={onClose}
-          icon={FaTimes}
-          iconOnly
+          className="p-4"
         >
-          {closeLabel}
+          <FaTimes aria-hidden className="size-[1em] shrink-0" />
+          <span className="sr-only">{closeLabel}</span>
         </Button>
       )}
     </div>

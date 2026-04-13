@@ -6,7 +6,6 @@ import { Button } from "@/components/button";
 import { Typography } from "@/components/typography";
 import {
   type BlogArchivePagination,
-  type BlogCategoryLink,
   type BlogStory,
   buildPaginationHref,
   formatStoryDate,
@@ -22,9 +21,7 @@ type BlogIndexProps = {
   subtitle: string;
   stories: BlogStory[];
   pagination: BlogArchivePagination;
-  categories?: BlogCategoryLink[];
   pathname: string;
-  showCategorySidebar?: boolean;
 };
 
 const getVisiblePages = (
@@ -46,15 +43,8 @@ export const BlogIndex: FC<BlogIndexProps> = ({
   subtitle,
   stories,
   pagination,
-  categories = [],
   pathname,
-  showCategorySidebar = true,
 }) => {
-  const shouldShowCategorySidebar =
-    showCategorySidebar && categories.length > 0;
-  const storyGridClassName = shouldShowCategorySidebar
-    ? "grid gap-6 md:grid-cols-2"
-    : "grid gap-6 md:grid-cols-2 lg:grid-cols-3";
   const visiblePages = getVisiblePages(
     pagination.page,
     pagination.totalPages,
@@ -66,32 +56,28 @@ export const BlogIndex: FC<BlogIndexProps> = ({
       <section className="w-full bg-black">
         <div className="aspect-[32/9] md:aspect-[40/7] lg:aspect-[48/7]" />
       </section>
-      <div className="relative z-10 mx-auto -mt-12 w-full max-w-6xl px-4">
+      <div className="relative z-10 mx-auto -mt-12 w-full px-4">
         <div className="rounded-md border-4 border-black bg-yellow-300 p-6 shadow-[8px_8px_0_0] shadow-black">
-          <Typography as="h1" size="3xl" weight="black">
-            {title}
+          <Typography asChild size="3xl">
+            <h1>{title}</h1>
           </Typography>
-          <Typography as="p" size="sm" weight="bold" className="mt-2">
-            {subtitle}
-          </Typography>
+          <div className="mt-2">
+            <Typography asChild size="xl">
+              <p>{subtitle}</p>
+            </Typography>
+          </div>
         </div>
       </div>
 
-      <main className="mx-auto w-full max-w-6xl px-4 pb-12 pt-8 md:pb-14 md:pt-10">
-        <section
-          className={
-            shouldShowCategorySidebar
-              ? "grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]"
-              : "grid gap-8"
-          }
-        >
+      <main className="container mx-auto px-4 pb-12 pt-8 md:pb-14 md:pt-10">
+        <section>
           <div>
             {stories.length === 0 ? (
-              <Typography as="p" size="lg" weight="normal">
-                No posts found.
+              <Typography asChild size="lg">
+                <p>No posts found.</p>
               </Typography>
             ) : (
-              <div className={storyGridClassName}>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {stories.map((story, index) => {
                   const featuredImage = getFeaturedImageAsset(
                     story.content.featured_image,
@@ -166,33 +152,6 @@ export const BlogIndex: FC<BlogIndexProps> = ({
               ) : null}
             </nav>
           </div>
-
-          {shouldShowCategorySidebar ? (
-            <aside className="space-y-3">
-              <div className="rounded-md border-2 border-black bg-zinc-100 p-4 shadow-[4px_4px_0_0]">
-                <Typography as="h2" size="lg" weight="bold" className="mb-3">
-                  Categories
-                </Typography>
-                <ul className="space-y-2">
-                  {categories.map((category) => (
-                    <li key={category.slug}>
-                      <Link
-                        href={category.href}
-                        className="flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200"
-                      >
-                        <span className="truncate underline decoration-2 underline-offset-2 [text-decoration-skip-ink:none]">
-                          {category.label}
-                        </span>
-                        <span className="shrink-0 text-zinc-700">
-                          ({category.count})
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </aside>
-          ) : null}
         </section>
       </main>
     </>

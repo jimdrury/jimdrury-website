@@ -3714,6 +3714,7 @@ __metadata:
     react-dom: "npm:19.2.4"
     react-icons: "npm:^5.6.0"
     shiki: "npm:^4.0.2"
+    slugify: "npm:^1.6.8"
     tailwind-merge: "npm:^3.5.0"
     tailwindcss: "npm:^4.2.2"
     typescript: "npm:^5.9.3"
@@ -5254,6 +5255,13 @@ __metadata:
     mrmime: "npm:^2.0.0"
     totalist: "npm:^3.0.0"
   checksum: 10c0/5930e4397afdb14fbae13751c3be983af4bda5c9aadec832607dc2af15a7162f7d518c71b30e83ae3644b9a24cea041543cc969e5fe2b80af6ce8ea3174b2d04
+  languageName: node
+  linkType: hard
+
+"slugify@npm:^1.6.8":
+  version: 1.6.8
+  resolution: "slugify@npm:1.6.8"
+  checksum: 10c0/1052797a5e7bc6263c6e8dc64ad41d6f5ae2fd2e3a17c2aead09ded002f10de75283ff0b4da2b04dd2fbd7fa2f38a83abeaa3ab8d29709ca68e7592edd6e90dc
   languageName: node
   linkType: hard
 

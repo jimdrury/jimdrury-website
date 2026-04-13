@@ -1,7 +1,5 @@
 import { format, isValid, parseISO } from "date-fns";
-import Link from "next/link";
 import type { FC } from "react";
-import { Button } from "@/components/button";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -22,50 +20,41 @@ const formatDateTime = (value: string | undefined): string | null => {
     return null;
   }
 
-  return format(date, "MMM d, yyyy h:mm a");
+  return format(date, "MMM d, yyyy").toUpperCase();
 };
 
 export const ArticleStats: FC<ArticleStatsProps> = ({
-  categories,
+  categories: _categories,
   publishedAt,
   readTime,
   className,
   ...props
 }) => {
-  const normalizedCategories = (categories ?? []).filter(
-    (value) => value.trim().length > 0,
-  );
   const publishedLabel = formatDateTime(publishedAt);
   const readTimeLabel =
     typeof readTime === "number" && Number.isFinite(readTime)
-      ? `${Math.max(1, Math.trunc(readTime))} min read`
+      ? `${Math.max(1, Math.trunc(readTime))} MIN READ`
       : null;
 
+  if (!publishedLabel && !readTimeLabel) {
+    return null;
+  }
+
   return (
-    <div className={cn("flex flex-col gap-3", className)} {...props}>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-        <p className="text-sm font-bold">
-          By{" "}
-          <Link href="/about" className="underline hover:no-underline">
-            Jim Drury
-          </Link>
-        </p>
-        {publishedLabel && (
-          <p className="text-sm font-bold">
-            Published: <span className="font-medium">{publishedLabel}</span>
-          </p>
-        )}
-        {readTimeLabel && <p className="text-sm font-bold">{readTimeLabel}</p>}
-      </div>
-      {normalizedCategories.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          {normalizedCategories.map((category) => (
-            <Button key={category} asChild variant="secondary" size="small">
-              <Link href={`/blog/${category}`}>{category}</Link>
-            </Button>
-          ))}
-        </div>
+    <div
+      className={cn(
+        "flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[1.5px] text-[var(--fg-secondary)] md:text-xs",
+        className,
       )}
+      {...props}
+    >
+      {publishedLabel ? <span>{publishedLabel}</span> : null}
+      {publishedLabel && readTimeLabel ? (
+        <span aria-hidden className="text-[#666]">
+          .
+        </span>
+      ) : null}
+      {readTimeLabel ? <span>{readTimeLabel}</span> : null}
     </div>
   );
 };
