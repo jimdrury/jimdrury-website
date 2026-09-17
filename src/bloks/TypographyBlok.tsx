@@ -118,11 +118,7 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
       size={typographySize}
       textTransform={textTransform}
     >
-      <Tag
-        id={headingId}
-        tabIndex={headingId ? -1 : undefined}
-        className={headingId ? "scroll-mt-20" : undefined}
-      >
+      <Tag id={headingId} tabIndex={headingId ? -1 : undefined}>
         {lines.map((line, index) => (
           // Line order comes from CMS text; index is stable for this static content.
           // biome-ignore lint/suspicious/noArrayIndexKey: keyed by position within blok content
