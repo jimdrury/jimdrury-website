@@ -36,18 +36,22 @@ const normalizeHeadingText = (value: unknown): string | null => {
   return normalized.length > 0 ? normalized : null;
 };
 
-const slugifyHeading = (value: string): string => {
-  const slugger = new GithubSlugger();
+const createHeadingSlugger = (): GithubSlugger => new GithubSlugger();
+
+const slugifyHeading = (
+  value: string,
+  slugger: GithubSlugger = createHeadingSlugger(),
+): string => {
   return slugger.slug(value);
 };
 
 export const getTypographyHeadingId = (headingText: string): string => {
-  return slugifyHeading(headingText);
+  return slugifyHeading(headingText.trim());
 };
 
 const extractHeadingsFromBloks = (bloks: unknown): TocHeading[] => {
   const headings: TocHeading[] = [];
-  const slugger = new GithubSlugger();
+  const slugger = createHeadingSlugger();
 
   const visit = (value: unknown): void => {
     if (Array.isArray(value)) {
@@ -66,7 +70,7 @@ const extractHeadingsFromBloks = (bloks: unknown): TocHeading[] => {
       if (text) {
         headings.push({
           uid,
-          id: slugger.slug(text),
+          id: slugifyHeading(text, slugger),
           level: value.as,
           text,
         });
