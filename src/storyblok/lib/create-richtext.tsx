@@ -1,4 +1,5 @@
 import {
+  BlockTypes,
   ComponentBlok,
   richTextResolver,
   type StoryblokRichTextNode,
@@ -28,6 +29,19 @@ const normalizeRichTextText = (text: string): string => {
   return text.replace(NON_BREAKING_SPACE_REGEX, " ");
 };
 
+// Storyblok's richTextResolver registers its list extensions under snake_case
+// node names (bullet_list, ordered_list, list_item). Content authored or
+// converted with TipTap uses camelCase names (bulletList, orderedList,
+// listItem). Without this mapping the resolver finds no matching extension and
+// silently drops the whole list, so list content vanishes from the page.
+type RichTextNodeType = StoryblokRichTextNode<ReactElement>["type"];
+
+const NODE_TYPE_ALIASES: Record<string, RichTextNodeType> = {
+  bulletList: BlockTypes.UL_LIST,
+  orderedList: BlockTypes.OL_LIST,
+  listItem: BlockTypes.LIST_ITEM,
+};
+
 const normalizeRichTextNode = (
   node: StoryblokRichTextNode<ReactElement>,
 ): StoryblokRichTextNode<ReactElement> => {
@@ -38,6 +52,14 @@ const normalizeRichTextNode = (
   const normalizedNode: StoryblokRichTextNode<ReactElement> = {
     ...node,
   };
+
+  if (
+    "type" in normalizedNode &&
+    typeof normalizedNode.type === "string" &&
+    normalizedNode.type in NODE_TYPE_ALIASES
+  ) {
+    normalizedNode.type = NODE_TYPE_ALIASES[normalizedNode.type];
+  }
 
   if ("text" in normalizedNode && typeof normalizedNode.text === "string") {
     normalizedNode.text = normalizeRichTextText(normalizedNode.text);
