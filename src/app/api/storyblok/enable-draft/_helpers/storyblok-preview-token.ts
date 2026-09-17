@@ -3,18 +3,56 @@ import { environment } from "@/environment";
 
 const ROOT_PATH = "/";
 const TOKEN_MAX_AGE_SECONDS = 3600;
+const BACKSLASH_CHAR_CODE = 92;
+const AT_CHAR_CODE = 64;
+const DEL_CHAR_CODE = 127;
 
-export const getSafeReturnTo = (returnTo: string | null): string => {
+const containsDisallowedReturnToChars = (value: string): boolean => {
+  for (let index = 0; index < value.length; index += 1) {
+    const code = value.charCodeAt(index);
+    if (
+      code < 32 ||
+      code === DEL_CHAR_CODE ||
+      code === BACKSLASH_CHAR_CODE ||
+      code === AT_CHAR_CODE
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const getSafeReturnTo = (
+  returnTo: string | null,
+  requestOrigin: string,
+): string => {
   if (!returnTo) {
     return ROOT_PATH;
   }
 
-  if (returnTo.startsWith("//")) {
+  if (containsDisallowedReturnToChars(returnTo)) {
     return ROOT_PATH;
   }
 
-  const normalized = returnTo.startsWith("/") ? returnTo : `/${returnTo}`;
-  return normalized || ROOT_PATH;
+  try {
+    const url = new URL(returnTo, requestOrigin);
+
+    if (url.origin !== requestOrigin) {
+      return ROOT_PATH;
+    }
+
+    if (
+      !url.pathname.startsWith("/") ||
+      containsDisallowedReturnToChars(url.pathname)
+    ) {
+      return ROOT_PATH;
+    }
+
+    return url.pathname;
+  } catch {
+    return ROOT_PATH;
+  }
 };
 
 export const getStoryblokToken = (
@@ -55,11 +93,14 @@ export const isValidStoryblokToken = (tk: {
     .createHash("sha1")
     .update(validationString)
     .digest("hex");
+  const actualTokenBuffer = Buffer.from(tk.token);
+  const expectedTokenBuffer = Buffer.from(expectedToken);
 
-  return crypto.timingSafeEqual(
-    Buffer.from(tk.token),
-    Buffer.from(expectedToken),
-  );
+  if (actualTokenBuffer.length !== expectedTokenBuffer.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(actualTokenBuffer, expectedTokenBuffer);
 };
 
 export const stripStoryblokParams = (
