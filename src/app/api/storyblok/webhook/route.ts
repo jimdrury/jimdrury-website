@@ -14,7 +14,7 @@ const invalidateAllContentTags = (): void => {
   }
 };
 
-export async function POST(request: Request) {
+const POST = async (request: Request) => {
   const rawBody = await request.text();
   const payload = parseWebhookPayload(rawBody);
   if (!payload) {
@@ -66,4 +66,6 @@ export async function POST(request: Request) {
     urls,
     invalidatedTags: ALL_CONTENT_CACHE_TAGS,
   });
-}
+};
+
+export { POST };

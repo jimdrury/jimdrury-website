@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_ORIGIN } from "@/lib/seo";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+const sitemap = (): MetadataRoute.Sitemap => {
   return [
     {
       url: `${SITE_ORIGIN}/`,
@@ -24,4 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
   ];
-}
+};
+
+export default sitemap;

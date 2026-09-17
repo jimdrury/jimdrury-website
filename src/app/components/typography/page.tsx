@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { FC } from "react";
 
-import { TypographyScaleShowcase } from "./_components/typography-scale-showcase";
+import { TypographyScaleShowcase } from "./_components/typography-scale-showcase/typography-scale-showcase";
 
 export const metadata: Metadata = {
   title: "Typography",

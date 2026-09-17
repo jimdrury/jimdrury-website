@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
-import { BackToTop } from "@/components/back-to-top";
 import { getDefaultStoryCategory, getPublishedArticleParams } from "@/lib/blog";
 import { buildArticleMetadata } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
-import { Render } from "./_components/render";
+import { BackToTop } from "./_components/back-to-top/back-to-top";
+import { Render } from "./_components/render/render";
 
 export const generateStaticParams = async () => {
   return getPublishedArticleParams();

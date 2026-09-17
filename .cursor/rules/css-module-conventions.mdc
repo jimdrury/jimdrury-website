@@ -1,0 +1,27 @@
+---
+description: CSS Module naming and responsive styling conventions
+globs: **/*.module.css
+alwaysApply: false
+---
+
+# CSS Module Conventions
+
+- Use BEM class names: `.block`, `.block__element`, and `.block--modifier`.
+- Compose Tailwind utilities with `@apply`; do not duplicate utility declarations manually when an equivalent utility exists.
+- Prefer Tailwind responsive variants in `@apply` (for example, `@apply md:grid-cols-2`) over handwritten `@media` blocks.
+- Use `@media` only when Tailwind has no suitable responsive variant or the rule cannot be expressed with `@apply`.
+
+```css
+/* Good */
+.product-card {
+  @apply grid gap-4 md:grid-cols-2;
+}
+
+.product-card__title {
+  @apply text-lg;
+}
+
+.product-card--featured {
+  @apply border-2;
+}
+```

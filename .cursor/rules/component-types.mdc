@@ -1,0 +1,33 @@
+---
+description: Require typed named const exports for React components
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# Component declarations
+
+Declare every React component as a named `const` export and explicitly type it
+with React's `FC` generic.
+
+```tsx
+import type { FC } from "react";
+
+type ProductCardProps = {
+  name: string;
+};
+
+export const ProductCard: FC<ProductCardProps> = ({ name }) => (
+  <article>{name}</article>
+);
+```
+
+For components without props, use `FC` without a type argument:
+
+```tsx
+import type { FC } from "react";
+
+export const LoadingSpinner: FC = () => <span>Loading…</span>;
+```
+
+Do not use function declarations, default exports, or untyped component
+declarations.

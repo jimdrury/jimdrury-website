@@ -7,16 +7,15 @@ import { renderArticleMarkdown } from "@/lib/article-markdown";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 
-type RouteContext = {
-  params?: Promise<Record<string, string | string[] | undefined>>;
-};
-
-export const GET = async (_request: Request, context?: RouteContext) => {
-  const params = (await context?.params) ?? {};
+const GET = async (
+  request: Request,
+  context: RouteContext<"/blog/[category]/[slug]/markdown">,
+) => {
+  const params = await context.params;
   const slugValue = params.slug;
   const slug = typeof slugValue === "string" ? slugValue : "";
   const normalizedSlug = slug.trim();
-  const requestUrl = new URL(_request.url);
+  const requestUrl = new URL(request.url);
   const requestedCategory = requestUrl.searchParams.get("category")?.trim();
 
   if (!normalizedSlug) {
@@ -42,7 +41,7 @@ export const GET = async (_request: Request, context?: RouteContext) => {
     requestedCategory.toLowerCase() !== canonicalCategory.toLowerCase()
   ) {
     return NextResponse.redirect(
-      new URL(`/blog/${canonicalCategory}/${normalizedSlug}.md`, _request.url),
+      new URL(`/blog/${canonicalCategory}/${normalizedSlug}.md`, request.url),
     );
   }
 
@@ -59,3 +58,5 @@ export const GET = async (_request: Request, context?: RouteContext) => {
     },
   });
 };
+
+export { GET };

@@ -10,7 +10,7 @@ const CURRENT_PREVIEW_MODE_ID = process.env.__NEXT_PREVIEW_MODE_ID;
  * while in draft mode to keep the session alive. Only works when the request
  * already has a valid draft cookie (cookies sent automatically with credentials).
  */
-export async function GET() {
+const GET = async () => {
   const draftCookie = (await cookies()).get(DRAFT_COOKIE_NAME);
   if (!draftCookie?.value) {
     return NextResponse.json({ error: "Not in draft mode" }, { status: 401 });
@@ -41,6 +41,7 @@ export async function GET() {
     partitioned: true,
     path: "/",
   });
-
   return response;
-}
+};
+
+export { GET };
