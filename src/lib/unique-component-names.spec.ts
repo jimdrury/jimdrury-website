@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const SCHEMA_ROOT = import.meta.dirname;
+const SCHEMA_ROOT = join(import.meta.dirname, "../../schema");
 const COMPONENT_NAME_PATTERN =
   /export default (?:contentType|nestable)\(\{\s*name:\s*"([^"]+)"/;
 

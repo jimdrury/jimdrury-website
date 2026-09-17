@@ -25,14 +25,22 @@ This repository is intentionally public so people can learn from the implementat
 
 - Node.js (current LTS recommended)
 - Corepack enabled (`corepack enable`)
-- Yarn 4 (managed via `packageManager` in `package.json`)
+- pnpm (managed via `packageManager` in `package.json`)
+- `GITHUB_TOKEN` with `read:packages` for `@jimdrury/*` on GitHub Packages
+
+Add the GitHub Packages token to your user `~/.npmrc` (pnpm does not expand auth tokens from the committed project `.npmrc`):
+
+```bash
+echo '//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}' >> ~/.npmrc
+export GITHUB_TOKEN=ghp_your_token
+```
 
 ### Setup
 
 ```bash
 cp .env.example .env.local
-yarn install
-yarn dev
+pnpm install
+pnpm dev
 ```
 
 App runs at `https://localhost:3000` (HTTPS is enabled in dev).
@@ -48,16 +56,16 @@ Copy `.env.example` to `.env.local` and set:
 
 ## Available Scripts
 
-- `yarn dev` - start local dev server
-- `yarn build` - create production build
-- `yarn start` - run production server
-- `yarn lint` - run Biome checks
-- `yarn format` - apply Biome formatting
-- `yarn test` - run test suite once
-- `yarn test:watch` - run tests in watch mode
-- `yarn test:coverage` - run tests with coverage
-- `yarn schema:plan` - preview Storyblok schema changes
-- `yarn schema:apply` - apply Storyblok schema changes
+- `pnpm dev` - start local dev server
+- `pnpm build` - create production build
+- `pnpm start` - run production server
+- `pnpm lint` - run Biome checks
+- `pnpm format` - apply Biome formatting
+- `pnpm test` - run test suite once
+- `pnpm test:watch` - run tests in watch mode
+- `pnpm test:coverage` - run tests with coverage
+- `pnpm schema:plan` - preview Storyblok schema changes
+- `pnpm schema:apply` - apply Storyblok schema changes
 
 ## License and Reuse
 
