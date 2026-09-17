@@ -5,6 +5,7 @@ import {
 } from "@storyblok/js";
 import type { FC, ReactElement, ReactNode } from "react";
 import { Children, createElement, Fragment, isValidElement } from "react";
+import { normalizeRichTextLists } from "./normalize-richtext-lists";
 import type { SbBlokData } from "./types";
 
 type BlokRendererProps = {
@@ -140,7 +141,7 @@ export const createRichText = (
   BlokRenderer: FC<BlokRendererProps>,
 ): FC<RichTextProps> => {
   const RichText: FC<RichTextProps> = ({ doc }) => {
-    const normalizedDoc = normalizeRichTextNode(doc);
+    const normalizedDoc = normalizeRichTextLists(normalizeRichTextNode(doc));
     const resolver = richTextResolver<ReactElement>({
       renderFn: createElement,
       textFn: (text) => (

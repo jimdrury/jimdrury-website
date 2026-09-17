@@ -58,6 +58,18 @@
   line-height: 1;
 }
 
+.richtext-external-link-indicator :is(ul, ol) > li,
+.richtext-external-link-indicator :is(ul, ol) > li > p,
+.richtext-external-link-indicator :is(ul, ol) > li > p:first-child,
+.richtext-external-link-indicator :is(ul, ol) > li > p:last-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.richtext-external-link-indicator :is(ul, ol) > li + li {
+  margin-top: 8px;
+}
+
 html {
   scroll-behavior: smooth;
 }
