@@ -18,9 +18,9 @@ Alignment notes:
 - Registry: `section: SectionBlok`
 
 Alignment notes:
-- Schema options for `max_width` and `background` map to string unions in `SectionBlok`.
+- Schema options for `max_width` and `background` map to `Section` props via `SectionBlok`.
 - Schema `body` from `blocks(...)` maps to `body?: SbBlokData[]`.
-- Blok renders each nested item with `StoryblokServerComponent`.
+- Blok composes `Section` from `src/components/section` and renders nested items with `BlokRenderer`.
 
 ## Hero Image
 
