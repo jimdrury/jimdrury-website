@@ -4,6 +4,7 @@ vi.mock("@/environment", () => ({
   environment: {
     STORYBLOK_ACCESS_TOKEN: "test-token",
     STORYBLOK_SPACE_ID: "12345",
+    STORYBLOK_WEBHOOK_SECRET: "webhook-secret",
     INDEXNOW_KEY: "abc123indexnowkey",
   },
 }));
@@ -107,24 +108,19 @@ describe("resolveUrlsFromStory", () => {
     expect(urls).toEqual(["https://www.jimdrury.co.uk/about"]);
   });
 
-  it("returns slug-based URL when story is null", async () => {
-    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
-
-    const urls = resolveUrlsFromStory("about", null);
-    expect(urls).toEqual(["https://www.jimdrury.co.uk/about"]);
-  });
-
   it("maps 'home' slug to site root", async () => {
     const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+    const story = makePageStory({ slug: "home", full_slug: "home" });
 
-    const urls = resolveUrlsFromStory("home", null);
+    const urls = resolveUrlsFromStory("home", story as never);
     expect(urls).toEqual(["https://www.jimdrury.co.uk/"]);
   });
 
   it("strips trailing slash from slug", async () => {
     const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+    const story = makePageStory();
 
-    const urls = resolveUrlsFromStory("about/", null);
+    const urls = resolveUrlsFromStory("about/", story as never);
     expect(urls).toEqual(["https://www.jimdrury.co.uk/about"]);
   });
 });

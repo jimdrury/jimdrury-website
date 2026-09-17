@@ -1,4 +1,5 @@
 import "server-only";
+import { mapStoryblokFetchError } from "@/lib/storyblok-errors";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import type { StoryData } from "@/storyblok/lib";
 
@@ -24,7 +25,7 @@ export const fetchStoryBySlug = async ({
     })) as StoryblokStoryResponse;
 
     return response.data?.story ?? null;
-  } catch {
-    return null;
+  } catch (error) {
+    return mapStoryblokFetchError(error, { slug, version });
   }
 };

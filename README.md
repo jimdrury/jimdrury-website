@@ -44,6 +44,7 @@ Copy `.env.example` to `.env.local` and set:
 - `STORYBLOK_ACCESS_TOKEN`
 - `STORYBLOK_API_TOKEN`
 - `STORYBLOK_SPACE_ID`
+- `STORYBLOK_WEBHOOK_SECRET`
 
 ## Available Scripts
 
