@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import type { ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
-import type { SbBlokData } from "@/storyblok/lib";
+import type { SbBlokData, StoryData } from "@/storyblok/lib";
 import { AccoladesBlok } from "./AccoladesBlok";
 
 vi.mock("@/storyblok/renderer", () => ({
@@ -10,9 +9,13 @@ vi.mock("@/storyblok/renderer", () => ({
   ),
 }));
 
+const homeStory = {
+  name: "Home",
+  content: { component: "page" },
+} as StoryData;
+
 const renderAccolades = (blok: Parameters<typeof AccoladesBlok>[0]["blok"]) => {
-  const view = AccoladesBlok({ blok }) as ReactElement;
-  return render(view);
+  return render(<AccoladesBlok blok={blok} pathname="/" story={homeStory} />);
 };
 
 describe("AccoladesBlok", () => {
