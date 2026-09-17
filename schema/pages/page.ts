@@ -13,6 +13,8 @@ export default contentType({
       name: "header",
       default_value: true,
       required: false,
+      description:
+        "Show the page title banner. Turn off when the body already includes a hero or page header.",
     }),
     blocks({
       name: "body",
