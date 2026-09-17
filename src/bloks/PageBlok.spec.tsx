@@ -114,4 +114,15 @@ describe("PageBlok", () => {
 
     expect(screen.queryByText(/Last updated:/)).toBeNull();
   });
+
+  it("does not add extra bottom padding above the site footer", () => {
+    const { container } = renderPage({
+      _uid: "page-7",
+      component: "page",
+      header: false,
+      body: [],
+    });
+
+    expect(container.querySelector("main")).not.toHaveClass("pb-6");
+  });
 });
