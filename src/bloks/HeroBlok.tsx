@@ -21,6 +21,7 @@ import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
 const HERO_PORTRAIT_MAX = 960;
+const COMPACT_PORTRAIT_SIZE = 720;
 const HERO_PORTRAIT_QUALITY = 80;
 
 const isHeroDensity = (value: unknown): value is HeroDensity =>
@@ -45,6 +46,10 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok, pathname, story }) => {
     return null;
   }
 
+  const density = isHeroDensity(blok.density) ? blok.density : "default";
+  const isCompact = density === "compact";
+  const portraitMax = isCompact ? COMPACT_PORTRAIT_SIZE : HERO_PORTRAIT_MAX;
+
   const rawSrc = blok.portrait?.filename;
 
   let portraitSrc: string | undefined;
@@ -56,7 +61,7 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok, pathname, story }) => {
   if (rawSrc) {
     const imageDimensions = parseStoryblokImageDimensions(rawSrc);
     const portraitDimensions = imageDimensions
-      ? constrainStoryblokDimensions(imageDimensions, HERO_PORTRAIT_MAX)
+      ? constrainStoryblokDimensions(imageDimensions, portraitMax)
       : null;
     const sanitizedFocus = sanitizeStoryblokFocusValue(blok.portrait?.focus);
     const focalAppliedByCdn = Boolean(
@@ -64,7 +69,8 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok, pathname, story }) => {
     );
 
     portraitSrc = transformStoryblokImage(rawSrc, {
-      width: HERO_PORTRAIT_MAX,
+      width: portraitMax,
+      height: isCompact ? COMPACT_PORTRAIT_SIZE : undefined,
       quality: HERO_PORTRAIT_QUALITY,
       focus: sanitizedFocus,
     });
@@ -75,8 +81,12 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok, pathname, story }) => {
         : undefined;
 
     portraitAlt = blok.portrait?.alt || blok.portrait?.meta_data?.alt || "";
-    width = portraitDimensions?.width ?? HERO_PORTRAIT_MAX;
-    height = portraitDimensions?.height ?? HERO_PORTRAIT_MAX;
+    width = isCompact
+      ? COMPACT_PORTRAIT_SIZE
+      : (portraitDimensions?.width ?? HERO_PORTRAIT_MAX);
+    height = isCompact
+      ? COMPACT_PORTRAIT_SIZE
+      : (portraitDimensions?.height ?? HERO_PORTRAIT_MAX);
   }
 
   const badge = blok.badge?.map((nestedBlok) => (
@@ -105,8 +115,6 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok, pathname, story }) => {
       story={story}
     />
   ));
-
-  const density = isHeroDensity(blok.density) ? blok.density : "default";
 
   return (
     <Hero

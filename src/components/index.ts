@@ -1,3 +1,4 @@
+export * from "./accolades";
 export * from "./accordion";
 export * from "./article-hero";
 export * from "./article-navigation";

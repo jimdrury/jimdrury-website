@@ -28,7 +28,7 @@ export const HomeCTAsBlok: FC<HomeCTAsBlokProps> = ({ blok }) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      className="w-full bg-[var(--bg-primary)] py-4 md:py-6"
+      className="w-full bg-[var(--bg-primary)] py-8 md:py-10"
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="flex flex-wrap gap-4">

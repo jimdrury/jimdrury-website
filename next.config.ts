@@ -49,6 +49,11 @@ const nextConfig: NextConfig = {
         destination: "/api/storyblok/enable-draft?returnTo=/:path*",
         permanent: false,
       },
+      {
+        source: "/home",
+        destination: "/",
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {
