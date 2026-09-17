@@ -117,9 +117,11 @@ export const HeaderCta: FC<HeaderCtaProps> = ({
     <li className="list-none">
       <Button
         asChild
-        variant={active ? "highlight" : "secondary"}
+        variant="highlight"
         className={cn(
           "px-3 py-2 text-xs uppercase sm:px-6 sm:py-3 sm:text-sm",
+          active &&
+            "ring-2 ring-[var(--fg-primary)] ring-offset-2 ring-offset-[var(--bg-primary)]",
           className,
         )}
       >
