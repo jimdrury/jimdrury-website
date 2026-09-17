@@ -117,4 +117,104 @@ describe("createRichText", () => {
       textAlign: "center",
     });
   });
+
+  it("renders camelCase TipTap bulletList as a real <ul>/<li>", () => {
+    const RichText = createRichText(() => null);
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "bulletList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: "First step" }],
+                },
+              ],
+            },
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: "Second step" }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    } as unknown as StoryblokRichTextNode<ReactElement>;
+
+    const { container } = render(<RichText doc={doc} />);
+
+    const list = container.querySelector("ul");
+    expect(list).not.toBeNull();
+    expect(list?.querySelectorAll("li")).toHaveLength(2);
+    expect(screen.getByText("First step")).toBeInTheDocument();
+    expect(screen.getByText("Second step")).toBeInTheDocument();
+  });
+
+  it("renders camelCase TipTap orderedList as a real <ol>/<li>", () => {
+    const RichText = createRichText(() => null);
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "orderedList",
+          content: [
+            {
+              type: "listItem",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: "Step one" }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    } as unknown as StoryblokRichTextNode<ReactElement>;
+
+    const { container } = render(<RichText doc={doc} />);
+
+    const list = container.querySelector("ol");
+    expect(list).not.toBeNull();
+    expect(list?.querySelectorAll("li")).toHaveLength(1);
+    expect(screen.getByText("Step one")).toBeInTheDocument();
+  });
+
+  it("renders snake_case Storyblok bullet_list as a real <ul>/<li>", () => {
+    const RichText = createRichText(() => null);
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "bullet_list",
+          content: [
+            {
+              type: "list_item",
+              content: [
+                {
+                  type: "paragraph",
+                  content: [{ type: "text", text: "Footprint covered" }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    } as unknown as StoryblokRichTextNode<ReactElement>;
+
+    const { container } = render(<RichText doc={doc} />);
+
+    const list = container.querySelector("ul");
+    expect(list).not.toBeNull();
+    expect(list?.querySelectorAll("li")).toHaveLength(1);
+    expect(screen.getByText("Footprint covered")).toBeInTheDocument();
+  });
 });
