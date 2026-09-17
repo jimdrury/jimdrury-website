@@ -2,7 +2,11 @@ import "server-only";
 import Link from "next/link";
 import type { FC } from "react";
 import { Button } from "@/components/button";
+import { getSafeHref } from "@/lib/assert-safe-href";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+
+const DEFAULT_PRIMARY_URL = "/blog";
+const DEFAULT_SECONDARY_URL = "/about";
 
 type HomeCTAsBlokData = SbBlokData & {
   primary_label?: string;
@@ -17,9 +21,9 @@ type HomeCTAsBlokProps = {
 
 export const HomeCTAsBlok: FC<HomeCTAsBlokProps> = ({ blok }) => {
   const primaryLabel = blok.primary_label || "Read the blog";
-  const primaryUrl = blok.primary_url || "/blog";
+  const primaryUrl = getSafeHref(blok.primary_url) ?? DEFAULT_PRIMARY_URL;
   const secondaryLabel = blok.secondary_label || "About";
-  const secondaryUrl = blok.secondary_url || "/about";
+  const secondaryUrl = getSafeHref(blok.secondary_url) ?? DEFAULT_SECONDARY_URL;
 
   return (
     <section

@@ -1,6 +1,7 @@
 import { format, isValid, parseISO } from "date-fns";
 import type { FC, ReactNode } from "react";
 import { Link } from "@/components/link";
+import { getSafeHref } from "@/lib/assert-safe-href";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -59,6 +60,7 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
 }) => {
   const fromLabel = formatDateLabel(from);
   const toLabel = to?.trim() ? formatDateLabel(to) : "Present";
+  const safeCompanyWebsiteUrl = getSafeHref(companyWebsiteUrl);
 
   return (
     <div
@@ -80,8 +82,8 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
           {role}
         </h3>
         <p className="richtext-external-link-indicator font-[family-name:var(--font-inter)] text-sm font-extrabold uppercase tracking-[1.5px] text-[var(--fg-primary)]">
-          {companyWebsiteUrl ? (
-            <Link href={companyWebsiteUrl} target="_blank" rel="noreferrer">
+          {safeCompanyWebsiteUrl ? (
+            <Link href={safeCompanyWebsiteUrl} target="_blank" rel="noreferrer">
               {company}
             </Link>
           ) : (

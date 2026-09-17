@@ -1,6 +1,7 @@
 import { format, isValid } from "date-fns";
 import type { FC, ReactNode } from "react";
 import { LuArrowRight } from "react-icons/lu";
+import { getSafeHref } from "@/lib/assert-safe-href";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -82,7 +83,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
   const safePerformer = performer?.trim() || safeOrganizer;
   const safeEventStatus =
     eventStatus?.trim() || "https://schema.org/EventScheduled";
-  const safeLinkUrl = linkUrl?.trim();
+  const safeLinkUrl = getSafeHref(linkUrl);
   const safeLinkText = linkText?.trim() || "View event details";
   const dateLabel = formatDateRange(eventDate, endDate);
   const startTimestamp = Date.parse(eventDate);
