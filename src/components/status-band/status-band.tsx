@@ -23,11 +23,14 @@ export const StatusBand: FC<StatusBandProps> = ({
 }) => {
   return (
     <section
-      className={cn("w-full bg-[var(--bg-primary)] py-8 lg:py-10", className)}
+      className={cn(
+        "w-full bg-[var(--bg-secondary)] pt-8 pb-4 lg:pt-10 lg:pb-5",
+        className,
+      )}
       {...props}
     >
       <div className={HERO_CONTENT_INNER_CLASS}>
-        <div className="flex w-fit max-w-full flex-col gap-3 rounded-xl border-[3px] border-[var(--fg-primary)] bg-[var(--bg-secondary)] px-5 py-4 shadow-[6px_6px_0_0_var(--fg-primary)] sm:flex-row sm:items-center sm:gap-4">
+        <div className="flex w-fit max-w-full flex-col gap-3 rounded-xl border-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] px-5 py-4 shadow-[6px_6px_0_0_var(--fg-primary)] sm:flex-row sm:items-center sm:gap-4">
           {badge ? <div className="flex shrink-0">{badge}</div> : null}
           <div className="min-w-0 max-w-[80ch] [&_*]:m-0">{children}</div>
         </div>
