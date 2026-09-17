@@ -2,7 +2,6 @@ import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import { TableOfContents } from "@/components/table-of-contents";
-import { StoryRenderProvider } from "@/lib/story-render-context";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import { TypographyBlok } from "./TypographyBlok";
 
@@ -28,23 +27,23 @@ const createStory = (body: TypographyFixtureBlok[]): BlogStory => {
 
 const BodyAndToc: FC<{ story: BlogStory }> = ({ story }) => {
   return (
-    <StoryRenderProvider pathname="/blog/story" story={story}>
-      <div>
-        {(story.content.body ?? []).map((blok) => (
-          <TypographyBlok
-            key={typeof blok._uid === "string" ? blok._uid : undefined}
-            blok={{
-              component: "typography",
-              _uid: typeof blok._uid === "string" ? blok._uid : undefined,
-              as: typeof blok.as === "string" ? blok.as : undefined,
-              content:
-                typeof blok.content === "string" ? blok.content : undefined,
-            }}
-          />
-        ))}
-        <TableOfContents maxHeadingLevel="h4" story={story} />
-      </div>
-    </StoryRenderProvider>
+    <div>
+      {(story.content.body ?? []).map((blok) => (
+        <TypographyBlok
+          key={typeof blok._uid === "string" ? blok._uid : undefined}
+          blok={{
+            component: "typography",
+            _uid: typeof blok._uid === "string" ? blok._uid : undefined,
+            as: typeof blok.as === "string" ? blok.as : undefined,
+            content:
+              typeof blok.content === "string" ? blok.content : undefined,
+          }}
+          pathname="/blog/story"
+          story={story}
+        />
+      ))}
+      <TableOfContents maxHeadingLevel="h4" story={story} />
+    </div>
   );
 };
 

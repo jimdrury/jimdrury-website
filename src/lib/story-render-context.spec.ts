@@ -1,5 +1,3 @@
-import { render, screen } from "@testing-library/react";
-import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import type { StoryData } from "@/storyblok/lib";
 import {
@@ -7,8 +5,6 @@ import {
   getStoryName,
   getStoryUpdatedAt,
   isBlogStory,
-  StoryRenderProvider,
-  useStoryRenderContext,
 } from "./story-render-context";
 
 const articleStory = {
@@ -28,16 +24,6 @@ const pageStory: StoryData = {
   content: {
     component: "page",
   },
-};
-
-const ContextReader: FC = () => {
-  const { pathname, story } = useStoryRenderContext();
-  return (
-    <div>
-      <span data-testid="pathname">{pathname}</span>
-      <span data-testid="name">{getStoryName(story)}</span>
-    </div>
-  );
 };
 
 describe("story-render-context", () => {
@@ -68,22 +54,5 @@ describe("story-render-context", () => {
     expect(getStoryName(null)).toBeNull();
     expect(getStoryUpdatedAt(null)).toBeNull();
     expect(getStoryName({ content: { component: "page" } })).toBeNull();
-  });
-
-  it("provides story and pathname to descendants", () => {
-    render(
-      <StoryRenderProvider story={pageStory} pathname="/privacy">
-        <ContextReader />
-      </StoryRenderProvider>,
-    );
-
-    expect(screen.getByTestId("pathname")).toHaveTextContent("/privacy");
-    expect(screen.getByTestId("name")).toHaveTextContent("Privacy Policy");
-  });
-
-  it("throws when read outside a provider", () => {
-    expect(() => render(<ContextReader />)).toThrow(
-      /useStoryRenderContext must be used within StoryRenderProvider/,
-    );
   });
 });

@@ -5,6 +5,7 @@ import { CareerHistoryItem } from "@/components/career-history";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
+  type StoryRenderProps,
   storyblokEditable,
 } from "@/storyblok/lib";
 import { RichText } from "@/storyblok/renderer";
@@ -19,12 +20,14 @@ type CareerHistoryItemBlokData = SbBlokData & {
   description?: StoryblokRichTextNode<ReactElement>;
 };
 
-type CareerHistoryItemBlokProps = {
+type CareerHistoryItemBlokProps = StoryRenderProps & {
   blok: CareerHistoryItemBlokData;
 };
 
 export const CareerHistoryItemBlok: FC<CareerHistoryItemBlokProps> = ({
   blok,
+  pathname,
+  story,
 }) => {
   if (!blok.from || !blok.role || !blok.company || !blok.description) {
     return null;
@@ -39,7 +42,9 @@ export const CareerHistoryItemBlok: FC<CareerHistoryItemBlokProps> = ({
       company={blok.company}
       companyWebsiteUrl={blok.website_url}
       colour={blok.colour}
-      description={<RichText doc={blok.description} />}
+      description={
+        <RichText doc={blok.description} pathname={pathname} story={story} />
+      }
     />
   );
 };

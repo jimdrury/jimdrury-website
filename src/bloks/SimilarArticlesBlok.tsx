@@ -3,21 +3,25 @@ import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { SimilarArticles } from "@/components/similar-articles";
 import { getSimilarArticleItems } from "@/lib/similar-articles";
-import { asBlogStory, useStoryRenderContext } from "@/lib/story-render-context";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { asBlogStory } from "@/lib/story-render-context";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 
 type SimilarArticlesBlokData = SbBlokData & {
   count?: number;
 };
 
-type SimilarArticlesBlokProps = {
+type SimilarArticlesBlokProps = StoryRenderProps & {
   blok: SimilarArticlesBlokData;
 };
 
 export const SimilarArticlesBlok: FC<SimilarArticlesBlokProps> = async ({
   blok,
+  story,
 }) => {
-  const { story } = useStoryRenderContext();
   const currentStory = asBlogStory(story);
   if (!currentStory) {
     return null;

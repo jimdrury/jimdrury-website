@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/page-header";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
+  type StoryRenderProps,
   storyblokEditable,
 } from "@/storyblok/lib";
 import { BlokRenderer, RichText } from "@/storyblok/renderer";
@@ -15,7 +16,7 @@ type PageHeaderBlokData = SbBlokData & {
   subtitle?: StoryblokRichTextNode<ReactElement>;
 };
 
-type PageHeaderBlokProps = {
+type PageHeaderBlokProps = StoryRenderProps & {
   blok: PageHeaderBlokData;
 };
 
@@ -34,16 +35,25 @@ const hasRichTextContent = (
   );
 };
 
-export const PageHeaderBlok: FC<PageHeaderBlokProps> = ({ blok }) => {
+export const PageHeaderBlok: FC<PageHeaderBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   if (!blok.title) {
     return null;
   }
 
   const subtitle = hasRichTextContent(blok.subtitle) ? (
-    <RichText doc={blok.subtitle} />
+    <RichText doc={blok.subtitle} pathname={pathname} story={story} />
   ) : null;
   const badge = blok.badge?.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 
   return (

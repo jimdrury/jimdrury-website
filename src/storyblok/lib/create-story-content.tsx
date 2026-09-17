@@ -1,11 +1,6 @@
 import { notFound } from "next/navigation";
 import type { FC, ReactNode } from "react";
-import { StoryRenderProvider } from "@/lib/story-render-context";
-import type { SbBlokData, StoryData } from "./types";
-
-type BlokRendererProps = {
-  blok: SbBlokData;
-};
+import type { BlokRendererProps, SbBlokData, StoryData } from "./types";
 
 type StoryRenderMode = "draft" | "published";
 
@@ -98,9 +93,7 @@ export const createStoryContent = (
     };
 
     return (
-      <StoryRenderProvider story={resolvedStory} pathname={pathname}>
-        <BlokRenderer blok={content} />
-      </StoryRenderProvider>
+      <BlokRenderer blok={content} pathname={pathname} story={resolvedStory} />
     );
   };
 

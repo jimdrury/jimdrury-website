@@ -1,12 +1,12 @@
 import "server-only";
 import type { FC } from "react";
 import { PageHeader } from "@/components/page-header";
+import { getStoryName, getStoryUpdatedAt } from "@/lib/story-render-context";
 import {
-  getStoryName,
-  getStoryUpdatedAt,
-  useStoryRenderContext,
-} from "@/lib/story-render-context";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type PageBlokData = SbBlokData & {
@@ -14,7 +14,7 @@ type PageBlokData = SbBlokData & {
   body?: SbBlokData[];
 };
 
-type PageBlokProps = {
+type PageBlokProps = StoryRenderProps & {
   blok: PageBlokData;
 };
 
@@ -34,8 +34,7 @@ const formatPageUpdatedAt = (value: string | null): string | null => {
   }).format(parsed);
 };
 
-export const PageBlok: FC<PageBlokProps> = ({ blok }) => {
-  const { story } = useStoryRenderContext();
+export const PageBlok: FC<PageBlokProps> = ({ blok, pathname, story }) => {
   const title = getStoryName(story)?.trim();
   const updatedAtLabel = formatPageUpdatedAt(getStoryUpdatedAt(story));
   const showHeader = blok.header !== false && Boolean(title);
@@ -51,7 +50,12 @@ export const PageBlok: FC<PageBlokProps> = ({ blok }) => {
         />
       ) : null}
       {blok.body?.map((nestedBlok) => (
-        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+          pathname={pathname}
+          story={story}
+        />
       ))}
     </main>
   );

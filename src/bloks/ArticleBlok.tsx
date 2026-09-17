@@ -8,10 +8,14 @@ import { TableOfContents } from "@/components/table-of-contents";
 import { Typography } from "@/components/typography";
 import { estimateReadTime } from "@/lib/read-time";
 import { getSimilarArticleItems } from "@/lib/similar-articles";
-import { asBlogStory, useStoryRenderContext } from "@/lib/story-render-context";
+import { asBlogStory } from "@/lib/story-render-context";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import { transformStoryblokImage } from "@/storyblok/image-transform";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
@@ -35,25 +39,34 @@ type ArticleBlokData = SbBlokData & {
   story_name?: string;
 };
 
-type ArticleBlokProps = {
+type ArticleBlokProps = StoryRenderProps & {
   blok: ArticleBlokData;
 };
 
 const renderRail = (
   bloks: SbBlokData[] | undefined,
   fallback: ReactNode,
+  { pathname, story }: StoryRenderProps,
 ): ReactNode => {
   if (!bloks || bloks.length === 0) {
     return fallback;
   }
 
   return bloks.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 };
 
-export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
-  const { story } = useStoryRenderContext();
+export const ArticleBlok: FC<ArticleBlokProps> = async ({
+  blok,
+  pathname,
+  story,
+}) => {
   const currentStory = asBlogStory(story);
   const title = blok.story_name ?? currentStory?.name;
   const featuredImage = blok.featured_image?.[0]?.image;
@@ -169,6 +182,10 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
           {renderRail(
             blok.pre_content,
             <TableOfContents story={currentStory} />,
+            {
+              pathname,
+              story,
+            },
           )}
         </div>
         <section
@@ -176,19 +193,34 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
           itemProp="articleBody"
         >
           {blok.body?.map((nestedBlok) => (
-            <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+            <BlokRenderer
+              blok={nestedBlok}
+              key={nestedBlok._uid}
+              pathname={pathname}
+              story={story}
+            />
           ))}
         </section>
         <aside className="hidden w-[360px] shrink-0 space-y-8 lg:block lg:self-start">
           {renderRail(
             blok.pre_content,
             <TableOfContents story={currentStory} />,
+            {
+              pathname,
+              story,
+            },
           )}
-          {renderRail(postContent, <SimilarArticles items={similarItems} />)}
+          {renderRail(postContent, <SimilarArticles items={similarItems} />, {
+            pathname,
+            story,
+          })}
         </aside>
       </div>
       <div className="container mx-auto mt-8 px-5 pb-6 lg:hidden lg:px-12 2xl:max-w-6xl">
-        {renderRail(postContent, <SimilarArticles items={similarItems} />)}
+        {renderRail(postContent, <SimilarArticles items={similarItems} />, {
+          pathname,
+          story,
+        })}
       </div>
       {currentStory ? (
         <ArticleNavigation currentStory={currentStory} version={version} />

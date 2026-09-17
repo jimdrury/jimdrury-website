@@ -1,6 +1,10 @@
 import "server-only";
 import type { FC } from "react";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type HomeHeroBlokData = SbBlokData & {
@@ -8,11 +12,15 @@ type HomeHeroBlokData = SbBlokData & {
   body?: SbBlokData[];
 };
 
-type HomeHeroBlokProps = {
+type HomeHeroBlokProps = StoryRenderProps & {
   blok: HomeHeroBlokData;
 };
 
-export const HomeHeroBlok: FC<HomeHeroBlokProps> = ({ blok }) => {
+export const HomeHeroBlok: FC<HomeHeroBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   const hasHeading = Array.isArray(blok.heading) && blok.heading.length > 0;
   const hasBody = Array.isArray(blok.body) && blok.body.length > 0;
 
@@ -21,11 +29,21 @@ export const HomeHeroBlok: FC<HomeHeroBlokProps> = ({ blok }) => {
   }
 
   const heading = blok.heading?.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 
   const body = blok.body?.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 
   return (

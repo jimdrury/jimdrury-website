@@ -1,7 +1,11 @@
 import "server-only";
 import type { FC } from "react";
 import { PublicEvent } from "@/components/public-event";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type PublicEventBlokData = SbBlokData & {
@@ -18,11 +22,15 @@ type PublicEventBlokData = SbBlokData & {
   link_url?: string;
 };
 
-type PublicEventBlokProps = {
+type PublicEventBlokProps = StoryRenderProps & {
   blok: PublicEventBlokData;
 };
 
-export const PublicEventBlok: FC<PublicEventBlokProps> = ({ blok }) => {
+export const PublicEventBlok: FC<PublicEventBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   if (!blok.event_date || !blok.title || !blok.description) {
     return null;
   }
@@ -30,7 +38,12 @@ export const PublicEventBlok: FC<PublicEventBlokProps> = ({ blok }) => {
   const [badgeBlok] = blok.badge ?? [];
   const badgeNode =
     badgeBlok?.component === "badge" ? (
-      <BlokRenderer blok={badgeBlok} key={badgeBlok._uid} />
+      <BlokRenderer
+        blok={badgeBlok}
+        key={badgeBlok._uid}
+        pathname={pathname}
+        story={story}
+      />
     ) : null;
 
   return (

@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { isBlogStory, useStoryRenderContext } from "@/lib/story-render-context";
+import { isBlogStory } from "@/lib/story-render-context";
 import { createStoryContent, parseStoryContent } from "./create-story-content";
-import type { SbBlokData } from "./types";
+import type { BlokRendererProps } from "./types";
 
 vi.mock("next/navigation", () => ({
   notFound: vi.fn(() => {
@@ -12,9 +12,7 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
-const FakeBlok: FC<{ blok: SbBlokData }> = ({ blok }) => {
-  const { pathname, story } = useStoryRenderContext();
-
+const FakeBlok: FC<BlokRendererProps> = ({ blok, pathname, story }) => {
   return (
     <div>
       <span data-testid="blok">{blok.component}</span>
@@ -56,7 +54,7 @@ describe("createStoryContent", () => {
     vi.mocked(notFound).mockClear();
   });
 
-  it("renders the root blok inside the story provider", () => {
+  it("renders the root blok with story and pathname props", () => {
     render(
       <StoryContent
         mode="published"

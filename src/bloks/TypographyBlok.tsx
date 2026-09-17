@@ -5,9 +5,13 @@ import {
   isTypographySize,
   type TypographySize,
 } from "@/components/typography/typography-size";
-import { asBlogStory, useStoryRenderContext } from "@/lib/story-render-context";
+import { asBlogStory } from "@/lib/story-render-context";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { getTypographyHeadingIdByUid } from "@/storyblok/table-of-contents";
 
 type TypographyTag = "p" | "h1" | "h2" | "h3" | "h4";
@@ -19,7 +23,7 @@ type TypographyBlokData = SbBlokData & {
   text_transform?: string;
 };
 
-type TypographyBlokProps = {
+type TypographyBlokProps = StoryRenderProps & {
   blok: TypographyBlokData;
 };
 
@@ -91,9 +95,7 @@ const getHeadingIdFromBlok = ({
   return headingId.length > 0 ? headingId : undefined;
 };
 
-export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
-  const { story } = useStoryRenderContext();
-
+export const TypographyBlok: FC<TypographyBlokProps> = ({ blok, story }) => {
   if (!blok.content) {
     return null;
   }

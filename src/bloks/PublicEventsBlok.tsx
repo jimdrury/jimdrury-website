@@ -1,7 +1,11 @@
 import "server-only";
 import type { FC } from "react";
 import { PaginatedList } from "@/components/paginated-list";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type PublicEventChildBlokData = SbBlokData & {
@@ -12,7 +16,7 @@ type PublicEventsBlokData = SbBlokData & {
   events?: PublicEventChildBlokData[];
 };
 
-type PublicEventsBlokProps = {
+type PublicEventsBlokProps = StoryRenderProps & {
   blok: PublicEventsBlokData;
 };
 
@@ -27,7 +31,11 @@ const getEventTimestamp = (value: string | undefined): number => {
   return Number.isFinite(timestamp) ? timestamp : 0;
 };
 
-export const PublicEventsBlok: FC<PublicEventsBlokProps> = ({ blok }) => {
+export const PublicEventsBlok: FC<PublicEventsBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   const events = [...(blok.events ?? [])].sort((left, right) => {
     return (
       getEventTimestamp(right.event_date) - getEventTimestamp(left.event_date)
@@ -45,7 +53,12 @@ export const PublicEventsBlok: FC<PublicEventsBlokProps> = ({ blok }) => {
         pageSize={EVENTS_PER_PAGE}
       >
         {events.map((eventBlok) => (
-          <BlokRenderer blok={eventBlok} key={eventBlok._uid} />
+          <BlokRenderer
+            blok={eventBlok}
+            key={eventBlok._uid}
+            pathname={pathname}
+            story={story}
+          />
         ))}
       </PaginatedList>
     </section>

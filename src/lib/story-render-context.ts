@@ -1,20 +1,6 @@
 import "server-only";
 
-import type { FC, ReactNode } from "react";
-import { createContext, use } from "react";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
-import type { StoryData } from "@/storyblok/lib";
-
-export type StoryRenderContextValue = {
-  story: StoryData;
-  pathname: string;
-};
-
-const StoryRenderContext = createContext<StoryRenderContextValue | null>(null);
-
-type StoryRenderProviderProps = StoryRenderContextValue & {
-  children: ReactNode;
-};
 
 export const isBlogStory = (value: unknown): value is BlogStory => {
   if (!value || typeof value !== "object") {
@@ -67,28 +53,4 @@ export const getStoryUpdatedAt = (story: unknown): string | null => {
   }
 
   return null;
-};
-
-export const StoryRenderProvider: FC<StoryRenderProviderProps> = ({
-  story,
-  pathname,
-  children,
-}) => {
-  return (
-    <StoryRenderContext.Provider value={{ story, pathname }}>
-      {children}
-    </StoryRenderContext.Provider>
-  );
-};
-
-export const useStoryRenderContext = (): StoryRenderContextValue => {
-  const value = use(StoryRenderContext);
-
-  if (!value) {
-    throw new Error(
-      "useStoryRenderContext must be used within StoryRenderProvider",
-    );
-  }
-
-  return value;
 };

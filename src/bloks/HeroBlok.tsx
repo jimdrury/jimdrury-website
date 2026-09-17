@@ -12,7 +12,11 @@ import {
   isStoryblokImageServiceUrl,
   transformStoryblokImage,
 } from "@/storyblok/image-transform";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 import type { StoryblokAsset } from "@/storyblok/types";
 
@@ -30,11 +34,11 @@ type HeroBlokData = SbBlokData & {
   density?: string;
 };
 
-type HeroBlokProps = {
+type HeroBlokProps = StoryRenderProps & {
   blok: HeroBlokData;
 };
 
-export const HeroBlok: FC<HeroBlokProps> = ({ blok }) => {
+export const HeroBlok: FC<HeroBlokProps> = ({ blok, pathname, story }) => {
   const hasTitle = Array.isArray(blok.title) && blok.title.length > 0;
   const hasBlurb = Array.isArray(blok.blurb) && blok.blurb.length > 0;
   if (!hasTitle || !hasBlurb) {
@@ -76,15 +80,30 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok }) => {
   }
 
   const badge = blok.badge?.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 
   const title = blok.title?.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 
   const blurb = blok.blurb?.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 
   const density = isHeroDensity(blok.density) ? blok.density : "default";

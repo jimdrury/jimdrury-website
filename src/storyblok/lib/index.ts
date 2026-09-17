@@ -5,7 +5,9 @@ export { storyblokEditable } from "./editable";
 export type {
   BlokComponent,
   BlokComponentMap,
+  BlokRendererProps,
   SbBlokData,
   StoryblokRichTextNode,
   StoryData,
+  StoryRenderProps,
 } from "./types";

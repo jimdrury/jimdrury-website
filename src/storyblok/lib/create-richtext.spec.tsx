@@ -5,6 +5,11 @@ import { describe, expect, it } from "vitest";
 
 import { createRichText, parseStyle } from "./create-richtext";
 
+const storyRenderProps = {
+  pathname: "/about",
+  story: { content: { component: "page" } },
+};
+
 describe("createRichText", () => {
   it("normalizes non-breaking spaces to regular spaces", () => {
     const RichText = createRichText(() => null);
@@ -23,7 +28,7 @@ describe("createRichText", () => {
       ],
     } as StoryblokRichTextNode<ReactElement>;
 
-    render(<RichText doc={doc} />);
+    render(<RichText doc={doc} {...storyRenderProps} />);
 
     expect(
       screen.getByText("Industry accolades for shipping"),
@@ -46,7 +51,7 @@ describe("createRichText", () => {
       ],
     } as StoryblokRichTextNode<ReactElement>;
 
-    const { container } = render(<RichText doc={doc} />);
+    const { container } = render(<RichText doc={doc} {...storyRenderProps} />);
     const items = container.querySelectorAll("ul > li");
 
     expect(items).toHaveLength(2);
@@ -98,7 +103,7 @@ describe("createRichText", () => {
       ],
     } as StoryblokRichTextNode<ReactElement>;
 
-    const { container } = render(<RichText doc={doc} />);
+    const { container } = render(<RichText doc={doc} {...storyRenderProps} />);
 
     expect(
       container.querySelector('a[href="https://example.com/about"]'),

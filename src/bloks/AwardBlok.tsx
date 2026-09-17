@@ -4,6 +4,7 @@ import { Award, type AwardColour, type AwardIcon } from "@/components/award";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
+  type StoryRenderProps,
   storyblokEditable,
 } from "@/storyblok/lib";
 import { RichText } from "@/storyblok/renderer";
@@ -16,11 +17,11 @@ type AwardBlokData = SbBlokData & {
   description?: StoryblokRichTextNode<ReactElement>;
 };
 
-type AwardBlokProps = {
+type AwardBlokProps = StoryRenderProps & {
   blok: AwardBlokData;
 };
 
-export const AwardBlok: FC<AwardBlokProps> = ({ blok }) => {
+export const AwardBlok: FC<AwardBlokProps> = ({ blok, pathname, story }) => {
   if (!blok.icon || !blok.title) {
     return null;
   }
@@ -33,7 +34,9 @@ export const AwardBlok: FC<AwardBlokProps> = ({ blok }) => {
       company={blok.company}
       colour={blok.colour}
     >
-      {blok.description && <RichText doc={blok.description} />}
+      {blok.description && (
+        <RichText doc={blok.description} pathname={pathname} story={story} />
+      )}
     </Award>
   );
 };

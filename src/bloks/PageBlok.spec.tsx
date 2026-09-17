@@ -1,7 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import type { ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
-import { StoryRenderProvider } from "@/lib/story-render-context";
 import type { SbBlokData, StoryData } from "@/storyblok/lib";
 import { PageBlok } from "./PageBlok";
 
@@ -21,12 +19,7 @@ const renderPage = (
   blok: Parameters<typeof PageBlok>[0]["blok"],
   story: StoryData = privacyStory,
 ) => {
-  const view = (
-    <StoryRenderProvider pathname="/privacy" story={story}>
-      <PageBlok blok={blok} />
-    </StoryRenderProvider>
-  ) as ReactElement;
-  return render(view);
+  return render(<PageBlok blok={blok} pathname="/privacy" story={story} />);
 };
 
 describe("PageBlok", () => {

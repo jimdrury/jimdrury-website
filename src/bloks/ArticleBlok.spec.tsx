@@ -1,29 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SbBlokData } from "@/storyblok/lib";
+import type { SbBlokData, StoryData } from "@/storyblok/lib";
 import { ArticleBlok } from "./ArticleBlok";
 
 const mocks = vi.hoisted(() => ({
-  useStoryRenderContext: vi.fn(() => ({
-    story: { content: { component: "page" } },
-    pathname: "/",
-  })),
   getSimilarArticleItems: vi.fn(async () => []),
 }));
+
+const pageStory: StoryData = {
+  content: { component: "page" },
+};
 
 vi.mock("next/headers", () => ({
   draftMode: vi.fn(async () => ({ isEnabled: false })),
 }));
-
-vi.mock("@/lib/story-render-context", async (importOriginal) => {
-  const actual =
-    await importOriginal<typeof import("@/lib/story-render-context")>();
-  return {
-    ...actual,
-    useStoryRenderContext: () => mocks.useStoryRenderContext(),
-  };
-});
 
 vi.mock("@/lib/similar-articles", () => ({
   getSimilarArticleItems: mocks.getSimilarArticleItems,
@@ -51,17 +42,18 @@ vi.mock("@/components/article-navigation", () => ({
 
 const renderArticle = async (
   blok: Parameters<typeof ArticleBlok>[0]["blok"],
+  story: StoryData = pageStory,
 ) => {
-  const view = (await ArticleBlok({ blok })) as ReactElement;
+  const view = (await ArticleBlok({
+    blok,
+    pathname: "/",
+    story,
+  })) as ReactElement;
   return render(view);
 };
 
 describe("ArticleBlok", () => {
   beforeEach(() => {
-    mocks.useStoryRenderContext.mockReturnValue({
-      story: { content: { component: "page" } },
-      pathname: "/",
-    });
     mocks.getSimilarArticleItems.mockClear();
   });
 
