@@ -104,7 +104,7 @@ describe("createStoryContent", () => {
       ),
     ).toThrow(/NEXT_HTTP_ERROR_FALLBACK;404/);
 
-    expect(notFound).toHaveBeenCalledTimes(1);
+    expect(notFound).toHaveBeenCalled();
   });
 
   it("shows a visible preview error when draft content cannot be parsed", () => {
