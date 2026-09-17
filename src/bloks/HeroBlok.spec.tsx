@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import type { ImgHTMLAttributes, ReactElement } from "react";
+import type { ImgHTMLAttributes } from "react";
 import { describe, expect, it, vi } from "vitest";
-import type { SbBlokData } from "@/storyblok/lib";
+import type { SbBlokData, StoryData } from "@/storyblok/lib";
 import { HeroBlok } from "./HeroBlok";
 
 vi.mock("next/image", () => ({
@@ -20,9 +20,13 @@ vi.mock("@/storyblok/renderer", () => ({
   ),
 }));
 
+const homeStory = {
+  name: "Home",
+  content: { component: "page" },
+} as StoryData;
+
 const renderHero = (blok: Parameters<typeof HeroBlok>[0]["blok"]) => {
-  const view = HeroBlok({ blok }) as ReactElement;
-  return render(view);
+  return render(<HeroBlok blok={blok} pathname="/" story={homeStory} />);
 };
 
 const portraitSrc =

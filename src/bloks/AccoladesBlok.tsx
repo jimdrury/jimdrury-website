@@ -1,7 +1,11 @@
 import "server-only";
 import type { FC } from "react";
 import { Accolades } from "@/components/accolades";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type AccoladesBlokData = SbBlokData & {
@@ -9,11 +13,15 @@ type AccoladesBlokData = SbBlokData & {
   awards?: SbBlokData[];
 };
 
-type AccoladesBlokProps = {
+type AccoladesBlokProps = StoryRenderProps & {
   blok: AccoladesBlokData;
 };
 
-export const AccoladesBlok: FC<AccoladesBlokProps> = ({ blok }) => {
+export const AccoladesBlok: FC<AccoladesBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   const awards = blok.awards ?? [];
   if (awards.length === 0) {
     return null;
@@ -25,7 +33,12 @@ export const AccoladesBlok: FC<AccoladesBlokProps> = ({ blok }) => {
       title={blok.title?.trim() || "Accolades"}
     >
       {awards.map((nestedBlok) => (
-        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+          pathname={pathname}
+          story={story}
+        />
       ))}
     </Accolades>
   );
