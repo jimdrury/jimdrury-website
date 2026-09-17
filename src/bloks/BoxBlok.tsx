@@ -6,7 +6,11 @@ import {
   type BoxSpacing,
   type BoxTextColour,
 } from "@/components/box";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type BoxBlokData = SbBlokData & {
@@ -17,11 +21,11 @@ type BoxBlokData = SbBlokData & {
   text_colour?: BoxTextColour;
 };
 
-type BoxBlokProps = {
+type BoxBlokProps = StoryRenderProps & {
   blok: BoxBlokData;
 };
 
-export const BoxBlok: FC<BoxBlokProps> = ({ blok }) => {
+export const BoxBlok: FC<BoxBlokProps> = ({ blok, pathname, story }) => {
   return (
     <Box
       {...storyblokEditable(blok)}
@@ -31,7 +35,12 @@ export const BoxBlok: FC<BoxBlokProps> = ({ blok }) => {
       textColour={blok.text_colour ?? "default"}
     >
       {blok.body?.map((nestedBlok) => (
-        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+          pathname={pathname}
+          story={story}
+        />
       ))}
     </Box>
   );

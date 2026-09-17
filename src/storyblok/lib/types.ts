@@ -17,9 +17,20 @@ export type StoryData = {
   content: unknown;
 };
 
-export type BlokComponent<T extends SbBlokData = SbBlokData> = FC<{
-  blok: T;
-}>;
+export type StoryRenderProps = {
+  pathname: string;
+  story: StoryData;
+};
+
+export type BlokRendererProps = {
+  blok: SbBlokData;
+} & StoryRenderProps;
+
+export type BlokComponent<T extends SbBlokData = SbBlokData> = FC<
+  {
+    blok: T;
+  } & StoryRenderProps
+>;
 
 export type BlokComponentMap = Record<string, BlokComponent>;
 

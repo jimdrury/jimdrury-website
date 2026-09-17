@@ -1,6 +1,10 @@
 import "server-only";
 import type { FC } from "react";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type GridSpan =
@@ -24,13 +28,17 @@ type GridItemBlokData = SbBlokData & {
   col_span_desktop?: GridSpan;
 };
 
-type GridItemBlokProps = {
+type GridItemBlokProps = StoryRenderProps & {
   blok: GridItemBlokData;
 };
 
 const toGridColumn = (span: string): string => `span ${span} / span ${span}`;
 
-export const GridItemBlok: FC<GridItemBlokProps> = ({ blok }) => {
+export const GridItemBlok: FC<GridItemBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   const mobileSpan = blok.col_span_mobile ?? "12";
   const tabletSpan = blok.col_span_tablet ?? "6";
   const desktopSpan = blok.col_span_desktop ?? "4";
@@ -48,7 +56,12 @@ export const GridItemBlok: FC<GridItemBlokProps> = ({ blok }) => {
       </style>
       <div {...storyblokEditable(blok)} className={scopeClass}>
         {body.map((nestedBlok) => (
-          <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+          <BlokRenderer
+            blok={nestedBlok}
+            key={nestedBlok._uid}
+            pathname={pathname}
+            story={story}
+          />
         ))}
       </div>
     </>

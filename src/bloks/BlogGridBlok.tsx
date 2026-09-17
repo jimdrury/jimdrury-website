@@ -4,9 +4,12 @@ import type { FC } from "react";
 import type { BlogCardDensity } from "@/components/blog-card";
 import { BlogGrid } from "@/components/blog-grid";
 import { getBlogIndexArchive, getPageFromPathname } from "@/lib/blog";
-import { getCurrentPathname } from "@/lib/search-params-context";
 import { getBlogIndexPath } from "@/lib/seo";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 
 type BlogGridBlokData = SbBlokData & {
   per_page?: number;
@@ -14,7 +17,7 @@ type BlogGridBlokData = SbBlokData & {
   limit?: number;
 };
 
-type BlogGridBlokProps = {
+type BlogGridBlokProps = StoryRenderProps & {
   blok: BlogGridBlokData;
 };
 
@@ -31,8 +34,10 @@ const parseLimit = (value: unknown): number | undefined => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 };
 
-export const BlogGridBlok: FC<BlogGridBlokProps> = async ({ blok }) => {
-  const pathname = getCurrentPathname();
+export const BlogGridBlok: FC<BlogGridBlokProps> = async ({
+  blok,
+  pathname,
+}) => {
   const page = getPageFromPathname(pathname);
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";

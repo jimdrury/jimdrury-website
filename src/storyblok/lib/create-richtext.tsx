@@ -8,15 +8,11 @@ import type { FC, ReactElement, ReactNode } from "react";
 import { Children, createElement, Fragment, isValidElement } from "react";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import { normalizeRichTextLists } from "./normalize-richtext-lists";
-import type { SbBlokData } from "./types";
-
-type BlokRendererProps = {
-  blok: SbBlokData;
-};
+import type { BlokRendererProps, SbBlokData, StoryRenderProps } from "./types";
 
 type RichTextProps = {
   doc: StoryblokRichTextNode<ReactElement>;
-};
+} & StoryRenderProps;
 
 type ReactElementWithProps = ReactElement<{
   children?: ReactNode;
@@ -284,7 +280,7 @@ const normalizeElementAttributes = (node: ReactNode): ReactNode => {
 export const createRichText = (
   BlokRenderer: FC<BlokRendererProps>,
 ): FC<RichTextProps> => {
-  const RichText: FC<RichTextProps> = ({ doc }) => {
+  const RichText: FC<RichTextProps> = ({ doc, pathname, story }) => {
     const normalizedDoc = normalizeRichTextLists(normalizeRichTextNode(doc));
     const resolver = richTextResolver<ReactElement>({
       renderFn: renderRichTextElement,
@@ -298,7 +294,14 @@ export const createRichText = (
             const resolvedKey =
               key ??
               `fallback-key-${typeof blok === "object" ? JSON.stringify(blok) : ""}`;
-            return <BlokRenderer blok={blok as SbBlokData} key={resolvedKey} />;
+            return (
+              <BlokRenderer
+                blok={blok as SbBlokData}
+                key={resolvedKey}
+                pathname={pathname}
+                story={story}
+              />
+            );
           },
         }),
       },

@@ -1,14 +1,10 @@
 import type { FC } from "react";
-import type { BlokComponentMap, SbBlokData } from "./types";
-
-type BlokRendererProps = {
-  blok: SbBlokData;
-};
+import type { BlokComponentMap, BlokRendererProps } from "./types";
 
 export const createBlokRenderer = (
   components: BlokComponentMap,
 ): FC<BlokRendererProps> => {
-  const BlokRenderer: FC<BlokRendererProps> = ({ blok }) => {
+  const BlokRenderer: FC<BlokRendererProps> = ({ blok, pathname, story }) => {
     const component = components[blok.component];
 
     if (!component) {
@@ -21,7 +17,7 @@ export const createBlokRenderer = (
 
     const Component = component;
 
-    return <Component blok={blok} />;
+    return <Component blok={blok} pathname={pathname} story={story} />;
   };
 
   BlokRenderer.displayName = "BlokRenderer";

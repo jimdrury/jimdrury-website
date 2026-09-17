@@ -11,6 +11,7 @@ const isStoryData = (value: unknown): value is StoryData => {
 
 export const renderStoryPreview = async (
   story: unknown,
+  pathname: string,
 ): Promise<ReactElement | null> => {
   if (!isStoryData(story)) {
     return null;
@@ -22,5 +23,5 @@ export const renderStoryPreview = async (
     return null;
   }
 
-  return <StoryPreviewRender story={story} />;
+  return <StoryPreviewRender pathname={pathname} story={story} />;
 };
