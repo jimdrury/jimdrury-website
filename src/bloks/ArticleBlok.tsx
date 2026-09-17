@@ -164,7 +164,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
           <SimilarArticles items={similarItems} />
         </aside>
       </div>
-      <div className="container mx-auto px-5 pb-6 lg:hidden lg:px-12 2xl:max-w-6xl">
+      <div className="container mx-auto mt-8 px-5 pb-6 lg:hidden lg:px-12 2xl:max-w-6xl">
         <SimilarArticles items={similarItems} />
       </div>
       {currentStory ? (

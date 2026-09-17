@@ -1,7 +1,7 @@
 import "server-only";
 import type { FC } from "react";
 
-import { Hero } from "@/components/hero";
+import { Hero, type HeroDensity } from "@/components/hero";
 import {
   sanitizeStoryblokFocusValue,
   storyblokFocusToObjectPositionPercent,
@@ -19,11 +19,15 @@ import type { StoryblokAsset } from "@/storyblok/types";
 const HERO_PORTRAIT_MAX = 960;
 const HERO_PORTRAIT_QUALITY = 80;
 
+const isHeroDensity = (value: unknown): value is HeroDensity =>
+  value === "default" || value === "compact";
+
 type HeroBlokData = SbBlokData & {
   badge?: SbBlokData[];
   title?: SbBlokData[];
   blurb?: SbBlokData[];
   portrait?: StoryblokAsset;
+  density?: string;
 };
 
 type HeroBlokProps = {
@@ -31,32 +35,45 @@ type HeroBlokProps = {
 };
 
 export const HeroBlok: FC<HeroBlokProps> = ({ blok }) => {
-  const rawSrc = blok.portrait?.filename;
   const hasTitle = Array.isArray(blok.title) && blok.title.length > 0;
   const hasBlurb = Array.isArray(blok.blurb) && blok.blurb.length > 0;
-  if (!hasTitle || !rawSrc || !hasBlurb) {
+  if (!hasTitle || !hasBlurb) {
     return null;
   }
 
-  const imageDimensions = parseStoryblokImageDimensions(rawSrc);
-  const portraitDimensions = imageDimensions
-    ? constrainStoryblokDimensions(imageDimensions, HERO_PORTRAIT_MAX)
-    : null;
-  const sanitizedFocus = sanitizeStoryblokFocusValue(blok.portrait?.focus);
-  const focalAppliedByCdn = Boolean(
-    sanitizedFocus && isStoryblokImageServiceUrl(rawSrc),
-  );
-  const portraitSrc = transformStoryblokImage(rawSrc, {
-    width: HERO_PORTRAIT_MAX,
-    quality: HERO_PORTRAIT_QUALITY,
-    focus: sanitizedFocus,
-  });
-  const portraitObjectPosition =
-    sanitizedFocus && imageDimensions && !focalAppliedByCdn
-      ? storyblokFocusToObjectPositionPercent(sanitizedFocus, imageDimensions)
-      : undefined;
+  const rawSrc = blok.portrait?.filename;
 
-  const portraitAlt = blok.portrait?.alt || blok.portrait?.meta_data?.alt || "";
+  let portraitSrc: string | undefined;
+  let portraitAlt: string | undefined;
+  let width: number | undefined;
+  let height: number | undefined;
+  let portraitObjectPosition: string | undefined;
+
+  if (rawSrc) {
+    const imageDimensions = parseStoryblokImageDimensions(rawSrc);
+    const portraitDimensions = imageDimensions
+      ? constrainStoryblokDimensions(imageDimensions, HERO_PORTRAIT_MAX)
+      : null;
+    const sanitizedFocus = sanitizeStoryblokFocusValue(blok.portrait?.focus);
+    const focalAppliedByCdn = Boolean(
+      sanitizedFocus && isStoryblokImageServiceUrl(rawSrc),
+    );
+
+    portraitSrc = transformStoryblokImage(rawSrc, {
+      width: HERO_PORTRAIT_MAX,
+      quality: HERO_PORTRAIT_QUALITY,
+      focus: sanitizedFocus,
+    });
+
+    portraitObjectPosition =
+      sanitizedFocus && imageDimensions && !focalAppliedByCdn
+        ? storyblokFocusToObjectPositionPercent(sanitizedFocus, imageDimensions)
+        : undefined;
+
+    portraitAlt = blok.portrait?.alt || blok.portrait?.meta_data?.alt || "";
+    width = portraitDimensions?.width ?? HERO_PORTRAIT_MAX;
+    height = portraitDimensions?.height ?? HERO_PORTRAIT_MAX;
+  }
 
   const badge = blok.badge?.map((nestedBlok) => (
     <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
@@ -70,8 +87,7 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok }) => {
     <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
   ));
 
-  const width = portraitDimensions?.width ?? HERO_PORTRAIT_MAX;
-  const height = portraitDimensions?.height ?? HERO_PORTRAIT_MAX;
+  const density = isHeroDensity(blok.density) ? blok.density : "default";
 
   return (
     <Hero
@@ -84,6 +100,7 @@ export const HeroBlok: FC<HeroBlokProps> = ({ blok }) => {
       portraitWidth={width}
       portraitHeight={height}
       portraitObjectPosition={portraitObjectPosition}
+      density={density}
     />
   );
 };

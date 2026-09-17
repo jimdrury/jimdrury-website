@@ -7,17 +7,25 @@ import { HeaderCta, HeaderNavLink } from "./header";
 
 const links = [{ href: "/blog", label: "Blog" }];
 
+const isActivePath = (pathname: string, href: string): boolean => {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
+
 export const HeaderNavLinks: FC = () => {
   const pathname = usePathname();
 
   return (
     <>
       {links.map(({ href, label }) => (
-        <HeaderNavLink key={href} asChild active={pathname.startsWith(href)}>
+        <HeaderNavLink key={href} asChild active={isActivePath(pathname, href)}>
           <Link href={href}>{label}</Link>
         </HeaderNavLink>
       ))}
-      <HeaderCta asChild>
+      <HeaderCta asChild active={isActivePath(pathname, "/about")}>
         <Link href="/about" prefetch={false}>
           About
         </Link>

@@ -41,42 +41,42 @@ export const SiteFooter: FC<SiteFooterProps> = ({
   return (
     <footer
       className={cn(
-        "flex flex-col items-center gap-2 bg-[var(--fg-primary)] px-5 py-8 text-[var(--fg-inverse)] sm:gap-6 sm:px-12 sm:py-10",
+        "flex flex-col items-center gap-4 bg-[var(--fg-primary)] px-5 py-5 text-[var(--fg-inverse)] lg:flex-row lg:justify-between lg:gap-6 lg:px-12 lg:py-6",
         className,
       )}
       {...props}
     >
-      <p className="font-[family-name:var(--font-geist-mono)] text-xs font-semibold uppercase tracking-[2px] sm:text-sm">
-        Jim Drury &copy; {currentYear}
-      </p>
-      <p className="font-[family-name:var(--font-anton)] text-xl uppercase tracking-[2px] sm:text-2xl">
-        Built with boldness.
-      </p>
-      <div className="flex w-full items-center justify-between">
-        <nav aria-label="Social links">
-          <ul className="flex items-center gap-4 sm:gap-5">
-            {SOCIAL_LINKS.map(({ href, label, IconComponent }) => (
-              <li key={href} className="list-none">
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="inline-flex text-[var(--fg-inverse)] transition-opacity hover:opacity-80 focus-visible:focus-ring-sm"
-                >
-                  <IconComponent className="size-[18px] sm:size-5" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <Link
-          href="/legal/privacy-policy"
-          className="font-[family-name:var(--font-geist-mono)] text-xs font-semibold tracking-[2px] text-[var(--fg-inverse)] transition-opacity hover:opacity-80 focus-visible:focus-ring-sm sm:text-sm"
-        >
-          Privacy Policy
-        </Link>
+      <nav aria-label="Social links">
+        <ul className="flex items-center gap-4 sm:gap-5">
+          {SOCIAL_LINKS.map(({ href, label, IconComponent }) => (
+            <li key={href} className="list-none">
+              <a
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className="inline-flex text-[var(--fg-inverse)] transition-opacity hover:opacity-80 focus-visible:focus-ring-sm"
+              >
+                <IconComponent className="size-[18px] sm:size-5" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div className="flex flex-col items-center gap-1 text-center lg:flex-1">
+        <p className="font-[family-name:var(--font-geist-mono)] text-xs font-semibold uppercase tracking-[2px] sm:text-sm">
+          Jim Drury &copy; {currentYear}
+        </p>
+        <p className="font-[family-name:var(--font-anton)] text-lg uppercase tracking-[2px] sm:text-xl">
+          Built with boldness.
+        </p>
       </div>
+      <Link
+        href="/legal/privacy-policy"
+        className="font-[family-name:var(--font-geist-mono)] text-xs font-semibold tracking-[2px] text-[var(--fg-inverse)] transition-opacity hover:opacity-80 focus-visible:focus-ring-sm sm:text-sm"
+      >
+        Privacy Policy
+      </Link>
     </footer>
   );
 };

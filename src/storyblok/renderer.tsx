@@ -27,6 +27,7 @@ import { RichTextBlok } from "@/bloks/RichTextBlok";
 import { SectionBlok } from "@/bloks/SectionBlok";
 import { SimilarArticlesBlok } from "@/bloks/SimilarArticlesBlok";
 import { SnippetBlok } from "@/bloks/SnippetBlok";
+import { StatusBandBlok } from "@/bloks/StatusBandBlok";
 import { TableOfContentsBlok } from "@/bloks/TableOfContentsBlok";
 import { TickerBlok } from "@/bloks/TickerBlok";
 import { TickerWordBlok } from "@/bloks/TickerWordBlok";
@@ -67,6 +68,7 @@ export const BlokRenderer = createBlokRenderer({
   section: SectionBlok,
   similar_articles: SimilarArticlesBlok,
   snippet: SnippetBlok,
+  status_band: StatusBandBlok,
   table_of_contents: TableOfContentsBlok,
   ticker: TickerBlok,
   ticker_word: TickerWordBlok,
