@@ -136,7 +136,7 @@ const Page: FC<PageProps<"/">> = async () => {
       </section>
 
       {recentStories.length > 0 && (
-        <section className="w-full bg-[var(--bg-secondary)] py-8 md:py-12">
+        <section className="w-full bg-[var(--bg-secondary)] pt-8 pb-2 md:pt-12">
           <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
             <div className="mb-6 flex items-end justify-between">
               <Typography size="4xl" asChild>
