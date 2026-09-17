@@ -154,7 +154,7 @@ describe("createRichText", () => {
       ],
     } as unknown as StoryblokRichTextNode<ReactElement>;
 
-    const { container } = render(<RichText doc={doc} />);
+    const { container } = render(<RichText doc={doc} {...storyRenderProps} />);
 
     const list = container.querySelector("ul");
     expect(list).not.toBeNull();
@@ -185,7 +185,7 @@ describe("createRichText", () => {
       ],
     } as unknown as StoryblokRichTextNode<ReactElement>;
 
-    const { container } = render(<RichText doc={doc} />);
+    const { container } = render(<RichText doc={doc} {...storyRenderProps} />);
 
     const list = container.querySelector("ol");
     expect(list).not.toBeNull();
@@ -215,7 +215,7 @@ describe("createRichText", () => {
       ],
     } as unknown as StoryblokRichTextNode<ReactElement>;
 
-    const { container } = render(<RichText doc={doc} />);
+    const { container } = render(<RichText doc={doc} {...storyRenderProps} />);
 
     const list = container.querySelector("ul");
     expect(list).not.toBeNull();
