@@ -58,6 +58,12 @@
   line-height: 1;
 }
 
+.prose :not(pre) > code strong,
+.prose :not(pre) > code em,
+.prose :not(pre) > code * {
+  color: inherit;
+}
+
 /* Ticker: edge fade so words never clip mid-glyph at the container edges. */
 .ticker-fade {
   -webkit-mask-image: linear-gradient(

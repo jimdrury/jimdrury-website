@@ -65,7 +65,7 @@ export const ContentBandHeaderRow: FC<ContentBandHeaderRowProps> = ({
 };
 
 const gridLayoutClassName = cn(
-  "grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3",
+  "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10",
 );
 
 export interface ContentBandBodyRegionProps {
