@@ -1,4 +1,5 @@
 import parse from "html-react-parser";
+import { cacheLife } from "next/cache";
 import type { FC } from "react";
 import { LuTerminal } from "react-icons/lu";
 import {
@@ -67,6 +68,24 @@ const buildDecorations = (highlights: LineHighlight[]): DecorationItem[] =>
     properties: { class: stateClass[state] },
   }));
 
+const highlightCode = async ({
+  code,
+  language,
+  highlights,
+}: {
+  code: string;
+  language: string;
+  highlights: LineHighlight[] | undefined;
+}): Promise<string> => {
+  "use cache";
+  cacheLife("ultraLong");
+  return codeToHtml(code, {
+    lang: language,
+    theme: "github-dark",
+    decorations: highlights?.length ? buildDecorations(highlights) : undefined,
+  });
+};
+
 export const Snippet: FC<SnippetProps> = async ({
   code,
   language = "text",
@@ -85,10 +104,10 @@ export const Snippet: FC<SnippetProps> = async ({
     title != null && title.length > 0
       ? !isCommandLineLanguage || enableCopyToClipboard
       : isCommandLineLanguage && enableCopyToClipboard;
-  const html = await codeToHtml(code, {
-    lang: language,
-    theme: "github-dark",
-    decorations: highlights?.length ? buildDecorations(highlights) : undefined,
+  const html = await highlightCode({
+    code,
+    language,
+    highlights,
   });
   const accessibleHtml = html
     .replaceAll(/color:\s*#6A737D/gi, "color:#9CA3AF")

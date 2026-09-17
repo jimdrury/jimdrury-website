@@ -135,7 +135,7 @@ describe("buildArticleBreadcrumbJsonLd", () => {
   });
 
   it("skips category breadcrumb when no default category exists", async () => {
-    vi.mocked(getDefaultStoryCategory).mockReturnValue(undefined);
+    vi.mocked(getDefaultStoryCategory).mockReturnValue(null);
     const { buildArticleBreadcrumbJsonLd } = await import("@/lib/seo");
     const jsonLd = buildArticleBreadcrumbJsonLd(makeStory() as never);
 

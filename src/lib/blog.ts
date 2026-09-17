@@ -19,7 +19,9 @@ import {
   BLOG_CONTENT_TYPE,
   BLOG_PREFIX,
   type BlogStory,
+  buildPaginationHref,
   getFeaturedImageAsset,
+  getPageFromPathname,
   isArticleStory,
   parsePageParam,
   parseStoryblokImageDimensions,
@@ -169,8 +171,10 @@ const getStoriesByDatePrefix = async ({
 
 export {
   BLOG_ARCHIVE_PAGE_SIZE,
+  buildPaginationHref,
   getArticlesByTag,
   getFeaturedImageAsset,
+  getPageFromPathname,
   parsePageParam,
   parseStoryblokImageDimensions,
 };
@@ -223,12 +227,47 @@ export const getDefaultStoryCategory = (story: BlogStory): string | null => {
   return categories[0];
 };
 
-export const buildPaginationHref = (pathname: string, page: number): string => {
-  if (page <= 1) {
-    return pathname;
+export const getPublishedArticleParams = async (): Promise<
+  { category: string; slug: string }[]
+> => {
+  const stories = await getAllArticles("published");
+  const params: { category: string; slug: string }[] = [];
+
+  for (const story of stories) {
+    const category = getDefaultStoryCategory(story);
+    if (!category) {
+      continue;
+    }
+
+    params.push({ category, slug: story.slug });
   }
 
-  return `${pathname}?page=${page}`;
+  if (params.length === 0) {
+    return [{ category: "nextjs", slug: "placeholder" }];
+  }
+
+  return params;
+};
+
+export const getBlogPaginationStaticParams = async (): Promise<
+  { page: string }[]
+> => {
+  const stories = await getAllArticles("published");
+  const totalPages = Math.max(
+    1,
+    Math.ceil(stories.length / BLOG_ARCHIVE_PAGE_SIZE),
+  );
+  const params: { page: string }[] = [];
+
+  for (let page = 2; page <= totalPages; page += 1) {
+    params.push({ page: String(page) });
+  }
+
+  if (params.length === 0) {
+    return [{ page: "2" }];
+  }
+
+  return params;
 };
 
 export const getDateArchive = async ({

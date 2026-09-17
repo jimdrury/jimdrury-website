@@ -118,7 +118,7 @@ export const getArticleCanonicalUrl = (story: BlogStory): string => {
 };
 
 export const getBlogIndexPath = (page: number): string => {
-  return page > 1 ? `/blog?page=${page}` : "/blog";
+  return page > 1 ? `/blog/page/${page}` : "/blog";
 };
 
 export const getBlogCategoryPath = (category: string, page: number): string => {

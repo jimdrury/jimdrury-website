@@ -1,6 +1,6 @@
 ---
 name: nextjs-page-layout-conventions
-description: Defines Next.js App Router entry-file conventions for this repository, including FC typing with generated route props, arrow-function component style, default exports, and Cache Components streaming patterns using Suspense with colocated `_components/skeleton.tsx` and `_components/render.tsx`. Use when creating, refactoring, or reviewing route files in `src/app`.
+description: Defines Next.js App Router entry-file conventions for this repository, including FC typing with generated route props, arrow-function component style, default exports, and Cache Components ISR via generateStaticParams instead of page-level Suspense. Use when creating, refactoring, or reviewing route files in `src/app`.
 ---
 
 # Next.js Page and Layout Conventions
@@ -15,26 +15,26 @@ Apply one canonical authoring style for App Router entry files in this repositor
 - `src/app/**/layout.tsx`
 - `src/app/**/template.tsx` (when present)
 - metadata exports in those files (`metadata`, `generateMetadata`)
-- route-local streaming files in `src/app/**/_components`
+- route-local files in `src/app/**/_components`
 
 ## Non-negotiable rules
 
-1. Type route entry components with `FC<...>` using generated route props.
+1. Type route entry components with `FC<...>` using generated route props (`PageProps` / `LayoutProps`).
 2. Route entry components are arrow-function components.
 3. Route entry components are default exports (framework entrypoint exception).
 4. React types are explicitly imported from `react`.
 5. Keep entry files server-safe by default; add `"use client"` only when required.
-6. For routes using runtime APIs under Cache Components, render via `<Suspense>` with a colocated `_components/skeleton.tsx` fallback and `_components/render.tsx` async body.
-7. `_components/skeleton.tsx` and `_components/render.tsx` are server components and must include `import "server-only"` at top-level.
+6. Dynamic routes export `generateStaticParams` with every published path so Cache Components can prerender them. Do not wrap page content in `<Suspense>` to unlock params; that produces a streaming shell instead of blocking ISR.
+7. `generateStaticParams` must return at least one real param. Unknown paths still generate on demand (`dynamicParams` defaults to `true`).
 8. Route entry component names are fixed by file convention: use `const Page` in `page.tsx` and `const Layout` in `layout.tsx`.
-9. Route-specific UI components used by `_components/render.tsx` must be colocated in the same route `_components` folder and imported with relative paths.
+9. Route-specific UI used by a colocated `_components/render.tsx` stays in that route `_components` folder and is imported with relative paths. `_components/render.tsx` is a server component and must include `import "server-only"`.
 
 ## Canonical typing rule
 
 Use generated route prop types as the `FC` generic:
 
-- For a static route like `/blog`: `FC<AppRoutes<"/blog">>`
-- For a dynamic route like `/blog/[slug]`: `FC<AppRoutes<"/blog/[slug]">>`
+- For a static route like `/blog`: `FC<PageProps<"/blog">>`
+- For a dynamic route like `/blog/[slug]`: `FC<PageProps<"/blog/[slug]">>`
 
 This keeps params and search params aligned with generated Next route typing.
 
@@ -43,7 +43,7 @@ This keeps params and search params aligned with generated Next route typing.
 ```ts
 import type { FC } from "react";
 
-const Page: FC<AppRoutes<"/blog">> = async () => {
+const Page: FC<PageProps<"/blog">> = async () => {
   return <main>{/* ... */}</main>;
 };
 
@@ -58,33 +58,37 @@ Key constraints:
 - Export at file bottom with `export default ComponentName`
 - Do not use function declarations for route entry components
 
-## Cache Components composition pattern
+## Cache Components ISR pattern
 
-When a route needs runtime APIs (`params`, `searchParams`, `draftMode`, `cookies`, `headers`), use this split:
+With `cacheComponents` enabled, this site prerenders published pages (ISR / incremental static generation):
 
-- `page.tsx`: route entry, typed with `FC<AppRoutes<"...">>`, defines `<Suspense>` boundary.
-- `_components/skeleton.tsx`: fallback UI component.
-- `_components/render.tsx`: async server component that performs runtime awaits.
+- Export `generateStaticParams` from every dynamic `page.tsx`.
+- Await `params` in the page or colocated `_components/render.tsx`. Known params resolve at prerender time, so no page-level `<Suspense>` is required.
+- Cache Storyblok reads with `"use cache"` and `cacheLife` / `cacheTag`.
+- `draftMode()` is allowed at the top of a page. During prerender it is off; draft requests render dynamically.
+- Do not await `searchParams` in page content. Query strings are request-only and would block prerender. Encode paginated or filtered views in the path and include those paths in `generateStaticParams`.
+- Do not call `connection()` on prerendered pages.
 
-Required placement:
+`page.tsx` stays the route entry. Keep async Storyblok work in `_components/render.tsx` when the file would otherwise get large.
 
-- `src/app/**/page.tsx`
-- `src/app/**/_components/skeleton.tsx`
-- `src/app/**/_components/render.tsx`
-- Any route-specific UI used by `render.tsx`: `src/app/**/_components/*.tsx`
+Required placement for CMS routes:
+
+- `src/app/**/page.tsx` — `generateStaticParams`, metadata, default `Page`
+- `src/app/**/_components/render.tsx` — async server body (`import "server-only"`)
+- Route-specific UI used by `render.tsx`: `src/app/**/_components/*.tsx`
 
 Rationale:
 
-- Keeps the route shell renderable while dynamic work suspends.
-- Aligns with Cache Components expectations for runtime APIs and streaming.
-- Keeps each route self-contained and easier to evolve without cross-route coupling.
+- `generateStaticParams` makes `params` known at build, so the full page HTML can prerender.
+- A page-level `<Suspense>` (or `loading.tsx`) tells Next.js the fallback is a valid shell, which streams instead of blocking ISR for unknown params.
+- Layouts may still wrap client hooks such as `usePathname` in `<Suspense>`; that is layout chrome, not page content.
 
 ## Metadata conventions
 
 - Static metadata: export `metadata` from `next`.
 - Dynamic metadata: export `generateMetadata` and type arguments with generated route props for that route.
 - Keep metadata logic close to the route file; avoid cross-file indirection unless reused by multiple routes.
-- If metadata reads runtime APIs or uncached data, keep it intentionally dynamic and follow the same server-only boundary discipline.
+- `generateMetadata` may await `params` on routes that export `generateStaticParams`. Prefer published, cached Storyblok data. `draftMode()` is valid for preview titles.
 
 ## use-client decision framework
 
@@ -97,29 +101,32 @@ Add `"use client"` only when at least one is true:
 - Handles events directly in that file
 
 If client behavior is isolated, prefer moving it to a child client component instead of making the entire route entry file client-side.
-For the cache composition pattern above, `_components/skeleton.tsx` and `_components/render.tsx` remain server components.
+`_components/render.tsx` remains a server component.
 
 ## Runtime API conventions with Cache Components
 
-- In this repository, pass `params` and `searchParams` from `page.tsx` into `_components/render.tsx`.
-- `params` and `searchParams` must be awaited inside `_components/render.tsx`, not in `page.tsx`.
+- Await `params` in `page.tsx` or `_components/render.tsx` after exporting `generateStaticParams`.
+- Do not await `searchParams` for prerendered pages.
 - It is valid to `await draftMode()` and branch on `isEnabled` for preview behavior.
-- Keep runtime API awaits in `_components/render.tsx` when possible; keep `page.tsx` focused on route composition and Suspense fallback wiring.
-- Prefer relative imports from `./` for route-specific components consumed by `render.tsx`.
+- Keep page.tsx focused on `generateStaticParams`, metadata, and composing `<Render />`.
+- Prefer relative imports from `./` for route-specific components consumed by `render.tsx`. Cross-route reuse of a shared story renderer is allowed via the `@/` alias.
 
 ## Anti-patterns
 
-Do not await runtime route props in `page.tsx` when using the cache composition pattern.
+Do not wrap prerendered page content in `<Suspense>` to satisfy Cache Components.
 
 Forbidden:
 
 ```ts
 import type { FC } from "react";
+import { Suspense } from "react";
 
-const Page: FC<AppRoutes<"/blog/[slug]">> = async ({ params, searchParams }) => {
-  const { slug } = await params;
-  const query = await searchParams;
-  return <main>{slug ?? query?.q}</main>;
+const Page: FC<PageProps<"/blog/[slug]">> = ({ params }) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Article params={params} />
+    </Suspense>
+  );
 };
 
 export default Page;
@@ -129,17 +136,14 @@ Correct:
 
 ```ts
 import type { FC } from "react";
-import { Suspense } from "react";
 
-import { Render } from "./_components/render";
-import { Skeleton } from "./_components/skeleton";
+export const generateStaticParams = async () => {
+  return [{ slug: "hello-world" }];
+};
 
-const Page: FC<AppRoutes<"/blog/[slug]">> = ({ params, searchParams }) => {
-  return (
-    <Suspense fallback={<Skeleton />}>
-      <Render params={params} searchParams={searchParams} />
-    </Suspense>
-  );
+const Page: FC<PageProps<"/blog/[slug]">> = async ({ params }) => {
+  const { slug } = await params;
+  return <main>{slug}</main>;
 };
 
 export default Page;
@@ -153,29 +157,29 @@ Copy and follow:
 Task Progress:
 - [ ] Confirm route path string for generated route props
 - [ ] Import explicit React types
-- [ ] Implement arrow-function component typed with FC<AppRoutes<"...">>
+- [ ] Implement arrow-function component typed with FC<PageProps<"...">>
 - [ ] Export default at bottom of file
-- [ ] If runtime APIs are needed, create `_components/skeleton.tsx` and `_components/render.tsx`
-- [ ] Colocate route-specific UI components used by `render.tsx` in the same `_components` folder
-- [ ] Add `import "server-only"` to both `_components` files
-- [ ] Wrap render component in `<Suspense fallback={<Skeleton />}>` from `page.tsx`
-- [ ] Pass `params` and `searchParams` through to `<Render />` without awaiting in `page.tsx`
+- [ ] For dynamic routes, export generateStaticParams with at least one real published path
+- [ ] Await params in Page or _components/render.tsx (no page-level Suspense)
+- [ ] If the page body is non-trivial, colocate _components/render.tsx with import "server-only"
+- [ ] Colocate route-specific UI used by render.tsx in the same _components folder
+- [ ] Do not await searchParams; put pagination/filters in the path when they must be static
 - [ ] Add metadata or generateMetadata with route-aware typing when needed
 - [ ] Validate server/client boundary
 ```
 
 ## Review checklist
 
-- [ ] Entry component uses `FC<AppRoutes<"...">>`.
+- [ ] Entry component uses `FC<PageProps<"...">>`.
 - [ ] Entry component is an arrow function, not a function declaration.
 - [ ] Entry component name follows file convention (`Page` for `page.tsx`, `Layout` for `layout.tsx`).
 - [ ] Entry component is default-exported at the file bottom.
 - [ ] React types are explicitly imported.
-- [ ] Cache Components routes use `<Suspense>` plus colocated `_components/skeleton.tsx` and `_components/render.tsx`.
-- [ ] `_components/skeleton.tsx` and `_components/render.tsx` include `import "server-only"`.
+- [ ] Dynamic routes export non-empty `generateStaticParams`.
+- [ ] Page content is not wrapped in `<Suspense>` or `loading.tsx` solely to read `params`.
+- [ ] `_components/render.tsx` (when present) includes `import "server-only"`.
 - [ ] Route-specific components used by `render.tsx` are colocated in the same `_components` folder and imported relatively.
-- [ ] `page.tsx` passes `params` and `searchParams` to `_components/render.tsx` without awaiting.
-- [ ] Runtime API awaits (`params`, `searchParams`, `draftMode`) live in the async render component.
+- [ ] `searchParams` are not awaited on prerendered pages.
 - [ ] Metadata exports are correctly typed and colocated.
 - [ ] `"use client"` is only present when required.
 
