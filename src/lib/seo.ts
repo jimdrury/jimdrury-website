@@ -103,18 +103,46 @@ const toAbsoluteUrl = (value: string): string => {
   }
 };
 
-export const getArticlePath = (story: BlogStory): string => {
-  const canonicalCategory = getDefaultStoryCategory(story);
-
-  if (canonicalCategory) {
-    return `/blog/${canonicalCategory}/${story.slug}`;
-  }
-
-  return `/blog/${story.slug}`;
+export const MISSING_STORY_METADATA: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-export const getArticleCanonicalUrl = (story: BlogStory): string => {
-  return toAbsoluteUrl(getArticlePath(story));
+export const getStaticPagePath = (slug: string | string[]): string => {
+  const value = Array.isArray(slug) ? slug.join("/") : slug;
+  const normalized = value.replace(/^\/+|\/+$/g, "");
+
+  if (normalized === "home" || normalized.length === 0) {
+    return "/";
+  }
+
+  return `/${normalized}`;
+};
+
+export const getArticlePath = (story: BlogStory): string | null => {
+  const canonicalCategory = getDefaultStoryCategory(story);
+
+  if (!canonicalCategory) {
+    return null;
+  }
+
+  return `/blog/${canonicalCategory}/${story.slug}`;
+};
+
+export const getArticlesWithPath = (
+  stories: BlogStory[],
+): { story: BlogStory; path: string }[] => {
+  return stories.flatMap((story) => {
+    const path = getArticlePath(story);
+    return path ? [{ story, path }] : [];
+  });
+};
+
+export const getArticleCanonicalUrl = (story: BlogStory): string | null => {
+  const path = getArticlePath(story);
+  return path ? toAbsoluteUrl(path) : null;
 };
 
 export const getBlogIndexPath = (page: number): string => {
@@ -192,6 +220,7 @@ export const buildBlogIndexJsonLd = ({
   const canonicalUrl = toAbsoluteUrl(canonicalPath);
   const pageName =
     normalizedPage > 1 ? `Blog - Page ${normalizedPage}` : "Blog";
+  const listedArticles = getArticlesWithPath(stories);
 
   return {
     "@context": "https://schema.org",
@@ -208,12 +237,12 @@ export const buildBlogIndexJsonLd = ({
     mainEntity: {
       "@type": "ItemList",
       itemListOrder: "https://schema.org/ItemListOrderDescending",
-      numberOfItems: stories.length,
-      itemListElement: stories.map((story, index) => {
+      numberOfItems: listedArticles.length,
+      itemListElement: listedArticles.map(({ story, path }, index) => {
         return {
           "@type": "ListItem",
           position: index + 1,
-          url: toAbsoluteUrl(getArticlePath(story)),
+          url: toAbsoluteUrl(path),
           name: story.name,
         };
       }),
@@ -299,6 +328,7 @@ export const buildBlogCategoryJsonLd = ({
     normalizedPage > 1
       ? `Blog category: ${normalizedCategory} - Page ${normalizedPage}`
       : `Blog category: ${normalizedCategory}`;
+  const listedArticles = getArticlesWithPath(stories);
 
   return {
     "@context": "https://schema.org",
@@ -322,12 +352,12 @@ export const buildBlogCategoryJsonLd = ({
     mainEntity: {
       "@type": "ItemList",
       itemListOrder: "https://schema.org/ItemListOrderDescending",
-      numberOfItems: stories.length,
-      itemListElement: stories.map((story, index) => {
+      numberOfItems: listedArticles.length,
+      itemListElement: listedArticles.map(({ story, path }, index) => {
         return {
           "@type": "ListItem",
           position: index + 1,
-          url: toAbsoluteUrl(getArticlePath(story)),
+          url: toAbsoluteUrl(path),
           name: story.name,
         };
       }),
@@ -392,12 +422,14 @@ const getArticleKeywords = (story: BlogStory): string[] => {
   return [...new Set(keywords)];
 };
 
-export const getArticleOgImageUrl = (story: BlogStory): string => {
-  return toAbsoluteUrl(`${getArticlePath(story)}/opengraph-image`);
+export const getArticleOgImageUrl = (story: BlogStory): string | null => {
+  const path = getArticlePath(story);
+  return path ? toAbsoluteUrl(`${path}/opengraph-image`) : null;
 };
 
-export const getArticleTwitterImageUrl = (story: BlogStory): string => {
-  return toAbsoluteUrl(`${getArticlePath(story)}/twitter-image`);
+export const getArticleTwitterImageUrl = (story: BlogStory): string | null => {
+  const path = getArticlePath(story);
+  return path ? toAbsoluteUrl(`${path}/twitter-image`) : null;
 };
 
 const getFeaturedImage = (
@@ -417,7 +449,7 @@ const getFeaturedImage = (
 const getArticleJsonLdImage = (
   story: BlogStory,
   description: string,
-): Record<string, unknown> => {
+): Record<string, unknown> | undefined => {
   const featuredImage = getFeaturedImage(story);
   const imageName = featuredImage?.alt ?? `Featured image for ${story.name}`;
   const dimensions = parseStoryblokImageDimensions(featuredImage?.url);
@@ -433,14 +465,28 @@ const getArticleJsonLdImage = (
     };
   }
 
-  return {
-    "@type": "ImageObject",
-    url: getArticleOgImageUrl(story),
-    width: 1200,
-    height: 630,
-    name: imageName,
-    description,
-  };
+  const ogImageUrl = getArticleOgImageUrl(story);
+  if (ogImageUrl) {
+    return {
+      "@type": "ImageObject",
+      url: ogImageUrl,
+      width: 1200,
+      height: 630,
+      name: imageName,
+      description,
+    };
+  }
+
+  if (featuredImage) {
+    return {
+      "@type": "ImageObject",
+      url: featuredImage.url,
+      name: imageName,
+      description,
+    };
+  }
+
+  return undefined;
 };
 
 const getStaticPageDescription = (story: StoryData): string => {
@@ -498,50 +544,57 @@ export const buildArticleMetadata = (story: BlogStory): Metadata => {
   const generatedOgImage = getArticleOgImageUrl(story);
   const generatedTwitterImage = getArticleTwitterImageUrl(story);
   const imageAlt = featuredImage?.alt ?? `Open Graph image for ${story.name}`;
+  const indexable = canonicalPath !== null;
 
   return {
     title: story.name,
     description,
     keywords,
     category: canonicalCategory ?? keywords[0],
-    alternates: {
-      canonical: canonicalPath,
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-        "max-video-preview": -1,
+    ...(canonicalPath && {
+      alternates: {
+        canonical: canonicalPath,
       },
-    },
+    }),
+    robots: indexable
+      ? {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+          },
+        }
+      : MISSING_STORY_METADATA.robots,
     openGraph: {
       type: "article",
       title: story.name,
       description,
-      url: canonicalUrl,
+      ...(canonicalUrl && { url: canonicalUrl }),
       siteName: SITE_NAME,
       locale: SITE_LOCALE,
       publishedTime,
       modifiedTime,
       tags: keywords,
-      images: [
-        {
-          url: generatedOgImage,
-          width: 1200,
-          height: 630,
-          alt: imageAlt,
-        },
-      ],
+      ...(generatedOgImage && {
+        images: [
+          {
+            url: generatedOgImage,
+            width: 1200,
+            height: 630,
+            alt: imageAlt,
+          },
+        ],
+      }),
     },
     twitter: {
       card: "summary_large_image",
       title: story.name,
       description,
-      images: [generatedTwitterImage],
+      ...(generatedTwitterImage && { images: [generatedTwitterImage] }),
     },
   };
 };
@@ -559,7 +612,7 @@ export const buildStaticPageMetadata = ({
 
   const title = normalizeText(story.name ?? undefined) ?? "Page";
   const description = getStaticPageDescription(story);
-  const canonicalPath = slug === "home" ? "/" : `/${slug}`;
+  const canonicalPath = getStaticPagePath(slug);
 
   return {
     title,
@@ -629,12 +682,14 @@ export const buildArticleJsonLd = (
     headline: story.name,
     description,
     inLanguage: SITE_LANGUAGE,
-    url: canonicalUrl,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": canonicalUrl,
-    },
-    image,
+    ...(canonicalUrl && {
+      url: canonicalUrl,
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalUrl,
+      },
+    }),
+    ...(image && { image }),
     datePublished: publishedTime,
     dateModified: modifiedTime,
     author,
@@ -653,6 +708,7 @@ export const buildArticleBreadcrumbJsonLd = (
   story: BlogStory,
 ): Record<string, unknown> => {
   const canonicalCategory = getDefaultStoryCategory(story);
+  const articlePath = getArticlePath(story);
   const itemListElement: Record<string, unknown>[] = [
     {
       "@type": "ListItem",
@@ -677,12 +733,14 @@ export const buildArticleBreadcrumbJsonLd = (
     });
   }
 
-  itemListElement.push({
-    "@type": "ListItem",
-    position: itemListElement.length + 1,
-    name: story.name,
-    item: toAbsoluteUrl(getArticlePath(story)),
-  });
+  if (articlePath) {
+    itemListElement.push({
+      "@type": "ListItem",
+      position: itemListElement.length + 1,
+      name: story.name,
+      item: toAbsoluteUrl(articlePath),
+    });
+  }
 
   return {
     "@context": "https://schema.org",
@@ -698,7 +756,7 @@ export const buildStaticPageJsonLd = ({
   story: StoryData;
   slug: string;
 }): Record<string, unknown> => {
-  const canonicalPath = slug === "home" ? "/" : `/${slug}`;
+  const canonicalPath = getStaticPagePath(slug);
   const canonicalUrl = toAbsoluteUrl(canonicalPath);
   const title = normalizeText(story.name ?? undefined) ?? "Page";
   const description = getStaticPageDescription(story);

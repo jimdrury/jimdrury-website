@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
-import { buildStaticPageMetadata } from "@/lib/seo";
+import { getPublishedPageParams } from "@/lib/published-pages";
+import { buildStaticPageMetadata, MISSING_STORY_METADATA } from "@/lib/seo";
 import { Render } from "./_components/render/render";
-import { fetchStoryBySlug, getPublishedPageParams } from "./_helpers/story";
+import { fetchStoryBySlug } from "./_helpers/story";
 
 export const generateStaticParams = async () => {
   return getPublishedPageParams();
@@ -19,7 +20,7 @@ export const generateMetadata = async ({
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
   if (!story) {
-    return {};
+    return MISSING_STORY_METADATA;
   }
 
   return buildStaticPageMetadata({ story, slug: storySlug });

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { getDefaultStoryCategory, getPublishedArticleParams } from "@/lib/blog";
-import { buildArticleMetadata } from "@/lib/seo";
+import { buildArticleMetadata, MISSING_STORY_METADATA } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 import { BackToTop } from "./_components/back-to-top/back-to-top";
 import { Render } from "./_components/render/render";
@@ -22,10 +22,7 @@ export const generateMetadata = async ({
   if (!story || (!isEnabled && !getDefaultStoryCategory(story))) {
     return {
       title: "Article not found",
-      robots: {
-        index: false,
-        follow: false,
-      },
+      ...MISSING_STORY_METADATA,
     };
   }
 

@@ -99,4 +99,15 @@ describe("renderArticleMarkdown", () => {
 
     expect(markdown).toContain("# Markdown Output Test");
   });
+
+  it("omits path and canonical_url when the article has no category", async () => {
+    const { getDefaultStoryCategory } = await import("@/lib/blog");
+    vi.mocked(getDefaultStoryCategory).mockReturnValue(null);
+
+    const markdown = renderArticleMarkdown(buildStory());
+
+    expect(markdown).not.toContain("/blog/null");
+    expect(markdown).not.toContain("path:");
+    expect(markdown).not.toContain("canonical_url:");
+  });
 });

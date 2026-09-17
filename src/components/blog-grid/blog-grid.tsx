@@ -15,7 +15,7 @@ import {
   getStoryDateTime,
   parseStoryblokImageDimensions,
 } from "@/lib/blog";
-import { getArticlePath } from "@/lib/seo";
+import { getArticlesWithPath } from "@/lib/seo";
 
 type BlogGridProps = {
   stories: BlogStory[];
@@ -52,6 +52,7 @@ export const BlogGrid: FC<BlogGridProps> = ({
   viewAllHref,
 }) => {
   const isCompact = density === "compact";
+  const listedStories = getArticlesWithPath(stories);
   const visiblePages = getVisiblePages(
     pagination.page,
     pagination.totalPages,
@@ -60,13 +61,13 @@ export const BlogGrid: FC<BlogGridProps> = ({
 
   return (
     <>
-      {stories.length === 0 ? (
+      {listedStories.length === 0 ? (
         <Typography asChild size="lg">
           <p>No posts found.</p>
         </Typography>
       ) : (
         <section className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {stories.map((story, index) => {
+          {listedStories.map(({ story, path }, index) => {
             const featuredImage = getFeaturedImageAsset(
               story.content.featured_image,
             );
@@ -76,7 +77,7 @@ export const BlogGrid: FC<BlogGridProps> = ({
             return (
               <BlogCard
                 key={story.id}
-                href={getArticlePath(story)}
+                href={path}
                 title={story.name}
                 excerpt={story.content.excerpt}
                 date={formatStoryDate(story)}

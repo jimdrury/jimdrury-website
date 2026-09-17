@@ -5,6 +5,9 @@ import { Button } from "@/components/button";
 
 export const metadata: Metadata = {
   title: "Page not found",
+  robots: {
+    index: false,
+  },
 };
 
 const NotFound: FC = () => {

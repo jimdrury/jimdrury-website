@@ -42,7 +42,7 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
 }) => {
   const stories = sortStoriesByPublishDateDesc(
     await getLatestArticlesSeed(version),
-  );
+  ).filter((story) => getArticlePath(story) !== null);
   const currentIndex = stories.findIndex((story) => {
     return story.id === currentStory.id || story.uuid === currentStory.uuid;
   });
@@ -63,7 +63,10 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
     });
   }
 
-  if (!previousStory && !nextStory) {
+  const previousHref = previousStory ? getArticlePath(previousStory) : null;
+  const nextHref = nextStory ? getArticlePath(nextStory) : null;
+
+  if (!previousHref && !nextHref) {
     return null;
   }
 
@@ -72,9 +75,9 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
       className="mx-auto flex w-full items-center justify-between gap-4 border-t-[3px] border-[var(--fg-primary)] px-5 py-6 md:px-12 md:py-10 2xl:max-w-6xl"
       aria-label="Article navigation"
     >
-      {previousStory ? (
+      {previousHref ? (
         <Button asChild variant="secondary" size="small">
-          <Link href={getArticlePath(previousStory)}>
+          <Link href={previousHref}>
             <FaArrowLeft aria-hidden className="size-3" />
             Prev
           </Link>
@@ -83,9 +86,9 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
         <span />
       )}
 
-      {nextStory ? (
+      {nextHref ? (
         <Button asChild variant="primary" size="small">
-          <Link href={getArticlePath(nextStory)}>
+          <Link href={nextHref}>
             Next
             <FaArrowRight aria-hidden className="size-3" />
           </Link>

@@ -388,8 +388,12 @@ const buildFrontMatter = (story: BlogStory): string => {
   const lines = ["---"];
   addYamlField(lines, "title", story.name);
   addYamlField(lines, "slug", story.slug);
-  addYamlField(lines, "path", getArticlePath(story));
-  addYamlField(lines, "canonical_url", getArticleCanonicalUrl(story));
+  addYamlField(lines, "path", getArticlePath(story) ?? undefined);
+  addYamlField(
+    lines,
+    "canonical_url",
+    getArticleCanonicalUrl(story) ?? undefined,
+  );
   addYamlField(lines, "published_at", getStoryDateTime(story));
   addYamlField(lines, "published_label", formatStoryDate(story));
   addYamlField(lines, "category", getDefaultStoryCategory(story) ?? undefined);
