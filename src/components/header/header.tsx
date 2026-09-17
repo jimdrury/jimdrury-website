@@ -12,7 +12,7 @@ export const Header: FC<HeaderProps> = ({ className, children, ...props }) => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex items-center justify-between border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] px-4 py-5 lg:px-12",
+        "sticky top-0 z-50 flex items-center justify-between gap-3 border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] px-3 py-3 sm:px-4 sm:py-5 lg:px-12",
         className,
       )}
       {...props}
@@ -39,7 +39,7 @@ export const HeaderLogo: FC<HeaderLogoProps> = ({
     <Comp
       href={asChild || !href ? undefined : href}
       className={cn(
-        "font-[family-name:var(--font-anton)] text-[2rem] leading-none tracking-tight text-[var(--fg-primary)] focus-visible:focus-ring",
+        "font-[family-name:var(--font-anton)] text-[1.65rem] leading-none tracking-tight text-[var(--fg-primary)] focus-visible:focus-ring sm:text-[2rem]",
         className,
       )}
       {...props}
@@ -60,7 +60,7 @@ export const HeaderNav: FC<HeaderNavProps> = ({
 }) => {
   return (
     <nav className={className} {...props}>
-      <ul className="flex items-center gap-8">{children}</ul>
+      <ul className="flex items-center gap-3 sm:gap-8">{children}</ul>
     </nav>
   );
 };
@@ -83,8 +83,10 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
     <li className="list-none">
       <Comp
         className={cn(
-          "text-sm font-bold uppercase tracking-[1px] text-[var(--fg-primary)] transition-opacity focus-visible:focus-ring-sm",
-          active ? "opacity-100" : "opacity-70 hover:opacity-100",
+          "text-xs font-bold uppercase tracking-[1px] text-[var(--fg-primary)] transition-opacity focus-visible:focus-ring-sm sm:text-sm",
+          active
+            ? "opacity-100 underline decoration-[3px] underline-offset-4"
+            : "opacity-70 hover:opacity-100",
           className,
         )}
         aria-current={active ? "page" : undefined}
@@ -99,10 +101,12 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
 export interface HeaderCtaProps extends ComponentPropsWithoutChildren<"a"> {
   children?: ReactNode;
   asChild?: boolean;
+  active?: boolean;
 }
 
 export const HeaderCta: FC<HeaderCtaProps> = ({
   asChild,
+  active,
   className,
   children,
   ...props
@@ -113,10 +117,15 @@ export const HeaderCta: FC<HeaderCtaProps> = ({
     <li className="list-none">
       <Button
         asChild
-        variant="highlight"
-        className={cn("px-6 py-3 text-sm uppercase", className)}
+        variant={active ? "highlight" : "secondary"}
+        className={cn(
+          "px-3 py-2 text-xs uppercase sm:px-6 sm:py-3 sm:text-sm",
+          className,
+        )}
       >
-        <Comp {...props}>{children}</Comp>
+        <Comp aria-current={active ? "page" : undefined} {...props}>
+          {children}
+        </Comp>
       </Button>
     </li>
   );
