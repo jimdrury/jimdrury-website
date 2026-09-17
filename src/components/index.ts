@@ -24,6 +24,7 @@ export * from "./page-header";
 export * from "./paginated-list";
 export * from "./prompt";
 export * from "./public-event";
+export * from "./section";
 export * from "./similar-articles";
 export * from "./snippet";
 export * from "./surface";
