@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { buildStaticPageMetadata } from "@/lib/seo";
-import { Render } from "./_components/render";
-import { fetchStoryBySlug, getPublishedPageParams } from "./_components/story";
+import { Render } from "./_components/render/render";
+import { fetchStoryBySlug, getPublishedPageParams } from "./_helpers/story";
 
 export const generateStaticParams = async () => {
   return getPublishedPageParams();

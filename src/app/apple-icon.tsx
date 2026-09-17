@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-export default function AppleIcon() {
+const AppleIcon = () => {
   return new ImageResponse(
     <div
       style={{
@@ -24,4 +24,6 @@ export default function AppleIcon() {
     </div>,
     { ...size },
   );
-}
+};
+
+export default AppleIcon;

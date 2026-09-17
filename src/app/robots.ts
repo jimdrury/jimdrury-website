@@ -6,7 +6,7 @@ const SITEMAP_URLS = [
   `${SITE_ORIGIN}/blog/sitemap.xml`,
 ];
 
-export default function robots(): MetadataRoute.Robots {
+const robots = (): MetadataRoute.Robots => {
   return {
     rules: [
       { userAgent: "GPTBot", allow: "/" },
@@ -25,4 +25,6 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: SITEMAP_URLS,
     host: SITE_ORIGIN,
   };
-}
+};
+
+export default robots;

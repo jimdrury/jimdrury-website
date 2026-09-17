@@ -53,8 +53,10 @@ Task Progress:
 
 - Use kebab-case folders for component directories.
 - Keep one primary component module per folder: `component-name.tsx`.
-- Use folder barrel files: `index.ts` with `export * from "./component-name"`.
+- Use folder barrel files in `src/components`: `index.ts` with `export * from "./component-name"`.
+- Route-local modules in `src/app/**/_components/<name>/` import the module file directly; do not add a barrel.
 - Keep top-level `src/components/index.ts` exports aligned with existing folders only.
+- Colocate unit tests as `component-name.spec.tsx` next to the source file.
 
 ## Typing rules
 

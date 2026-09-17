@@ -3,7 +3,7 @@ import { getDefaultStoryCategory } from "@/lib/blog";
 import { getArticleCanonicalUrl } from "@/lib/seo";
 import { getAllArticles } from "@/storyblok/blog-listings";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const stories = await getAllArticles("published");
   const entries: MetadataRoute.Sitemap = [];
 
@@ -20,4 +20,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   return entries;
-}
+};
+
+export default sitemap;

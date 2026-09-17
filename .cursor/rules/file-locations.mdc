@@ -1,0 +1,77 @@
+---
+description: Colocate page-local modules next to the entrypoint; share reused ones from src/components, src/bloks, and src/lib
+alwaysApply: true
+---
+
+# File Locations
+
+Place a module next to the single page or layout that uses it. Promote it to
+`src/` only when a second consumer appears.
+
+## Page- or layout-local
+
+If a component or helper is used by only one `page.tsx` or `layout.tsx`,
+colocate it in a sibling folder of that entrypoint:
+
+- Components: `_components/<name>/`
+- Helpers: `_helpers/`
+
+```
+src/app/blog/[category]/[slug]/
+  page.tsx
+  _helpers/resolve-article.ts
+  _components/render/render.tsx
+  _components/back-to-top/back-to-top.tsx
+```
+
+Import with a relative path from the entrypoint:
+
+```tsx
+import { Render } from "./_components/render/render";
+import { BackToTop } from "./_components/back-to-top/back-to-top";
+```
+
+Do not put single-use modules in `src/components` or `src/lib`.
+
+## Shared
+
+If a component or helper is used from more than one page, layout, or other
+module, put it in a named folder:
+
+- `src/components/<name>/`
+- `src/lib/<name>.ts` or `src/lib/<name>/`
+
+`BlogCard` is used by blog grids and archives, so it lives in
+`src/components/blog-card/`.
+
+When a second consumer appears, move the module from `_components` or
+`_helpers` into `src/components` or `src/lib` and update imports.
+
+Storyblok CMS mapping components are shared by the renderer and live in
+`src/bloks/`. Keep UI markup in `src/components`; bloks only adapt blok data.
+
+A CMS story renderer used by more than one route may stay under
+`src/app/[...slug]/_components/render/` and be imported via the `@/` alias.
+
+## Internal module boundaries
+
+Keep entry modules focused on their declared role:
+
+- `page.tsx`, `layout.tsx`, and route handlers contain framework exports only.
+- `"use server"` action modules export action functions only.
+- Feature-private pure utilities belong in a sibling `_helpers/` directory.
+- Feature-private schemas and validators belong in a sibling `_schema/`
+  directory.
+
+Promote pure utilities and schemas to a named `src/lib/` module when they are
+imported across feature boundaries. Do not import shared utilities from a
+component or proxy-plugin implementation directory.
+
+Keep functions in place when they are inseparable implementation details of a
+single component, hook, data adapter, or parser. Do not create a separate file
+for every small expression.
+
+## Tests
+
+Colocate unit tests with the source file they test, following the unit-tests
+rule: `thing.ts` → `thing.spec.ts` in the same directory.
