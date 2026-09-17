@@ -1,4 +1,5 @@
 import "server-only";
+import { AccoladesBlok } from "@/bloks/AccoladesBlok";
 import { ArticleBlok } from "@/bloks/ArticleBlok";
 import { AwardBlok } from "@/bloks/AwardBlok";
 import { BadgeBlok } from "@/bloks/BadgeBlok";
@@ -41,6 +42,7 @@ import {
 
 export const BlokRenderer = createBlokRenderer({
   article: ArticleBlok,
+  accolades: AccoladesBlok,
   award: AwardBlok,
   badge: BadgeBlok,
   blog_grid: BlogGridBlok,

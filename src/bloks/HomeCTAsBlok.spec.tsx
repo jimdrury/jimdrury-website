@@ -11,7 +11,7 @@ vi.mock("next/link", () => ({
 
 describe("HomeCTAsBlok", () => {
   it("falls back to default paths when CMS URLs are omitted", () => {
-    render(
+    const { container } = render(
       <HomeCTAsBlok
         blok={{
           component: "home_ctas",
@@ -19,6 +19,7 @@ describe("HomeCTAsBlok", () => {
       />,
     );
 
+    expect(container.querySelector("section")).toHaveClass("py-8", "md:py-10");
     expect(screen.getByRole("link", { name: "Read the blog" })).toHaveAttribute(
       "href",
       "/blog",
