@@ -7,25 +7,26 @@ import {
 } from "@/lib/indexnow";
 import { fetchStoryBySlug } from "@/lib/storyblok-story";
 import {
-  isValidStoryblokWebhookSignature,
-  WEBHOOK_SIGNATURE_HEADER,
-} from "./_helpers/verify-webhook-signature";
+  isValidWebhookSecret,
+  WEBHOOK_SECRET_QUERY_PARAM,
+} from "./_helpers/verify-webhook-secret";
 import { getWebhookRevalidationTags } from "./_helpers/webhook-cache-tags";
 
 const POST = async (request: Request) => {
-  const rawBody = await request.text();
-  const signature = request.headers.get(WEBHOOK_SIGNATURE_HEADER);
+  const providedSecret = new URL(request.url).searchParams.get(
+    WEBHOOK_SECRET_QUERY_PARAM,
+  );
 
   if (
-    !isValidStoryblokWebhookSignature({
-      rawBody,
-      signature,
-      secret: environment.STORYBLOK_WEBHOOK_SECRET,
+    !isValidWebhookSecret({
+      provided: providedSecret,
+      expected: environment.STORYBLOK_WEBHOOK_SECRET,
     })
   ) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const rawBody = await request.text();
   const payload = parseWebhookPayload(rawBody);
   if (!payload) {
     return Response.json({ error: "Invalid payload" }, { status: 400 });

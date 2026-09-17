@@ -44,7 +44,7 @@ Copy `.env.example` to `.env.local` and set:
 - `STORYBLOK_ACCESS_TOKEN`
 - `STORYBLOK_API_TOKEN`
 - `STORYBLOK_SPACE_ID`
-- `STORYBLOK_WEBHOOK_SECRET`
+- `STORYBLOK_WEBHOOK_SECRET` — raw shared secret for the Storyblok webhook URL query param (`/api/storyblok/webhook?secret=…`), not a hash
 
 ## Available Scripts
 

@@ -1,8 +1,9 @@
-import { createHmac } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { submitToIndexNow } from "@/lib/indexnow";
 import { fetchStoryBySlug } from "@/lib/storyblok-story";
+
+const WEBHOOK_SECRET = "webhook-secret";
 
 vi.mock("@/environment", () => ({
   environment: {
@@ -37,23 +38,17 @@ vi.mock("@/lib/indexnow", async (importOriginal) => {
   };
 });
 
-const WEBHOOK_SECRET = "webhook-secret";
-
-const sign = (body: string, secret = WEBHOOK_SECRET): string => {
-  return createHmac("sha1", secret).update(body).digest("hex");
-};
-
-const post = async (body: string, signature?: string | null) => {
-  const headers = new Headers({ "content-type": "application/json" });
-  if (signature !== null && signature !== undefined) {
-    headers.set("webhook-signature", signature);
+const post = async (body: string, secret?: string | null) => {
+  const url = new URL("https://www.jimdrury.co.uk/api/storyblok/webhook");
+  if (secret !== null && secret !== undefined) {
+    url.searchParams.set("secret", secret);
   }
 
   const { POST } = await import("./route");
   return POST(
-    new Request("https://www.jimdrury.co.uk/api/storyblok/webhook", {
+    new Request(url, {
       method: "POST",
-      headers,
+      headers: { "content-type": "application/json" },
       body,
     }),
   );
@@ -69,7 +64,7 @@ describe("POST /api/storyblok/webhook", () => {
     );
   });
 
-  it("returns 401 and does not revalidate when the signature is missing", async () => {
+  it("returns 401 and does not revalidate when the secret is missing", async () => {
     const response = await post('{"action":"story.saved"}', null);
 
     expect(response.status).toBe(401);
@@ -77,39 +72,38 @@ describe("POST /api/storyblok/webhook", () => {
     expect(fetchStoryBySlug).not.toHaveBeenCalled();
   });
 
-  it("returns 401 and does not revalidate when the signature is invalid", async () => {
-    const response = await post('{"action":"story.saved"}', "not-a-signature");
+  it("returns 401 and does not revalidate when the secret is wrong", async () => {
+    const response = await post('{"action":"story.saved"}', "wrong-secret");
 
     expect(response.status).toBe(401);
     expect(revalidateTag).not.toHaveBeenCalled();
   });
 
-  it("returns 400 without revalidating when a signed payload is invalid JSON", async () => {
-    const body = "not-json";
-    const response = await post(body, sign(body));
+  it("returns 400 without revalidating when a valid secret has an invalid JSON payload", async () => {
+    const response = await post("not-json", WEBHOOK_SECRET);
 
     expect(response.status).toBe(400);
     expect(revalidateTag).not.toHaveBeenCalled();
   });
 
-  it("returns 401 when the signed payload is for another space", async () => {
+  it("returns 401 when the secret is valid but the payload is for another space", async () => {
     const body = JSON.stringify({
       action: "story.saved",
       space_id: 99999,
     });
-    const response = await post(body, sign(body));
+    const response = await post(body, WEBHOOK_SECRET);
 
     expect(response.status).toBe(401);
     expect(revalidateTag).not.toHaveBeenCalled();
   });
 
-  it("revalidates scoped tags after a valid signed payload", async () => {
+  it("revalidates scoped tags after a valid secret and payload", async () => {
     const body = JSON.stringify({
       action: "story.saved",
       full_slug: "about",
       space_id: 12345,
     });
-    const response = await post(body, sign(body));
+    const response = await post(body, WEBHOOK_SECRET);
     const json = (await response.json()) as {
       ok: boolean;
       invalidatedTags: string[];
@@ -131,7 +125,7 @@ describe("POST /api/storyblok/webhook", () => {
       full_slug: "about",
       space_id: 12345,
     });
-    const response = await post(body, sign(body));
+    const response = await post(body, WEBHOOK_SECRET);
 
     expect(response.status).toBe(503);
     expect(submitToIndexNow).not.toHaveBeenCalled();
@@ -145,7 +139,7 @@ describe("POST /api/storyblok/webhook", () => {
       full_slug: "attacker-slug",
       space_id: 12345,
     });
-    const response = await post(body, sign(body));
+    const response = await post(body, WEBHOOK_SECRET);
     const json = (await response.json()) as {
       skipped: boolean;
       reason: string;
@@ -170,7 +164,7 @@ describe("POST /api/storyblok/webhook", () => {
       full_slug: "about",
       space_id: 12345,
     });
-    const response = await post(body, sign(body));
+    const response = await post(body, WEBHOOK_SECRET);
     const json = (await response.json()) as { ok: boolean; urls: string[] };
 
     expect(response.status).toBe(200);
