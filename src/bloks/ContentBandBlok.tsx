@@ -9,7 +9,11 @@ import {
   ContentBandInner,
   ContentBandSurface,
 } from "@/components/content-band";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type Background =
@@ -31,7 +35,7 @@ type ContentBandBlokData = SbBlokData & {
   body?: SbBlokData[];
 };
 
-type ContentBandBlokProps = {
+type ContentBandBlokProps = StoryRenderProps & {
   blok: ContentBandBlokData;
 };
 
@@ -71,19 +75,31 @@ const backgroundStyles: Record<
   },
 };
 
-const mapBloks = (items: SbBlokData[] | undefined): ReactNode => {
+const mapBloks = (
+  items: SbBlokData[] | undefined,
+  { pathname, story }: StoryRenderProps,
+): ReactNode => {
   if (!items?.length) {
     return null;
   }
 
   return items.map((nestedBlok) => (
-    <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+    <BlokRenderer
+      blok={nestedBlok}
+      key={nestedBlok._uid}
+      pathname={pathname}
+      story={story}
+    />
   ));
 };
 
-export const ContentBandBlok: FC<ContentBandBlokProps> = ({ blok }) => {
-  const headingNodes = mapBloks(blok.heading);
-  const asideNodes = mapBloks(blok.aside);
+export const ContentBandBlok: FC<ContentBandBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
+  const headingNodes = mapBloks(blok.heading, { pathname, story });
+  const asideNodes = mapBloks(blok.aside, { pathname, story });
   const bodyItems = blok.body ?? [];
 
   const hasHeader = Boolean(
@@ -109,7 +125,12 @@ export const ContentBandBlok: FC<ContentBandBlokProps> = ({ blok }) => {
         {hasBody ? (
           <ContentBandBodyRegion contentLayout={contentLayout}>
             {bodyItems.map((nestedBlok) => (
-              <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+              <BlokRenderer
+                blok={nestedBlok}
+                key={nestedBlok._uid}
+                pathname={pathname}
+                story={story}
+              />
             ))}
           </ContentBandBodyRegion>
         ) : null}

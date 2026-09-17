@@ -6,7 +6,11 @@ import {
   type SectionMaxWidth,
   type SectionPadding,
 } from "@/components/section";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type SectionBlokData = SbBlokData & {
@@ -17,11 +21,15 @@ type SectionBlokData = SbBlokData & {
   body?: SbBlokData[];
 };
 
-type SectionBlokProps = {
+type SectionBlokProps = StoryRenderProps & {
   blok: SectionBlokData;
 };
 
-export const SectionBlok: FC<SectionBlokProps> = ({ blok }) => {
+export const SectionBlok: FC<SectionBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   return (
     <Section
       {...storyblokEditable(blok)}
@@ -31,7 +39,12 @@ export const SectionBlok: FC<SectionBlokProps> = ({ blok }) => {
       paddingBottom={blok.padding_bottom}
     >
       {blok.body?.map((nestedBlok) => (
-        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+          pathname={pathname}
+          story={story}
+        />
       ))}
     </Section>
   );

@@ -79,3 +79,9 @@ export const getPublishedPageParams = async (): Promise<
 
   return params;
 };
+
+export const excludeHomeCatchAllParams = (
+  params: { slug: string[] }[],
+): { slug: string[] }[] => {
+  return params.filter(({ slug }) => slug.join("/") !== "home");
+};

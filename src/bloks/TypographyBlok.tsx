@@ -5,8 +5,13 @@ import {
   isTypographySize,
   type TypographySize,
 } from "@/components/typography/typography-size";
-import { getCurrentStory } from "@/lib/current-story-context";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { asBlogStory } from "@/lib/story-render-context";
+import type { BlogStory } from "@/storyblok/blog-listings-utils";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { getTypographyHeadingIdByUid } from "@/storyblok/table-of-contents";
 
 type TypographyTag = "p" | "h1" | "h2" | "h3" | "h4";
@@ -18,7 +23,7 @@ type TypographyBlokData = SbBlokData & {
   text_transform?: string;
 };
 
-type TypographyBlokProps = {
+type TypographyBlokProps = StoryRenderProps & {
   blok: TypographyBlokData;
 };
 
@@ -70,10 +75,12 @@ const getHeadingIdFromBlok = ({
   tag,
   uid,
   content,
+  story,
 }: {
   tag: TypographyTag;
   uid?: string;
   content: string;
+  story: BlogStory | null;
 }): string | undefined => {
   if (tag === "p") {
     return undefined;
@@ -81,14 +88,14 @@ const getHeadingIdFromBlok = ({
 
   const headingId = getTypographyHeadingIdByUid({
     uid,
-    story: getCurrentStory(),
+    story,
     content,
   });
 
   return headingId.length > 0 ? headingId : undefined;
 };
 
-export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
+export const TypographyBlok: FC<TypographyBlokProps> = ({ blok, story }) => {
   if (!blok.content) {
     return null;
   }
@@ -104,6 +111,7 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
     tag: Tag,
     uid: typeof blok._uid === "string" ? blok._uid : undefined,
     content: blok.content,
+    story: asBlogStory(story),
   });
 
   const textTransform =

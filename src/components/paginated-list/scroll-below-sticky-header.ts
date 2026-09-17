@@ -1,43 +1,49 @@
-const STICKY_HEADER_SCROLL_GAP_PX = 16;
-
-const parsePx = (value: string): number => {
-  const parsed = Number.parseFloat(value);
-  return Number.isFinite(parsed) ? parsed : 0;
-};
+const STICKY_HEADER_SCROLL_GAP_PX = 24;
+const SITE_HEADER_SELECTOR = "[data-site-header], body > header, header.sticky";
 
 const prefersReducedMotion = (): boolean => {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 };
 
-const getStickyHeaderOffset = (): number => {
-  const header = document.querySelector("header");
-  if (!(header instanceof HTMLElement)) {
-    return 0;
-  }
-
+const isStickyOrFixedHeader = (header: HTMLElement): boolean => {
   const { position } = getComputedStyle(header);
-  if (position !== "sticky" && position !== "fixed") {
-    return 0;
-  }
-
-  return Math.max(0, header.getBoundingClientRect().bottom);
+  return (
+    position === "sticky" ||
+    position === "fixed" ||
+    header.classList.contains("sticky") ||
+    header.hasAttribute("data-site-header")
+  );
 };
 
-const getDocumentScrollPaddingTop = (): number => {
-  return parsePx(getComputedStyle(document.documentElement).scrollPaddingTop);
+const getStickyHeaderOffset = (): number => {
+  let offset = 0;
+  const headers = document.querySelectorAll(SITE_HEADER_SELECTOR);
+
+  for (const header of headers) {
+    if (!(header instanceof HTMLElement) || !isStickyOrFixedHeader(header)) {
+      continue;
+    }
+
+    const rect = header.getBoundingClientRect();
+    if (rect.bottom <= 0) {
+      continue;
+    }
+
+    offset = Math.max(offset, rect.bottom);
+  }
+
+  return offset;
 };
 
 export const scrollBelowStickyHeader = (element: HTMLElement): void => {
-  const headerOffset = getStickyHeaderOffset();
-  const scrollPaddingTop = getDocumentScrollPaddingTop();
-  const scrollMarginTop = Math.max(
+  const offset = getStickyHeaderOffset() + STICKY_HEADER_SCROLL_GAP_PX;
+  const top = Math.max(
     0,
-    headerOffset + STICKY_HEADER_SCROLL_GAP_PX - scrollPaddingTop,
+    window.scrollY + element.getBoundingClientRect().top - offset,
   );
 
-  element.style.scrollMarginTop = `${scrollMarginTop}px`;
-  element.scrollIntoView({
-    block: "start",
+  window.scrollTo({
+    top,
     behavior: prefersReducedMotion() ? "auto" : "smooth",
   });
 };

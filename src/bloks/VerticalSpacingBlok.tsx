@@ -1,7 +1,11 @@
 import "server-only";
 import type { FC } from "react";
 import { cn } from "@/lib/utils";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type VerticalSpacingSize = "xs" | "sm" | "md" | "lg" | "xl";
@@ -11,7 +15,7 @@ type VerticalSpacingBlokData = SbBlokData & {
   body?: SbBlokData[];
 };
 
-type VerticalSpacingBlokProps = {
+type VerticalSpacingBlokProps = StoryRenderProps & {
   blok: VerticalSpacingBlokData;
 };
 
@@ -23,7 +27,11 @@ const spacerHeightClasses: Record<VerticalSpacingSize, string> = {
   xl: "h-16",
 };
 
-export const VerticalSpacingBlok: FC<VerticalSpacingBlokProps> = ({ blok }) => {
+export const VerticalSpacingBlok: FC<VerticalSpacingBlokProps> = ({
+  blok,
+  pathname,
+  story,
+}) => {
   const size = blok.size ?? "md";
   const hasBody = (blok.body?.length ?? 0) > 0;
 
@@ -40,7 +48,12 @@ export const VerticalSpacingBlok: FC<VerticalSpacingBlokProps> = ({ blok }) => {
   return (
     <section {...storyblokEditable(blok)} className={cn("w-full space-y-4")}>
       {blok.body?.map((nestedBlok) => (
-        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+          pathname={pathname}
+          story={story}
+        />
       ))}
     </section>
   );

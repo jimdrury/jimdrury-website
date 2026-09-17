@@ -18,13 +18,13 @@ Read the relevant guides at `node_modules/@jimdrury/storyblok-component-schema/s
 
 ### Overview
 
-Next.js 16 personal website with Storyblok CMS. Single-package repo using Yarn 4 (Corepack).
+Next.js 16 personal website with Storyblok CMS. Single-package repo using pnpm (Corepack).
 
 ### Prerequisites
 
-- **Corepack** must be enabled (`corepack enable`) before any `yarn` command.
-- **`GITHUB_TOKEN`** env var is needed for `yarn install` because `@jimdrury/*` packages resolve from `npm.pkg.github.com` (see `.yarnrc.yml`).
-- **`STORYBLOK_ACCESS_TOKEN`**, **`STORYBLOK_SPACE_ID`**, and **`STORYBLOK_WEBHOOK_SECRET`** must be in `.env.local` for the dev server to start. Create `.env.local` from the env vars before running `yarn dev`.
+- **Corepack** must be enabled (`corepack enable`) before any `pnpm` command.
+- **`GITHUB_TOKEN`** env var is needed for `pnpm install` because `@jimdrury/*` packages resolve from `npm.pkg.github.com`. Put the token in your user `~/.npmrc` (`//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}`) — pnpm will not expand auth tokens from the project `.npmrc`.
+- **`STORYBLOK_ACCESS_TOKEN`**, **`STORYBLOK_SPACE_ID`**, and **`STORYBLOK_WEBHOOK_SECRET`** must be in `.env.local` for the dev server to start. Create `.env.local` from the env vars before running `pnpm dev`.
 
 ### Common commands
 
@@ -32,13 +32,13 @@ See `package.json` scripts. Key ones:
 
 | Task | Command |
 |------|---------|
-| Dev server | `yarn dev` (HTTPS on `localhost:3000`) |
-| Lint | `yarn lint` (Biome) |
-| Tests | `yarn test` (Vitest, 162 tests) |
-| Format | `yarn format` |
+| Dev server | `pnpm dev` (HTTPS on `localhost:3000`) |
+| Lint | `pnpm lint` (Biome) |
+| Tests | `pnpm test` (Vitest) |
+| Format | `pnpm format` |
 
 ### Gotchas
 
-- `yarn dev` uses `--experimental-https` and generates a self-signed cert on first run into `certificates/`. Browsers will show a security warning; accept it.
+- `pnpm dev` uses `--experimental-https` and generates a self-signed cert on first run into `certificates/`. Browsers will show a security warning; accept it.
 - The `.env.local` file is git-ignored. If the dev server fails at startup with a Zod validation error about `STORYBLOK_ACCESS_TOKEN` or `STORYBLOK_WEBHOOK_SECRET`, the file is missing or incomplete.
-- `lefthook` is installed via `yarn prepare` (postinstall hook). Git hooks run Biome on staged files and commitlint on commit messages.
+- `lefthook` is installed via `pnpm prepare` (postinstall hook). Git hooks run Biome on staged files and commitlint on commit messages.

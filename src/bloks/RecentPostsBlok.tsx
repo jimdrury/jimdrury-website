@@ -7,23 +7,35 @@ import {
   formatStoryDate,
   getBlogIndexArchive,
   getDefaultStoryCategory,
+  getFeaturedImageAsset,
   getStoryDateTime,
+  parseStoryblokImageDimensions,
 } from "@/lib/blog";
 import { getArticlesWithPath } from "@/lib/seo";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type RecentPostsBlokData = SbBlokData & {
   title?: string;
-  count?: number;
+  count?: number | string;
 };
 
 type RecentPostsBlokProps = {
   blok: RecentPostsBlokData;
 };
 
+const parseCount = (value: unknown): number => {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseInt(value, 10)
+        : Number.NaN;
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 3;
+};
+
 export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
-  const title = blok.title || "Recent Writing";
-  const count = blok.count || 3;
+  const title = blok.title?.trim() || "Recent Writing";
+  const count = parseCount(blok.count);
 
   const { stories } = await getBlogIndexArchive({
     page: 1,
@@ -39,7 +51,7 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      className="w-full bg-[var(--bg-primary)] py-8 md:py-12"
+      className="w-full bg-[var(--bg-secondary)] py-8 md:py-12"
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="mb-6 flex items-end justify-between">
@@ -54,9 +66,12 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
-          {recentStories.map(({ story, path }) => {
-            const dateTime = getStoryDateTime(story);
-            const formattedDate = formatStoryDate(story);
+          {recentStories.map(({ story, path }, index) => {
+            const featuredImage = getFeaturedImageAsset(
+              story.content?.featured_image,
+            );
+            const imageSrc = featuredImage?.filename;
+            const imageDimensions = parseStoryblokImageDimensions(imageSrc);
 
             return (
               <BlogCardCompact
@@ -65,8 +80,14 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
                 title={story.name}
                 category={getDefaultStoryCategory(story) ?? undefined}
                 excerpt={story.content?.excerpt}
-                date={formattedDate}
-                dateTime={dateTime}
+                date={formatStoryDate(story)}
+                dateTime={getStoryDateTime(story)}
+                imageSrc={imageSrc}
+                imageAlt={featuredImage?.alt || story.name}
+                imageWidth={imageDimensions?.width}
+                imageHeight={imageDimensions?.height}
+                imageLoading={index < 3 ? "eager" : "lazy"}
+                imageFetchPriority={index === 0 ? "high" : "auto"}
               />
             );
           })}

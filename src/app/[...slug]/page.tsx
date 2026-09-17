@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
-import { getPublishedPageParams } from "@/lib/published-pages";
+import {
+  excludeHomeCatchAllParams,
+  getPublishedPageParams,
+} from "@/lib/published-pages";
 import { buildStaticPageMetadata, MISSING_STORY_METADATA } from "@/lib/seo";
 import { Render } from "./_components/render/render";
 import { fetchStoryBySlug } from "./_helpers/story";
 
 export const generateStaticParams = async () => {
-  return getPublishedPageParams();
+  const params = excludeHomeCatchAllParams(await getPublishedPageParams());
+  if (params.length === 0) {
+    return [{ slug: ["about"] }];
+  }
+
+  return params;
 };
 
 export const generateMetadata = async ({

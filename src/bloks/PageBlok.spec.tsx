@@ -1,18 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import type { ReactElement } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { SbBlokData } from "@/storyblok/lib";
+import { describe, expect, it, vi } from "vitest";
+import type { SbBlokData, StoryData } from "@/storyblok/lib";
 import { PageBlok } from "./PageBlok";
-
-const storyContext = vi.hoisted(() => ({
-  getCurrentStoryName: vi.fn(() => "Privacy Policy"),
-  getCurrentStoryUpdatedAt: vi.fn(() => "2026-04-13T12:00:00.000Z"),
-}));
-
-vi.mock("@/lib/current-story-context", () => ({
-  getCurrentStoryName: () => storyContext.getCurrentStoryName(),
-  getCurrentStoryUpdatedAt: () => storyContext.getCurrentStoryUpdatedAt(),
-}));
 
 vi.mock("@/storyblok/renderer", () => ({
   BlokRenderer: ({ blok }: { blok: SbBlokData }) => (
@@ -20,19 +9,20 @@ vi.mock("@/storyblok/renderer", () => ({
   ),
 }));
 
-const renderPage = (blok: Parameters<typeof PageBlok>[0]["blok"]) => {
-  const view = PageBlok({ blok }) as ReactElement;
-  return render(view);
+const privacyStory = {
+  name: "Privacy Policy",
+  content: { component: "page" },
+  published_at: "2026-04-13T12:00:00.000Z",
+} as StoryData;
+
+const renderPage = (
+  blok: Parameters<typeof PageBlok>[0]["blok"],
+  story: StoryData = privacyStory,
+) => {
+  return render(<PageBlok blok={blok} pathname="/privacy" story={story} />);
 };
 
 describe("PageBlok", () => {
-  beforeEach(() => {
-    storyContext.getCurrentStoryName.mockReturnValue("Privacy Policy");
-    storyContext.getCurrentStoryUpdatedAt.mockReturnValue(
-      "2026-04-13T12:00:00.000Z",
-    );
-  });
-
   it("renders the page title banner when header is true", () => {
     renderPage({
       _uid: "page-1",
@@ -75,38 +65,52 @@ describe("PageBlok", () => {
   });
 
   it("omits the banner when the story has no title", () => {
-    storyContext.getCurrentStoryName.mockReturnValue("");
-
-    renderPage({
-      _uid: "page-4",
-      component: "page",
-      header: true,
-      body: [],
-    });
+    renderPage(
+      {
+        _uid: "page-4",
+        component: "page",
+        header: true,
+        body: [],
+      },
+      {
+        name: "",
+        content: { component: "page" },
+      },
+    );
 
     expect(screen.queryByRole("heading", { level: 1 })).toBeNull();
   });
 
   it("omits the last-updated subtitle when the timestamp is missing or invalid", () => {
-    storyContext.getCurrentStoryUpdatedAt.mockReturnValue("");
-
-    const { unmount } = renderPage({
-      _uid: "page-5",
-      component: "page",
-      header: true,
-      body: [],
-    });
+    const { unmount } = renderPage(
+      {
+        _uid: "page-5",
+        component: "page",
+        header: true,
+        body: [],
+      },
+      {
+        name: "Privacy Policy",
+        content: { component: "page" },
+      },
+    );
 
     expect(screen.queryByText(/Last updated:/)).toBeNull();
     unmount();
 
-    storyContext.getCurrentStoryUpdatedAt.mockReturnValue("not-a-date");
-    renderPage({
-      _uid: "page-6",
-      component: "page",
-      header: true,
-      body: [],
-    });
+    renderPage(
+      {
+        _uid: "page-6",
+        component: "page",
+        header: true,
+        body: [],
+      },
+      {
+        name: "Privacy Policy",
+        content: { component: "page" },
+        published_at: "not-a-date",
+      } as StoryData,
+    );
 
     expect(screen.queryByText(/Last updated:/)).toBeNull();
   });

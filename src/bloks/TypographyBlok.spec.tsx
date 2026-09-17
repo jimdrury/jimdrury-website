@@ -1,14 +1,9 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { TableOfContents } from "@/components/table-of-contents";
-import { getCurrentStory } from "@/lib/current-story-context";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import { TypographyBlok } from "./TypographyBlok";
-
-vi.mock("@/lib/current-story-context", () => ({
-  getCurrentStory: vi.fn(),
-}));
 
 type TypographyFixtureBlok = {
   _uid: string;
@@ -43,18 +38,16 @@ const BodyAndToc: FC<{ story: BlogStory }> = ({ story }) => {
             content:
               typeof blok.content === "string" ? blok.content : undefined,
           }}
+          pathname="/blog/story"
+          story={story}
         />
       ))}
-      <TableOfContents maxHeadingLevel="h4" />
+      <TableOfContents maxHeadingLevel="h4" story={story} />
     </div>
   );
 };
 
 describe("TypographyBlok heading ids", () => {
-  beforeEach(() => {
-    vi.mocked(getCurrentStory).mockReset();
-  });
-
   it("matches every TOC href to a heading id, including ampersands, duplicates, and h4", () => {
     const story = createStory([
       {
@@ -94,8 +87,6 @@ describe("TypographyBlok heading ids", () => {
         content: "Caveats",
       },
     ]);
-
-    vi.mocked(getCurrentStory).mockReturnValue(story);
 
     const { container } = render(<BodyAndToc story={story} />);
 

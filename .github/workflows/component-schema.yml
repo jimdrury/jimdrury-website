@@ -30,8 +30,16 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Authenticate GitHub Packages
+        run: |
+          {
+            echo "@jimdrury:registry=https://npm.pkg.github.com"
+            echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}"
+            echo "//npm.pkg.github.com/:always-auth=true"
+          } >> "${HOME}/.npmrc"
+
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Component schema plan
         id: plan
@@ -41,7 +49,7 @@ jobs:
         run: |
           set -euo pipefail
           set -o pipefail
-          yarn schema:plan 2>&1 | tee plan.log
+          pnpm schema:plan 2>&1 | tee plan.log
           if grep -Fq 'No changes.' plan.log; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
           else
@@ -53,4 +61,4 @@ jobs:
         env:
           STORYBLOK_API_TOKEN: ${{ secrets.STORYBLOK_API_TOKEN }}
           STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
-        run: yarn schema:apply
+        run: pnpm schema:apply

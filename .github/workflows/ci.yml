@@ -26,14 +26,22 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Authenticate GitHub Packages
+        run: |
+          {
+            echo "@jimdrury:registry=https://npm.pkg.github.com"
+            echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}"
+            echo "//npm.pkg.github.com/:always-auth=true"
+          } >> "${HOME}/.npmrc"
+
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Test
-        run: yarn test
+        run: pnpm test
 
   schema-plan:
     runs-on: ubuntu-latest
@@ -51,11 +59,24 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Authenticate GitHub Packages
+        run: |
+          {
+            echo "@jimdrury:registry=https://npm.pkg.github.com"
+            echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}"
+            echo "//npm.pkg.github.com/:always-auth=true"
+          } >> "${HOME}/.npmrc"
+
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Component schema plan
         env:
           STORYBLOK_API_TOKEN: ${{ secrets.STORYBLOK_API_TOKEN }}
           STORYBLOK_SPACE_ID: ${{ secrets.STORYBLOK_SPACE_ID }}
-        run: yarn schema:plan
+        run: |
+          if [ -z "${STORYBLOK_API_TOKEN}" ] || [ -z "${STORYBLOK_SPACE_ID}" ]; then
+            echo "Skipping schema:plan because STORYBLOK_API_TOKEN or STORYBLOK_SPACE_ID is not set."
+            exit 0
+          fi
+          pnpm schema:plan

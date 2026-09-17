@@ -1,6 +1,10 @@
 import "server-only";
 import type { FC } from "react";
-import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import {
+  type SbBlokData,
+  type StoryRenderProps,
+  storyblokEditable,
+} from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
 type GridGap = "none" | "sm" | "md" | "lg" | "xl";
@@ -11,7 +15,7 @@ type GridBlokData = SbBlokData & {
   gap?: GridGap;
 };
 
-type GridBlokProps = {
+type GridBlokProps = StoryRenderProps & {
   blok: GridBlokData;
 };
 
@@ -23,7 +27,7 @@ const gapValues: Record<GridGap, string> = {
   xl: "2rem",
 };
 
-export const GridBlok: FC<GridBlokProps> = ({ blok }) => {
+export const GridBlok: FC<GridBlokProps> = ({ blok, pathname, story }) => {
   const items = blok.items ?? blok.columns ?? [];
   const gap = blok.gap ?? "md";
 
@@ -38,7 +42,12 @@ export const GridBlok: FC<GridBlokProps> = ({ blok }) => {
       style={{ gap: gapValues[gap] }}
     >
       {items.map((nestedBlok) => (
-        <BlokRenderer blok={nestedBlok} key={nestedBlok._uid} />
+        <BlokRenderer
+          blok={nestedBlok}
+          key={nestedBlok._uid}
+          pathname={pathname}
+          story={story}
+        />
       ))}
     </div>
   );

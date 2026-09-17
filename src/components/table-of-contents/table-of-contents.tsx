@@ -3,8 +3,8 @@ import { FaAngleDoubleDown } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
-import { getCurrentStory } from "@/lib/current-story-context";
 import { cn } from "@/lib/utils";
+import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import {
   getTableOfContentsHeadings,
   type TocHeadingLevel,
@@ -12,6 +12,7 @@ import {
 
 export interface TableOfContentsProps {
   maxHeadingLevel?: TocHeadingLevel;
+  story: BlogStory | null;
 }
 
 const headingDepthOrder: TocHeadingLevel[] = ["h2", "h3", "h4"];
@@ -24,8 +25,8 @@ const indentByLevel: Record<TocHeadingLevel, string | undefined> = {
 
 export const TableOfContents: FC<TableOfContentsProps> = ({
   maxHeadingLevel = "h3",
+  story,
 }) => {
-  const story = getCurrentStory();
   const allHeadings = getTableOfContentsHeadings(story);
 
   const maxIndex = headingDepthOrder.indexOf(maxHeadingLevel);

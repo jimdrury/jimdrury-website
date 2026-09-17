@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { buildContentSecurityPolicy } from "./src/lib/content-security-policy";
+import { getStoryblokDraftEnableRedirects } from "./src/lib/storyblok-preview-redirects";
 
 const contentSecurityPolicy = buildContentSecurityPolicy({
   isDevelopment: process.env.NODE_ENV === "development",
@@ -20,34 +21,29 @@ const nextConfig: NextConfig = {
     serverComponentsHmrCache: false,
   },
   async headers() {
+    const contentSecurityPolicyHeader = {
+      key: "Content-Security-Policy",
+      value: contentSecurityPolicy,
+    };
+
     return [
       {
+        source: "/",
+        headers: [contentSecurityPolicyHeader],
+      },
+      {
         source: "/:path*",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: contentSecurityPolicy,
-          },
-        ],
+        headers: [contentSecurityPolicyHeader],
       },
     ];
   },
   async redirects() {
     return [
+      ...getStoryblokDraftEnableRedirects(),
       {
-        source: "/:path*",
-        has: [
-          { type: "query", key: "_storyblok" },
-          { type: "query", key: "_storyblok_tk[space_id]" },
-          { type: "query", key: "_storyblok_tk[timestamp]" },
-          { type: "query", key: "_storyblok_tk[token]" },
-        ],
-        missing: [
-          { type: "query", key: "returnTo" },
-          { type: "cookie", key: "__prerender_bypass" },
-        ],
-        destination: "/api/storyblok/enable-draft?returnTo=/:path*",
-        permanent: false,
+        source: "/home",
+        destination: "/",
+        statusCode: 301,
       },
     ];
   },

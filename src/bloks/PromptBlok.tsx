@@ -4,6 +4,7 @@ import { Prompt } from "@/components/prompt";
 import {
   type SbBlokData,
   type StoryblokRichTextNode,
+  type StoryRenderProps,
   storyblokEditable,
 } from "@/storyblok/lib";
 import { RichText } from "@/storyblok/renderer";
@@ -15,7 +16,7 @@ type PromptBlokData = SbBlokData & {
   enable_copy_to_clipboard?: boolean;
 };
 
-type PromptBlokProps = {
+type PromptBlokProps = StoryRenderProps & {
   blok: PromptBlokData;
 };
 
@@ -25,7 +26,7 @@ const buildCopyText = (title: string | undefined, body: string): string => {
   return `<${title}>\n${trimmed}\n</${title}>`;
 };
 
-export const PromptBlok: FC<PromptBlokProps> = ({ blok }) => {
+export const PromptBlok: FC<PromptBlokProps> = ({ blok, pathname, story }) => {
   if (!blok.content) {
     return null;
   }
@@ -36,7 +37,7 @@ export const PromptBlok: FC<PromptBlokProps> = ({ blok }) => {
 
   return (
     <Prompt {...storyblokEditable(blok)} title={blok.title} copyText={copyText}>
-      <RichText doc={blok.content} />
+      <RichText doc={blok.content} pathname={pathname} story={story} />
     </Prompt>
   );
 };
