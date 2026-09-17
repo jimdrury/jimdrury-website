@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { Typography } from "@/components/typography";
+import { SectionTitle } from "@/components/section-title";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -24,9 +24,7 @@ export const Accolades: FC<AccoladesProps> = ({
       {...props}
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
-        <Typography size="5xl" asChild>
-          <h2 className="mb-6 uppercase text-[var(--fg-primary)]">{title}</h2>
-        </Typography>
+        <SectionTitle className="mb-6">{title}</SectionTitle>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{children}</div>
       </div>
     </section>

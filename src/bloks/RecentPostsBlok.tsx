@@ -2,7 +2,7 @@ import "server-only";
 import Link from "next/link";
 import type { FC } from "react";
 import { BlogCardCompact } from "@/components/blog-card-compact";
-import { Typography } from "@/components/typography";
+import { SectionTitle } from "@/components/section-title";
 import {
   formatStoryDate,
   getBlogIndexArchive,
@@ -55,9 +55,7 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="mb-6 flex items-end justify-between">
-          <Typography size="4xl" asChild>
-            <h2 className="text-[var(--fg-primary)]">{title}</h2>
-          </Typography>
+          <SectionTitle>{title}</SectionTitle>
           <Link
             href="/blog"
             className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.5px] text-[var(--fg-primary)] underline underline-offset-2 hover:text-[var(--fg-secondary)]"
