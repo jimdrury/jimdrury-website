@@ -51,7 +51,7 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      className="w-full bg-[var(--bg-secondary)] pt-8 pb-1.5 md:pt-12"
+      className="w-full bg-[var(--bg-secondary)] py-8 md:py-12"
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="mb-6 flex items-end justify-between">
