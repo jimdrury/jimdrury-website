@@ -23,7 +23,10 @@ export const StatusBand: FC<StatusBandProps> = ({
 }) => {
   return (
     <section
-      className={cn("w-full bg-[var(--bg-primary)] py-8 lg:py-10", className)}
+      className={cn(
+        "w-full bg-[var(--bg-secondary)] pt-8 pb-4 lg:pt-10 lg:pb-5",
+        className,
+      )}
       {...props}
     >
       <div className={HERO_CONTENT_INNER_CLASS}>
