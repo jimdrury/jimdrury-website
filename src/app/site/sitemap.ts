@@ -1,29 +1,10 @@
 import type { MetadataRoute } from "next";
-import { SITE_ORIGIN } from "@/lib/seo";
+import { getPublishedPageParams } from "@/lib/published-pages";
+import { buildSiteSitemap } from "./_helpers/build-site-sitemap";
 
-const sitemap = (): MetadataRoute.Sitemap => {
-  return [
-    {
-      url: `${SITE_ORIGIN}/`,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${SITE_ORIGIN}/about`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_ORIGIN}/blog`,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_ORIGIN}/llms.txt`,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-  ];
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
+  const params = await getPublishedPageParams();
+  return buildSiteSitemap(params);
 };
 
 export default sitemap;

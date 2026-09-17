@@ -106,25 +106,35 @@ export const getSimilarArticleItems = async ({
   const filteredStories = seedStories.filter((story) => {
     return story.uuid !== currentStory.uuid && story.id !== currentStory.id;
   });
-  const rankedStories = rankStoriesBySharedTags(filteredStories, currentTagSet);
+  const rankedStories = rankStoriesBySharedTags(
+    filteredStories,
+    currentTagSet,
+  ).filter(({ story }) => getArticlePath(story) !== null);
   const selectedStories = rankedStories.slice(0, normalizedCount);
 
-  return selectedStories.map(({ story }) => {
+  return selectedStories.flatMap(({ story }) => {
+    const href = getArticlePath(story);
+    if (!href) {
+      return [];
+    }
+
     const featuredImage = getFeaturedImageAsset(story.content.featured_image);
     const imageSrc = featuredImage?.filename;
     const imageDimensions = parseStoryblokImageDimensions(imageSrc);
 
-    return {
-      href: getArticlePath(story),
-      title: story.name,
-      excerpt: story.content.excerpt?.trim(),
-      publishedAt: formatStoryDate(story),
-      dateTime: getStoryDateTime(story),
-      imageSrc,
-      imageAlt: featuredImage?.alt || story.name,
-      imageWidth: imageDimensions?.width,
-      imageHeight: imageDimensions?.height,
-      category: getDefaultStoryCategory(story) ?? undefined,
-    };
+    return [
+      {
+        href,
+        title: story.name,
+        excerpt: story.content.excerpt?.trim(),
+        publishedAt: formatStoryDate(story),
+        dateTime: getStoryDateTime(story),
+        imageSrc,
+        imageAlt: featuredImage?.alt || story.name,
+        imageWidth: imageDimensions?.width,
+        imageHeight: imageDimensions?.height,
+        category: getDefaultStoryCategory(story) ?? undefined,
+      },
+    ];
   });
 };

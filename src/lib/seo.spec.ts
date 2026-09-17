@@ -96,6 +96,73 @@ describe("buildArticleJsonLd", () => {
   });
 });
 
+describe("getArticlePath", () => {
+  it("returns the categorized /blog/[category]/[slug] route", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const { getArticlePath } = await import("@/lib/seo");
+
+    expect(getArticlePath(makeStory() as never)).toBe(
+      "/blog/ai/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
+    );
+  });
+
+  it("refuses untagged articles instead of emitting /blog/null", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue(null);
+    const { getArticlePath, getArticlesWithPath } = await import("@/lib/seo");
+    const untagged = makeStory({ slug: "untagged-article" });
+    const path = getArticlePath(untagged as never);
+    const interpolatedNullHref = `/blog/${null}/${untagged.slug}`;
+
+    expect(interpolatedNullHref).toBe("/blog/null/untagged-article");
+    expect(path).toBeNull();
+    expect(path).not.toBe(interpolatedNullHref);
+    expect(getArticlesWithPath([untagged as never])).toEqual([]);
+  });
+
+  it("omits untagged stories from listing hrefs", async () => {
+    vi.mocked(getDefaultStoryCategory).mockImplementation((story) => {
+      return story.slug === "tagged" ? "nextjs" : null;
+    });
+    const { getArticlesWithPath } = await import("@/lib/seo");
+    const hrefs = getArticlesWithPath([
+      makeStory({ slug: "untagged-article" }) as never,
+      makeStory({ slug: "tagged" }) as never,
+    ]).map((item) => item.path);
+
+    expect(hrefs).toEqual(["/blog/nextjs/tagged"]);
+    expect(hrefs.join()).not.toContain("/blog/null");
+  });
+});
+
+describe("getStaticPagePath", () => {
+  it("maps home to the site root", async () => {
+    const { getStaticPagePath } = await import("@/lib/seo");
+
+    expect(getStaticPagePath("home")).toBe("/");
+    expect(getStaticPagePath(["home"])).toBe("/");
+  });
+
+  it("prefixes other slugs with a slash", async () => {
+    const { getStaticPagePath } = await import("@/lib/seo");
+
+    expect(getStaticPagePath("about")).toBe("/about");
+    expect(getStaticPagePath(["work", "talks"])).toBe("/work/talks");
+  });
+});
+
+describe("MISSING_STORY_METADATA", () => {
+  it("asks crawlers not to index or follow missing stories", async () => {
+    const { MISSING_STORY_METADATA } = await import("@/lib/seo");
+
+    expect(MISSING_STORY_METADATA).toEqual({
+      robots: {
+        index: false,
+        follow: false,
+      },
+    });
+  });
+});
+
 describe("buildArticleBreadcrumbJsonLd", () => {
   it("returns home, blog, category, and article breadcrumb items", async () => {
     vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
@@ -134,7 +201,7 @@ describe("buildArticleBreadcrumbJsonLd", () => {
     });
   });
 
-  it("skips category breadcrumb when no default category exists", async () => {
+  it("omits the article crumb when no public categorized path exists", async () => {
     vi.mocked(getDefaultStoryCategory).mockReturnValue(null);
     const { buildArticleBreadcrumbJsonLd } = await import("@/lib/seo");
     const jsonLd = buildArticleBreadcrumbJsonLd(makeStory() as never);
@@ -155,13 +222,11 @@ describe("buildArticleBreadcrumbJsonLd", () => {
           name: "Blog",
           item: "https://www.jimdrury.co.uk/blog",
         },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Your Claude Code setup is probably wrong...",
-          item: "https://www.jimdrury.co.uk/blog/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
-        },
       ],
     });
+    expect(JSON.stringify(jsonLd)).not.toContain("/blog/null");
+    expect(JSON.stringify(jsonLd)).not.toContain(
+      "/blog/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
+    );
   });
 });

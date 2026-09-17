@@ -12,8 +12,13 @@ vi.mock("@/environment", () => ({
 vi.mock("@/lib/seo", () => ({
   SITE_ORIGIN: "https://www.jimdrury.co.uk",
   getArticleCanonicalUrl: vi.fn(
-    (story: { slug: string }) =>
-      `https://www.jimdrury.co.uk/blog/ai/${story.slug}`,
+    (story: { slug: string; tag_list?: string[] }) => {
+      if (!story.tag_list?.length) {
+        return null;
+      }
+
+      return `https://www.jimdrury.co.uk/blog/ai/${story.slug}`;
+    },
   ),
 }));
 
@@ -98,6 +103,15 @@ describe("resolveUrlsFromStory", () => {
 
     const urls = resolveUrlsFromStory("blog/test-article", story as never);
     expect(urls).toEqual(["https://www.jimdrury.co.uk/blog/ai/test-article"]);
+  });
+
+  it("returns no URLs for uncategorized articles", async () => {
+    const { resolveUrlsFromStory } = await import("@/lib/indexnow");
+    const story = makeArticleStory({ tag_list: [] });
+
+    expect(resolveUrlsFromStory("blog/test-article", story as never)).toEqual(
+      [],
+    );
   });
 
   it("returns slug-based URL for non-article content types", async () => {

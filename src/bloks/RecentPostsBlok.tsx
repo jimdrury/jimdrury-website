@@ -9,6 +9,7 @@ import {
   getDefaultStoryCategory,
   getStoryDateTime,
 } from "@/lib/blog";
+import { getArticlesWithPath } from "@/lib/seo";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type RecentPostsBlokData = SbBlokData & {
@@ -29,7 +30,7 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
     version: "published",
   });
 
-  const recentStories = stories.slice(0, count);
+  const recentStories = getArticlesWithPath(stories).slice(0, count);
 
   if (recentStories.length === 0) {
     return null;
@@ -53,17 +54,16 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
-          {recentStories.map((story) => {
-            const category = getDefaultStoryCategory(story);
+          {recentStories.map(({ story, path }) => {
             const dateTime = getStoryDateTime(story);
             const formattedDate = formatStoryDate(story);
 
             return (
               <BlogCardCompact
                 key={story.uuid}
-                href={`/blog/${category}/${story.slug}`}
+                href={path}
                 title={story.name}
-                category={category ?? undefined}
+                category={getDefaultStoryCategory(story) ?? undefined}
                 excerpt={story.content?.excerpt}
                 date={formattedDate}
                 dateTime={dateTime}

@@ -59,7 +59,8 @@ export const resolveUrlsFromStory = (
   story: StoryData,
 ): string[] => {
   if (isArticle(story)) {
-    return [getArticleCanonicalUrl(story)];
+    const canonicalUrl = getArticleCanonicalUrl(story);
+    return canonicalUrl ? [canonicalUrl] : [];
   }
 
   const normalizedSlug = fullSlug.replace(/\/$/, "");

@@ -17,10 +17,16 @@ import {
   getStoryDateTime,
   parseStoryblokImageDimensions,
 } from "@/lib/blog";
-import { SITE_NAME } from "@/lib/seo";
+import { getArticlesWithPath, SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    url: "/",
+  },
 };
 
 const ROLE_WORDS = [
@@ -34,13 +40,13 @@ const ROLE_WORDS = [
 const HOME_PORTRAIT_SRC =
   "https://a.storyblok.com/f/291093583118629/1348x1348/d76f7ae056/profile-picture.jpg/m/720x720/filters:quality(80)";
 
-const Page: FC = async () => {
+const Page: FC<PageProps<"/">> = async () => {
   const { stories } = await getBlogIndexArchive({
     page: 1,
     version: "published",
   });
 
-  const recentStories = stories.slice(0, 3);
+  const recentStories = getArticlesWithPath(stories).slice(0, 3);
 
   return (
     <>
@@ -144,8 +150,7 @@ const Page: FC = async () => {
               </Link>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
-              {recentStories.map((story, index) => {
-                const category = getDefaultStoryCategory(story);
+              {recentStories.map(({ story, path }, index) => {
                 const featuredImage = getFeaturedImageAsset(
                   story.content?.featured_image,
                 );
@@ -155,9 +160,9 @@ const Page: FC = async () => {
                 return (
                   <BlogCardCompact
                     key={story.uuid}
-                    href={`/blog/${category}/${story.slug}`}
+                    href={path}
                     title={story.name}
-                    category={category ?? undefined}
+                    category={getDefaultStoryCategory(story) ?? undefined}
                     excerpt={story.content?.excerpt}
                     date={formatStoryDate(story)}
                     dateTime={getStoryDateTime(story)}
