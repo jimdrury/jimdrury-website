@@ -11,6 +11,10 @@ describe("applyHeaderHeight", () => {
     applyHeaderHeight(
       {
         setProperty: (name, value) => {
+          if (value === null) {
+            return;
+          }
+
           properties.set(name, value);
         },
       },
