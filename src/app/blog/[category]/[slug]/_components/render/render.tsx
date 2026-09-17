@@ -42,17 +42,21 @@ export const Render: FC<RenderProps> = async ({ params }) => {
 
   const articleJsonLd = serializeJsonLd(buildArticleJsonLd(story));
   const breadcrumbJsonLd = serializeJsonLd(buildArticleBreadcrumbJsonLd(story));
+  const pathname = `/blog/${category}/${slug}`;
+  const storyContent = (
+    <StoryContent mode={version} pathname={pathname} story={story} />
+  );
 
   return (
     <main>
       <script type="application/ld+json">{articleJsonLd}</script>
       <script type="application/ld+json">{breadcrumbJsonLd}</script>
       {isEnabled ? (
-        <StoryPreview storyId={story.id} story={story}>
-          <StoryContent story={story} />
+        <StoryPreview pathname={pathname} storyId={story.id} story={story}>
+          {storyContent}
         </StoryPreview>
       ) : (
-        <StoryContent story={story} />
+        storyContent
       )}
     </main>
   );

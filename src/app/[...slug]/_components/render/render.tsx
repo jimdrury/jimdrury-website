@@ -5,7 +5,6 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
-import { setCurrentSearchParams } from "@/lib/search-params-context";
 import { StoryContent } from "@/storyblok/renderer";
 import { fetchStoryBySlug } from "../../_helpers/story";
 import { ArticleBreadcrumbJsonLd } from "../json-ld/article-breadcrumb-json-ld";
@@ -25,7 +24,6 @@ type RenderProps = {
 
 export const Render: FC<RenderProps> = async ({ storySlug, pathname }) => {
   const { isEnabled } = await draftMode();
-  setCurrentSearchParams({}, pathname);
   const version = isEnabled ? "draft" : "published";
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
@@ -40,7 +38,7 @@ export const Render: FC<RenderProps> = async ({ storySlug, pathname }) => {
       <ArticleBreadcrumbJsonLd story={story} />
       <OrganizationJsonLd storySlug={storySlug} />
       <PersonJsonLd storySlug={storySlug} />
-      <StoryContent story={story} />
+      <StoryContent mode={version} pathname={pathname} story={story} />
     </>
   );
 
@@ -49,7 +47,7 @@ export const Render: FC<RenderProps> = async ({ storySlug, pathname }) => {
   }
 
   return (
-    <StoryPreview storyId={story.id ?? 0} story={story}>
+    <StoryPreview pathname={pathname} storyId={story.id ?? 0} story={story}>
       {storyContent}
     </StoryPreview>
   );

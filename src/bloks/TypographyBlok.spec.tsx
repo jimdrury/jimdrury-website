@@ -1,14 +1,10 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { TableOfContents } from "@/components/table-of-contents";
-import { getCurrentStory } from "@/lib/current-story-context";
+import { StoryRenderProvider } from "@/lib/story-render-context";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import { TypographyBlok } from "./TypographyBlok";
-
-vi.mock("@/lib/current-story-context", () => ({
-  getCurrentStory: vi.fn(),
-}));
 
 type TypographyFixtureBlok = {
   _uid: string;
@@ -32,29 +28,27 @@ const createStory = (body: TypographyFixtureBlok[]): BlogStory => {
 
 const BodyAndToc: FC<{ story: BlogStory }> = ({ story }) => {
   return (
-    <div>
-      {(story.content.body ?? []).map((blok) => (
-        <TypographyBlok
-          key={typeof blok._uid === "string" ? blok._uid : undefined}
-          blok={{
-            component: "typography",
-            _uid: typeof blok._uid === "string" ? blok._uid : undefined,
-            as: typeof blok.as === "string" ? blok.as : undefined,
-            content:
-              typeof blok.content === "string" ? blok.content : undefined,
-          }}
-        />
-      ))}
-      <TableOfContents maxHeadingLevel="h4" />
-    </div>
+    <StoryRenderProvider pathname="/blog/story" story={story}>
+      <div>
+        {(story.content.body ?? []).map((blok) => (
+          <TypographyBlok
+            key={typeof blok._uid === "string" ? blok._uid : undefined}
+            blok={{
+              component: "typography",
+              _uid: typeof blok._uid === "string" ? blok._uid : undefined,
+              as: typeof blok.as === "string" ? blok.as : undefined,
+              content:
+                typeof blok.content === "string" ? blok.content : undefined,
+            }}
+          />
+        ))}
+        <TableOfContents maxHeadingLevel="h4" story={story} />
+      </div>
+    </StoryRenderProvider>
   );
 };
 
 describe("TypographyBlok heading ids", () => {
-  beforeEach(() => {
-    vi.mocked(getCurrentStory).mockReset();
-  });
-
   it("matches every TOC href to a heading id, including ampersands, duplicates, and h4", () => {
     const story = createStory([
       {
@@ -94,8 +88,6 @@ describe("TypographyBlok heading ids", () => {
         content: "Caveats",
       },
     ]);
-
-    vi.mocked(getCurrentStory).mockReturnValue(story);
 
     const { container } = render(<BodyAndToc story={story} />);
 

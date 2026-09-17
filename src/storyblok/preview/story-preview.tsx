@@ -20,6 +20,7 @@ const STORYBLOK_BRIDGE_SELECTOR = 'script[data-storyblok-bridge="true"]';
 export interface StoryPreviewProps {
   storyId: number;
   story: StoryData;
+  pathname: string;
   children: ReactNode;
 }
 
@@ -78,6 +79,7 @@ const loadStoryblokBridgeScript = async (): Promise<void> => {
 export const StoryPreview: FC<StoryPreviewProps> = ({
   storyId,
   story,
+  pathname,
   children,
 }) => {
   const [renderedPreview, setRenderedPreview] = useState<ReactNode>(children);
@@ -97,7 +99,7 @@ export const StoryPreview: FC<StoryPreviewProps> = ({
     isUnmountedRef.current = false;
 
     const updatePreview = async (incomingStory: StoryData) => {
-      const nextRender = await renderStoryPreview(incomingStory);
+      const nextRender = await renderStoryPreview(incomingStory, pathname);
 
       if (isUnmountedRef.current || !nextRender) {
         return;
@@ -169,7 +171,7 @@ export const StoryPreview: FC<StoryPreviewProps> = ({
         window.clearTimeout(inputTimeoutRef.current);
       }
     };
-  }, [storyId]);
+  }, [pathname, storyId]);
 
   return renderedPreview;
 };

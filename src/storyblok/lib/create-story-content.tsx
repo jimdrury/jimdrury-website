@@ -1,13 +1,18 @@
-import type { FC } from "react";
-import { setCurrentStoryFromUnknown } from "@/lib/current-story-context";
+import { notFound } from "next/navigation";
+import type { FC, ReactNode } from "react";
+import { StoryRenderProvider } from "@/lib/story-render-context";
 import type { SbBlokData, StoryData } from "./types";
 
 type BlokRendererProps = {
   blok: SbBlokData;
 };
 
+type StoryRenderMode = "draft" | "published";
+
 type StoryContentProps = {
   story: StoryData;
+  pathname: string;
+  mode: StoryRenderMode;
 };
 
 const isSbBlokData = (value: unknown): value is SbBlokData => {
@@ -19,7 +24,7 @@ const isSbBlokData = (value: unknown): value is SbBlokData => {
   );
 };
 
-const parseStoryContent = (story: StoryData): SbBlokData | null => {
+export const parseStoryContent = (story: StoryData): SbBlokData | null => {
   if (typeof story.content !== "string") {
     return isSbBlokData(story.content) ? story.content : null;
   }
@@ -36,18 +41,67 @@ const parseStoryContent = (story: StoryData): SbBlokData | null => {
   }
 };
 
+type StoryContentParseErrorProps = {
+  name?: string;
+};
+
+const StoryContentParseError: FC<StoryContentParseErrorProps> = ({ name }) => {
+  return (
+    <div
+      role="alert"
+      className="mx-auto my-12 max-w-2xl rounded-md border-[3px] border-black bg-yellow-300 p-6 shadow-[4px_4px_0_0_#000]"
+    >
+      <p className="text-lg font-bold">This draft could not be rendered.</p>
+      <p className="mt-2 text-zinc-800">
+        The story content is missing or invalid. Check the fields in Storyblok
+        and try again.
+      </p>
+      {name ? <p className="mt-2 font-mono text-sm">{name}</p> : null}
+    </div>
+  );
+};
+
+const handleInvalidStoryContent = (
+  story: StoryData,
+  mode: StoryRenderMode,
+): ReactNode => {
+  console.error("Story content is missing or invalid", {
+    name: story.name,
+    mode,
+  });
+
+  switch (mode) {
+    case "draft":
+      return <StoryContentParseError name={story.name} />;
+    case "published":
+      return notFound();
+    default: {
+      const exhaustive: never = mode;
+      throw new Error(`Unhandled story render mode: ${exhaustive}`);
+    }
+  }
+};
+
 export const createStoryContent = (
   BlokRenderer: FC<BlokRendererProps>,
 ): FC<StoryContentProps> => {
-  const StoryContent: FC<StoryContentProps> = ({ story }) => {
-    setCurrentStoryFromUnknown(story);
+  const StoryContent: FC<StoryContentProps> = ({ story, pathname, mode }) => {
     const content = parseStoryContent(story);
 
     if (!content) {
-      return null;
+      return handleInvalidStoryContent(story, mode);
     }
 
-    return <BlokRenderer blok={content} />;
+    const resolvedStory = {
+      ...story,
+      content,
+    };
+
+    return (
+      <StoryRenderProvider story={resolvedStory} pathname={pathname}>
+        <BlokRenderer blok={content} />
+      </StoryRenderProvider>
+    );
   };
 
   StoryContent.displayName = "StoryContent";

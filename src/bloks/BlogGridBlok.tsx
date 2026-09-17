@@ -4,8 +4,8 @@ import type { FC } from "react";
 import type { BlogCardDensity } from "@/components/blog-card";
 import { BlogGrid } from "@/components/blog-grid";
 import { getBlogIndexArchive, getPageFromPathname } from "@/lib/blog";
-import { getCurrentPathname } from "@/lib/search-params-context";
 import { getBlogIndexPath } from "@/lib/seo";
+import { useStoryRenderContext } from "@/lib/story-render-context";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type BlogGridBlokData = SbBlokData & {
@@ -32,7 +32,7 @@ const parseLimit = (value: unknown): number | undefined => {
 };
 
 export const BlogGridBlok: FC<BlogGridBlokProps> = async ({ blok }) => {
-  const pathname = getCurrentPathname();
+  const { pathname } = useStoryRenderContext();
   const page = getPageFromPathname(pathname);
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";

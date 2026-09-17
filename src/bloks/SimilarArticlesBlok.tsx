@@ -2,8 +2,8 @@ import "server-only";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
 import { SimilarArticles } from "@/components/similar-articles";
-import { getCurrentStory } from "@/lib/current-story-context";
 import { getSimilarArticleItems } from "@/lib/similar-articles";
+import { asBlogStory, useStoryRenderContext } from "@/lib/story-render-context";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type SimilarArticlesBlokData = SbBlokData & {
@@ -17,7 +17,8 @@ type SimilarArticlesBlokProps = {
 export const SimilarArticlesBlok: FC<SimilarArticlesBlokProps> = async ({
   blok,
 }) => {
-  const currentStory = getCurrentStory();
+  const { story } = useStoryRenderContext();
+  const currentStory = asBlogStory(story);
   if (!currentStory) {
     return null;
   }

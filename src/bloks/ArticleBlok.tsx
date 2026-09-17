@@ -6,9 +6,9 @@ import { ArticleNavigation } from "@/components/article-navigation";
 import { SimilarArticles } from "@/components/similar-articles";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Typography } from "@/components/typography";
-import { getCurrentStory } from "@/lib/current-story-context";
 import { estimateReadTime } from "@/lib/read-time";
 import { getSimilarArticleItems } from "@/lib/similar-articles";
+import { asBlogStory, useStoryRenderContext } from "@/lib/story-render-context";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import { transformStoryblokImage } from "@/storyblok/image-transform";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
@@ -53,7 +53,8 @@ const renderRail = (
 };
 
 export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
-  const currentStory = getCurrentStory();
+  const { story } = useStoryRenderContext();
+  const currentStory = asBlogStory(story);
   const title = blok.story_name ?? currentStory?.name;
   const featuredImage = blok.featured_image?.[0]?.image;
   const featuredSrc = featuredImage?.filename;
@@ -165,7 +166,10 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
         ))}
       <div className="container mx-auto mt-8 flex flex-col gap-6 px-5 lg:mt-28 lg:flex-row lg:items-start lg:gap-12 lg:pb-12 lg:pt-16 2xl:max-w-6xl xl:px-0">
         <div className="lg:hidden">
-          {renderRail(blok.pre_content, <TableOfContents />)}
+          {renderRail(
+            blok.pre_content,
+            <TableOfContents story={currentStory} />,
+          )}
         </div>
         <section
           className="min-w-0 flex-1 space-y-4 lg:pb-4"
@@ -176,7 +180,10 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({ blok }) => {
           ))}
         </section>
         <aside className="hidden w-[360px] shrink-0 space-y-8 lg:block lg:self-start">
-          {renderRail(blok.pre_content, <TableOfContents />)}
+          {renderRail(
+            blok.pre_content,
+            <TableOfContents story={currentStory} />,
+          )}
           {renderRail(postContent, <SimilarArticles items={similarItems} />)}
         </aside>
       </div>

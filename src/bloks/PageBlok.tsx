@@ -2,9 +2,10 @@ import "server-only";
 import type { FC } from "react";
 import { PageHeader } from "@/components/page-header";
 import {
-  getCurrentStoryName,
-  getCurrentStoryUpdatedAt,
-} from "@/lib/current-story-context";
+  getStoryName,
+  getStoryUpdatedAt,
+  useStoryRenderContext,
+} from "@/lib/story-render-context";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 import { BlokRenderer } from "@/storyblok/renderer";
 
@@ -34,8 +35,9 @@ const formatPageUpdatedAt = (value: string | null): string | null => {
 };
 
 export const PageBlok: FC<PageBlokProps> = ({ blok }) => {
-  const title = getCurrentStoryName()?.trim();
-  const updatedAtLabel = formatPageUpdatedAt(getCurrentStoryUpdatedAt());
+  const { story } = useStoryRenderContext();
+  const title = getStoryName(story)?.trim();
+  const updatedAtLabel = formatPageUpdatedAt(getStoryUpdatedAt(story));
   const showHeader = blok.header !== false && Boolean(title);
 
   return (

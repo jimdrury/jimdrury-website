@@ -5,7 +5,10 @@ import type { SbBlokData } from "@/storyblok/lib";
 import { ArticleBlok } from "./ArticleBlok";
 
 const mocks = vi.hoisted(() => ({
-  getCurrentStory: vi.fn(() => null),
+  useStoryRenderContext: vi.fn(() => ({
+    story: { content: { component: "page" } },
+    pathname: "/",
+  })),
   getSimilarArticleItems: vi.fn(async () => []),
 }));
 
@@ -13,9 +16,14 @@ vi.mock("next/headers", () => ({
   draftMode: vi.fn(async () => ({ isEnabled: false })),
 }));
 
-vi.mock("@/lib/current-story-context", () => ({
-  getCurrentStory: () => mocks.getCurrentStory(),
-}));
+vi.mock("@/lib/story-render-context", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("@/lib/story-render-context")>();
+  return {
+    ...actual,
+    useStoryRenderContext: () => mocks.useStoryRenderContext(),
+  };
+});
 
 vi.mock("@/lib/similar-articles", () => ({
   getSimilarArticleItems: mocks.getSimilarArticleItems,
@@ -50,7 +58,10 @@ const renderArticle = async (
 
 describe("ArticleBlok", () => {
   beforeEach(() => {
-    mocks.getCurrentStory.mockReturnValue(null);
+    mocks.useStoryRenderContext.mockReturnValue({
+      story: { content: { component: "page" } },
+      pathname: "/",
+    });
     mocks.getSimilarArticleItems.mockClear();
   });
 
