@@ -86,7 +86,7 @@ export const BlogGrid: FC<BlogGridProps> = ({
 
       {pagination.totalPages > 1 ? (
         <nav
-          className="mt-12 flex w-full flex-wrap items-center justify-center gap-4 border-t-[3px] border-[var(--fg-primary)] px-6 py-12 md:px-20"
+          className="mt-16 flex w-full flex-wrap items-center justify-center gap-4 border-t-[3px] border-[var(--fg-primary)] px-6 py-12 md:mt-20 md:px-20"
           aria-label="Pagination"
         >
           {pagination.hasPrevious ? (
