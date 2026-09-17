@@ -18,20 +18,15 @@ const StoryPreview = dynamic(() =>
   import("@/storyblok/preview").then((mod) => mod.StoryPreview),
 );
 
-type RenderProps = Pick<PageProps<"/[...slug]">, "params" | "searchParams">;
+type RenderProps = {
+  storySlug: string;
+  pathname: string;
+};
 
-export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
-  const { slug } = await params;
-  const storySlug = slug.join("/");
+export const Render: FC<RenderProps> = async ({ storySlug, pathname }) => {
   const { isEnabled } = await draftMode();
-  const resolvedSearchParams = await searchParams;
-  setCurrentSearchParams(resolvedSearchParams, `/${storySlug}`);
-  const storyblokParam = resolvedSearchParams._storyblok;
-  const isStoryblokPreviewRequest = Array.isArray(storyblokParam)
-    ? storyblokParam.length > 0
-    : Boolean(storyblokParam);
-  const shouldUseDraftVersion = isEnabled || isStoryblokPreviewRequest;
-  const version = shouldUseDraftVersion ? "draft" : "published";
+  setCurrentSearchParams({}, pathname);
+  const version = isEnabled ? "draft" : "published";
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
   if (!story) {

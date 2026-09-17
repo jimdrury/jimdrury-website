@@ -64,6 +64,22 @@ export const parsePageParam = (page: string | undefined): number => {
   return parsed;
 };
 
+const PAGINATION_PATH_PATTERN = /\/page\/\d+$/;
+
+export const getPageFromPathname = (pathname: string): number => {
+  const match = pathname.match(/\/page\/(\d+)$/);
+  return parsePageParam(match?.[1]);
+};
+
+export const buildPaginationHref = (pathname: string, page: number): string => {
+  const basePath = pathname.replace(PAGINATION_PATH_PATTERN, "") || "/";
+  if (page <= 1) {
+    return basePath;
+  }
+
+  return `${basePath}/page/${page}`;
+};
+
 export type { StoryblokImageDimensions };
 export { parseStoryblokImageDimensions };
 

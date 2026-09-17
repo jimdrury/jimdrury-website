@@ -1,26 +1,21 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
-import { Suspense } from "react";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { Render } from "./_components/render";
-import { Skeleton } from "./_components/skeleton";
-import { fetchStoryBySlug } from "./_components/story";
+import { fetchStoryBySlug, getPublishedPageParams } from "./_components/story";
+
+export const generateStaticParams = async () => {
+  return getPublishedPageParams();
+};
 
 export const generateMetadata = async ({
   params,
-  searchParams,
 }: PageProps<"/[...slug]">): Promise<Metadata> => {
   const { slug } = await params;
   const storySlug = slug.join("/");
   const { isEnabled } = await draftMode();
-  const resolvedSearchParams = await searchParams;
-  const storyblokParam = resolvedSearchParams._storyblok;
-  const isStoryblokPreviewRequest = Array.isArray(storyblokParam)
-    ? storyblokParam.length > 0
-    : Boolean(storyblokParam);
-  const shouldUseDraftVersion = isEnabled || isStoryblokPreviewRequest;
-  const version = shouldUseDraftVersion ? "draft" : "published";
+  const version = isEnabled ? "draft" : "published";
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
   if (!story) {
@@ -30,13 +25,11 @@ export const generateMetadata = async ({
   return buildStaticPageMetadata({ story, slug: storySlug });
 };
 
-const Page: FC<PageProps<"/[...slug]">> = ({ params, searchParams }) => {
-  return (
-    // Keep route composition in `page.tsx` and async runtime work in `_components/render.tsx`.
-    <Suspense fallback={<Skeleton />}>
-      <Render params={params} searchParams={searchParams} />
-    </Suspense>
-  );
+const Page: FC<PageProps<"/[...slug]">> = async ({ params }) => {
+  const { slug } = await params;
+  const storySlug = slug.join("/");
+
+  return <Render storySlug={storySlug} pathname={`/${storySlug}`} />;
 };
 
 export default Page;

@@ -42,6 +42,11 @@ const nextConfig: NextConfig = {
           destination: "/blog/_/:slug",
         },
         {
+          source: "/blog",
+          has: [{ type: "query", key: "page", value: "(?<page>\\d+)" }],
+          destination: "/blog/page/:page",
+        },
+        {
           source: "/",
           destination: "/home",
         },

@@ -1,37 +1,23 @@
 # Examples
 
-## Cache Components route composition (`/blog/[slug]`)
+## Cache Components ISR route (`/blog/[slug]`)
 
 `src/app/blog/[slug]/page.tsx`
 
 ```ts
 import type { FC } from "react";
-import { Suspense } from "react";
 
 import { Render } from "./_components/render";
-import { Skeleton } from "./_components/skeleton";
 
-const BlogPostPage: FC<AppRoutes<"/blog/[slug]">> = ({ params, searchParams }) => {
-  return (
-    <Suspense fallback={<Skeleton />}>
-      <Render params={params} searchParams={searchParams} />
-    </Suspense>
-  );
+export const generateStaticParams = async () => {
+  return [{ slug: "hello-world" }];
 };
 
-export default BlogPostPage;
-```
-
-`src/app/blog/[slug]/_components/skeleton.tsx`
-
-```ts
-import "server-only";
-
-import type { FC } from "react";
-
-export const Skeleton: FC = () => {
-  return <div aria-busy="true">Loading post...</div>;
+const Page: FC<PageProps<"/blog/[slug]">> = ({ params }) => {
+  return <Render params={params} />;
 };
+
+export default Page;
 ```
 
 `src/app/blog/[slug]/_components/render.tsx`
@@ -42,19 +28,16 @@ import "server-only";
 import { draftMode } from "next/headers";
 import type { FC } from "react";
 
-type RenderProps = Pick<AppRoutes<"/blog/[slug]">, "params" | "searchParams">;
+type RenderProps = Pick<PageProps<"/blog/[slug]">, "params">;
 
-export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
+export const Render: FC<RenderProps> = async ({ params }) => {
   const { slug } = await params;
-  const query = await searchParams;
   const { isEnabled } = await draftMode();
-
-  const preview = query?.preview === "1" || isEnabled;
 
   return (
     <article>
       <h1>{slug}</h1>
-      <p>{preview ? "Preview mode" : "Published mode"}</p>
+      <p>{isEnabled ? "Preview mode" : "Published mode"}</p>
     </article>
   );
 };
@@ -65,54 +48,47 @@ export const Render: FC<RenderProps> = async ({ params, searchParams }) => {
 ```ts
 import type { FC } from "react";
 
-const BlogPage: FC<AppRoutes<"/blog">> = async () => {
+const Page: FC<PageProps<"/blog">> = async () => {
   return <main>Blog index</main>;
 };
 
-export default BlogPage;
+export default Page;
 ```
 
 ## Dynamic route `page.tsx` (`/blog/[slug]`)
 
 ```ts
 import type { FC } from "react";
-import { Suspense } from "react";
 
 import { Render } from "./_components/render";
-import { Skeleton } from "./_components/skeleton";
 
-const BlogPostPage: FC<AppRoutes<"/blog/[slug]">> = ({ params, searchParams }) => {
-  return (
-    <Suspense fallback={<Skeleton />}>
-      <Render params={params} searchParams={searchParams} />
-    </Suspense>
-  );
+export const generateStaticParams = async () => {
+  return [{ slug: "hello-world" }];
 };
 
-export default BlogPostPage;
+const Page: FC<PageProps<"/blog/[slug]">> = ({ params }) => {
+  return <Render params={params} />;
+};
+
+export default Page;
 ```
 
-## Nested dynamic route `page.tsx` (`/blog/category/[category]/[slug]`)
+## Nested dynamic route `page.tsx` (`/blog/[category]/[slug]`)
 
 ```ts
 import type { FC } from "react";
-import { Suspense } from "react";
 
 import { Render } from "./_components/render";
-import { Skeleton } from "./_components/skeleton";
 
-const CategoryPostPage: FC<AppRoutes<"/blog/category/[category]/[slug]">> = ({
-  params,
-  searchParams,
-}) => {
-  return (
-    <Suspense fallback={<Skeleton />}>
-      <Render params={params} searchParams={searchParams} />
-    </Suspense>
-  );
+export const generateStaticParams = async () => {
+  return [{ category: "ai", slug: "hello-world" }];
 };
 
-export default CategoryPostPage;
+const Page: FC<PageProps<"/blog/[category]/[slug]">> = ({ params }) => {
+  return <Render params={params} />;
+};
+
+export default Page;
 ```
 
 ## Route layout `layout.tsx` (`/blog`)
@@ -120,15 +96,15 @@ export default CategoryPostPage;
 ```ts
 import type { FC, ReactNode } from "react";
 
-type BlogLayoutProps = AppRoutes<"/blog"> & {
+type BlogLayoutProps = LayoutProps<"/blog"> & {
   children: ReactNode;
 };
 
-const BlogLayout: FC<BlogLayoutProps> = ({ children }) => {
+const Layout: FC<BlogLayoutProps> = ({ children }) => {
   return <section>{children}</section>;
 };
 
-export default BlogLayout;
+export default Layout;
 ```
 
 ## Dynamic metadata pattern
@@ -138,7 +114,7 @@ import type { Metadata } from "next";
 
 export const generateMetadata = async ({
   params,
-}: AppRoutes<"/blog/[slug]">): Promise<Metadata> => {
+}: PageProps<"/blog/[slug]">): Promise<Metadata> => {
   const { slug } = await params;
 
   return {

@@ -1,6 +1,5 @@
 import { draftMode } from "next/headers";
 import { ImageResponse } from "next/og";
-import { connection } from "next/server";
 
 import { getArticleExcerpt } from "@/lib/seo";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
@@ -24,7 +23,6 @@ type OpenGraphImageProps = Pick<PageProps<"/blog/[category]/[slug]">, "params">;
 type OpenGraphImageFn = (props: OpenGraphImageProps) => Promise<ImageResponse>;
 
 const OpenGraphImage: OpenGraphImageFn = async ({ params }) => {
-  await connection();
   const { slug } = await params;
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
