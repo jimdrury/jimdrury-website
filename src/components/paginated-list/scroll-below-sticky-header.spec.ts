@@ -2,7 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { scrollBelowStickyHeader } from "./scroll-below-sticky-header";
 
 const HEADER_HEIGHT = 80;
-const LIST_SCROLL_GAP_PX = 16;
+const LIST_SCROLL_GAP_PX = 24;
+const WINDOW_SCROLL_Y = 800;
+const TARGET_VIEWPORT_TOP = 200;
+
+const expectedTop = (headerOffset = 0) =>
+  WINDOW_SCROLL_Y + TARGET_VIEWPORT_TOP - headerOffset - LIST_SCROLL_GAP_PX;
 
 const createRect = (top: number, height: number): DOMRect => {
   return {
@@ -39,23 +44,17 @@ const stubMatchMedia = (reducedMotion: boolean) => {
 
 describe("scrollBelowStickyHeader", () => {
   const originalGetComputedStyle = window.getComputedStyle;
+  let scrollTo: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     stubMatchMedia(false);
+    scrollTo = vi.fn();
+    vi.stubGlobal("scrollTo", scrollTo);
+    vi.stubGlobal("scrollY", WINDOW_SCROLL_Y);
     vi.spyOn(window, "getComputedStyle").mockImplementation((element) => {
       if (element instanceof HTMLElement && element.tagName === "HEADER") {
         return {
           position: element.dataset.position ?? "sticky",
-          scrollPaddingTop: "0px",
-        } as CSSStyleDeclaration;
-      }
-
-      if (element === document.documentElement) {
-        return {
-          position: "static",
-          scrollPaddingTop: document.documentElement.dataset.scrollPaddingTop
-            ? `${document.documentElement.dataset.scrollPaddingTop}px`
-            : "0px",
         } as CSSStyleDeclaration;
       }
 
@@ -67,10 +66,9 @@ describe("scrollBelowStickyHeader", () => {
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
     document.body.replaceChildren();
-    document.documentElement.removeAttribute("data-scroll-padding-top");
   });
 
-  it("scrolls the element into view below a sticky header", () => {
+  it("scrolls the element below a sticky header", () => {
     const header = document.createElement("header");
     header.dataset.position = "sticky";
     document.body.append(header);
@@ -80,17 +78,14 @@ describe("scrollBelowStickyHeader", () => {
 
     const target = document.createElement("div");
     document.body.append(target);
-    const scrollIntoView = vi
-      .spyOn(target, "scrollIntoView")
-      .mockImplementation(() => undefined);
+    vi.spyOn(target, "getBoundingClientRect").mockReturnValue(
+      createRect(TARGET_VIEWPORT_TOP, 400),
+    );
 
     scrollBelowStickyHeader(target);
 
-    expect(target.style.scrollMarginTop).toBe(
-      `${HEADER_HEIGHT + LIST_SCROLL_GAP_PX}px`,
-    );
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      block: "start",
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: expectedTop(HEADER_HEIGHT),
       behavior: "smooth",
     });
   });
@@ -100,39 +95,52 @@ describe("scrollBelowStickyHeader", () => {
 
     const target = document.createElement("div");
     document.body.append(target);
-    const scrollIntoView = vi
-      .spyOn(target, "scrollIntoView")
-      .mockImplementation(() => undefined);
+    vi.spyOn(target, "getBoundingClientRect").mockReturnValue(
+      createRect(TARGET_VIEWPORT_TOP, 400),
+    );
 
     scrollBelowStickyHeader(target);
 
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      block: "start",
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: expectedTop(),
       behavior: "auto",
     });
   });
 
-  it("does not add header height when the header is not sticky or fixed", () => {
-    const header = document.createElement("header");
-    header.dataset.position = "static";
-    document.body.append(header);
-    vi.spyOn(header, "getBoundingClientRect").mockReturnValue(
+  it("ignores nested non-sticky headers so in-page section headers do not steal the offset", () => {
+    const siteHeader = document.createElement("header");
+    siteHeader.dataset.position = "sticky";
+    document.body.append(siteHeader);
+    vi.spyOn(siteHeader, "getBoundingClientRect").mockReturnValue(
       createRect(0, HEADER_HEIGHT),
+    );
+
+    const section = document.createElement("section");
+    const nestedHeader = document.createElement("header");
+    nestedHeader.dataset.position = "static";
+    section.append(nestedHeader);
+    document.body.append(section);
+    vi.spyOn(nestedHeader, "getBoundingClientRect").mockReturnValue(
+      createRect(400, 40),
     );
 
     const target = document.createElement("div");
     document.body.append(target);
-    vi.spyOn(target, "scrollIntoView").mockImplementation(() => undefined);
+    vi.spyOn(target, "getBoundingClientRect").mockReturnValue(
+      createRect(TARGET_VIEWPORT_TOP, 400),
+    );
 
     scrollBelowStickyHeader(target);
 
-    expect(target.style.scrollMarginTop).toBe(`${LIST_SCROLL_GAP_PX}px`);
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: expectedTop(HEADER_HEIGHT),
+      behavior: "smooth",
+    });
   });
 
-  it("subtracts existing document scroll-padding so hash-link offset is not doubled", () => {
-    document.documentElement.dataset.scrollPaddingTop = String(HEADER_HEIGHT);
-
+  it("still offsets by the sticky header when the document already has scroll-padding", () => {
     const header = document.createElement("header");
+    header.setAttribute("data-site-header", "");
     header.dataset.position = "sticky";
     document.body.append(header);
     vi.spyOn(header, "getBoundingClientRect").mockReturnValue(
@@ -141,10 +149,15 @@ describe("scrollBelowStickyHeader", () => {
 
     const target = document.createElement("div");
     document.body.append(target);
-    vi.spyOn(target, "scrollIntoView").mockImplementation(() => undefined);
+    vi.spyOn(target, "getBoundingClientRect").mockReturnValue(
+      createRect(TARGET_VIEWPORT_TOP, 400),
+    );
 
     scrollBelowStickyHeader(target);
 
-    expect(target.style.scrollMarginTop).toBe(`${LIST_SCROLL_GAP_PX}px`);
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: expectedTop(HEADER_HEIGHT),
+      behavior: "smooth",
+    });
   });
 });
