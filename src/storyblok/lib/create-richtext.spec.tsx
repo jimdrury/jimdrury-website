@@ -29,4 +29,29 @@ describe("createRichText", () => {
       screen.getByText("Industry accolades for shipping"),
     ).toBeInTheDocument();
   });
+
+  it("renders bullet-prefixed paragraphs as a compact unordered list", () => {
+    const RichText = createRichText(() => null);
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "• Image generation" }],
+        },
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "• Chatbots" }],
+        },
+      ],
+    } as StoryblokRichTextNode<ReactElement>;
+
+    const { container } = render(<RichText doc={doc} />);
+    const items = container.querySelectorAll("ul > li");
+
+    expect(items).toHaveLength(2);
+    expect(items[0]).toHaveTextContent("Image generation");
+    expect(items[1]).toHaveTextContent("Chatbots");
+    expect(container.querySelector("p")?.textContent).not.toMatch(/^•/);
+  });
 });
