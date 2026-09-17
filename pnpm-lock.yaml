@@ -728,7 +728,7 @@ packages:
     os: [win32]
 
   '@jimdrury/storyblok-component-schema@0.5.0':
-    resolution: {integrity: sha512-FE+MV/ZtrgX/RX1zovw6Em0GhknJO6BlrPrXgjBG0/Zk6NH+TLXy/t101gg9daHRoNi5qvsbcUw4VNxkVoK/sA==, tarball: https://npm.pkg.github.com/download/@jimdrury/storyblok-component-schema/0.5.0/c36b685297b90c1b34a048f8bf8c747598731150}
+    resolution: {integrity: sha512-2Rn30u9uymOp0pj2rjfh0hWTXfop87HNBdnVrntsZA37ztPbZc0i8q3C1Znj19uffC0DALnrqF6VAZAqVY57VA==, tarball: https://npm.pkg.github.com/download/@jimdrury/storyblok-component-schema/0.5.0/c36b685297b90c1b34a048f8bf8c747598731150}
     hasBin: true
 
   '@jridgewell/gen-mapping@0.3.13':
