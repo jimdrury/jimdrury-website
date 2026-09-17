@@ -96,7 +96,9 @@ const Page: FC = async () => {
       <section className="w-full bg-[var(--bg-secondary)] py-10 lg:py-14">
         <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
           <Typography size="5xl" asChild>
-            <h2 className="mb-6 uppercase text-[var(--fg-primary)]">Proof</h2>
+            <h2 className="mb-6 uppercase text-[var(--fg-primary)]">
+              Accolades
+            </h2>
           </Typography>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Award icon="star" title="MVP" company="Storyblok" colour="yellow">
