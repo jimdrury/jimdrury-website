@@ -7,6 +7,7 @@ import {
   getBlogArticlesByTagTag,
   getBlogVersionTag,
 } from "@/lib/cache-tags";
+import { fetchStoryBySlug } from "@/lib/storyblok-story";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import {
   BLOG_ARCHIVE_PAGE_SIZE,
@@ -168,12 +169,6 @@ export const getBlogTags = async (
     });
 };
 
-type StoryblokStoryResponse = {
-  data?: {
-    story?: BlogStory;
-  };
-};
-
 export const getArticleBySlug = async ({
   slug,
   version,
@@ -191,20 +186,14 @@ export const getArticleBySlug = async ({
   }
   cacheTag(getBlogArticleSlugTag({ slug: normalizedSlug, version }));
 
-  const storyblokApi = getStoryblokApi();
+  const story = await fetchStoryBySlug({
+    slug: `${BLOG_PREFIX}${normalizedSlug}`,
+    version,
+  });
 
-  try {
-    const response = (await storyblokApi.get(
-      `cdn/stories/${BLOG_PREFIX}${normalizedSlug}`,
-      {
-        version,
-        cv: getStoryblokCv(),
-      },
-    )) as StoryblokStoryResponse;
-    const story = response.data?.story;
-
-    return story && isArticleStory(story) ? story : null;
-  } catch {
+  if (!story) {
     return null;
   }
+
+  return isArticleStory(story as BlogStory) ? (story as BlogStory) : null;
 };

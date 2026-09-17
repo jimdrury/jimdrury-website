@@ -56,9 +56,9 @@ const isArticle = (story: StoryData): story is StoryData & BlogStory => {
 
 export const resolveUrlsFromStory = (
   fullSlug: string,
-  story: StoryData | null,
+  story: StoryData,
 ): string[] => {
-  if (story && isArticle(story)) {
+  if (isArticle(story)) {
     return [getArticleCanonicalUrl(story)];
   }
 

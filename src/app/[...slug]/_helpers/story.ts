@@ -6,14 +6,9 @@ import {
   getStorySlugVersionTag,
   getStoryVersionTag,
 } from "@/lib/cache-tags";
+import { fetchStoryBySlug as fetchStoryBySlugFromApi } from "@/lib/storyblok-story";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import type { StoryData } from "@/storyblok/lib";
-
-type StoryblokStoryResponse = {
-  data?: {
-    story?: StoryData;
-  };
-};
 
 type StoryblokPageListResponse = {
   data?: {
@@ -38,18 +33,8 @@ export const fetchStoryBySlug = async ({
   cacheTag(getStoryPageTag());
   cacheTag(getStoryVersionTag(version));
   cacheTag(getStorySlugVersionTag({ slug, version }));
-  const storyblokApi = getStoryblokApi();
 
-  try {
-    const response = (await storyblokApi.get(`cdn/stories/${slug}`, {
-      version,
-      cv: getStoryblokCv(),
-    })) as StoryblokStoryResponse;
-
-    return response.data?.story ?? null;
-  } catch {
-    return null;
-  }
+  return fetchStoryBySlugFromApi({ slug, version });
 };
 
 export const getPublishedPageParams = async (): Promise<

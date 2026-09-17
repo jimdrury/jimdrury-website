@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 
 import { renderArticleMarkdown } from "@/lib/article-markdown";
 import { getDefaultStoryCategory } from "@/lib/blog";
+import { StoryblokUnavailableError } from "@/lib/storyblok-errors";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
 
 const GET = async (
@@ -24,7 +25,17 @@ const GET = async (
 
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
-  const story = await getArticleBySlug({ slug: normalizedSlug, version });
+  let story: Awaited<ReturnType<typeof getArticleBySlug>>;
+
+  try {
+    story = await getArticleBySlug({ slug: normalizedSlug, version });
+  } catch (error) {
+    if (error instanceof StoryblokUnavailableError) {
+      return new Response("Service Unavailable", { status: 503 });
+    }
+
+    throw error;
+  }
 
   if (!story) {
     return new Response("Not Found", { status: 404 });
