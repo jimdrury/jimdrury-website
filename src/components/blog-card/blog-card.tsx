@@ -7,6 +7,8 @@ import { Typography } from "@/components/typography";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
+export type BlogCardDensity = "default" | "compact";
+
 export interface BlogCardProps
   extends ComponentPropsWithoutChildren<"article"> {
   children?: ReactNode;
@@ -22,6 +24,8 @@ export interface BlogCardProps
   imageHeight?: number;
   imageLoading?: "eager" | "lazy";
   imageFetchPriority?: "high" | "low" | "auto";
+  /** `compact` shrinks the cover, drops the dek, and removes the read-more button. */
+  density?: BlogCardDensity;
 }
 
 export const BlogCard: FC<BlogCardProps> = ({
@@ -38,13 +42,16 @@ export const BlogCard: FC<BlogCardProps> = ({
   imageHeight,
   imageLoading = "lazy",
   imageFetchPriority = "auto",
+  density = "default",
   children,
   ...props
 }) => {
+  const isCompact = density === "compact";
+
   return (
     <article
       className={cn(
-        "flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] text-[var(--fg-primary)] shadow-[8px_8px_0_0_var(--fg-primary)]",
+        "relative flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] text-[var(--fg-primary)] shadow-[8px_8px_0_0_var(--fg-primary)]",
         className,
       )}
       {...props}
@@ -55,7 +62,12 @@ export const BlogCard: FC<BlogCardProps> = ({
         <>
           {imageSrc && (
             <div className="relative w-full shrink-0">
-              <div className="h-[220px] w-full overflow-hidden bg-zinc-100">
+              <div
+                className={cn(
+                  "w-full overflow-hidden bg-zinc-100",
+                  isCompact ? "h-[140px]" : "h-[220px]",
+                )}
+              >
                 <Image
                   src={imageSrc}
                   alt={imageAlt ?? title}
@@ -77,7 +89,12 @@ export const BlogCard: FC<BlogCardProps> = ({
               )}
             </div>
           )}
-          <div className="flex flex-1 flex-col gap-3 p-6">
+          <div
+            className={cn(
+              "flex flex-1 flex-col",
+              isCompact ? "gap-2 p-5" : "gap-3 p-6",
+            )}
+          >
             <div className="h-0.5 shrink-0" aria-hidden />
             {date && (
               <time
@@ -87,17 +104,32 @@ export const BlogCard: FC<BlogCardProps> = ({
                 {date}
               </time>
             )}
-            <h2 className="font-[family-name:var(--font-anton)] text-[28px] font-bold leading-[1.15] tracking-[1px] text-[var(--fg-primary)]">
-              {title}
+            <h2
+              className={cn(
+                "font-[family-name:var(--font-anton)] font-bold leading-[1.15] tracking-[1px] text-[var(--fg-primary)]",
+                isCompact ? "text-[22px]" : "text-[28px]",
+              )}
+            >
+              {isCompact && href ? (
+                <Link
+                  href={href}
+                  className="focus-visible:focus-ring-sm before:absolute before:inset-0 before:z-10 before:block before:content-['']"
+                >
+                  {title}
+                  <span className="sr-only"> — read the article</span>
+                </Link>
+              ) : (
+                title
+              )}
             </h2>
-            {excerpt ? (
+            {!isCompact && excerpt ? (
               <div className="line-clamp-3 text-pretty">
                 <Typography size="sm" asChild>
                   <p className="text-[var(--fg-secondary)]">{excerpt}</p>
                 </Typography>
               </div>
             ) : null}
-            {href ? (
+            {!isCompact && href ? (
               <>
                 <div className="h-2 shrink-0" aria-hidden />
                 <div className="min-h-0 flex-1" aria-hidden />

@@ -27,6 +27,7 @@ export * from "./public-event";
 export * from "./section";
 export * from "./similar-articles";
 export * from "./snippet";
+export * from "./status-band";
 export * from "./surface";
 export * from "./table-of-contents";
 export * from "./ticker";

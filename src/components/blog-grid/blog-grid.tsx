@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { FC } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-import { BlogCard } from "@/components/blog-card";
+import { BlogCard, type BlogCardDensity } from "@/components/blog-card";
 import { Button } from "@/components/button";
 import { Typography } from "@/components/typography";
 import {
@@ -21,6 +21,12 @@ type BlogGridProps = {
   stories: BlogStory[];
   pagination: BlogArchivePagination;
   pathname: string;
+  /** `compact` renders trimmed cards (short cover, no dek) for teaser contexts like the home page. */
+  density?: BlogCardDensity;
+  /** Hide the pagination nav (teaser contexts show a "View all" link instead). */
+  hidePagination?: boolean;
+  /** When set, renders a "View all" link to the blog index below the grid. */
+  viewAllHref?: string;
 };
 
 const getVisiblePages = (
@@ -41,7 +47,11 @@ export const BlogGrid: FC<BlogGridProps> = ({
   stories,
   pagination,
   pathname,
+  density = "default",
+  hidePagination = false,
+  viewAllHref,
 }) => {
+  const isCompact = density === "compact";
   const visiblePages = getVisiblePages(
     pagination.page,
     pagination.totalPages,
@@ -78,15 +88,27 @@ export const BlogGrid: FC<BlogGridProps> = ({
                 imageLoading={index < 3 ? "eager" : "lazy"}
                 imageFetchPriority={index === 0 ? "high" : "auto"}
                 category={getDefaultStoryCategory(story) ?? undefined}
+                density={density}
               />
             );
           })}
         </section>
       )}
 
-      {pagination.totalPages > 1 ? (
+      {viewAllHref ? (
+        <div className="mt-8 flex justify-center lg:mt-10">
+          <Button asChild variant="dark">
+            <Link href={viewAllHref}>
+              View all posts
+              <FaArrowRight aria-hidden className="size-3" />
+            </Link>
+          </Button>
+        </div>
+      ) : null}
+
+      {!hidePagination && !isCompact && pagination.totalPages > 1 ? (
         <nav
-          className="flex w-full flex-wrap items-center justify-center gap-4 border-t-[3px] border-[var(--fg-primary)] px-6 py-12 md:px-20"
+          className="mt-16 flex w-full flex-wrap items-center justify-center gap-4 border-t-[3px] border-[var(--fg-primary)] px-6 py-12 md:mt-20 md:px-20"
           aria-label="Pagination"
         >
           {pagination.hasPrevious ? (

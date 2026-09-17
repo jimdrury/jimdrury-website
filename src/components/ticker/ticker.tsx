@@ -7,15 +7,6 @@ import { cn } from "@/lib/utils";
 /** Separator accent colours (Pencil Marquee Banner cycle). */
 const STAR_COLORS = ["#FFE156", "#FF6B6B", "#7ED957", "#A8D8EA"] as const;
 
-/** Stable keys for repeated strips at `lg+` (order never changes). */
-const LARGE_SCREEN_STRIP_KEYS = [
-  "ticker-strip-a",
-  "ticker-strip-b",
-  "ticker-strip-c",
-  "ticker-strip-d",
-  "ticker-strip-e",
-] as const;
-
 export type TickerItemSlot = {
   id: string;
   node: ReactNode;
@@ -25,17 +16,9 @@ export interface TickerProps extends ComponentPropsWithoutChildren<"div"> {
   items: TickerItemSlot[];
 }
 
-/**
- * Horizontal ticker: one CMS-authored word list; at `lg+` the sequence repeats
- * horizontally (extra strips are `aria-hidden`). No animation.
- */
-export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
-  if (items.length === 0) {
-    return null;
-  }
-
-  const sequence = items.map(({ id, node }, index) => (
-    <Fragment key={id}>
+const renderSequence = (items: TickerItemSlot[], keyPrefix: string) =>
+  items.map(({ id, node }, index) => (
+    <Fragment key={`${keyPrefix}-${id}`}>
       {node}
       <FaStar
         aria-hidden
@@ -45,27 +28,30 @@ export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
     </Fragment>
   ));
 
+/**
+ * Horizontal ticker. Animates an infinite marquee with edge fade so words are
+ * not clipped mid-glyph. Under `prefers-reduced-motion`, shows a wrapping
+ * static row with no animation.
+ */
+export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
+  if (items.length === 0) {
+    return null;
+  }
+
   const stripClass = "flex shrink-0 flex-nowrap items-center gap-4 lg:gap-12";
 
   return (
     <div
       className={cn(
-        "overflow-hidden bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
+        "ticker-fade overflow-hidden bg-[var(--fg-primary)] text-[var(--fg-inverse)] motion-reduce:overflow-visible",
         className,
       )}
       {...props}
     >
-      <div className="overflow-x-auto px-4 py-3 lg:overflow-x-hidden lg:px-12 lg:py-4">
-        <div className="flex w-max flex-nowrap items-center gap-4 lg:w-auto lg:gap-12">
-          {LARGE_SCREEN_STRIP_KEYS.map((stripKey, copyIndex) => (
-            <div
-              key={stripKey}
-              aria-hidden={copyIndex > 0 ? true : undefined}
-              className={cn(stripClass, copyIndex > 0 && "hidden lg:flex")}
-            >
-              {sequence}
-            </div>
-          ))}
+      <div className="ticker-track flex w-max items-center gap-4 py-3 lg:gap-12 lg:py-4 motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-x-4 motion-reduce:gap-y-2 motion-reduce:px-4 motion-reduce:py-3">
+        <div className={stripClass}>{renderSequence(items, "ticker-a")}</div>
+        <div aria-hidden className={cn(stripClass, "motion-reduce:hidden")}>
+          {renderSequence(items, "ticker-b")}
         </div>
       </div>
     </div>

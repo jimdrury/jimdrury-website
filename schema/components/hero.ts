@@ -1,4 +1,9 @@
-import { asset, blocks, nestable } from "@jimdrury/storyblok-component-schema";
+import {
+  asset,
+  blocks,
+  nestable,
+  option,
+} from "@jimdrury/storyblok-component-schema";
 import badge from "./badge";
 import rich_text from "./rich_text";
 import typography from "./typography";
@@ -31,7 +36,16 @@ export default nestable({
     asset({
       name: "portrait",
       filetypes: ["images"],
-      required: true,
+    }),
+    option({
+      name: "density",
+      description:
+        "Compact reduces the display scale and padding so the hero and following CTAs fit above the fold (used on the home page).",
+      default_value: "default",
+      options: [
+        { name: "Default", value: "default" },
+        { name: "Compact", value: "compact" },
+      ],
     }),
   ],
 });

@@ -103,4 +103,29 @@ describe("BlogCard", () => {
 
     expect(screen.queryByText("Design")).toBeNull();
   });
+
+  it("compact density drops the dek and read-more button", () => {
+    render(
+      <BlogCard
+        title="Compact Post"
+        href="/blog/compact"
+        excerpt="A short summary"
+        density="compact"
+      />,
+    );
+
+    expect(screen.queryByText("A short summary")).toBeNull();
+    expect(screen.queryByRole("link", { name: /Read more about/i })).toBeNull();
+  });
+
+  it("compact density makes the whole card a single title link", () => {
+    render(
+      <BlogCard title="Compact Post" href="/blog/compact" density="compact" />,
+    );
+
+    const links = screen.getAllByRole("link");
+    expect(links).toHaveLength(1);
+    expect(links[0]).toHaveAttribute("href", "/blog/compact");
+    expect(links[0]).toHaveAccessibleName(/Compact Post/);
+  });
 });
