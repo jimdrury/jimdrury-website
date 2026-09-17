@@ -27,6 +27,10 @@ describe("buildContentSecurityPolicy", () => {
   it("is applied from next.config headers", async () => {
     const nextConfig = (await import("../../next.config")).default;
     const headers = await nextConfig.headers?.();
+    const sources = headers?.map((entry) => entry.source);
+
+    expect(sources).toEqual(["/", "/:path*"]);
+
     const csp = headers
       ?.flatMap((entry) => entry.headers)
       .find((header) => header.key === "Content-Security-Policy");
