@@ -4,8 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - "components/**"
+      - "schema/**"
       - ".component-schema.yaml"
+      - ".github/workflows/component-schema.yml"
   workflow_dispatch:
 
 permissions:
