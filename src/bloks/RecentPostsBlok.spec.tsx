@@ -118,6 +118,12 @@ describe("RecentPostsBlok", () => {
       "href",
       "/blog",
     );
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
+    ).toHaveClass("text-[36px]", "font-bold");
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
+    ).not.toHaveClass("text-[48px]", "uppercase");
   });
 
   it("returns null when there are no categorized articles", async () => {

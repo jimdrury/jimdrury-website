@@ -15,7 +15,10 @@ describe("Accolades", () => {
     );
     expect(
       screen.getByRole("heading", { level: 2, name: "Accolades" }),
-    ).toHaveClass("uppercase");
+    ).toHaveClass("text-[36px]", "font-bold");
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Accolades" }),
+    ).not.toHaveClass("text-[48px]", "uppercase");
     expect(screen.getByText("Storyblok MVP 2025")).toBeInTheDocument();
   });
 
