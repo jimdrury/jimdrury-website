@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getSafeHref } from "@/lib/assert-safe-href";
 import {
   formatStoryDate,
   getDefaultStoryCategory,
@@ -111,7 +112,7 @@ const applyTextMarks = (
     }
 
     if (mark.type === "link") {
-      const href = getString(mark.attrs?.href);
+      const href = getSafeHref(getString(mark.attrs?.href));
       if (href) {
         output = `[${output}](${href})`;
       }
