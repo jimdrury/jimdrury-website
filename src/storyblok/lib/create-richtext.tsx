@@ -5,6 +5,7 @@ import {
 } from "@storyblok/js";
 import type { FC, ReactElement, ReactNode } from "react";
 import { Children, createElement, Fragment, isValidElement } from "react";
+import { getSafeHref } from "@/lib/assert-safe-href";
 import { normalizeRichTextLists } from "./normalize-richtext-lists";
 import type { SbBlokData } from "./types";
 
@@ -57,13 +58,38 @@ const toCamelCase = (value: string): string => {
   );
 };
 
+const ALLOWED_STYLE_PROPERTIES = new Set([
+  "color",
+  "background-color",
+  "font-size",
+  "font-weight",
+  "font-style",
+  "text-align",
+  "text-decoration",
+  "text-decoration-line",
+  "letter-spacing",
+  "line-height",
+]);
+
+const UNSAFE_STYLE_VALUE_PATTERN =
+  /url\s*\(|expression\s*\(|javascript:|vbscript:|behavior:|@import|-moz-binding/i;
+
 const parseStyle = (value: string): Record<string, string> => {
   return value.split(";").reduce<Record<string, string>>((styles, entry) => {
-    const [rawKey, rawValue] = entry.split(":");
-    const key = rawKey?.trim();
-    const styleValue = rawValue?.trim();
+    const separatorIndex = entry.indexOf(":");
+    if (separatorIndex === -1) {
+      return styles;
+    }
 
-    if (!key || !styleValue) {
+    const key = entry.slice(0, separatorIndex).trim().toLowerCase();
+    const styleValue = entry.slice(separatorIndex + 1).trim();
+
+    if (
+      !key ||
+      !styleValue ||
+      !ALLOWED_STYLE_PROPERTIES.has(key) ||
+      UNSAFE_STYLE_VALUE_PATTERN.test(styleValue)
+    ) {
       return styles;
     }
 
@@ -72,6 +98,35 @@ const parseStyle = (value: string): Record<string, string> => {
     return styles;
   }, {});
 };
+
+const parseStyleObject = (
+  value: Record<string, unknown>,
+): Record<string, string> => {
+  return Object.entries(value).reduce<Record<string, string>>(
+    (styles, [rawKey, rawValue]) => {
+      if (typeof rawValue !== "string") {
+        return styles;
+      }
+
+      const key = rawKey
+        .replace(/[A-Z]/g, (character) => `-${character.toLowerCase()}`)
+        .toLowerCase();
+
+      if (
+        !ALLOWED_STYLE_PROPERTIES.has(key) ||
+        UNSAFE_STYLE_VALUE_PATTERN.test(rawValue)
+      ) {
+        return styles;
+      }
+
+      styles[toCamelCase(key)] = rawValue.trim();
+      return styles;
+    },
+    {},
+  );
+};
+
+export { parseStyle };
 
 const attributeMap: Record<string, string> = {
   allowfullscreen: "allowFullScreen",
@@ -104,7 +159,59 @@ const attributeMap: Record<string, string> = {
   usemap: "useMap",
 };
 
+const sanitizeRenderProps = (
+  props: Record<string, unknown> | null | undefined,
+): Record<string, unknown> | null | undefined => {
+  if (!props) {
+    return props;
+  }
+
+  const nextProps: Record<string, unknown> = { ...props };
+
+  for (const hrefKey of ["href", "xlinkHref"] as const) {
+    if (!(hrefKey in nextProps)) {
+      continue;
+    }
+
+    const safeHref =
+      typeof nextProps[hrefKey] === "string"
+        ? getSafeHref(nextProps[hrefKey])
+        : undefined;
+
+    if (safeHref) {
+      nextProps[hrefKey] = safeHref;
+    } else {
+      delete nextProps[hrefKey];
+    }
+  }
+
+  if (
+    typeof nextProps.style === "string" ||
+    nextProps.style instanceof String
+  ) {
+    nextProps.style = parseStyle(String(nextProps.style));
+  } else if (nextProps.style && typeof nextProps.style === "object") {
+    nextProps.style = parseStyleObject(
+      nextProps.style as Record<string, unknown>,
+    );
+  }
+
+  return nextProps;
+};
+
+const renderRichTextElement = (
+  type: Parameters<typeof createElement>[0],
+  props: Record<string, unknown> | null,
+  ...children: ReactNode[]
+) => {
+  return createElement(type, sanitizeRenderProps(props), ...children);
+};
+
 const normalizeElementAttributes = (node: ReactNode): ReactNode => {
+  if (Array.isArray(node)) {
+    return node.map((child) => normalizeElementAttributes(child));
+  }
+
   if (!isValidElement(node)) {
     return node;
   }
@@ -118,11 +225,26 @@ const normalizeElementAttributes = (node: ReactNode): ReactNode => {
     const lowerKey = trimmedKey.toLowerCase();
     const normalizedKey = attributeMap[lowerKey] ?? trimmedKey;
 
+    if (normalizedKey === "style") {
+      if (typeof propValue === "string" || propValue instanceof String) {
+        propValue = parseStyle(String(propValue));
+      } else if (propValue && typeof propValue === "object") {
+        propValue = parseStyleObject(propValue as Record<string, unknown>);
+      }
+    }
+
     if (
-      normalizedKey === "style" &&
-      (typeof propValue === "string" || propValue instanceof String)
+      (normalizedKey === "href" || normalizedKey === "xlinkHref") &&
+      typeof propValue === "string"
     ) {
-      propValue = parseStyle(String(propValue));
+      const safeHref = getSafeHref(propValue);
+
+      if (!safeHref) {
+        return result;
+      }
+
+      result[normalizedKey] = safeHref;
+      return result;
     }
 
     result[normalizedKey] = propValue;
@@ -143,7 +265,7 @@ export const createRichText = (
   const RichText: FC<RichTextProps> = ({ doc }) => {
     const normalizedDoc = normalizeRichTextLists(normalizeRichTextNode(doc));
     const resolver = richTextResolver<ReactElement>({
-      renderFn: createElement,
+      renderFn: renderRichTextElement,
       textFn: (text) => (
         <Fragment key={`rt-${text}`}>{normalizeRichTextText(text)}</Fragment>
       ),

@@ -24,7 +24,7 @@ Next.js 16 personal website with Storyblok CMS. Single-package repo using Yarn 4
 
 - **Corepack** must be enabled (`corepack enable`) before any `yarn` command.
 - **`GITHUB_TOKEN`** env var is needed for `yarn install` because `@jimdrury/*` packages resolve from `npm.pkg.github.com` (see `.yarnrc.yml`).
-- **`STORYBLOK_ACCESS_TOKEN`** and **`STORYBLOK_SPACE_ID`** must be in `.env.local` for the dev server to start. Create `.env.local` from the env vars before running `yarn dev`.
+- **`STORYBLOK_ACCESS_TOKEN`**, **`STORYBLOK_SPACE_ID`**, and **`STORYBLOK_WEBHOOK_SECRET`** must be in `.env.local` for the dev server to start. Create `.env.local` from the env vars before running `yarn dev`.
 
 ### Common commands
 
@@ -40,5 +40,5 @@ See `package.json` scripts. Key ones:
 ### Gotchas
 
 - `yarn dev` uses `--experimental-https` and generates a self-signed cert on first run into `certificates/`. Browsers will show a security warning; accept it.
-- The `.env.local` file is git-ignored. If the dev server fails at startup with a Zod validation error about `STORYBLOK_ACCESS_TOKEN`, the file is missing or incomplete.
+- The `.env.local` file is git-ignored. If the dev server fails at startup with a Zod validation error about `STORYBLOK_ACCESS_TOKEN` or `STORYBLOK_WEBHOOK_SECRET`, the file is missing or incomplete.
 - `lefthook` is installed via `yarn prepare` (postinstall hook). Git hooks run Biome on staged files and commitlint on commit messages.

@@ -1,12 +1,13 @@
 import "server-only";
 import { type FC, Fragment } from "react";
-import slugify from "slugify";
 import { Typography } from "@/components/typography";
 import {
   isTypographySize,
   type TypographySize,
 } from "@/components/typography/typography-size";
+import { getCurrentStory } from "@/lib/current-story-context";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
+import { getTypographyHeadingIdByUid } from "@/storyblok/table-of-contents";
 
 type TypographyTag = "p" | "h1" | "h2" | "h3" | "h4";
 
@@ -67,24 +68,24 @@ const normalizeTypographyLineBreaks = (value: string): string =>
 
 const getHeadingIdFromBlok = ({
   tag,
+  uid,
   content,
 }: {
   tag: TypographyTag;
+  uid?: string;
   content: string;
 }): string | undefined => {
-  if (tag !== "h1" && tag !== "h2" && tag !== "h3") {
+  if (tag === "p") {
     return undefined;
   }
 
-  const slugSource = normalizeTypographyLineBreaks(content)
-    .replace(/\s+/g, " ")
-    .trim();
-
-  return slugify(slugSource, {
-    lower: true,
-    strict: true,
-    trim: true,
+  const headingId = getTypographyHeadingIdByUid({
+    uid,
+    story: getCurrentStory(),
+    content,
   });
+
+  return headingId.length > 0 ? headingId : undefined;
 };
 
 export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
@@ -101,6 +102,7 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
   const lines = normalizedContent.split("\n");
   const headingId = getHeadingIdFromBlok({
     tag: Tag,
+    uid: typeof blok._uid === "string" ? blok._uid : undefined,
     content: blok.content,
   });
 
@@ -118,11 +120,7 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok }) => {
       size={typographySize}
       textTransform={textTransform}
     >
-      <Tag
-        id={headingId}
-        tabIndex={headingId ? -1 : undefined}
-        className={headingId ? "scroll-mt-20" : undefined}
-      >
+      <Tag id={headingId} tabIndex={headingId ? -1 : undefined}>
         {lines.map((line, index) => (
           // Line order comes from CMS text; index is stable for this static content.
           // biome-ignore lint/suspicious/noArrayIndexKey: keyed by position within blok content

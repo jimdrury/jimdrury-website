@@ -12,7 +12,8 @@ const DRAFT_COOKIE_MAX_AGE_SECONDS = 2 * 60;
 const CURRENT_PREVIEW_MODE_ID = process.env.__NEXT_PREVIEW_MODE_ID;
 
 const GET = async (request: Request) => {
-  const { searchParams } = new URL(request.url);
+  const requestUrl = new URL(request.url);
+  const { searchParams } = requestUrl;
 
   const tk = getStoryblokToken(searchParams);
   if (!tk) {
@@ -29,7 +30,10 @@ const GET = async (request: Request) => {
     );
   }
 
-  const returnToPath = getSafeReturnTo(searchParams.get("returnTo"));
+  const returnToPath = getSafeReturnTo(
+    searchParams.get("returnTo"),
+    requestUrl.origin,
+  );
   const forwardedParams = stripStoryblokParams(searchParams);
   const returnTo =
     forwardedParams.size > 0

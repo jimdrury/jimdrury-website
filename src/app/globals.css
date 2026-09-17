@@ -7,6 +7,9 @@
 }
 
 :root {
+  /* Matches the compact header (py-3 + CTA/logo) before JS measures it. */
+  --header-height: 4.25rem;
+
   /* Surfaces (Pencil neo_pencil.pen) */
   --bg-primary: #fffdf5;
   --bg-secondary: #f5f0e1;
@@ -109,8 +112,16 @@
   }
 }
 
+@media (min-width: 640px) {
+  :root {
+    /* Matches sm+ header (py-5 + taller CTA) before JS measures it. */
+    --header-height: 5.75rem;
+  }
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
 }
 
 body {

@@ -38,7 +38,36 @@ const buildStory = (): BlogStory => {
             content: [
               {
                 type: "paragraph",
-                content: [{ type: "text", text: "Paragraph text." }],
+                content: [
+                  {
+                    type: "text",
+                    text: "Paragraph text.",
+                  },
+                  {
+                    type: "text",
+                    text: "Safe link",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://example.com/docs",
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    type: "text",
+                    text: "Unsafe link",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "javascript:alert(1)",
+                        },
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 type: "bullet_list",
@@ -86,6 +115,9 @@ describe("renderArticleMarkdown", () => {
     expect(markdown).toContain('  - "nextjs"');
     expect(markdown).toContain("## Section title");
     expect(markdown).toContain("Paragraph text.");
+    expect(markdown).toContain("[Safe link](https://example.com/docs)");
+    expect(markdown).toContain("Unsafe link");
+    expect(markdown).not.toContain("javascript:");
     expect(markdown).toContain("- Item one");
     expect(markdown).toContain("_Example code_");
     expect(markdown).toContain("```js\nconsole.log('hello')\n```");

@@ -20,6 +20,7 @@ import {
 } from "@/components/header";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
+import { HeaderHeight } from "./_components/header-height/header-height";
 import { getCurrentYear } from "./_helpers/get-current-year";
 import "./globals.css";
 
@@ -82,7 +83,7 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
       className={`${inter.variable} ${anton.variable} ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
     >
       <body className="flex min-h-screen flex-col">
-        <Header>
+        <Header data-site-header="">
           <HeaderLogo asChild>
             <Link href="/">JIMDRURY.</Link>
           </HeaderLogo>
@@ -92,6 +93,7 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
             </Suspense>
           </HeaderNav>
         </Header>
+        <HeaderHeight />
         <main className="flex-1">{children}</main>
         <SiteFooter currentYear={currentYear} />
         <DraftModeRefresh isEnabled={isEnabled} />

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import {
   getTableOfContentsHeadingsFromBloks,
+  getTypographyHeadingId,
   getTypographyHeadingIdByUid,
 } from "./table-of-contents";
 
@@ -20,7 +21,13 @@ const createStory = (
 };
 
 describe("storyblok-table-of-contents", () => {
-  it("creates text-based slugs for h2 and h3 headings", () => {
+  it("slugs ampersands with github-slugger, not collapsed hyphens", () => {
+    expect(getTypographyHeadingId("Install & Configure")).toBe(
+      "install--configure",
+    );
+  });
+
+  it("creates text-based slugs for h2, h3, and h4 headings", () => {
     const headings = getTableOfContentsHeadingsFromBloks([
       {
         component: "typography",
@@ -40,6 +47,12 @@ describe("storyblok-table-of-contents", () => {
         as: "h3",
         content: "Install & Configure",
       },
+      {
+        component: "typography",
+        _uid: "uid-h4",
+        as: "h4",
+        content: "Caveats",
+      },
     ]);
 
     expect(headings).toEqual([
@@ -54,6 +67,12 @@ describe("storyblok-table-of-contents", () => {
         id: "install--configure",
         level: "h3",
         text: "Install & Configure",
+      },
+      {
+        uid: "uid-h4",
+        id: "caveats",
+        level: "h4",
+        text: "Caveats",
       },
     ]);
   });
@@ -110,5 +129,24 @@ describe("storyblok-table-of-contents", () => {
         content: "Overview",
       }),
     ).toBe("overview-1");
+  });
+
+  it("resolves h4 heading ids by uid", () => {
+    const story = createStory([
+      {
+        component: "typography",
+        _uid: "uid-h4",
+        as: "h4",
+        content: "Caveats",
+      },
+    ]);
+
+    expect(
+      getTypographyHeadingIdByUid({
+        uid: "uid-h4",
+        story,
+        content: "Caveats",
+      }),
+    ).toBe("caveats");
   });
 });

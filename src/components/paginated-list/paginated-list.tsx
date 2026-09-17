@@ -1,8 +1,9 @@
 "use client";
 
-import { Children, type FC, type ReactNode, useState } from "react";
+import { Children, type FC, type ReactNode, useRef, useState } from "react";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
+import { scrollBelowStickyHeader } from "./scroll-below-sticky-header";
 
 export interface PaginatedListProps
   extends ComponentPropsWithoutChildren<"div"> {
@@ -16,9 +17,18 @@ export const PaginatedList: FC<PaginatedListProps> = ({
   className,
   ...props
 }) => {
+  const listRef = useRef<HTMLDivElement>(null);
   const items = Children.toArray(children);
   const totalPages = Math.ceil(items.length / pageSize);
   const [currentPage, setCurrentPage] = useState(0);
+
+  const goToPage = (pageIndex: number) => {
+    setCurrentPage(pageIndex);
+    const list = listRef.current;
+    if (list) {
+      scrollBelowStickyHeader(list);
+    }
+  };
 
   if (items.length === 0) {
     return null;
@@ -36,7 +46,7 @@ export const PaginatedList: FC<PaginatedListProps> = ({
   const canGoNext = currentPage < totalPages - 1;
 
   return (
-    <div className={className} {...props}>
+    <div className={className} {...props} ref={listRef}>
       {Array.from({ length: totalPages }, (_, i) => i).map((pageIndex) => (
         <div
           key={`page-group-${pageIndex}`}
@@ -53,7 +63,7 @@ export const PaginatedList: FC<PaginatedListProps> = ({
         <button
           type="button"
           disabled={!canGoPrev}
-          onClick={() => setCurrentPage((p) => p - 1)}
+          onClick={() => goToPage(currentPage - 1)}
           aria-label="Previous page"
           className={cn(
             "inline-flex size-11 items-center justify-center rounded-lg border-[3px] border-[var(--fg-primary)] font-bold shadow-[4px_4px_0_0_var(--fg-primary)] transition-[background-color,box-shadow] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-2 focus-visible:focus-ring-sm",
@@ -69,7 +79,7 @@ export const PaginatedList: FC<PaginatedListProps> = ({
           <button
             key={`page-${pageIndex}`}
             type="button"
-            onClick={() => setCurrentPage(pageIndex)}
+            onClick={() => goToPage(pageIndex)}
             aria-label={`Page ${pageIndex + 1}`}
             aria-current={pageIndex === currentPage ? "page" : undefined}
             className={cn(
@@ -86,7 +96,7 @@ export const PaginatedList: FC<PaginatedListProps> = ({
         <button
           type="button"
           disabled={!canGoNext}
-          onClick={() => setCurrentPage((p) => p + 1)}
+          onClick={() => goToPage(currentPage + 1)}
           aria-label="Next page"
           className={cn(
             "inline-flex size-11 items-center justify-center rounded-lg border-[3px] border-[var(--fg-primary)] font-bold shadow-[4px_4px_0_0_var(--fg-primary)] transition-[background-color,box-shadow] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-2 focus-visible:focus-ring-sm",

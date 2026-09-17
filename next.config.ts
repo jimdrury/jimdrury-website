@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import { buildContentSecurityPolicy } from "./src/lib/content-security-policy";
+
+const contentSecurityPolicy = buildContentSecurityPolicy({
+  isDevelopment: process.env.NODE_ENV === "development",
+});
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -13,6 +18,19 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   experimental: {
     serverComponentsHmrCache: false,
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: contentSecurityPolicy,
+          },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [
