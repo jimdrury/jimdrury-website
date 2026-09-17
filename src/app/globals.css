@@ -58,6 +58,12 @@
   line-height: 1;
 }
 
+.prose :not(pre) > code strong,
+.prose :not(pre) > code em,
+.prose :not(pre) > code * {
+  color: inherit;
+}
+
 html {
   scroll-behavior: smooth;
 }
