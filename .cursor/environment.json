@@ -1,0 +1,12 @@
+{
+  "name": "jimdrury-website",
+  "user": "ubuntu",
+  "install": "corepack enable && yarn install --immutable",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "corepack enable >/dev/null 2>&1 || true; yarn dev"
+    }
+  ],
+  "ports": [3000]
+}
