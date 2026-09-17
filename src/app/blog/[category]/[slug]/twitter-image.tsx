@@ -13,7 +13,7 @@ import {
   socialImageContentType,
   socialImageSize,
   toSocialImagePayload,
-} from "./_components/social-image";
+} from "./_components/social-image/social-image";
 
 export const alt = socialImageAlt;
 export const size = socialImageSize;

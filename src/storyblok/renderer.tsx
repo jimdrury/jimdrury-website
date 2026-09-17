@@ -13,6 +13,8 @@ import { FeatureBlok } from "@/bloks/FeatureBlok";
 import { GridBlok } from "@/bloks/GridBlok";
 import { GridItemBlok } from "@/bloks/GridItemBlok";
 import { HeroBlok } from "@/bloks/HeroBlok";
+import { HomeCTAsBlok } from "@/bloks/HomeCTAsBlok";
+import { HomeHeroBlok } from "@/bloks/HomeHeroBlok";
 import { ImageBlok } from "@/bloks/ImageBlok";
 import { MediaVideoLinkBlok } from "@/bloks/MediaVideoLinkBlok";
 import { PageBlok } from "@/bloks/PageBlok";
@@ -20,6 +22,7 @@ import { PageHeaderBlok } from "@/bloks/PageHeaderBlok";
 import { PromptBlok } from "@/bloks/PromptBlok";
 import { PublicEventBlok } from "@/bloks/PublicEventBlok";
 import { PublicEventsBlok } from "@/bloks/PublicEventsBlok";
+import { RecentPostsBlok } from "@/bloks/RecentPostsBlok";
 import { RichTextBlok } from "@/bloks/RichTextBlok";
 import { SectionBlok } from "@/bloks/SectionBlok";
 import { SimilarArticlesBlok } from "@/bloks/SimilarArticlesBlok";
@@ -50,10 +53,13 @@ export const BlokRenderer = createBlokRenderer({
   grid: GridBlok,
   grid_item: GridItemBlok,
   hero: HeroBlok,
+  home_ctas: HomeCTAsBlok,
+  home_hero: HomeHeroBlok,
   image: ImageBlok,
   media_video_link: MediaVideoLinkBlok,
   page: PageBlok,
   page_header: PageHeaderBlok,
+  recent_posts: RecentPostsBlok,
   prompt: PromptBlok,
   public_event: PublicEventBlok,
   public_events: PublicEventsBlok,

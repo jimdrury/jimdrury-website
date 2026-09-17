@@ -15,7 +15,7 @@ Apply one canonical authoring style for App Router entry files in this repositor
 - `src/app/**/layout.tsx`
 - `src/app/**/template.tsx` (when present)
 - metadata exports in those files (`metadata`, `generateMetadata`)
-- route-local files in `src/app/**/_components`
+- route-local files in `src/app/**/_components` and `src/app/**/_helpers`
 
 ## Non-negotiable rules
 
@@ -27,7 +27,7 @@ Apply one canonical authoring style for App Router entry files in this repositor
 6. Dynamic routes export `generateStaticParams` with every published path so Cache Components can prerender them. Do not wrap page content in `<Suspense>` to unlock params; that produces a streaming shell instead of blocking ISR.
 7. `generateStaticParams` must return at least one real param. Unknown paths still generate on demand (`dynamicParams` defaults to `true`).
 8. Route entry component names are fixed by file convention: use `const Page` in `page.tsx` and `const Layout` in `layout.tsx`.
-9. Route-specific UI used by a colocated `_components/render.tsx` stays in that route `_components` folder and is imported with relative paths. `_components/render.tsx` is a server component and must include `import "server-only"`.
+9. Route-specific UI used by a colocated `_components/render/render.tsx` stays in that route `_components/<name>/` folder and is imported with relative paths. `_components/render/render.tsx` is a server component and must include `import "server-only"`. Route-local helpers belong in `_helpers/`.
 
 ## Canonical typing rule
 
@@ -63,19 +63,20 @@ Key constraints:
 With `cacheComponents` enabled, this site prerenders published pages (ISR / incremental static generation):
 
 - Export `generateStaticParams` from every dynamic `page.tsx`.
-- Await `params` in the page or colocated `_components/render.tsx`. Known params resolve at prerender time, so no page-level `<Suspense>` is required.
+- Await `params` in the page or colocated `_components/render/render.tsx`. Known params resolve at prerender time, so no page-level `<Suspense>` is required.
 - Cache Storyblok reads with `"use cache"` and `cacheLife` / `cacheTag`.
 - `draftMode()` is allowed at the top of a page. During prerender it is off; draft requests render dynamically.
 - Do not await `searchParams` in page content. Query strings are request-only and would block prerender. Encode paginated or filtered views in the path and include those paths in `generateStaticParams`.
 - Do not call `connection()` on prerendered pages.
 
-`page.tsx` stays the route entry. Keep async Storyblok work in `_components/render.tsx` when the file would otherwise get large.
+`page.tsx` stays the route entry. Keep async Storyblok work in `_components/render/render.tsx` when the file would otherwise get large.
 
 Required placement for CMS routes:
 
 - `src/app/**/page.tsx` — `generateStaticParams`, metadata, default `Page`
-- `src/app/**/_components/render.tsx` — async server body (`import "server-only"`)
-- Route-specific UI used by `render.tsx`: `src/app/**/_components/*.tsx`
+- `src/app/**/_components/render/render.tsx` — async server body (`import "server-only"`)
+- Route-specific UI used by `render.tsx`: `src/app/**/_components/<name>/`
+- Route-local data helpers: `src/app/**/_helpers/`
 
 Rationale:
 
@@ -101,11 +102,11 @@ Add `"use client"` only when at least one is true:
 - Handles events directly in that file
 
 If client behavior is isolated, prefer moving it to a child client component instead of making the entire route entry file client-side.
-`_components/render.tsx` remains a server component.
+`_components/render/render.tsx` remains a server component.
 
 ## Runtime API conventions with Cache Components
 
-- Await `params` in `page.tsx` or `_components/render.tsx` after exporting `generateStaticParams`.
+- Await `params` in `page.tsx` or `_components/render/render.tsx` after exporting `generateStaticParams`.
 - Do not await `searchParams` for prerendered pages.
 - It is valid to `await draftMode()` and branch on `isEnabled` for preview behavior.
 - Keep page.tsx focused on `generateStaticParams`, metadata, and composing `<Render />`.
@@ -160,9 +161,9 @@ Task Progress:
 - [ ] Implement arrow-function component typed with FC<PageProps<"...">>
 - [ ] Export default at bottom of file
 - [ ] For dynamic routes, export generateStaticParams with at least one real published path
-- [ ] Await params in Page or _components/render.tsx (no page-level Suspense)
-- [ ] If the page body is non-trivial, colocate _components/render.tsx with import "server-only"
-- [ ] Colocate route-specific UI used by render.tsx in the same _components folder
+- [ ] Await params in Page or _components/render/render.tsx (no page-level Suspense)
+- [ ] If the page body is non-trivial, colocate _components/render/render.tsx with import "server-only"
+- [ ] Colocate route-specific UI used by render.tsx in `_components/<name>/` and helpers in `_helpers/`
 - [ ] Do not await searchParams; put pagination/filters in the path when they must be static
 - [ ] Add metadata or generateMetadata with route-aware typing when needed
 - [ ] Validate server/client boundary
@@ -177,8 +178,8 @@ Task Progress:
 - [ ] React types are explicitly imported.
 - [ ] Dynamic routes export non-empty `generateStaticParams`.
 - [ ] Page content is not wrapped in `<Suspense>` or `loading.tsx` solely to read `params`.
-- [ ] `_components/render.tsx` (when present) includes `import "server-only"`.
-- [ ] Route-specific components used by `render.tsx` are colocated in the same `_components` folder and imported relatively.
+- [ ] `_components/render/render.tsx` (when present) includes `import "server-only"`.
+- [ ] Route-specific components used by `render.tsx` are colocated in `_components/<name>/` and imported relatively.
 - [ ] `searchParams` are not awaited on prerendered pages.
 - [ ] Metadata exports are correctly typed and colocated.
 - [ ] `"use client"` is only present when required.

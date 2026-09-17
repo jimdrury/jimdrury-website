@@ -1,0 +1,47 @@
+---
+description: Do not mix Tailwind classes and CSS modules in the same component
+alwaysApply: true
+---
+
+# CSS Modules and Tailwind
+
+Each component uses **one** styling system. Do not mix Tailwind utility
+classes with CSS module classes in the same component.
+
+## Allowed utilities
+
+- `sr-only`
+
+## CSS modules only
+
+If the component imports a `.module.css` file, every `className` must come
+from that module or from the allowed utilities list.
+
+```tsx
+import styles from "./colour-picker.module.css";
+
+<fieldset className={styles["colour-picker"]}>
+  <legend className="sr-only">Available colours</legend>
+</fieldset>
+```
+
+```tsx
+// ❌ BAD — Tailwind layout/typography mixed with a CSS module
+import styles from "./product-details.module.css";
+
+<div className={styles["product-details"]}>
+  <h1 className="text-2xl m-0">{title}</h1>
+</div>
+```
+
+Move those styles into the module instead of adding Tailwind classes.
+
+## Tailwind only
+
+If the component does not import a CSS module, style it with Tailwind
+classes only. Do not add a `.module.css` file to sprinkle a few custom
+rules.
+
+```tsx
+<div className="py-12 grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4">
+```

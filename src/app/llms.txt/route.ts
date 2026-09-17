@@ -45,7 +45,7 @@ const LLMSTXT_CONTENT = [
   "",
 ].join("\n");
 
-export const GET = async () => {
+const GET = async () => {
   return new Response(LLMSTXT_CONTENT, {
     headers: {
       "content-type": "text/plain; charset=utf-8",
@@ -53,3 +53,5 @@ export const GET = async () => {
     },
   });
 };
+
+export { GET };

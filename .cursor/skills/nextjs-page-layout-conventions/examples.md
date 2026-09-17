@@ -7,7 +7,7 @@
 ```ts
 import type { FC } from "react";
 
-import { Render } from "./_components/render";
+import { Render } from "./_components/render/render";
 
 export const generateStaticParams = async () => {
   return [{ slug: "hello-world" }];
@@ -20,7 +20,7 @@ const Page: FC<PageProps<"/blog/[slug]">> = ({ params }) => {
 export default Page;
 ```
 
-`src/app/blog/[slug]/_components/render.tsx`
+`src/app/blog/[slug]/_components/render/render.tsx`
 
 ```ts
 import "server-only";
@@ -60,7 +60,7 @@ export default Page;
 ```ts
 import type { FC } from "react";
 
-import { Render } from "./_components/render";
+import { Render } from "./_components/render/render";
 
 export const generateStaticParams = async () => {
   return [{ slug: "hello-world" }];
@@ -78,7 +78,7 @@ export default Page;
 ```ts
 import type { FC } from "react";
 
-import { Render } from "./_components/render";
+import { Render } from "./_components/render/render";
 
 export const generateStaticParams = async () => {
   return [{ category: "ai", slug: "hello-world" }];
@@ -94,13 +94,9 @@ export default Page;
 ## Route layout `layout.tsx` (`/blog`)
 
 ```ts
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 
-type BlogLayoutProps = LayoutProps<"/blog"> & {
-  children: ReactNode;
-};
-
-const Layout: FC<BlogLayoutProps> = ({ children }) => {
+const Layout: FC<LayoutProps<"/blog">> = ({ children }) => {
   return <section>{children}</section>;
 };
 

@@ -10,8 +10,7 @@ import {
 } from "next/font/google";
 import { draftMode } from "next/headers";
 import Link from "next/link";
-import { type ReactNode, Suspense } from "react";
-import { DraftModeRefresh } from "@/components/draft-mode-refresh";
+import { type FC, Suspense } from "react";
 import { SiteFooter } from "@/components/footer";
 import {
   Header,
@@ -20,6 +19,8 @@ import {
   HeaderNavLinks,
 } from "@/components/header";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
+import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
+import { getCurrentYear } from "./_helpers/get-current-year";
 import "./globals.css";
 
 const inter = Inter({
@@ -72,19 +73,12 @@ export const metadata: Metadata = {
   },
 };
 
-const getCurrentYear = async () => {
-  "use cache";
-  return new Date().getUTCFullYear();
-};
-
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
-  const [draftState] = await Promise.all([draftMode()]);
+const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
+  const [draftState, currentYear] = await Promise.all([
+    draftMode(),
+    getCurrentYear(),
+  ]);
   const { isEnabled } = draftState;
-  const currentYear = await getCurrentYear();
 
   return (
     <html
@@ -110,4 +104,6 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default Layout;
