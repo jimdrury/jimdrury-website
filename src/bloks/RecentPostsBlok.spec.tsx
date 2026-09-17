@@ -97,6 +97,9 @@ describe("RecentPostsBlok", () => {
 
     expect(container.querySelector("section")).toHaveClass(
       "bg-[var(--bg-secondary)]",
+      "pt-8",
+      "pb-1.5",
+      "md:pt-12",
     );
     expect(screen.getAllByRole("img", { name: "Cover" })).toHaveLength(2);
     expect(screen.getAllByRole("img", { name: "Cover" })[0]).toHaveAttribute(

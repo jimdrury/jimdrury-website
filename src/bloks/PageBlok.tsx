@@ -40,7 +40,7 @@ export const PageBlok: FC<PageBlokProps> = ({ blok, pathname, story }) => {
   const showHeader = blok.header !== false && Boolean(title);
 
   return (
-    <main {...storyblokEditable(blok)} className="pb-6">
+    <main {...storyblokEditable(blok)}>
       {showHeader && title ? (
         <PageHeader
           title={title}
