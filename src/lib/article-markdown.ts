@@ -311,6 +311,20 @@ const renderImage = (blok: StoryblokBlok): string => {
     : `![${escapeInlineText(alt)}](${src})`;
 };
 
+const renderMermaid = (blok: StoryblokBlok): string => {
+  const source = getString(blok.source);
+  if (!source) {
+    return "";
+  }
+
+  const title = getString(blok.title);
+  const caption = getString(blok.caption);
+  const block = `\`\`\`mermaid\n${source}\n\`\`\``;
+  const withTitle = title ? `_${title}_\n\n${block}` : block;
+
+  return caption ? `${withTitle}\n\n_${caption}_` : withTitle;
+};
+
 const renderCitedQuote = (blok: StoryblokBlok): string => {
   const quote = renderRichText(blok.quote);
   const citation = getString(blok.citation);
@@ -360,6 +374,10 @@ const renderBlok = (blok: StoryblokBlok): string => {
 
   if (blok.component === "cited_quote") {
     return renderCitedQuote(blok);
+  }
+
+  if (blok.component === "mermaid") {
+    return renderMermaid(blok);
   }
 
   if (blok.component === "divider") {

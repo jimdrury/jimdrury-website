@@ -18,6 +18,7 @@ import { HomeCTAsBlok } from "@/bloks/HomeCTAsBlok";
 import { HomeHeroBlok } from "@/bloks/HomeHeroBlok";
 import { ImageBlok } from "@/bloks/ImageBlok";
 import { MediaVideoLinkBlok } from "@/bloks/MediaVideoLinkBlok";
+import { MermaidBlok } from "@/bloks/MermaidBlok";
 import { PageBlok } from "@/bloks/PageBlok";
 import { PageHeaderBlok } from "@/bloks/PageHeaderBlok";
 import { PromptBlok } from "@/bloks/PromptBlok";
@@ -60,6 +61,7 @@ export const BlokRenderer = createBlokRenderer({
   home_hero: HomeHeroBlok,
   image: ImageBlok,
   media_video_link: MediaVideoLinkBlok,
+  mermaid: MermaidBlok,
   page: PageBlok,
   page_header: PageHeaderBlok,
   recent_posts: RecentPostsBlok,
