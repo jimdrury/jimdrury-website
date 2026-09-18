@@ -20,6 +20,7 @@ export * from "./icon";
 export * from "./link";
 export * from "./media";
 export * from "./media-video-link";
+export * from "./mermaid-diagram";
 export * from "./modal";
 export * from "./page-header";
 export * from "./paginated-list";
