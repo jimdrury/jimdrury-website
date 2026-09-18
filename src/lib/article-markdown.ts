@@ -6,6 +6,7 @@ import {
   getDefaultStoryCategory,
   getStoryDateTime,
 } from "@/lib/blog";
+import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import {
   getArticleCanonicalUrl,
   getArticleExcerpt,
@@ -169,11 +170,13 @@ const renderRichTextBlock = (
     return prefixLines(body, "> ");
   }
 
-  if (node.type === "code_block") {
+  if (node.type === "code_block" || node.type === "codeBlock") {
     const language = getString(node.attrs?.class)
       ?.replace(/^language-/, "")
       .toLowerCase();
-    const code = children.map((child) => child.text ?? "").join("");
+    const code = normalizeEscapedNewlines(
+      children.map((child) => child.text ?? "").join(""),
+    );
     return `\`\`\`${language ?? ""}\n${code}\n\`\`\``;
   }
 
@@ -245,20 +248,21 @@ const renderTypography = (blok: StoryblokBlok): string => {
     return "";
   }
 
+  const normalizedContent = normalizeEscapedNewlines(content);
   const tag = getString(blok.as) ?? "p";
   if (tag === "p") {
-    return content;
+    return normalizedContent;
   }
 
   const depth = tag.startsWith("h")
     ? Number.parseInt(tag.slice(1), 10)
     : Number.NaN;
   if (!Number.isFinite(depth)) {
-    return content;
+    return normalizedContent;
   }
 
   const headingDepth = Math.min(6, Math.max(1, depth));
-  return `${"#".repeat(headingDepth)} ${content}`;
+  return `${"#".repeat(headingDepth)} ${normalizedContent}`;
 };
 
 const renderPrompt = (blok: StoryblokBlok): string => {
@@ -281,10 +285,11 @@ const renderSnippet = (blok: StoryblokBlok): string => {
     return "";
   }
 
+  const normalizedCode = normalizeEscapedNewlines(code);
   const language = getString(contents?.language) ?? "";
   const title = getString(contents?.title);
   const fence = `\`\`\`${language}`;
-  const block = `${fence}\n${code}\n\`\`\``;
+  const block = `${fence}\n${normalizedCode}\n\`\`\``;
 
   return title ? `_${title}_\n\n${block}` : block;
 };

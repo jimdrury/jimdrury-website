@@ -7,6 +7,7 @@ import {
 import type { FC, ReactElement, ReactNode } from "react";
 import { Children, createElement, Fragment, isValidElement } from "react";
 import { getSafeHref } from "@/lib/assert-safe-href";
+import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { normalizeRichTextLists } from "./normalize-richtext-lists";
 import type { BlokRendererProps, SbBlokData, StoryRenderProps } from "./types";
 
@@ -20,6 +21,7 @@ type ReactElementWithProps = ReactElement<{
 }>;
 
 const NON_BREAKING_SPACE_REGEX = /\u00a0/g;
+const CODE_BLOCK_TYPES = new Set(["code_block", "codeBlock"]);
 
 const normalizeRichTextText = (text: string): string => {
   return text.replace(NON_BREAKING_SPACE_REGEX, " ");
@@ -40,6 +42,7 @@ const NODE_TYPE_ALIASES: Record<string, RichTextNodeType> = {
 
 const normalizeRichTextNode = (
   node: StoryblokRichTextNode<ReactElement>,
+  inCodeBlock = false,
 ): StoryblokRichTextNode<ReactElement> => {
   if (!node || typeof node !== "object") {
     return node;
@@ -57,13 +60,22 @@ const normalizeRichTextNode = (
     normalizedNode.type = NODE_TYPE_ALIASES[normalizedNode.type];
   }
 
+  const isCodeBlock =
+    inCodeBlock ||
+    (typeof normalizedNode.type === "string" &&
+      CODE_BLOCK_TYPES.has(normalizedNode.type));
+
   if ("text" in normalizedNode && typeof normalizedNode.text === "string") {
-    normalizedNode.text = normalizeRichTextText(normalizedNode.text);
+    const text = normalizeRichTextText(normalizedNode.text);
+    normalizedNode.text = isCodeBlock ? normalizeEscapedNewlines(text) : text;
   }
 
   if ("content" in normalizedNode && Array.isArray(normalizedNode.content)) {
     normalizedNode.content = normalizedNode.content.map((child) =>
-      normalizeRichTextNode(child as StoryblokRichTextNode<ReactElement>),
+      normalizeRichTextNode(
+        child as StoryblokRichTextNode<ReactElement>,
+        isCodeBlock,
+      ),
     );
   }
 

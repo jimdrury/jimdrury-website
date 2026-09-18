@@ -5,6 +5,7 @@ import {
   isTypographySize,
   type TypographySize,
 } from "@/components/typography/typography-size";
+import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { asBlogStory } from "@/lib/story-render-context";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import {
@@ -68,9 +69,6 @@ const getElementTagFromAs = (as?: string): TypographyTag => {
   }
 };
 
-const normalizeTypographyLineBreaks = (value: string): string =>
-  value.replaceAll("\\n", "\n");
-
 const getHeadingIdFromBlok = ({
   tag,
   uid,
@@ -105,7 +103,7 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok, story }) => {
     size: blok.size,
     tag: Tag,
   });
-  const normalizedContent = normalizeTypographyLineBreaks(blok.content);
+  const normalizedContent = normalizeEscapedNewlines(blok.content);
   const lines = normalizedContent.split("\n");
   const headingId = getHeadingIdFromBlok({
     tag: Tag,

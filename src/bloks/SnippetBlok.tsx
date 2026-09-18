@@ -2,6 +2,7 @@ import "server-only";
 import type { FC } from "react";
 import type { LineHighlight } from "@/components/snippet";
 import { Snippet } from "@/components/snippet";
+import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
 type CodeBlockHighlight = {
@@ -35,6 +36,8 @@ export const SnippetBlok: FC<SnippetBlokProps> = ({ blok }) => {
     return null;
   }
 
+  const normalizedCode = normalizeEscapedNewlines(code);
+
   const highlights: LineHighlight[] | undefined = blok.contents?.highlights
     ?.length
     ? blok.contents.highlights
@@ -43,7 +46,7 @@ export const SnippetBlok: FC<SnippetBlokProps> = ({ blok }) => {
   return (
     <Snippet
       {...storyblokEditable(blok)}
-      code={code}
+      code={normalizedCode}
       language={blok.contents?.language}
       title={blok.contents?.title}
       highlights={highlights}
