@@ -208,12 +208,12 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
     const availableWidth = Math.max(containerWidth - padding * 2, 1);
     const widthRatio = availableWidth / content.width;
     const naturalHeight =
-      content.height * Math.min(widthRatio, MAX_SCALE) + padding * 2;
+      content.height * Math.min(widthRatio, 1) + padding * 2;
 
     const remPx =
       Number.parseFloat(getComputedStyle(document.documentElement).fontSize) ||
       16;
-    const maxH = Math.min(window.innerHeight * 0.7, remPx * 32);
+    const maxH = Math.min(window.innerHeight * 0.7, remPx * 40);
     const containerHeight = Math.max(remPx * 12, Math.min(naturalHeight, maxH));
 
     setViewportHeight(containerHeight);
@@ -471,7 +471,7 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
             captionId ? `${instructionsId} ${captionId}` : instructionsId
           }
           className={cn(
-            "relative min-h-[12rem] max-h-[min(70svh,32rem)] overflow-hidden touch-none",
+            "relative min-h-[12rem] max-h-[min(70svh,40rem)] overflow-hidden touch-none",
             isPanning ? "cursor-grabbing" : "cursor-grab",
           )}
           style={

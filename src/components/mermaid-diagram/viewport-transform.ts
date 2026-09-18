@@ -85,7 +85,7 @@ export const fitViewport = ({
   const availableWidth = Math.max(containerWidth - padding * 2, 1);
   const availableHeight = Math.max(containerHeight - padding * 2, 1);
   const scale = clampScale(
-    Math.min(availableWidth / contentWidth, availableHeight / contentHeight),
+    Math.min(1, availableWidth / contentWidth, availableHeight / contentHeight),
   );
 
   return {

@@ -60,6 +60,20 @@ describe("viewport-transform", () => {
     expect(viewport.y).toBeCloseTo((200 - 200 * 0.4) / 2);
   });
 
+  it("does not magnify content past its natural size", () => {
+    const viewport = fitViewport({
+      contentWidth: 120,
+      contentHeight: 80,
+      containerWidth: 400,
+      containerHeight: 400,
+      padding: 20,
+    });
+
+    expect(viewport.scale).toBe(1);
+    expect(viewport.x).toBeCloseTo((400 - 120) / 2);
+    expect(viewport.y).toBeCloseTo((400 - 80) / 2);
+  });
+
   it("returns an identity viewport when measurements are missing", () => {
     expect(
       fitViewport({
