@@ -95,6 +95,13 @@ const buildStory = (): BlogStory => {
             title: "Example code",
           },
         },
+        {
+          _uid: "mermaid-1",
+          component: "mermaid",
+          source: "flowchart LR\n  A[Start] --> B[End]",
+          title: "Request flow",
+          caption: "Happy path",
+        },
       ],
     },
   };
@@ -121,6 +128,11 @@ describe("renderArticleMarkdown", () => {
     expect(markdown).toContain("- Item one");
     expect(markdown).toContain("_Example code_");
     expect(markdown).toContain("```js\nconsole.log('hello')\n```");
+    expect(markdown).toContain("_Request flow_");
+    expect(markdown).toContain(
+      "```mermaid\nflowchart LR\n  A[Start] --> B[End]\n```",
+    );
+    expect(markdown).toContain("_Happy path_");
   });
 
   it("falls back to a heading when no body markdown is available", () => {
