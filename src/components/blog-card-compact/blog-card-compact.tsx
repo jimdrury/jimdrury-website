@@ -84,7 +84,7 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
   );
 
   const classes = cn(
-    "flex flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] text-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)] transition-shadow hover:shadow-[4px_4px_0_0_var(--fg-primary)]",
+    "flex flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-white text-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)] transition-shadow hover:shadow-[4px_4px_0_0_var(--fg-primary)]",
     className,
   );
 
