@@ -53,6 +53,12 @@ describe("BlogCard", () => {
     expect(screen.getByRole("article")).toHaveClass("custom-class");
   });
 
+  it("uses a white card background", () => {
+    render(<BlogCard title="Post" />);
+
+    expect(screen.getByRole("article")).toHaveClass("bg-white");
+  });
+
   it("renders custom children instead of default card content", () => {
     render(<BlogCard title="Post">Custom content</BlogCard>);
 
