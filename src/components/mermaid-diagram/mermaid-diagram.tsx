@@ -14,6 +14,7 @@ import { LuMinus, LuPlus, LuScan } from "react-icons/lu";
 import { Button } from "@/components/button";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
+import { measureSvgDisplaySize } from "./drawing-scale";
 import { normalizeMermaidSource } from "./normalize-mermaid-source";
 import { getMermaidErrorMessage, renderMermaidSvg } from "./render-mermaid";
 import {
@@ -50,15 +51,9 @@ type PointerPosition = {
 };
 
 const measureSvg = (svg: SVGSVGElement): { width: number; height: number } => {
-  const viewBox = svg.viewBox.baseVal;
-  if (viewBox.width > 0 && viewBox.height > 0) {
-    return { width: viewBox.width, height: viewBox.height };
-  }
-
-  const attrWidth = Number.parseFloat(svg.getAttribute("width") ?? "");
-  const attrHeight = Number.parseFloat(svg.getAttribute("height") ?? "");
-  if (attrWidth > 0 && attrHeight > 0) {
-    return { width: attrWidth, height: attrHeight };
+  const display = measureSvgDisplaySize(svg);
+  if (display) {
+    return display;
   }
 
   try {
