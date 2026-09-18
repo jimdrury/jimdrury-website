@@ -195,23 +195,39 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
   const [status, setStatus] = useState<DiagramStatus>({ type: "loading" });
   const [transform, setTransform] = useState<ViewportTransform>(createViewport);
   const [isPanning, setIsPanning] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
 
   const fitToView = useEffectEvent((): void => {
     const container = viewportRef.current;
     const svg = contentRef.current?.querySelector("svg");
     if (!container || !svg) {
       setTransform(createViewport());
+      setViewportHeight(null);
       return;
     }
 
     const content = measureSvg(svg);
-    const bounds = container.getBoundingClientRect();
+    const containerWidth = container.getBoundingClientRect().width;
+    const padding = 24;
+
+    const availableWidth = Math.max(containerWidth - padding * 2, 1);
+    const widthRatio = availableWidth / content.width;
+    const naturalHeight =
+      content.height * Math.min(widthRatio, MAX_SCALE) + padding * 2;
+
+    const remPx =
+      Number.parseFloat(getComputedStyle(document.documentElement).fontSize) ||
+      16;
+    const maxH = Math.min(window.innerHeight * 0.7, remPx * 32);
+    const containerHeight = Math.max(remPx * 12, Math.min(naturalHeight, maxH));
+
+    setViewportHeight(containerHeight);
     setTransform(
       fitViewport({
         contentWidth: content.width,
         contentHeight: content.height,
-        containerWidth: bounds.width,
-        containerHeight: bounds.height,
+        containerWidth,
+        containerHeight,
       }),
     );
     userAdjustedRef.current = false;
@@ -235,6 +251,7 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
     const renderId = `mermaid-${safeId}-${renderCountRef.current}`;
     setStatus({ type: "loading" });
     setTransform(createViewport());
+    setViewportHeight(null);
     userAdjustedRef.current = false;
 
     const render = async (): Promise<void> => {
@@ -459,9 +476,12 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
             captionId ? `${instructionsId} ${captionId}` : instructionsId
           }
           className={cn(
-            "relative min-h-[16rem] h-[min(70svh,32rem)] overflow-hidden touch-none",
+            "relative min-h-[12rem] max-h-[min(70svh,32rem)] overflow-hidden touch-none",
             isPanning ? "cursor-grabbing" : "cursor-grab",
           )}
+          style={
+            viewportHeight != null ? { height: viewportHeight } : undefined
+          }
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
