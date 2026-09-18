@@ -14,6 +14,7 @@ import { LuMinus, LuPlus, LuScan } from "react-icons/lu";
 import { Button } from "@/components/button";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
+import { measureSvgDisplaySize } from "./drawing-scale";
 import { normalizeMermaidSource } from "./normalize-mermaid-source";
 import { getMermaidErrorMessage, renderMermaidSvg } from "./render-mermaid";
 import {
@@ -50,15 +51,9 @@ type PointerPosition = {
 };
 
 const measureSvg = (svg: SVGSVGElement): { width: number; height: number } => {
-  const viewBox = svg.viewBox.baseVal;
-  if (viewBox.width > 0 && viewBox.height > 0) {
-    return { width: viewBox.width, height: viewBox.height };
-  }
-
-  const attrWidth = Number.parseFloat(svg.getAttribute("width") ?? "");
-  const attrHeight = Number.parseFloat(svg.getAttribute("height") ?? "");
-  if (attrWidth > 0 && attrHeight > 0) {
-    return { width: attrWidth, height: attrHeight };
+  const display = measureSvgDisplaySize(svg);
+  if (display) {
+    return display;
   }
 
   try {
@@ -213,13 +208,13 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
     const availableWidth = Math.max(containerWidth - padding * 2, 1);
     const widthRatio = availableWidth / content.width;
     const naturalHeight =
-      content.height * Math.min(widthRatio, MAX_SCALE) + padding * 2;
+      content.height * Math.min(widthRatio, 1) + padding * 2;
 
     const remPx =
       Number.parseFloat(getComputedStyle(document.documentElement).fontSize) ||
       16;
-    const maxH = Math.min(window.innerHeight * 0.7, remPx * 32);
-    const containerHeight = Math.max(remPx * 12, Math.min(naturalHeight, maxH));
+    const maxH = Math.min(window.innerHeight * 0.7, remPx * 40);
+    const containerHeight = Math.min(Math.max(naturalHeight, remPx * 8), maxH);
 
     setViewportHeight(containerHeight);
     setTransform(
@@ -476,7 +471,8 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
             captionId ? `${instructionsId} ${captionId}` : instructionsId
           }
           className={cn(
-            "relative min-h-[12rem] max-h-[min(70svh,32rem)] overflow-hidden touch-none",
+            "relative max-h-[min(70svh,40rem)] overflow-hidden touch-none",
+            viewportHeight == null && "min-h-[12rem]",
             isPanning ? "cursor-grabbing" : "cursor-grab",
           )}
           style={

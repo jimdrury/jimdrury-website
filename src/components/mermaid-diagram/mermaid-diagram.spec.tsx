@@ -48,6 +48,11 @@ describe("MermaidDiagram", () => {
     await waitFor(() => {
       expect(screen.getByText("Start to End")).toBeInTheDocument();
     });
+
+    const svg = document.querySelector("svg");
+    expect(svg).toHaveAttribute("width", "500");
+    expect(svg).toHaveAttribute("height", "250");
+    expect(svg).toHaveAttribute("viewBox", "0 0 500 250");
   });
 
   it("strips fenced mermaid source before rendering", async () => {
@@ -69,6 +74,8 @@ describe("MermaidDiagram", () => {
     await waitFor(() => {
       expect(screen.getByLabelText("Zoom in")).toBeInTheDocument();
     });
+
+    expect(screen.getByText("100%")).toBeInTheDocument();
 
     await user.click(screen.getByLabelText("Zoom in"));
     expect(screen.getByText("125%")).toBeInTheDocument();

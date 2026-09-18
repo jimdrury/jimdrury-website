@@ -1,6 +1,6 @@
 # Mermaid diagram
 
-Renders Mermaid source as an SVG inside a zoomable, pannable viewport (Google Maps–style: scroll/pinch zoom, drag to pan, labelled +/−/fit controls). Used by the Storyblok `mermaid` blok on article pages. The Mermaid library is loaded only in the browser when a diagram mounts.
+Renders Mermaid source as an SVG inside a zoomable, pannable viewport (Google Maps–style: scroll/pinch zoom, drag to pan, labelled +/−/fit controls). Used by the Storyblok `mermaid` blok on article pages. The Mermaid library is loaded only in the browser when a diagram mounts. Diagrams are drawn 25% larger than Mermaid’s stock output, so 100% zoom is the readable default rather than a viewport zoom-in. Fit never magnifies past that natural size.
 
 ## Storyblok editors
 

@@ -1,4 +1,5 @@
 import type { Mermaid, MermaidConfig } from "mermaid";
+import { enlargeMermaidSvg } from "./drawing-scale";
 
 const MERMAID_THEME_VARIABLES: NonNullable<MermaidConfig["themeVariables"]> = {
   background: "#fffdf5",
@@ -67,7 +68,7 @@ export const renderMermaidSvg = async (
 ): Promise<string> => {
   const mermaid = await loadMermaid();
   const { svg } = await mermaid.render(id, source);
-  return svg;
+  return enlargeMermaidSvg(svg);
 };
 
 export const getMermaidErrorMessage = (error: unknown): string => {
