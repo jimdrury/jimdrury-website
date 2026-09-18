@@ -1,3 +1,4 @@
+import type { StoryblokRichTextNode } from "@storyblok/js";
 import { describe, expect, it } from "vitest";
 import { richTextToPlainText } from "./richtext-to-plain-text";
 
@@ -16,7 +17,7 @@ describe("richTextToPlainText", () => {
           ],
         },
       ],
-    });
+    } as StoryblokRichTextNode<unknown>);
 
     expect(text).toBe(
       'import { z } from "zod";\n\nexport const listIssues = {};\n',
