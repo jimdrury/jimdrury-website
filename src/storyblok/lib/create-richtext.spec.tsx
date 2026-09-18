@@ -222,4 +222,28 @@ describe("createRichText", () => {
     expect(list?.querySelectorAll("li")).toHaveLength(1);
     expect(screen.getByText("Footprint covered")).toBeInTheDocument();
   });
+
+  it("turns escaped \\n sequences in code blocks into real line breaks", () => {
+    const RichText = createRichText(() => null);
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "code_block",
+          attrs: { class: "language-text" },
+          content: [
+            {
+              type: "text",
+              text: "my-connector/\\n├── package.json\\n├── src/",
+            },
+          ],
+        },
+      ],
+    } as StoryblokRichTextNode<ReactElement>;
+
+    const { container } = render(<RichText doc={doc} {...storyRenderProps} />);
+    const code = container.querySelector("pre, code");
+
+    expect(code?.textContent).toBe("my-connector/\n├── package.json\n├── src/");
+  });
 });

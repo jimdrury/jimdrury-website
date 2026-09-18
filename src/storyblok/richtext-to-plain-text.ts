@@ -1,3 +1,4 @@
+import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import type { StoryblokRichTextNode } from "@/storyblok/lib";
 
 /**
@@ -16,7 +17,7 @@ export const richTextToPlainText = (
   }
 
   if ("text" in node && typeof node.text === "string") {
-    return node.text;
+    return normalizeEscapedNewlines(node.text);
   }
 
   if ("content" in node && Array.isArray(node.content)) {
@@ -32,6 +33,7 @@ export const richTextToPlainText = (
       "ordered_list",
       "list_item",
       "code_block",
+      "codeBlock",
       "horizontal_rule",
     ]);
 

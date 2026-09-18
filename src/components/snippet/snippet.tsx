@@ -13,6 +13,7 @@ import { VscJson } from "react-icons/vsc";
 import type { DecorationItem } from "shiki";
 import { codeToHtml } from "shiki";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
+import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { cn } from "@/lib/utils";
 import { SnippetCopyButton } from "./snippet-copy-button";
 
@@ -105,7 +106,7 @@ export const Snippet: FC<SnippetProps> = async ({
       ? !isCommandLineLanguage || enableCopyToClipboard
       : isCommandLineLanguage && enableCopyToClipboard;
   const html = await highlightCode({
-    code,
+    code: normalizeEscapedNewlines(code),
     language,
     highlights,
   });

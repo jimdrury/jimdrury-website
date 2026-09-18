@@ -123,6 +123,28 @@ describe("renderArticleMarkdown", () => {
     expect(markdown).toContain("```js\nconsole.log('hello')\n```");
   });
 
+  it("turns escaped snippet newlines into a real markdown code fence", () => {
+    const story = buildStory();
+    story.content.body = [
+      {
+        _uid: "snippet-tree",
+        component: "snippet",
+        contents: {
+          code: "my-connector/\\n├── package.json\\n├── src/",
+          language: "text",
+          title: "my-connector/",
+        },
+      },
+    ];
+
+    const markdown = renderArticleMarkdown(story);
+
+    expect(markdown).toContain(
+      "```text\nmy-connector/\n├── package.json\n├── src/\n```",
+    );
+    expect(markdown).not.toContain("\\n");
+  });
+
   it("falls back to a heading when no body markdown is available", () => {
     const story = buildStory();
     story.content.body = [];
