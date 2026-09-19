@@ -82,10 +82,11 @@ const tickerCopyKey = (copyIndex: number): string =>
   `ticker-copy-${String(copyIndex)}`;
 
 /**
- * Horizontal ticker. Animates an infinite marquee with edge fade so words are
- * not clipped mid-glyph. Drag left or right to scrub; auto-scroll resumes
- * after a short pause. Under `prefers-reduced-motion`, shows a wrapping
- * static row with no animation or drag.
+ * Horizontal ticker. Animates an infinite marquee. At the desktop breakpoint
+ * an edge fade keeps words from clipping mid-glyph. Drag left or right to
+ * scrub; auto-scroll resumes after a short pause. Under
+ * `prefers-reduced-motion`, shows a wrapping static row with no animation
+ * or drag.
  */
 export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
   const viewportRef = useRef<HTMLDivElement>(null);

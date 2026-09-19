@@ -111,7 +111,7 @@ describe("Ticker", () => {
     expect(screen.getAllByText("Creator")).toHaveLength(2);
   });
 
-  it("applies the edge-fade class so words are not clipped at the container edge", () => {
+  it("keeps the edge-fade class used for the desktop-only mask", () => {
     const { container } = render(
       <Ticker items={[{ id: "a", node: <span>Speaker</span> }]} />,
     );
