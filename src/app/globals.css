@@ -79,37 +79,29 @@
   color: inherit;
 }
 
-/* Ticker: edge fade so words never clip mid-glyph at the container edges. */
-.ticker-fade {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 32px,
-    #000 calc(100% - 32px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 32px,
-    #000 calc(100% - 32px),
-    transparent 100%
-  );
+/* Ticker: desktop edge fade so words never clip mid-glyph. Hidden below lg. */
+@media (min-width: 1024px) {
+  .ticker-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 32px,
+      #000 calc(100% - 32px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 32px,
+      #000 calc(100% - 32px),
+      transparent 100%
+    );
+  }
 }
 
-/* Two identical strips translated -50% for a seamless loop. */
+/* Transform is driven in JS so the loop can wrap by the measured strip width. */
 .ticker-track {
-  animation: ticker-scroll 32s linear infinite;
   will-change: transform;
-}
-
-@keyframes ticker-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
 }
 
 @media (min-width: 640px) {
@@ -135,8 +127,8 @@ body {
 
   /* Static, non-clipped row: no animation and no edge mask. */
   .ticker-track {
-    animation: none;
     transform: none;
+    will-change: auto;
   }
 
   .ticker-fade {
