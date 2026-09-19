@@ -1,7 +1,7 @@
 import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
-import { getStoryPageTag, getStoryVersionTag } from "@/lib/cache-tags";
+import { getPublishedPagesTag } from "@/lib/cache-tags";
 import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 
 type StoryblokPageListResponse = {
@@ -20,8 +20,7 @@ export const getPublishedPageParams = async (): Promise<
 > => {
   "use cache";
   cacheLife("ultraLong");
-  cacheTag(getStoryPageTag());
-  cacheTag(getStoryVersionTag("published"));
+  cacheTag(getPublishedPagesTag());
 
   const storyblokApi = getStoryblokApi();
   const params: { slug: string[] }[] = [];

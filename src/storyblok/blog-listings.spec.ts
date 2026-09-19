@@ -1,3 +1,4 @@
+import { cacheTag } from "next/cache";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { StoryblokUnavailableError } from "@/lib/storyblok-errors";
 import { fetchStoryBySlug } from "@/lib/storyblok-story";
@@ -27,6 +28,7 @@ vi.mock("@/lib/storyblok-story", () => ({
 describe("getArticleBySlug", () => {
   beforeEach(() => {
     vi.mocked(fetchStoryBySlug).mockReset();
+    vi.mocked(cacheTag).mockReset();
   });
 
   it("returns the article when the shared story fetch succeeds", async () => {
@@ -47,6 +49,10 @@ describe("getArticleBySlug", () => {
       slug: "blog/test",
       version: "published",
     });
+    expect(cacheTag).toHaveBeenCalledWith(
+      "content:blog:article:published:test",
+    );
+    expect(cacheTag).not.toHaveBeenCalledWith("content:blog:article:published");
   });
 
   it("returns null for a true not-found result", async () => {

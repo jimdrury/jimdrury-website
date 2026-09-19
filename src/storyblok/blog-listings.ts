@@ -178,7 +178,6 @@ export const getArticleBySlug = async ({
 }): Promise<BlogStory | null> => {
   "use cache";
   cacheLife("ultraLong");
-  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.article, version }));
 
   const normalizedSlug = slug.trim();
   if (!normalizedSlug) {

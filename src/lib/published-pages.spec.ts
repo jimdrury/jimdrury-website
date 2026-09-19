@@ -11,8 +11,7 @@ vi.mock("@/storyblok", () => ({
 }));
 
 vi.mock("@/lib/cache-tags", () => ({
-  getStoryPageTag: () => "page",
-  getStoryVersionTag: () => "version",
+  getPublishedPagesTag: () => "published-pages",
 }));
 
 describe("excludeHomeCatchAllParams", () => {

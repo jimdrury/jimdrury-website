@@ -11,17 +11,15 @@ type BlogScope =
   | "index"
   | "category";
 
+const HOME_STORY_SLUG = "home";
+
 const normalizeSegment = (value: string): string => {
   return encodeURIComponent(value.trim().toLowerCase());
 };
 
 export const getHomePageTag = (): string => "content:home-page";
 
-export const getStoryPageTag = (): string => "content:story-page";
-
-export const getStoryVersionTag = (version: ContentVersion): string => {
-  return `content:story-page:${version}`;
-};
+export const getPublishedPagesTag = (): string => "content:published-pages";
 
 export const getStorySlugVersionTag = ({
   slug,
@@ -31,6 +29,22 @@ export const getStorySlugVersionTag = ({
   version: ContentVersion;
 }): string => {
   return `content:story-page:${version}:${normalizeSegment(slug)}`;
+};
+
+export const getStoryCacheTags = ({
+  slug,
+  version,
+}: {
+  slug: string;
+  version: ContentVersion;
+}): string[] => {
+  const tags = [getStorySlugVersionTag({ slug, version })];
+
+  if (slug === HOME_STORY_SLUG) {
+    tags.push(getHomePageTag());
+  }
+
+  return tags;
 };
 
 export const BLOG_SCOPES: Record<string, BlogScope> = {
@@ -44,9 +58,15 @@ export const BLOG_SCOPES: Record<string, BlogScope> = {
   category: "category",
 } as const;
 
-const ALL_BLOG_SCOPE_VALUES: readonly BlogScope[] = Object.freeze(
-  Object.values(BLOG_SCOPES),
-);
+const BLOG_LISTING_SCOPES: readonly BlogScope[] = Object.freeze([
+  BLOG_SCOPES.articlesByTag,
+  BLOG_SCOPES.allArticles,
+  BLOG_SCOPES.latestSeed,
+  BLOG_SCOPES.tags,
+  BLOG_SCOPES.dateArchive,
+  BLOG_SCOPES.index,
+  BLOG_SCOPES.category,
+]);
 
 const ALL_CONTENT_VERSIONS: readonly ContentVersion[] = Object.freeze([
   "draft",
@@ -61,6 +81,14 @@ export const getBlogVersionTag = ({
   version: ContentVersion;
 }): string => {
   return `content:blog:${scope}:${version}`;
+};
+
+export const getBlogListingVersionTags = (
+  version: ContentVersion,
+): string[] => {
+  return BLOG_LISTING_SCOPES.map((scope) => {
+    return getBlogVersionTag({ scope, version });
+  });
 };
 
 export const getBlogArticlesByTagIndexTag = ({
@@ -129,12 +157,8 @@ export const getBlogArticleSlugTag = ({
 
 export const ALL_CONTENT_CACHE_TAGS: readonly string[] = Object.freeze([
   getHomePageTag(),
-  getStoryPageTag(),
-  getStoryVersionTag("draft"),
-  getStoryVersionTag("published"),
+  getPublishedPagesTag(),
   ...ALL_CONTENT_VERSIONS.flatMap((version) => {
-    return ALL_BLOG_SCOPE_VALUES.map((scope) => {
-      return getBlogVersionTag({ scope, version });
-    });
+    return getBlogListingVersionTags(version);
   }),
 ]);
