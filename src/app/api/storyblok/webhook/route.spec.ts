@@ -114,6 +114,10 @@ describe("POST /api/storyblok/webhook", () => {
     expect(json.invalidatedTags).toContain(
       "content:story-page:published:about",
     );
+    expect(json.invalidatedTags).toContain("content:home-page");
+    expect(json.invalidatedTags).toContain("content:blog:index:published");
+    expect(json.invalidatedTags).not.toContain("content:story-page");
+    expect(json.invalidatedTags).not.toContain("content:story-page:published");
     expect(revalidateTag).toHaveBeenCalled();
     expect(fetchStoryBySlug).not.toHaveBeenCalled();
   });

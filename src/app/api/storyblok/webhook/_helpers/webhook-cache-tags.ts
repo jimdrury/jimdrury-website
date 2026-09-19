@@ -1,56 +1,45 @@
 import {
-  BLOG_SCOPES,
   getBlogArticleSlugTag,
-  getBlogVersionTag,
+  getBlogListingVersionTags,
   getHomePageTag,
-  getStoryPageTag,
   getStorySlugVersionTag,
-  getStoryVersionTag,
 } from "@/lib/cache-tags";
 import { BLOG_PREFIX } from "@/storyblok/blog-listings-utils";
 
 const PUBLISHED = "published" as const;
+const BLOG_LISTING_STORY_SLUG = BLOG_PREFIX.replace(/\/$/, "");
 
-const getPublishedBlogVersionTags = (): string[] => {
-  return Object.values(BLOG_SCOPES).map((scope) => {
-    return getBlogVersionTag({ scope, version: PUBLISHED });
-  });
+const getSharedWebhookTags = (): string[] => {
+  return [
+    getHomePageTag(),
+    getStorySlugVersionTag({
+      slug: BLOG_LISTING_STORY_SLUG,
+      version: PUBLISHED,
+    }),
+    ...getBlogListingVersionTags(PUBLISHED),
+  ];
 };
 
 export const getWebhookRevalidationTags = (fullSlug?: string): string[] => {
+  const tags = new Set<string>(getSharedWebhookTags());
+
   if (!fullSlug) {
-    return [
-      getHomePageTag(),
-      getStoryPageTag(),
-      getStoryVersionTag(PUBLISHED),
-      ...getPublishedBlogVersionTags(),
-    ];
+    return [...tags];
   }
 
   const normalizedSlug = fullSlug.replace(/\/$/, "");
+  tags.add(
+    getStorySlugVersionTag({ slug: normalizedSlug, version: PUBLISHED }),
+  );
 
   if (normalizedSlug.startsWith(BLOG_PREFIX)) {
     const articleSlug = normalizedSlug.slice(BLOG_PREFIX.length);
-    const tags = getPublishedBlogVersionTags();
-
     if (articleSlug) {
-      tags.push(
+      tags.add(
         getBlogArticleSlugTag({ slug: articleSlug, version: PUBLISHED }),
       );
     }
-
-    return tags;
   }
 
-  const tags = [
-    getStoryPageTag(),
-    getStoryVersionTag(PUBLISHED),
-    getStorySlugVersionTag({ slug: normalizedSlug, version: PUBLISHED }),
-  ];
-
-  if (normalizedSlug === "home") {
-    tags.push(getHomePageTag());
-  }
-
-  return tags;
+  return [...tags];
 };
