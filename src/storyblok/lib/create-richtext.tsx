@@ -5,7 +5,7 @@ import {
   type StoryblokRichTextNode,
 } from "@storyblok/js";
 import Link from "next/link";
-import type { FC, ReactElement, ReactNode } from "react";
+import type { FC, JSXElementConstructor, ReactElement, ReactNode } from "react";
 import { Children, createElement, Fragment, isValidElement } from "react";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
@@ -21,6 +21,8 @@ type ReactElementWithProps = ReactElement<{
   children?: ReactNode;
   [key: string]: unknown;
 }>;
+
+type RichTextElementType = string | JSXElementConstructor<object>;
 
 const NON_BREAKING_SPACE_REGEX = /\u00a0/g;
 const CODE_BLOCK_TYPES = new Set(["code_block", "codeBlock"]);
@@ -232,9 +234,38 @@ const withoutNewWindowTarget = (
   return nextProps;
 };
 
+const getElementKey = (
+  props: Record<string, unknown> | null | undefined,
+  fallback?: string | number | null,
+): string | number | undefined => {
+  if (typeof fallback === "string" || typeof fallback === "number") {
+    return fallback;
+  }
+
+  const key = props?.key;
+  if (typeof key === "string" || typeof key === "number") {
+    return key;
+  }
+
+  return undefined;
+};
+
+const createKeyedElement = (
+  type: RichTextElementType,
+  props: Record<string, unknown> | null | undefined,
+  children: ReactNode,
+  key?: string | number,
+) => {
+  const nextProps =
+    key === undefined ? (props ?? null) : { ...(props ?? {}), key };
+
+  return createElement(type, nextProps, ...Children.toArray(children));
+};
+
 const createRichTextAnchor = (
   props: Record<string, unknown> | null | undefined,
   children: ReactNode,
+  key?: string | number | null,
 ): ReactElement => {
   const normalizedHref = normalizeRichTextHref(
     props?.href,
@@ -247,20 +278,32 @@ const createRichTextAnchor = (
   const linkProps = omitCmsLinkAttributes(sanitized ?? {});
   const href = typeof linkProps.href === "string" ? linkProps.href : undefined;
   const nextHref = href ? getNextLinkHref(href) : undefined;
+  const elementKey = getElementKey(linkProps, key);
 
   if (nextHref) {
-    return createElement(
-      Link,
+    return createKeyedElement(
+      Link as RichTextElementType,
       { ...withoutNewWindowTarget(linkProps), href: nextHref },
       children,
+      elementKey,
     );
   }
 
   if (href?.startsWith("#")) {
-    return createElement("a", withoutNewWindowTarget(linkProps), children);
+    return createKeyedElement(
+      "a",
+      withoutNewWindowTarget(linkProps),
+      children,
+      elementKey,
+    );
   }
 
-  return createElement("a", sanitized ? linkProps : sanitized, children);
+  return createKeyedElement(
+    "a",
+    sanitized ? linkProps : sanitized,
+    children,
+    elementKey,
+  );
 };
 
 const sanitizeRenderProps = (
@@ -304,15 +347,20 @@ const sanitizeRenderProps = (
 };
 
 const renderRichTextElement = (
-  type: Parameters<typeof createElement>[0],
+  type: RichTextElementType,
   props: Record<string, unknown> | null,
   ...children: ReactNode[]
 ) => {
   if (type === "a") {
-    return createRichTextAnchor(props, children);
+    return createRichTextAnchor(props, children, getElementKey(props));
   }
 
-  return createElement(type, sanitizeRenderProps(props), ...children);
+  return createKeyedElement(
+    type,
+    sanitizeRenderProps(props),
+    children,
+    getElementKey(props),
+  );
 };
 
 const normalizeElementAttributes = (node: ReactNode): ReactNode => {
@@ -365,10 +413,15 @@ const normalizeElementAttributes = (node: ReactNode): ReactNode => {
   );
 
   if (element.type === "a") {
-    return createRichTextAnchor(normalizedProps, children);
+    return createRichTextAnchor(normalizedProps, children, element.key);
   }
 
-  return createElement(element.type, normalizedProps, children);
+  return createKeyedElement(
+    element.type,
+    normalizedProps,
+    children,
+    getElementKey(normalizedProps, element.key),
+  );
 };
 
 export const createRichText = (
@@ -376,10 +429,13 @@ export const createRichText = (
 ): FC<RichTextProps> => {
   const RichText: FC<RichTextProps> = ({ doc, pathname, story }) => {
     const normalizedDoc = normalizeRichTextLists(normalizeRichTextNode(doc));
+    let textNodeIndex = 0;
     const resolver = richTextResolver<ReactElement>({
       renderFn: renderRichTextElement,
       textFn: (text) => (
-        <Fragment key={`rt-${text}`}>{normalizeRichTextText(text)}</Fragment>
+        <Fragment key={`rt-${textNodeIndex++}`}>
+          {normalizeRichTextText(text)}
+        </Fragment>
       ),
       keyedResolvers: true,
       tiptapExtensions: {

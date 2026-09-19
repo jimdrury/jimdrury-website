@@ -437,4 +437,65 @@ describe("createRichText", () => {
 
     expect(code?.textContent).toBe("my-connector/\n├── package.json\n├── src/");
   });
+
+  it("does not emit React key warnings for repeated text or sibling links", () => {
+    const RichText = createRichText(() => null);
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            { type: "text", text: "MCP " },
+            {
+              type: "text",
+              text: "one",
+              marks: [
+                {
+                  type: "link",
+                  attrs: { href: "/about", linktype: "story" },
+                },
+              ],
+            },
+            { type: "text", text: " MCP " },
+            {
+              type: "text",
+              text: "two",
+              marks: [
+                {
+                  type: "link",
+                  attrs: { href: "/blog", linktype: "story" },
+                },
+              ],
+            },
+            { type: "text", text: " MCP" },
+          ],
+        },
+      ],
+    } as unknown as StoryblokRichTextNode<ReactElement>;
+
+    render(<RichText doc={doc} {...storyRenderProps} />);
+
+    const keyWarnings = consoleError.mock.calls.filter((args) => {
+      const message = args.map(String).join(" ");
+      return (
+        message.includes('unique "key" prop') || message.includes("same key")
+      );
+    });
+
+    expect(keyWarnings).toEqual([]);
+    expect(screen.getByRole("link", { name: "one" })).toHaveAttribute(
+      "data-next-link",
+      "true",
+    );
+    expect(screen.getByRole("link", { name: "two" })).toHaveAttribute(
+      "data-next-link",
+      "true",
+    );
+
+    consoleError.mockRestore();
+  });
 });
