@@ -28,7 +28,7 @@ export const SimilarArticles: FC<SimilarArticlesProps> = ({
       <Typography asChild size="2xl" textTransform="uppercase">
         <h2 className="mb-4">Similar Articles</h2>
       </Typography>
-      <ul className="space-y-3">
+      <ul className="space-y-4 md:space-y-8 lg:space-y-10">
         {items.map((item) => (
           <li key={item.href}>
             <BlogCardCompact

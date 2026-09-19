@@ -47,4 +47,27 @@ describe("SimilarArticles", () => {
       screen.getByText("Discovery without an install."),
     ).toBeInTheDocument();
   });
+
+  it("uses the homepage card spacing between items", () => {
+    render(
+      <SimilarArticles
+        items={[
+          {
+            href: "/blog/nextjs/one",
+            title: "One",
+          },
+          {
+            href: "/blog/nextjs/two",
+            title: "Two",
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByRole("list")).toHaveClass(
+      "space-y-4",
+      "md:space-y-8",
+      "lg:space-y-10",
+    );
+  });
 });
