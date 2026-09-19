@@ -134,4 +134,28 @@ describe("BlogCard", () => {
     expect(links[0]).toHaveAttribute("href", "/blog/compact");
     expect(links[0]).toHaveAccessibleName(/Compact Post/);
   });
+
+  it("uses a 28px title line-height on the default density", () => {
+    render(<BlogCard title="Line height post" />);
+
+    expect(
+      screen.getByRole("heading", { name: "Line height post" }),
+    ).toHaveClass("leading-[28px]");
+  });
+
+  it("clamps the default title to three lines and the excerpt to four", () => {
+    const { container } = render(
+      <BlogCard
+        title="A very long title that should clamp"
+        excerpt="A longer excerpt that can wrap across four lines."
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "A very long title that should clamp",
+      }),
+    ).toHaveClass("line-clamp-3");
+    expect(container.querySelector(".line-clamp-4")).toBeInTheDocument();
+  });
 });

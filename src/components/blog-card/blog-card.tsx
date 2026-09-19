@@ -106,8 +106,10 @@ export const BlogCard: FC<BlogCardProps> = ({
             )}
             <h2
               className={cn(
-                "font-[family-name:var(--font-anton)] font-bold leading-[1.15] tracking-[1px] text-[var(--fg-primary)]",
-                isCompact ? "text-[22px]" : "text-[28px]",
+                "font-[family-name:var(--font-anton)] font-bold tracking-[1px] text-[var(--fg-primary)]",
+                isCompact
+                  ? "text-[22px] leading-[1.15]"
+                  : "line-clamp-3 text-[28px] leading-[28px]",
               )}
             >
               {isCompact && href ? (
@@ -123,7 +125,7 @@ export const BlogCard: FC<BlogCardProps> = ({
               )}
             </h2>
             {!isCompact && excerpt ? (
-              <div className="line-clamp-3 text-pretty">
+              <div className="line-clamp-4 text-pretty">
                 <Typography size="sm" asChild>
                   <p className="text-[var(--fg-secondary)]">{excerpt}</p>
                 </Typography>

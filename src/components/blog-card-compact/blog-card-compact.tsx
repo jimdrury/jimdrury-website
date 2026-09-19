@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 import { Badge } from "@/components/badge";
 import { Typography } from "@/components/typography";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 export interface BlogCardCompactProps
   extends ComponentPropsWithoutChildren<"article"> {
-  children?: ReactNode;
   href?: string;
   title: string;
   category?: string;
@@ -37,80 +36,77 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
   imageHeight,
   imageLoading = "lazy",
   imageFetchPriority = "auto",
-  children,
   ...props
 }) => {
-  const cover = imageSrc ? (
-    <div className="h-[140px] w-full shrink-0 overflow-hidden border-b-[3px] border-[var(--fg-primary)] bg-zinc-100">
-      <Image
-        src={imageSrc}
-        alt={imageAlt ?? title}
-        width={imageWidth ?? 1600}
-        height={imageHeight ?? 1000}
-        loading={imageLoading}
-        fetchPriority={imageFetchPriority}
-        sizes="(min-width: 768px) 33vw, 100vw"
-        className="h-full w-full object-cover"
-      />
-    </div>
-  ) : null;
+  const titleNode = href ? (
+    <Link
+      href={href}
+      className="focus-visible:focus-ring-sm before:absolute before:inset-0 before:z-10 before:block before:content-['']"
+    >
+      {title}
+      <span className="sr-only"> — read the article</span>
+    </Link>
+  ) : (
+    title
+  );
 
-  const body = (
-    <div className="flex flex-col gap-2 p-4">
-      <div className="flex items-center gap-2">
-        {category && (
-          <Badge variant="highlight" className="shrink-0">
+  return (
+    <article
+      className={cn(
+        "relative flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-white text-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)]",
+        className,
+      )}
+      {...props}
+    >
+      {imageSrc ? (
+        <div className="relative w-full shrink-0">
+          <div className="h-[140px] w-full overflow-hidden bg-zinc-100">
+            <Image
+              src={imageSrc}
+              alt={imageAlt ?? title}
+              width={imageWidth ?? 1600}
+              height={imageHeight ?? 1000}
+              loading={imageLoading}
+              fetchPriority={imageFetchPriority}
+              sizes="(min-width: 768px) 33vw, 100vw"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          {category ? (
+            <Badge
+              variant="highlight"
+              className="absolute bottom-[-10px] left-4 z-10"
+            >
+              {category}
+            </Badge>
+          ) : null}
+        </div>
+      ) : null}
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        {imageSrc ? (
+          <div className="h-0.5 shrink-0" aria-hidden />
+        ) : category ? (
+          <Badge variant="highlight" className="w-fit">
             {category}
           </Badge>
-        )}
-        {date && (
+        ) : null}
+        {date ? (
           <time
             dateTime={dateTime}
-            className="font-[family-name:var(--font-inter)] text-[11px] font-bold tracking-[1.2px] text-[var(--fg-secondary)]"
+            className="font-[family-name:var(--font-inter)] text-[12px] font-bold tracking-[1.5px] text-[var(--fg-secondary)]"
           >
             {date}
           </time>
-        )}
+        ) : null}
+        <h3 className="line-clamp-2 font-[family-name:var(--font-anton)] text-[22px] font-bold leading-[30px] tracking-[0.5px] text-[var(--fg-primary)]">
+          {titleNode}
+        </h3>
+        {excerpt ? (
+          <Typography size="sm" asChild>
+            <p className="line-clamp-3 text-[var(--fg-secondary)]">{excerpt}</p>
+          </Typography>
+        ) : null}
       </div>
-      <h3 className="font-[family-name:var(--font-anton)] text-[22px] font-bold leading-[1.2] tracking-[0.5px] text-[var(--fg-primary)]">
-        {title}
-      </h3>
-      {excerpt ? (
-        <Typography size="sm" asChild>
-          <p className="line-clamp-2 text-[var(--fg-secondary)]">{excerpt}</p>
-        </Typography>
-      ) : null}
-    </div>
-  );
-
-  const classes = cn(
-    "flex flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-white text-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)] transition-shadow hover:shadow-[4px_4px_0_0_var(--fg-primary)]",
-    className,
-  );
-
-  if (children) {
-    return (
-      <article className={classes} {...props}>
-        {children}
-      </article>
-    );
-  }
-
-  if (href) {
-    return (
-      <article className={classes} {...props}>
-        <Link href={href} className="flex h-full flex-col">
-          {cover}
-          {body}
-        </Link>
-      </article>
-    );
-  }
-
-  return (
-    <article className={classes} {...props}>
-      {cover}
-      {body}
     </article>
   );
 };
