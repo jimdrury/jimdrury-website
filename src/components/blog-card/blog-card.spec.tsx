@@ -134,4 +134,12 @@ describe("BlogCard", () => {
     expect(links[0]).toHaveAttribute("href", "/blog/compact");
     expect(links[0]).toHaveAccessibleName(/Compact Post/);
   });
+
+  it("uses a 28px title line-height on the default density", () => {
+    render(<BlogCard title="Line height post" />);
+
+    expect(
+      screen.getByRole("heading", { name: "Line height post" }),
+    ).toHaveClass("leading-[28px]");
+  });
 });
