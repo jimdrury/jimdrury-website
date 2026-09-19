@@ -1,13 +1,55 @@
 import type { StoryblokRichTextNode } from "@storyblok/js";
 import { render, screen } from "@testing-library/react";
-import type { ReactElement } from "react";
-import { describe, expect, it } from "vitest";
+import type { ReactElement, ReactNode } from "react";
+import { describe, expect, it, vi } from "vitest";
 
 import { createRichText, parseStyle } from "./create-richtext";
+
+vi.mock("next/link", () => ({
+  default: ({
+    href,
+    children,
+    target,
+  }: {
+    href: string;
+    children: ReactNode;
+    target?: string;
+  }) => (
+    <a href={href} data-next-link="true" target={target}>
+      {children}
+    </a>
+  ),
+}));
 
 const storyRenderProps = {
   pathname: "/about",
   story: { content: { component: "page" } },
+};
+
+const linkDoc = (
+  text: string,
+  attrs: Record<string, unknown>,
+): StoryblokRichTextNode<ReactElement> => {
+  return {
+    type: "doc",
+    content: [
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text,
+            marks: [
+              {
+                type: "link",
+                attrs,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  } as unknown as StoryblokRichTextNode<ReactElement>;
 };
 
 describe("createRichText", () => {
@@ -110,6 +152,155 @@ describe("createRichText", () => {
     ).toHaveTextContent("Safe");
     expect(container.querySelector('a[href^="javascript:"]')).toBeNull();
     expect(container).toHaveTextContent("Unsafe");
+    expect(
+      container.querySelector("a[data-next-link='true']"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("routes Storyblok story links through Next.js Link without opening a new window", () => {
+    const RichText = createRichText(() => null);
+
+    render(
+      <RichText
+        doc={linkDoc("About", {
+          href: "/about",
+          linktype: "story",
+          target: "_blank",
+          uuid: "story-uuid",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    const link = screen.getByRole("link", { name: "About" });
+    expect(link).toHaveAttribute("href", "/about");
+    expect(link).toHaveAttribute("data-next-link", "true");
+    expect(link).not.toHaveAttribute("target");
+    expect(link).not.toHaveAttribute("linktype");
+    expect(link).not.toHaveAttribute("uuid");
+  });
+
+  it("routes resolver story slugs that omit a leading slash", () => {
+    const RichText = createRichText(() => null);
+
+    render(
+      <RichText
+        doc={linkDoc("Career", {
+          href: "about#career",
+          target: "_blank",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    const link = screen.getByRole("link", { name: "Career" });
+    expect(link).toHaveAttribute("href", "/about#career");
+    expect(link).toHaveAttribute("data-next-link", "true");
+    expect(link).not.toHaveAttribute("target");
+  });
+
+  it("prefixes story slugs and maps /home to /", () => {
+    const RichText = createRichText(() => null);
+
+    const { rerender } = render(
+      <RichText
+        doc={linkDoc("Career", {
+          href: "about",
+          linktype: "story",
+          anchor: "career",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "Career" })).toHaveAttribute(
+      "href",
+      "/about#career",
+    );
+    expect(screen.getByRole("link", { name: "Career" })).toHaveAttribute(
+      "data-next-link",
+      "true",
+    );
+
+    rerender(
+      <RichText
+        doc={linkDoc("Home", {
+          href: "/home",
+          linktype: "story",
+          target: "_blank",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/",
+    );
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "data-next-link",
+      "true",
+    );
+  });
+
+  it("treats same-origin absolute URLs as Next.js routes", () => {
+    const RichText = createRichText(() => null);
+
+    render(
+      <RichText
+        doc={linkDoc("Blog", {
+          href: "https://www.jimdrury.co.uk/blog",
+          linktype: "url",
+          target: "_blank",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    const link = screen.getByRole("link", { name: "Blog" });
+    expect(link).toHaveAttribute("href", "/blog");
+    expect(link).toHaveAttribute("data-next-link", "true");
+    expect(link).not.toHaveAttribute("target");
+  });
+
+  it("keeps fragment links in-page and does not open a new window", () => {
+    const RichText = createRichText(() => null);
+
+    render(
+      <RichText
+        doc={linkDoc("On this page", {
+          href: "#section",
+          linktype: "url",
+          target: "_blank",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    const link = screen.getByRole("link", { name: "On this page" });
+    expect(link).toHaveAttribute("href", "#section");
+    expect(link).not.toHaveAttribute("data-next-link");
+    expect(link).not.toHaveAttribute("target");
+  });
+
+  it("keeps external URL links as plain anchors", () => {
+    const RichText = createRichText(() => null);
+
+    render(
+      <RichText
+        doc={linkDoc("External", {
+          href: "https://example.com/about",
+          linktype: "url",
+          target: "_blank",
+        })}
+        {...storyRenderProps}
+      />,
+    );
+
+    const link = screen.getByRole("link", { name: "External" });
+    expect(link).toHaveAttribute("href", "https://example.com/about");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).not.toHaveAttribute("data-next-link");
   });
 
   it("allowlists CSS properties on inline style strings", () => {
@@ -245,5 +436,66 @@ describe("createRichText", () => {
     const code = container.querySelector("pre, code");
 
     expect(code?.textContent).toBe("my-connector/\n├── package.json\n├── src/");
+  });
+
+  it("does not emit React key warnings for repeated text or sibling links", () => {
+    const RichText = createRichText(() => null);
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            { type: "text", text: "MCP " },
+            {
+              type: "text",
+              text: "one",
+              marks: [
+                {
+                  type: "link",
+                  attrs: { href: "/about", linktype: "story" },
+                },
+              ],
+            },
+            { type: "text", text: " MCP " },
+            {
+              type: "text",
+              text: "two",
+              marks: [
+                {
+                  type: "link",
+                  attrs: { href: "/blog", linktype: "story" },
+                },
+              ],
+            },
+            { type: "text", text: " MCP" },
+          ],
+        },
+      ],
+    } as unknown as StoryblokRichTextNode<ReactElement>;
+
+    render(<RichText doc={doc} {...storyRenderProps} />);
+
+    const keyWarnings = consoleError.mock.calls.filter((args) => {
+      const message = args.map(String).join(" ");
+      return (
+        message.includes('unique "key" prop') || message.includes("same key")
+      );
+    });
+
+    expect(keyWarnings).toEqual([]);
+    expect(screen.getByRole("link", { name: "one" })).toHaveAttribute(
+      "data-next-link",
+      "true",
+    );
+    expect(screen.getByRole("link", { name: "two" })).toHaveAttribute(
+      "data-next-link",
+      "true",
+    );
+
+    consoleError.mockRestore();
   });
 });
