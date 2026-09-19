@@ -41,7 +41,7 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
     <section className="rounded-md border-[3px] border-black bg-[var(--bg-secondary)] p-4 shadow-[4px_4px_0_0_var(--fg-primary)] md:p-6">
       <details className="group lg:hidden" open>
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-          <Typography asChild size="2xl" textTransform="uppercase" aria-hidden>
+          <Typography asChild size="3xl" textTransform="uppercase" aria-hidden>
             <h2>On This Page</h2>
           </Typography>
           <FiChevronDown
@@ -74,7 +74,7 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
         </nav>
       </details>
       <div className="hidden lg:block">
-        <Typography asChild size="2xl" textTransform="uppercase" aria-hidden>
+        <Typography asChild size="3xl" textTransform="uppercase" aria-hidden>
           <h2 className="mb-4">On This Page</h2>
         </Typography>
         <nav aria-label="Table of contents">
