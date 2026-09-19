@@ -6,9 +6,9 @@ A simple link card for blog post previews with neobrutalism styling. Title, date
 
 | Prop       | Type        | Default | Description                        |
 | ---------- | ----------- | ------- | ---------------------------------- |
-| `title`    | `string`    | —       | Post title (required)              |
+| `title`    | `string`    | —       | Post title (required), clamped to 3 lines |
 | `category` | `string`    | —       | Optional pill badge straddling the image bottom-left edge |
-| `excerpt`  | `string`    | —       | Short description, clamped to 3 lines |
+| `excerpt`  | `string`    | —       | Short description, clamped to 4 lines |
 | `date`     | `string`    | —       | Formatted display date             |
 | `dateTime` | `string`    | —       | ISO date for `<time>` element      |
 | `href`     | `string`    | —       | Link destination (renders as `<article>` when omitted) |

@@ -142,4 +142,20 @@ describe("BlogCard", () => {
       screen.getByRole("heading", { name: "Line height post" }),
     ).toHaveClass("leading-[28px]");
   });
+
+  it("clamps the default title to three lines and the excerpt to four", () => {
+    const { container } = render(
+      <BlogCard
+        title="A very long title that should clamp"
+        excerpt="A longer excerpt that can wrap across four lines."
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "A very long title that should clamp",
+      }),
+    ).toHaveClass("line-clamp-3");
+    expect(container.querySelector(".line-clamp-4")).toBeInTheDocument();
+  });
 });
