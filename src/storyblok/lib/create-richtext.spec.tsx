@@ -49,7 +49,7 @@ const linkDoc = (
         ],
       },
     ],
-  } as StoryblokRichTextNode<ReactElement>;
+  } as unknown as StoryblokRichTextNode<ReactElement>;
 };
 
 describe("createRichText", () => {
