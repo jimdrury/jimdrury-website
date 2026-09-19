@@ -70,4 +70,21 @@ describe("SimilarArticles", () => {
       "lg:space-y-10",
     );
   });
+
+  it("uses the heading font for the section title", () => {
+    render(
+      <SimilarArticles
+        items={[
+          {
+            href: "/blog/nextjs/one",
+            title: "One",
+          },
+        ]}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Similar Articles" }),
+    ).toHaveClass("font-[family-name:var(--font-anton)]");
+  });
 });

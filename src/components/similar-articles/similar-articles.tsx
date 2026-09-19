@@ -25,7 +25,7 @@ export const SimilarArticles: FC<SimilarArticlesProps> = ({
       )}
       aria-label="Similar articles"
     >
-      <Typography asChild size="2xl" textTransform="uppercase">
+      <Typography asChild size="3xl" textTransform="uppercase">
         <h2 className="mb-4">Similar Articles</h2>
       </Typography>
       <ul className="space-y-4 md:space-y-8 lg:space-y-10">
