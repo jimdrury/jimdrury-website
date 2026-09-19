@@ -39,6 +39,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           height={height ?? 1080}
           sizes="100vw"
           className="h-full w-full object-cover"
+          loading="eager"
         />
       </div>
       <div className="relative z-10 w-full lg:container lg:mx-auto lg:px-12 2xl:max-w-6xl">
