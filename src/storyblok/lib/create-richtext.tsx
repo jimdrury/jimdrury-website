@@ -4,10 +4,12 @@ import {
   richTextResolver,
   type StoryblokRichTextNode,
 } from "@storyblok/js";
+import Link from "next/link";
 import type { FC, ReactElement, ReactNode } from "react";
 import { Children, createElement, Fragment, isValidElement } from "react";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
+import { getNextLinkHref, normalizeRichTextHref } from "./internal-href";
 import { normalizeRichTextLists } from "./normalize-richtext-lists";
 import type { BlokRendererProps, SbBlokData, StoryRenderProps } from "./types";
 
@@ -189,6 +191,78 @@ const attributeMap: Record<string, string> = {
   usemap: "useMap",
 };
 
+const CMS_LINK_ATTRS = new Set([
+  "anchor",
+  "cached_url",
+  "custom",
+  "data-anchor",
+  "data-linktype",
+  "data-uuid",
+  "fieldtype",
+  "linktype",
+  "story",
+  "uuid",
+]);
+
+const omitCmsLinkAttributes = (
+  props: Record<string, unknown>,
+): Record<string, unknown> => {
+  return Object.entries(props).reduce<Record<string, unknown>>(
+    (result, [key, value]) => {
+      if (CMS_LINK_ATTRS.has(key)) {
+        return result;
+      }
+
+      if (key === "id" && typeof value === "number") {
+        return result;
+      }
+
+      result[key] = value;
+      return result;
+    },
+    {},
+  );
+};
+
+const withoutNewWindowTarget = (
+  props: Record<string, unknown>,
+): Record<string, unknown> => {
+  const nextProps = { ...props };
+  delete nextProps.target;
+  return nextProps;
+};
+
+const createRichTextAnchor = (
+  props: Record<string, unknown> | null | undefined,
+  children: ReactNode,
+): ReactElement => {
+  const normalizedHref = normalizeRichTextHref(
+    props?.href,
+    props?.linktype ?? props?.["data-linktype"],
+    props?.anchor ?? props?.["data-anchor"],
+  );
+  const sanitized = sanitizeRenderProps(
+    props ? { ...props, href: normalizedHref } : props,
+  );
+  const linkProps = omitCmsLinkAttributes(sanitized ?? {});
+  const href = typeof linkProps.href === "string" ? linkProps.href : undefined;
+  const nextHref = href ? getNextLinkHref(href) : undefined;
+
+  if (nextHref) {
+    return createElement(
+      Link,
+      { ...withoutNewWindowTarget(linkProps), href: nextHref },
+      children,
+    );
+  }
+
+  if (href?.startsWith("#")) {
+    return createElement("a", withoutNewWindowTarget(linkProps), children);
+  }
+
+  return createElement("a", sanitized ? linkProps : sanitized, children);
+};
+
 const sanitizeRenderProps = (
   props: Record<string, unknown> | null | undefined,
 ): Record<string, unknown> | null | undefined => {
@@ -234,6 +308,10 @@ const renderRichTextElement = (
   props: Record<string, unknown> | null,
   ...children: ReactNode[]
 ) => {
+  if (type === "a") {
+    return createRichTextAnchor(props, children);
+  }
+
   return createElement(type, sanitizeRenderProps(props), ...children);
 };
 
@@ -285,6 +363,10 @@ const normalizeElementAttributes = (node: ReactNode): ReactNode => {
   const children = Children.map(element.props.children, (child) =>
     normalizeElementAttributes(child),
   );
+
+  if (element.type === "a") {
+    return createRichTextAnchor(normalizedProps, children);
+  }
 
   return createElement(element.type, normalizedProps, children);
 };
