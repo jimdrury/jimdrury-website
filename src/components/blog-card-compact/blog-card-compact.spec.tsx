@@ -80,4 +80,22 @@ describe("BlogCardCompact", () => {
       screen.getByRole("heading", { name: "Line height post" }),
     ).toHaveClass("leading-[30px]");
   });
+
+  it("clamps the title to two lines and the excerpt to three", () => {
+    render(
+      <BlogCardCompact
+        title="A very long title that should clamp"
+        excerpt="A longer excerpt that can wrap across three lines."
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "A very long title that should clamp",
+      }),
+    ).toHaveClass("line-clamp-2");
+    expect(
+      screen.getByText("A longer excerpt that can wrap across three lines."),
+    ).toHaveClass("line-clamp-3");
+  });
 });

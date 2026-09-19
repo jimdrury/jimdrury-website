@@ -98,12 +98,12 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
             {date}
           </time>
         ) : null}
-        <h3 className="font-[family-name:var(--font-anton)] text-[22px] font-bold leading-[30px] tracking-[0.5px] text-[var(--fg-primary)]">
+        <h3 className="line-clamp-2 font-[family-name:var(--font-anton)] text-[22px] font-bold leading-[30px] tracking-[0.5px] text-[var(--fg-primary)]">
           {titleNode}
         </h3>
         {excerpt ? (
           <Typography size="sm" asChild>
-            <p className="line-clamp-2 text-[var(--fg-secondary)]">{excerpt}</p>
+            <p className="line-clamp-3 text-[var(--fg-secondary)]">{excerpt}</p>
           </Typography>
         ) : null}
       </div>
