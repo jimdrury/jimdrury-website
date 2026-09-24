@@ -15,6 +15,8 @@ export type StoryData = {
   slug?: string;
   full_slug?: string;
   content: unknown;
+  first_published_at?: string | null;
+  published_at?: string | null;
 };
 
 export type StoryRenderProps = {
