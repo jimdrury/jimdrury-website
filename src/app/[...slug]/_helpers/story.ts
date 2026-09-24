@@ -1,7 +1,7 @@
 import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
-import { getStoryCacheTags } from "@/lib/cache-tags";
+import { getStoryCacheTags, getStoryIdTag } from "@/lib/cache-tags";
 import { fetchStoryBySlug as fetchStoryBySlugFromApi } from "@/lib/storyblok-story";
 import type { StoryData } from "@/storyblok/lib";
 
@@ -16,5 +16,10 @@ export const fetchStoryBySlug = async ({
   cacheLife("ultraLong");
   cacheTag(...getStoryCacheTags({ slug, version }));
 
-  return fetchStoryBySlugFromApi({ slug, version });
+  const story = await fetchStoryBySlugFromApi({ slug, version });
+  if (typeof story?.id === "number") {
+    cacheTag(getStoryIdTag({ id: story.id, version }));
+  }
+
+  return story;
 };

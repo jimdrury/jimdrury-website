@@ -25,13 +25,14 @@ export const getPublishedPageParams = async (): Promise<
   const storyblokApi = getStoryblokApi();
   const params: { slug: string[] }[] = [];
   const seen = new Set<string>();
+  const cv = await getStoryblokCv();
   let page = 1;
 
   while (true) {
     const response = (await storyblokApi.get("cdn/stories", {
       version: "published",
       content_type: "page",
-      cv: getStoryblokCv(),
+      cv,
       page,
       per_page: PAGE_LIST_PER_PAGE,
     })) as StoryblokPageListResponse;

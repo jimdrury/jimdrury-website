@@ -37,4 +37,31 @@ describe("buildContentSecurityPolicy", () => {
 
     expect(csp?.value).toBe(productionPolicy);
   });
+
+  it("sends the remaining security headers from next.config", async () => {
+    const nextConfig = (await import("../../next.config")).default;
+    const headers = await nextConfig.headers?.();
+
+    for (const entry of headers ?? []) {
+      const keys = entry.headers.map((header) => header.key);
+      expect(keys).toEqual([
+        "Content-Security-Policy",
+        "X-Content-Type-Options",
+        "Referrer-Policy",
+      ]);
+    }
+  });
+
+  it("is the only Content-Security-Policy source", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const { join } = await import("node:path");
+    const vercelConfig = JSON.parse(
+      await readFile(join(process.cwd(), "vercel.json"), "utf8"),
+    ) as { headers?: { headers: { key: string }[] }[] };
+    const vercelHeaderKeys = (vercelConfig.headers ?? []).flatMap((entry) =>
+      entry.headers.map((header) => header.key.toLowerCase()),
+    );
+
+    expect(vercelHeaderKeys).not.toContain("content-security-policy");
+  });
 });

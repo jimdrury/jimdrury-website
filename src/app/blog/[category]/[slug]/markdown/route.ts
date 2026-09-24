@@ -13,11 +13,8 @@ const GET = async (
   context: RouteContext<"/blog/[category]/[slug]/markdown">,
 ) => {
   const params = await context.params;
-  const slugValue = params.slug;
-  const slug = typeof slugValue === "string" ? slugValue : "";
-  const normalizedSlug = slug.trim();
-  const requestUrl = new URL(request.url);
-  const requestedCategory = requestUrl.searchParams.get("category")?.trim();
+  const normalizedSlug = params.slug.trim();
+  const requestedCategory = params.category.trim();
 
   if (!normalizedSlug) {
     return new Response("Not Found", { status: 404 });
