@@ -55,6 +55,73 @@ export const isArticleStory = (story: BlogStory): boolean => {
   return story.content?.component === BLOG_CONTENT_TYPE;
 };
 
+const ARTICLE_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+export const getArticlePublishedAtValue = (story: BlogStory): string | null => {
+  const value = story.first_published_at ?? story.published_at ?? null;
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
+
+export const getArticleReleaseDate = (story: BlogStory): string | null => {
+  const value = getArticlePublishedAtValue(story);
+  if (!value || value.length < 10) {
+    return null;
+  }
+
+  const datePart = value.slice(0, 10);
+  return ARTICLE_DATE_PATTERN.test(datePart) ? datePart : null;
+};
+
+export const isArticleReleased = (
+  story: BlogStory,
+  now: Date = new Date(),
+): boolean => {
+  const releaseDate = getArticleReleaseDate(story);
+  if (!releaseDate) {
+    return true;
+  }
+
+  return now.toISOString().slice(0, 10) >= releaseDate;
+};
+
+export const getVisibleArticles = (
+  stories: readonly BlogStory[],
+  version: "draft" | "published",
+  now: Date = new Date(),
+): BlogStory[] => {
+  if (version === "draft") {
+    return [...stories];
+  }
+
+  return stories.filter((story) => isArticleReleased(story, now));
+};
+
+export const getNextUnreleasedReleaseAt = (
+  stories: readonly BlogStory[],
+  now: Date = new Date(),
+): Date | null => {
+  const currentDate = now.toISOString().slice(0, 10);
+  let nextDate: string | null = null;
+
+  for (const story of stories) {
+    const releaseDate = getArticleReleaseDate(story);
+    if (!releaseDate || releaseDate <= currentDate) {
+      continue;
+    }
+
+    if (!nextDate || releaseDate < nextDate) {
+      nextDate = releaseDate;
+    }
+  }
+
+  return nextDate ? new Date(`${nextDate}T00:00:00.000Z`) : null;
+};
+
 export const parsePageParam = (page: string | undefined): number => {
   const parsed = Number.parseInt(page ?? "1", 10);
   if (Number.isNaN(parsed) || parsed < 1) {

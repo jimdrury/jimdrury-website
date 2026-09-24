@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { draftMode } from "next/headers";
 import type { ReactElement, ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { RecentPostsBlok } from "./RecentPostsBlok";
@@ -11,6 +12,10 @@ const mocks = vi.hoisted(() => ({
   getDefaultStoryCategory: vi.fn(),
   formatStoryDate: vi.fn(),
   getStoryDateTime: vi.fn(),
+}));
+
+vi.mock("next/headers", () => ({
+  draftMode: vi.fn(async () => ({ isEnabled: false })),
 }));
 
 vi.mock("next/link", () => ({
@@ -56,6 +61,7 @@ const renderRecentPosts = async (
 
 describe("RecentPostsBlok", () => {
   beforeEach(() => {
+    vi.mocked(draftMode).mockResolvedValue({ isEnabled: false } as never);
     mocks.getBlogIndexArchive.mockResolvedValue({ stories: [{ uuid: "1" }] });
     mocks.getArticlesWithPath.mockReturnValue([
       {
@@ -123,6 +129,23 @@ describe("RecentPostsBlok", () => {
     expect(
       screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
     ).not.toHaveClass("text-[48px]", "uppercase");
+    expect(mocks.getBlogIndexArchive).toHaveBeenCalledWith({
+      page: 1,
+      version: "published",
+    });
+  });
+
+  it("loads draft listings while Storyblok preview is enabled", async () => {
+    vi.mocked(draftMode).mockResolvedValue({ isEnabled: true } as never);
+
+    await renderRecentPosts({
+      component: "recent_posts",
+    });
+
+    expect(mocks.getBlogIndexArchive).toHaveBeenCalledWith({
+      page: 1,
+      version: "draft",
+    });
   });
 
   it("returns null when there are no categorized articles", async () => {

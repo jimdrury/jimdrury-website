@@ -1,6 +1,6 @@
 import "server-only";
 import { format, isValid, parseISO } from "date-fns";
-import { cacheLife, cacheTag } from "next/cache";
+import { cacheTag } from "next/cache";
 import {
   BLOG_SCOPES,
   getBlogCategoryPageTag,
@@ -8,24 +8,21 @@ import {
   getBlogIndexPageTag,
   getBlogVersionTag,
 } from "@/lib/cache-tags";
-import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
 import {
-  getAllArticles,
+  applySnapshotCacheLife,
   getArticlesByTag,
+  getBlogStoriesSnapshot,
   getBlogTags,
 } from "@/storyblok/blog-listings";
 import {
   BLOG_ARCHIVE_PAGE_SIZE,
-  BLOG_CONTENT_TYPE,
-  BLOG_PREFIX,
   type BlogStory,
   buildPaginationHref,
+  getArticlePublishedAtValue,
   getFeaturedImageAsset,
   getPageFromPathname,
-  isArticleStory,
   parsePageParam,
   parseStoryblokImageDimensions,
-  type StoryblokStoriesResponse,
 } from "@/storyblok/blog-listings-utils";
 
 export type { BlogStory } from "@/storyblok/blog-listings-utils";
@@ -75,10 +72,8 @@ export const getStoryCategories = (story: BlogStory): string[] => {
 };
 
 const getStoryDateValue = (story: BlogStory): string | null => {
-  return story.first_published_at ?? story.published_at ?? null;
+  return getArticlePublishedAtValue(story);
 };
-
-const BLOG_FETCH_PER_PAGE = 100;
 
 const getDatePrefix = ({
   year,
@@ -132,41 +127,16 @@ const getStoriesByDatePrefix = async ({
   version: "draft" | "published";
 }): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("ultraLong");
   cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.dateArchive, version }));
   cacheTag(getBlogDateArchiveTag({ datePrefix, version }));
 
-  const storyblokApi = getStoryblokApi();
-  const stories: BlogStory[] = [];
-  let page = 1;
+  const snapshot = await getBlogStoriesSnapshot(version);
+  applySnapshotCacheLife(snapshot);
 
-  while (true) {
-    const response = (await storyblokApi.get("cdn/stories", {
-      version,
-      cv: getStoryblokCv(),
-      starts_with: BLOG_PREFIX,
-      content_type: BLOG_CONTENT_TYPE,
-      sort_by: "first_published_at:desc",
-      page,
-      per_page: BLOG_FETCH_PER_PAGE,
-    })) as StoryblokStoriesResponse;
-
-    const batch = (response.data?.stories ?? []).filter(isArticleStory);
-    stories.push(
-      ...batch.filter((story) => {
-        const storyDate = getStoryDatePrefix(story);
-        return storyDate ? storyDate.startsWith(datePrefix) : false;
-      }),
-    );
-
-    if (batch.length < BLOG_FETCH_PER_PAGE) {
-      break;
-    }
-
-    page += 1;
-  }
-
-  return stories;
+  return snapshot.visibleStories.filter((story) => {
+    const storyDate = getStoryDatePrefix(story);
+    return storyDate ? storyDate.startsWith(datePrefix) : false;
+  });
 };
 
 export {
@@ -230,7 +200,7 @@ export const getDefaultStoryCategory = (story: BlogStory): string | null => {
 export const getPublishedArticleParams = async (): Promise<
   { category: string; slug: string }[]
 > => {
-  const stories = await getAllArticles("published");
+  const { visibleStories: stories } = await getBlogStoriesSnapshot("published");
   const params: { category: string; slug: string }[] = [];
 
   for (const story of stories) {
@@ -252,7 +222,7 @@ export const getPublishedArticleParams = async (): Promise<
 export const getBlogPaginationStaticParams = async (): Promise<
   { page: string }[]
 > => {
-  const stories = await getAllArticles("published");
+  const { visibleStories: stories } = await getBlogStoriesSnapshot("published");
   const totalPages = Math.max(
     1,
     Math.ceil(stories.length / BLOG_ARCHIVE_PAGE_SIZE),
@@ -338,11 +308,12 @@ export const getBlogIndexArchive = async ({
   categories: BlogCategoryLink[];
 }> => {
   "use cache";
-  cacheLife("ultraLong");
   cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.index, version }));
   cacheTag(getBlogIndexPageTag({ page, version }));
 
-  const allStories = await getAllArticles(version);
+  const snapshot = await getBlogStoriesSnapshot(version);
+  applySnapshotCacheLife(snapshot);
+  const allStories = snapshot.visibleStories;
   const total = allStories.length;
   const totalPages = Math.max(1, Math.ceil(total / BLOG_ARCHIVE_PAGE_SIZE));
   const boundedPage = Math.min(Math.max(1, Math.trunc(page)), totalPages);
@@ -388,9 +359,11 @@ export const getBlogCategoryArchive = async ({
   pagination: BlogArchivePagination;
 }> => {
   "use cache";
-  cacheLife("ultraLong");
   cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.category, version }));
   cacheTag(getBlogCategoryPageTag({ category, page, version }));
+
+  const snapshot = await getBlogStoriesSnapshot(version);
+  applySnapshotCacheLife(snapshot);
 
   const normalizedCategory = category.trim();
   const pageIndex = Number.isFinite(page)

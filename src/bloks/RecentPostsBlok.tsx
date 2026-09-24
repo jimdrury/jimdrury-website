@@ -1,4 +1,5 @@
 import "server-only";
+import { draftMode } from "next/headers";
 import Link from "next/link";
 import type { FC } from "react";
 import { BlogCardCompact } from "@/components/blog-card-compact";
@@ -37,9 +38,10 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
   const title = blok.title?.trim() || "Recent Writing";
   const count = parseCount(blok.count);
 
+  const { isEnabled } = await draftMode();
   const { stories } = await getBlogIndexArchive({
     page: 1,
-    version: "published",
+    version: isEnabled ? "draft" : "published",
   });
 
   const recentStories = getArticlesWithPath(stories).slice(0, count);

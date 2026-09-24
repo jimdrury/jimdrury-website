@@ -14,6 +14,9 @@ import {
   BLOG_CONTENT_TYPE,
   BLOG_PREFIX,
   type BlogStory,
+  getNextUnreleasedReleaseAt,
+  getVisibleArticles,
+  isArticleReleased,
   isArticleStory,
   type StoryblokStoriesResponse,
 } from "@/storyblok/blog-listings-utils";
@@ -21,68 +24,32 @@ import {
 const BLOG_FETCH_PER_PAGE = 100;
 const SIMILAR_ARTICLES_SEED_SIZE = 25;
 
-type StoryblokTag = {
-  name?: string;
-  taggings_count?: number | string;
+export type BlogStoriesSnapshot = {
+  visibleStories: BlogStory[];
+  nextReleaseAt: string | null;
 };
 
-type StoryblokTagsResponse = {
-  data?: {
-    tags?: StoryblokTag[];
-  };
-};
-
-export const getArticlesByTag = async (
-  tag: string,
-  index: number,
-  version: "draft" | "published" = "published",
-): Promise<BlogStory[]> => {
-  "use cache";
-  const normalizedTag = tag.trim();
-  if (!normalizedTag) {
-    return [];
+const applyPublishedListingCacheLife = (nextReleaseAt: string | null): void => {
+  if (!nextReleaseAt) {
+    cacheLife("ultraLong");
+    return;
   }
 
-  const pageIndex = Number.isFinite(index) ? Math.max(0, Math.trunc(index)) : 0;
-  const cacheTagValue = getBlogArticlesByTagIndexTag({
-    tag: normalizedTag,
-    index: pageIndex,
-    version,
+  const expire = Math.max(
+    2,
+    Math.ceil((Date.parse(nextReleaseAt) - Date.now()) / 1000),
+  );
+
+  cacheLife({
+    stale: Math.min(60, expire - 1),
+    revalidate: expire - 1,
+    expire,
   });
-
-  const blogVersionTag = getBlogVersionTag({
-    scope: BLOG_SCOPES.articlesByTag,
-    version,
-  });
-
-  cacheLife("ultraLong");
-  cacheTag(blogVersionTag);
-  cacheTag(getBlogArticlesByTagTag({ tag: normalizedTag, version }));
-  cacheTag(cacheTagValue);
-
-  const storyblokApi = getStoryblokApi();
-
-  const response = (await storyblokApi.get("cdn/stories", {
-    version,
-    cv: getStoryblokCv(),
-    starts_with: BLOG_PREFIX,
-    content_type: BLOG_CONTENT_TYPE,
-    with_tag: normalizedTag,
-    sort_by: "first_published_at:desc",
-    page: pageIndex + 1,
-    per_page: BLOG_ARCHIVE_PAGE_SIZE,
-  })) as StoryblokStoriesResponse;
-
-  return (response.data?.stories ?? []).filter(isArticleStory);
 };
 
-export const getAllArticles = async (
-  version: "draft" | "published" = "published",
+const fetchAllArticleStories = async (
+  version: "draft" | "published",
 ): Promise<BlogStory[]> => {
-  "use cache";
-  cacheLife("ultraLong");
-  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.allArticles, version }));
-
   const storyblokApi = getStoryblokApi();
   const stories: BlogStory[] = [];
   let page = 1;
@@ -111,55 +78,113 @@ export const getAllArticles = async (
   return stories;
 };
 
+export const getBlogStoriesSnapshot = async (
+  version: "draft" | "published" = "published",
+): Promise<BlogStoriesSnapshot> => {
+  "use cache";
+  cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.allArticles, version }));
+
+  const stories = await fetchAllArticleStories(version);
+  const now = new Date();
+  const nextReleaseAt =
+    version === "published" ? getNextUnreleasedReleaseAt(stories, now) : null;
+
+  applyPublishedListingCacheLife(nextReleaseAt?.toISOString() ?? null);
+
+  return {
+    visibleStories: getVisibleArticles(stories, version, now),
+    nextReleaseAt: nextReleaseAt?.toISOString() ?? null,
+  };
+};
+
+export const applySnapshotCacheLife = (snapshot: BlogStoriesSnapshot): void => {
+  applyPublishedListingCacheLife(snapshot.nextReleaseAt);
+};
+
+export const getArticlesByTag = async (
+  tag: string,
+  index: number,
+  version: "draft" | "published" = "published",
+): Promise<BlogStory[]> => {
+  "use cache";
+  const normalizedTag = tag.trim();
+  if (!normalizedTag) {
+    return [];
+  }
+
+  const pageIndex = Number.isFinite(index) ? Math.max(0, Math.trunc(index)) : 0;
+  const cacheTagValue = getBlogArticlesByTagIndexTag({
+    tag: normalizedTag,
+    index: pageIndex,
+    version,
+  });
+
+  const blogVersionTag = getBlogVersionTag({
+    scope: BLOG_SCOPES.articlesByTag,
+    version,
+  });
+
+  cacheTag(blogVersionTag);
+  cacheTag(getBlogArticlesByTagTag({ tag: normalizedTag, version }));
+  cacheTag(cacheTagValue);
+
+  const snapshot = await getBlogStoriesSnapshot(version);
+  applySnapshotCacheLife(snapshot);
+
+  const tagged = snapshot.visibleStories.filter((story) => {
+    return (story.tag_list ?? []).some((storyTag) => {
+      return storyTag.trim() === normalizedTag;
+    });
+  });
+  const startIndex = pageIndex * BLOG_ARCHIVE_PAGE_SIZE;
+
+  return tagged.slice(startIndex, startIndex + BLOG_ARCHIVE_PAGE_SIZE);
+};
+
+export const getAllArticles = async (
+  version: "draft" | "published" = "published",
+): Promise<BlogStory[]> => {
+  const { visibleStories } = await getBlogStoriesSnapshot(version);
+  return visibleStories;
+};
+
 export const getLatestArticlesSeed = async (
   version: "draft" | "published" = "published",
 ): Promise<BlogStory[]> => {
   "use cache";
-  cacheLife("ultraLong");
   cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.latestSeed, version }));
 
-  const storyblokApi = getStoryblokApi();
-  const response = (await storyblokApi.get("cdn/stories", {
-    version,
-    cv: getStoryblokCv(),
-    starts_with: BLOG_PREFIX,
-    content_type: BLOG_CONTENT_TYPE,
-    sort_by: "first_published_at:desc",
-    page: 1,
-    per_page: SIMILAR_ARTICLES_SEED_SIZE,
-  })) as StoryblokStoriesResponse;
+  const snapshot = await getBlogStoriesSnapshot(version);
+  applySnapshotCacheLife(snapshot);
 
-  return (response.data?.stories ?? []).filter(isArticleStory);
+  return snapshot.visibleStories.slice(0, SIMILAR_ARTICLES_SEED_SIZE);
 };
 
 export const getBlogTags = async (
   version: "draft" | "published" = "published",
 ): Promise<{ slug: string; count: number }[]> => {
   "use cache";
-  cacheLife("ultraLong");
   cacheTag(getBlogVersionTag({ scope: BLOG_SCOPES.tags, version }));
 
-  const storyblokApi = getStoryblokApi();
-  const response = (await storyblokApi.get("cdn/tags", {
-    version,
-    cv: getStoryblokCv(),
-    starts_with: BLOG_PREFIX,
-  })) as StoryblokTagsResponse;
+  const snapshot = await getBlogStoriesSnapshot(version);
+  applySnapshotCacheLife(snapshot);
 
-  return (response.data?.tags ?? [])
-    .map((tag) => {
-      const slug = (tag.name ?? "").trim();
-      const count =
-        typeof tag.taggings_count === "string"
-          ? Number.parseInt(tag.taggings_count, 10)
-          : (tag.taggings_count ?? 0);
+  const counts = new Map<string, number>();
+  for (const story of snapshot.visibleStories) {
+    for (const tag of story.tag_list ?? []) {
+      const slug = tag.trim();
+      if (!slug) {
+        continue;
+      }
 
-      return {
-        slug,
-        count: Number.isFinite(count) ? count : 0,
-      };
+      counts.set(slug, (counts.get(slug) ?? 0) + 1);
+    }
+  }
+
+  return [...counts.entries()]
+    .map(([slug, count]) => {
+      return { slug, count };
     })
-    .filter((tag) => tag.slug.length > 0)
     .sort((a, b) => {
       if (b.count !== a.count) {
         return b.count - a.count;
@@ -177,10 +202,10 @@ export const getArticleBySlug = async ({
   version: "draft" | "published";
 }): Promise<BlogStory | null> => {
   "use cache";
-  cacheLife("ultraLong");
 
   const normalizedSlug = slug.trim();
   if (!normalizedSlug) {
+    cacheLife("ultraLong");
     return null;
   }
   cacheTag(getBlogArticleSlugTag({ slug: normalizedSlug, version }));
@@ -191,8 +216,26 @@ export const getArticleBySlug = async ({
   });
 
   if (!story) {
+    cacheLife("ultraLong");
     return null;
   }
 
-  return isArticleStory(story as BlogStory) ? (story as BlogStory) : null;
+  const article = isArticleStory(story as BlogStory)
+    ? (story as BlogStory)
+    : null;
+
+  if (!article) {
+    cacheLife("ultraLong");
+    return null;
+  }
+
+  if (version === "published" && !isArticleReleased(article)) {
+    applyPublishedListingCacheLife(
+      getNextUnreleasedReleaseAt([article])?.toISOString() ?? null,
+    );
+    return null;
+  }
+
+  cacheLife("ultraLong");
+  return article;
 };
