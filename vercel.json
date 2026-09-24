@@ -1,22 +1,3 @@
 {
-  "installCommand": "corepack enable && echo \"//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}\" >> ~/.npmrc && corepack pnpm install --frozen-lockfile",
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://app.storyblok.com;"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ]
+  "installCommand": "corepack enable && echo \"//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}\" >> ~/.npmrc && corepack pnpm install --frozen-lockfile"
 }
