@@ -177,7 +177,7 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({
             ) : null}
           </div>
         ))}
-      <div className="container mx-auto mt-8 flex flex-col gap-6 px-5 lg:mt-28 lg:flex-row lg:items-start lg:gap-12 lg:pb-12 lg:pt-16 2xl:max-w-6xl xl:px-0">
+      <div className="container mx-auto mt-8 flex flex-col gap-6 px-5 lg:mt-10 lg:flex-row lg:items-start lg:gap-12 lg:pb-12 lg:pt-8 2xl:max-w-6xl xl:px-0">
         <div className="lg:hidden">
           {renderRail(
             blok.pre_content,

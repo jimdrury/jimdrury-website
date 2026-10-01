@@ -53,4 +53,12 @@ describe("ArticleHero", () => {
       "lg:object-contain",
     );
   });
+
+  it("keeps the desktop title card in flow so it does not cover the short banner", () => {
+    const { container } = renderHero();
+    const desktopCard = container.querySelector("header .lg\\:block");
+
+    expect(desktopCard).toHaveClass("relative", "lg:-mt-8", "lg:block");
+    expect(desktopCard).not.toHaveClass("absolute");
+  });
 });

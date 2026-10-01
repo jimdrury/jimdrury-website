@@ -61,7 +61,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
             readTime={readTime}
           />
         </div>
-        <div className="absolute -bottom-32 -left-[3px] z-10 hidden w-full max-w-[860px] rounded-md border-[3px] border-black bg-[var(--bg-accent-yellow)] px-10 py-9 text-black shadow-[8px_8px_0_0_var(--fg-primary)] lg:block xl:-bottom-36">
+        <div className="relative z-10 hidden w-full max-w-[860px] rounded-md border-[3px] border-black bg-[var(--bg-accent-yellow)] px-10 py-9 text-black shadow-[8px_8px_0_0_var(--fg-primary)] lg:-mt-8 lg:block">
           {primaryCategory ? (
             <Badge variant="tertiary" className="mb-5">
               {primaryCategory}
