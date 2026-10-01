@@ -24,7 +24,7 @@ export default nestable({
             { name: "None", value: "none" },
             { name: "Primary", value: "primary" },
             { name: "Secondary", value: "secondary" },
-            { name: "Yellow", value: "accent_yellow" },
+            { name: "Rose", value: "accent_yellow" },
             { name: "Orange", value: "accent_orange" },
             { name: "Pink", value: "accent_pink" },
             { name: "Purple", value: "accent_purple" },

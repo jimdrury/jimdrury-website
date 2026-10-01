@@ -451,7 +451,7 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
       {...props}
     >
       {title ? (
-        <div className="border-b-2 border-black bg-yellow-300 px-4 py-2 font-mono text-sm font-semibold">
+        <div className="border-b-2 border-black bg-[var(--bg-accent-rose)] px-4 py-2 font-mono text-sm font-semibold">
           {title}
         </div>
       ) : null}

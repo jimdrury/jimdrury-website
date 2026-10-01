@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const NotFound: FC = () => {
   return (
     <main className="flex min-h-svh flex-col items-center justify-center px-6 py-24 text-center">
-      <span className="mb-6 inline-flex items-center rounded-md border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-bold shadow-[4px_4px_0_0_#000]">
+      <span className="mb-6 inline-flex items-center rounded-md border-2 border-black bg-[var(--bg-accent-rose)] px-4 py-2 text-sm font-bold shadow-[4px_4px_0_0_#000]">
         404
       </span>
 

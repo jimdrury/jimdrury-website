@@ -56,7 +56,7 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
                 <Link
                   href={`#${heading.id}`}
                   className={cn(
-                    "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200",
+                    "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-[var(--bg-accent-rose-soft)]",
                     indentByLevel[heading.level],
                   )}
                 >
@@ -84,7 +84,7 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
                 <Link
                   href={`#${heading.id}`}
                   className={cn(
-                    "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-yellow-200",
+                    "flex items-center justify-between gap-3 rounded-md border-2 border-black bg-white px-3 py-2 text-sm font-semibold transition-colors hover:bg-[var(--bg-accent-rose-soft)]",
                     indentByLevel[heading.level],
                   )}
                 >

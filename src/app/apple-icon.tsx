@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { brandAccent } from "@/lib/brand-accent";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
@@ -12,7 +13,7 @@ const AppleIcon = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#ffe156",
+        background: brandAccent,
         borderRadius: 32,
         fontFamily: "Inter",
         fontSize: 100,

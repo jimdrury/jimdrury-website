@@ -40,7 +40,7 @@ export default nestable({
       name: "colour",
       description: "Background colour for the award card.",
       options: [
-        { name: "Yellow", value: "yellow" },
+        { name: "Rose", value: "yellow" },
         { name: "Pink", value: "pink" },
         { name: "Blue", value: "blue" },
         { name: "Green", value: "green" },

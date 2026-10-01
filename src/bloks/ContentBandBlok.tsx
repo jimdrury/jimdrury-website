@@ -50,7 +50,7 @@ const backgroundStyles: Record<
     color: "var(--fg-primary)",
   },
   accent_yellow: {
-    backgroundColor: "var(--bg-accent-yellow)",
+    backgroundColor: "var(--bg-accent-rose)",
     color: "var(--fg-primary)",
   },
   accent_orange: {

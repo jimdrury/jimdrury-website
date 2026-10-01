@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { brandAccent } from "@/lib/brand-accent";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
@@ -12,7 +13,7 @@ const Icon = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#ffe156",
+        background: brandAccent,
         borderRadius: 4,
         fontFamily: "Inter",
         fontSize: 18,

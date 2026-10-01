@@ -39,7 +39,7 @@ const formatDateLabel = (value: string): string => {
 };
 
 const colourClasses: Record<CareerHistoryColour, string> = {
-  yellow: "bg-[var(--bg-accent-yellow)]",
+  yellow: "bg-[var(--bg-accent-rose)]",
   blue: "bg-[var(--bg-accent-blue)]",
   green: "bg-[var(--bg-accent-green)]",
   pink: "bg-[var(--bg-accent-pink)]",

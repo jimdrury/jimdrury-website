@@ -43,7 +43,7 @@ export default nestable({
       description: "Card background accent colour.",
       default_value: "yellow",
       options: [
-        { name: "Yellow", value: "yellow" },
+        { name: "Rose", value: "yellow" },
         { name: "Blue", value: "blue" },
         { name: "Green", value: "green" },
         { name: "Pink", value: "pink" },

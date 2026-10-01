@@ -1,6 +1,6 @@
 # Header
 
-A compound site header with brutalist styling. Light background, bold border-bottom, Anton logo, uppercase nav links, and a yellow CTA button with offset shadow.
+A compound site header with brutalist styling. Light background, bold border-bottom, Anton logo, uppercase nav links, and a soft rose CTA button with offset shadow.
 
 ## Sub-components
 
@@ -10,7 +10,7 @@ A compound site header with brutalist styling. Light background, bold border-bot
 | `HeaderLogo`    | `<a>`/`<span>` | Logo in Anton font; renders as a link when `href` or `asChild` is provided |
 | `HeaderNav`     | `<nav>`        | Navigation wrapper with a `<ul>`                                     |
 | `HeaderNavLink` | `<a>`/`<li>`   | Individual nav link — uppercase, bold, with opacity active state     |
-| `HeaderCta`     | `<a>`/`<li>`   | Yellow CTA button with brutalist border and offset shadow            |
+| `HeaderCta`     | `<a>`/`<li>`   | Soft rose CTA button with brutalist border and offset shadow         |
 
 ## Usage
 

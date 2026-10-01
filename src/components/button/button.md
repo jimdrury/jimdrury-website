@@ -38,7 +38,7 @@ import { Button } from "@/components/button";
 - **`primary`** — Fill `#ff6b6b` (coral), dark text.
 - **`secondary`** — Fill `#fffdf5` (cream), dark text.
 - **`tertiary`** — Fill `#a8d8ea` (blue), dark text.
-- **`highlight`** — Fill `#ffe156` (yellow), dark text.
+- **`highlight`** — Fill `#f3bac8` (soft rose), dark text. Hover `#e89caf`.
 - **`dark`** — Fill `#1a1a1a`, cream text `#fffdf5`.
 - **`ghost`** — Transparent fill, no shadow, subtle cream hover.
 

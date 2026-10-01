@@ -45,7 +45,7 @@ const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
   light_grey: "bg-[var(--bg-secondary)]",
   dark: "bg-zinc-800",
   black: "bg-black",
-  yellow: "bg-[var(--bg-accent-yellow)]",
+  yellow: "bg-[var(--bg-accent-rose)]",
   blue: "bg-[var(--bg-accent-blue)]",
 };
 

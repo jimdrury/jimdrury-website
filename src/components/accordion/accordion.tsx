@@ -92,8 +92,8 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         className={cn(
           "flex cursor-pointer items-start justify-between gap-4 bg-white px-4 py-3 font-medium text-gray-900",
           grouped
-            ? "hover:bg-yellow-100 focus-visible:bg-yellow-100 focus-visible:focus-ring"
-            : "rounded-md border-2 border-black text-black shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:bg-yellow-100 focus-visible:focus-ring",
+            ? "hover:bg-[var(--bg-accent-rose-muted)] focus-visible:bg-[var(--bg-accent-rose-muted)] focus-visible:focus-ring"
+            : "rounded-md border-2 border-black text-black shadow-[4px_4px_0_0] hover:bg-[var(--bg-accent-rose-muted)] focus-visible:bg-[var(--bg-accent-rose-muted)] focus-visible:focus-ring",
         )}
       >
         <span className="flex min-w-0 flex-1 items-start gap-3">

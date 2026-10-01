@@ -14,8 +14,12 @@
   --bg-primary: #fffdf5;
   --bg-secondary: #f5f0e1;
 
-  /* Accent tints (Pencil neo_pencil.pen) */
-  --bg-accent-yellow: #ffe156;
+  /* Accent tints (Pencil neo_pencil.pen). Rose replaces the former yellow primary. */
+  --bg-accent-rose: #f3bac8;
+  --bg-accent-rose-hover: #e89caf;
+  --bg-accent-rose-muted: #fae5ea;
+  --bg-accent-rose-soft: #f3cdd7;
+  --fg-accent-rose: #9e2e48;
   --bg-accent-orange: #ff9f43;
   --bg-accent-pink: #ff6b6b;
   --bg-accent-purple: #c4b5fd;

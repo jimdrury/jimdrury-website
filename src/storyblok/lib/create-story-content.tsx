@@ -44,7 +44,7 @@ const StoryContentParseError: FC<StoryContentParseErrorProps> = ({ name }) => {
   return (
     <div
       role="alert"
-      className="mx-auto my-12 max-w-2xl rounded-md border-[3px] border-black bg-yellow-300 p-6 shadow-[4px_4px_0_0_#000]"
+      className="mx-auto my-12 max-w-2xl rounded-md border-[3px] border-black bg-[var(--bg-accent-rose)] p-6 shadow-[4px_4px_0_0_#000]"
     >
       <p className="text-lg font-bold">This draft could not be rendered.</p>
       <p className="mt-2 text-zinc-800">

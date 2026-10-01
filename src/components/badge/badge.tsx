@@ -12,7 +12,7 @@ export const badgeVariants = cva(
         primary: "bg-[var(--bg-accent-pink)]",
         secondary: "bg-[var(--bg-primary)]",
         tertiary: "bg-[var(--bg-accent-blue)]",
-        highlight: "bg-[var(--bg-accent-yellow)]",
+        highlight: "bg-[var(--bg-accent-rose)]",
         dark: "bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
       },
     },

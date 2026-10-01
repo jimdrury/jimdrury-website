@@ -45,7 +45,7 @@ export interface AwardProps extends ComponentPropsWithoutChildren<"figure"> {
 }
 
 const colourClasses: Record<AwardColour, string> = {
-  yellow: "bg-[var(--bg-accent-yellow)]",
+  yellow: "bg-[var(--bg-accent-rose)]",
   pink: "bg-[var(--bg-accent-pink)]",
   blue: "bg-[var(--bg-accent-blue)]",
   green: "bg-[var(--bg-accent-green)]",

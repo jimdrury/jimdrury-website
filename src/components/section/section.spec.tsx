@@ -71,7 +71,7 @@ describe("Section", () => {
     );
 
     expect(screen.getByTestId("section")).toHaveClass(
-      "bg-[var(--bg-accent-yellow)]",
+      "bg-[var(--bg-accent-rose)]",
       "pt-12",
       "pb-4",
     );

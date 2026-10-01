@@ -14,7 +14,8 @@ export const buttonVariants = cva(
         primary: "bg-[var(--bg-accent-pink)] hover:bg-[#f05555]",
         secondary: "bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)]",
         tertiary: "bg-[var(--bg-accent-blue)] hover:bg-[#92c9d8]",
-        highlight: "bg-[var(--bg-accent-yellow)] hover:bg-[#f5cf2a]",
+        highlight:
+          "bg-[var(--bg-accent-rose)] hover:bg-[var(--bg-accent-rose-hover)]",
         dark: "bg-[var(--fg-primary)] text-[var(--fg-inverse)] hover:bg-[#2a2a2a]",
         ghost:
           "bg-transparent shadow-none hover:bg-[var(--bg-secondary)]/90 hover:shadow-none focus-visible:shadow-[0_0_0_2px_var(--bg-primary),0_0_0_4px_var(--fg-primary),6px_6px_0_0_var(--fg-primary)]",
