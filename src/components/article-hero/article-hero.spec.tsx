@@ -37,7 +37,7 @@ describe("ArticleHero", () => {
     );
   });
 
-  it("caps the featured image at 300px from the large breakpoint", () => {
+  it("caps the featured image at 600px from the large breakpoint", () => {
     const { container } = renderHero();
     const frame = container.querySelector("header > div");
 
@@ -45,11 +45,14 @@ describe("ArticleHero", () => {
       "aspect-[16/9]",
       "bg-black",
       "lg:aspect-auto",
-      "lg:h-[300px]",
+      "lg:h-[600px]",
     );
     expect(frame).not.toHaveClass("lg:aspect-[20/7]");
     expect(screen.getByRole("img", { name: "Featured image" })).toHaveClass(
       "object-cover",
+      "object-center",
+    );
+    expect(screen.getByRole("img", { name: "Featured image" })).not.toHaveClass(
       "lg:object-contain",
     );
   });

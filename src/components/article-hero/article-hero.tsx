@@ -19,8 +19,6 @@ export interface ArticleHeroProps {
 export const ArticleHero: FC<ArticleHeroProps> = ({
   src,
   alt,
-  width,
-  height,
   title,
   excerpt,
   categories,
@@ -31,14 +29,13 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
 
   return (
     <header className="relative">
-      <div className="aspect-[16/9] overflow-hidden bg-black lg:aspect-auto lg:h-[300px]">
+      <div className="relative aspect-[16/9] overflow-hidden bg-black lg:aspect-auto lg:h-[600px]">
         <Image
           src={src}
           alt={alt}
-          width={width ?? 1920}
-          height={height ?? 1080}
+          fill
           sizes="100vw"
-          className="h-full w-full object-cover lg:object-contain"
+          className="object-cover object-center"
           loading="eager"
         />
       </div>
