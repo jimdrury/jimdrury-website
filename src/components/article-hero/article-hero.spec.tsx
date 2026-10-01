@@ -64,9 +64,10 @@ describe("ArticleHero", () => {
     expect(desktopCard).toHaveClass(
       "absolute",
       "-bottom-32",
-      "-left-[3px]",
+      "left-5",
+      "lg:left-12",
       "lg:block",
     );
-    expect(desktopCard).not.toHaveClass("relative", "lg:-mt-8", "mx-auto");
+    expect(desktopCard).not.toHaveClass("relative", "mx-auto");
   });
 });
