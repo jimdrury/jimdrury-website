@@ -49,7 +49,7 @@ const backgroundClasses: Record<SectionBackground, string> = {
   light_grey: "bg-[#f4f4f5] text-black",
   dark: "bg-[#27272a] text-white",
   black: "bg-black text-[var(--fg-inverse)]",
-  yellow: "bg-[var(--bg-accent-yellow)] text-[var(--fg-primary)]",
+  yellow: "bg-[var(--bg-accent-rose)] text-[var(--fg-primary)]",
 };
 
 const paddingTopClasses: Record<SectionPadding, string> = {

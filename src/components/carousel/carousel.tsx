@@ -63,7 +63,7 @@ export const Carousel: FC<CarouselProps> = ({
         <h2 className="text-balance font-mono text-lg font-black uppercase tracking-wide sm:text-xl">
           {title}
         </h2>
-        <p className="rounded-md border-2 border-black bg-yellow-300 px-2 py-1 font-mono text-xs font-bold uppercase tracking-wide">
+        <p className="rounded-md border-2 border-black bg-[var(--bg-accent-rose)] px-2 py-1 font-mono text-xs font-bold uppercase tracking-wide">
           Slide {activeIndex + 1} / {totalSlides}
         </p>
       </header>

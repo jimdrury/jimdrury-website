@@ -87,7 +87,7 @@
                   "type": "frame",
                   "id": "B6Dnd",
                   "name": "ctaBtn",
-                  "fill": "$bg-accent-yellow",
+                  "fill": "$bg-accent-rose",
                   "cornerRadius": "$radius-sm",
                   "stroke": {
                     "align": "outside",
@@ -275,7 +275,7 @@
               "name": "heroRight",
               "width": 480,
               "height": 480,
-              "fill": "$bg-accent-yellow",
+              "fill": "$bg-accent-rose",
               "cornerRadius": "$radius-lg",
               "stroke": {
                 "align": "outside",
@@ -412,7 +412,7 @@
                   "type": "frame",
                   "id": "q26ZI",
                   "name": "ctaBtn",
-                  "fill": "$bg-accent-yellow",
+                  "fill": "$bg-accent-rose",
                   "cornerRadius": "$radius-sm",
                   "stroke": {
                     "align": "outside",
@@ -679,7 +679,7 @@
               "type": "text",
               "id": "pWCoV",
               "name": "m2",
-              "fill": "$bg-accent-yellow",
+              "fill": "$bg-accent-rose",
               "content": "✦",
               "fontFamily": "Inter",
               "fontSize": 20,
@@ -763,7 +763,7 @@
               "type": "text",
               "id": "RZW7P",
               "name": "m10",
-              "fill": "$bg-accent-yellow",
+              "fill": "$bg-accent-rose",
               "content": "✦",
               "fontFamily": "Inter",
               "fontSize": 20,
@@ -2267,9 +2267,9 @@
       "type": "color",
       "value": "#C4B5FDFF"
     },
-    "bg-accent-yellow": {
+    "bg-accent-rose": {
       "type": "color",
-      "value": "#FFE156FF"
+      "value": "#F3BAC8FF"
     },
     "bg-primary": {
       "type": "color",
@@ -2353,7 +2353,7 @@
           }
         },
         {
-          "value": "#FFE156FF",
+          "value": "#F3BAC8FF",
           "theme": {
             "variant": "highlight"
           }

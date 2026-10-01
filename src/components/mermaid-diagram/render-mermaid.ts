@@ -1,24 +1,25 @@
 import type { Mermaid, MermaidConfig } from "mermaid";
+import { brandAccent } from "@/lib/brand-accent";
 import { enlargeMermaidSvg } from "./drawing-scale";
 
 const MERMAID_THEME_VARIABLES: NonNullable<MermaidConfig["themeVariables"]> = {
   background: "#fffdf5",
   fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
   fontSize: "16px",
-  primaryColor: "#ffe156",
+  primaryColor: brandAccent,
   primaryTextColor: "#1a1a1a",
   primaryBorderColor: "#1a1a1a",
   secondaryColor: "#a8d8ea",
   tertiaryColor: "#f5f0e1",
   lineColor: "#1a1a1a",
   textColor: "#1a1a1a",
-  mainBkg: "#ffe156",
+  mainBkg: brandAccent,
   nodeBorder: "#1a1a1a",
   clusterBkg: "#f5f0e1",
   clusterBorder: "#1a1a1a",
   titleColor: "#1a1a1a",
   edgeLabelBackground: "#fffdf5",
-  actorBkg: "#ffe156",
+  actorBkg: brandAccent,
   actorBorder: "#1a1a1a",
   actorTextColor: "#1a1a1a",
   actorLineColor: "#1a1a1a",

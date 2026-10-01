@@ -64,7 +64,7 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-accent-yellow)] px-4 py-3",
+        "flex items-center justify-between border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-accent-rose)] px-4 py-3",
         className,
       )}
       {...props}

@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { ImageResponseOptions } from "next/server";
 import { cache, type FC } from "react";
+import { brandAccent } from "@/lib/brand-accent";
 
 export const socialImageSize = {
   width: 1200,
@@ -154,7 +155,7 @@ export const SocialImage: FC<SocialImagePayload> = ({
           left: 32,
           display: "flex",
           padding: "10px 16px",
-          background: "#ffeb3b",
+          background: brandAccent,
           border: "4px solid #000",
           color: "#000",
           fontSize: 22,

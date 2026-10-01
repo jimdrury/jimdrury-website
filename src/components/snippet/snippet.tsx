@@ -150,7 +150,7 @@ export const Snippet: FC<SnippetProps> = async ({
           "[&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-none [&_pre]:p-4 [&_pre]:text-sm [&_pre]:leading-relaxed",
           wrapLines &&
             "[&_pre]:overflow-x-hidden [&_pre]:whitespace-pre-wrap [&_pre]:break-words",
-          "[&_.snippet-line-highlight]:bg-yellow-500/15",
+          "[&_.snippet-line-highlight]:bg-[color-mix(in_srgb,var(--bg-accent-rose)_28%,transparent)]",
           "[&_.snippet-line-add]:bg-emerald-500/15",
           "[&_.snippet-line-remove]:bg-red-500/15 [&_.snippet-line-remove]:line-through [&_.snippet-line-remove]:opacity-70",
         )}
