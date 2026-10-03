@@ -74,7 +74,9 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
             <HeaderLogo asChild>
               <Link href="/">JIMDRURY.</Link>
             </HeaderLogo>
-            <HeaderStatus />
+            <Suspense>
+              <HeaderStatus />
+            </Suspense>
           </div>
           <HeaderNav>
             <Suspense>
