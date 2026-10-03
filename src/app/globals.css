@@ -37,6 +37,29 @@
   --color-border-soft: #88888833;
   --color-border-strong: #1e1e1e;
 
+  /* Crop-mark rules that poke past a box like registration marks */
+  --rule-width: 1px;
+  --rule-color: var(--color-border);
+  --rule-overhang: 4px;
+  --rule-overhang-grow: 6px;
+
+  /* Early-OS chrome */
+  --chrome-dot: 6px;
+  --chrome-dot-gap: 4px;
+  --chrome-dot-color: #abbab9;
+  --chrome-bar-height: 32px;
+  --chrome-bar-bg: var(--bg-secondary);
+  --chrome-bar-bg-dark: #161616;
+  --chrome-title-size: 11px;
+  --chrome-title-tracking: 0.06em;
+
+  /* Fluid display sizes — fixed px at 5xl+ overflow a 375px viewport */
+  --text-4xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem);
+  --text-5xl: clamp(2rem, 1.45rem + 2.2vw, 3rem);
+  --text-6xl: clamp(2.25rem, 1.2rem + 3.4vw, 4rem);
+  --text-7xl: clamp(2.5rem, 1rem + 5vw, 5.5rem);
+  --text-8xl: clamp(2.75rem, 0.4rem + 7vw, 7.5rem);
+
   /* Focus rings */
   --focus-ring-inner: var(--bg-primary);
   --focus-ring-outer: var(--bg-accent-pink);
@@ -112,17 +135,52 @@
 @media (min-width: 640px) {
   :root {
     --header-height: 3.75rem;
+    --rule-overhang: 8px;
+    --rule-overhang-grow: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --rule-overhang: 10px;
+    --rule-overhang-grow: 14px;
   }
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  overflow-x: clip;
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--fg-primary);
+  overflow-x: clip;
+}
+
+.rule-mark-h,
+.rule-mark-v {
+  position: absolute;
+  background: var(--rule-color);
+  pointer-events: none;
+}
+
+.rule-mark-h {
+  left: calc(-1 * var(--rule-overhang));
+  right: calc(-1 * var(--rule-overhang));
+  height: var(--rule-width);
+}
+
+.rule-mark-v {
+  top: calc(-1 * var(--rule-overhang));
+  bottom: calc(-1 * var(--rule-overhang));
+  width: var(--rule-width);
+}
+
+.rule-box[data-grow="true"]:hover,
+.rule-box[data-grow="true"]:focus-within {
+  --rule-overhang: var(--rule-overhang-grow);
 }
 
 ::selection {

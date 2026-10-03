@@ -12,6 +12,8 @@ import {
   HeaderNav,
   HeaderNavLinks,
 } from "@/components/header";
+import { HeaderStatus } from "@/components/header/header-status";
+import { OsDots } from "@/components/window-frame";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
 import { HeaderHeight } from "./_components/header-height/header-height";
@@ -67,9 +69,13 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
     >
       <body className="flex min-h-screen flex-col">
         <Header data-site-header="">
-          <HeaderLogo asChild>
-            <Link href="/">JIMDRURY.</Link>
-          </HeaderLogo>
+          <div className="flex min-w-0 items-center gap-3">
+            <OsDots />
+            <HeaderLogo asChild>
+              <Link href="/">JIMDRURY.</Link>
+            </HeaderLogo>
+            <HeaderStatus />
+          </div>
           <HeaderNav>
             <Suspense>
               <HeaderNavLinks />

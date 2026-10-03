@@ -125,7 +125,7 @@ describe("RecentPostsBlok", () => {
     );
     expect(
       screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
-    ).toHaveClass("text-[36px]", "font-medium");
+    ).toHaveClass("text-[length:var(--text-4xl)]", "font-medium");
     expect(
       screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
     ).not.toHaveClass("text-[48px]", "uppercase");

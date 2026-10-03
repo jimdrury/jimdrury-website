@@ -31,11 +31,7 @@ describe("SimilarArticles", () => {
       screen.getByRole("heading", { level: 2, name: "Similar Articles" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("article")).toBeInTheDocument();
-    expect(screen.getByText("nextjs")).toHaveClass(
-      "absolute",
-      "bottom-[-10px]",
-      "left-4",
-    );
+    expect(screen.getByText("nextjs.md")).toBeInTheDocument();
     expect(
       screen.getByText("September 19, 2026").closest("time"),
     ).toHaveAttribute("datetime", "2026-09-19");

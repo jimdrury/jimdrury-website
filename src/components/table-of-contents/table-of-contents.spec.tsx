@@ -32,4 +32,14 @@ describe("TableOfContents", () => {
       expect(title).toHaveClass("font-[family-name:var(--font-geist-sans)]");
     }
   });
+
+  it("renders a jump icon on each heading link", () => {
+    const { container } = render(<TableOfContents story={storyWithHeading} />);
+
+    const links = screen.getAllByRole("link", { name: "Getting Started" });
+    expect(links.length).toBeGreaterThan(0);
+    expect(
+      container.querySelectorAll('a[href="#getting-started"] svg').length,
+    ).toBeGreaterThan(0);
+  });
 });

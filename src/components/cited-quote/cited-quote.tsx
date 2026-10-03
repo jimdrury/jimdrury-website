@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
+import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -20,11 +21,12 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
   return (
     <figure
       className={cn(
-        "relative rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] px-5 pt-5 pb-4",
+        "rule-box relative overflow-visible bg-[var(--bg-primary)] px-5 pt-5 pb-4",
         className,
       )}
       {...props}
     >
+      <RuleMarks />
       <FaQuoteLeft
         aria-hidden
         className="-top-2 left-4 absolute size-6 text-[var(--bg-accent-pink)]"

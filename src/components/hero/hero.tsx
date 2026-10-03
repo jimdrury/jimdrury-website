@@ -61,8 +61,9 @@ export const Hero: FC<HeroProps> = ({
           className={cn(
             "flex min-w-0 flex-1 flex-col",
             isCompact ? "gap-3 lg:gap-4" : "gap-5 lg:gap-6",
-            isCompact &&
-              "[&_h1]:text-[40px] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em] lg:[&_h1]:text-[64px]",
+            isCompact
+              ? "[&_h1]:text-[length:var(--text-6xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]"
+              : "[&_h1]:text-[length:var(--text-5xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]",
           )}
         >
           {badge ? <div className="flex flex-wrap">{badge}</div> : null}
@@ -84,7 +85,7 @@ export const Hero: FC<HeroProps> = ({
               isCompact ? "lg:w-[360px]" : "lg:w-[480px]",
             )}
           >
-            <WindowFrame title="portrait">
+            <WindowFrame title="portrait.tiff" grow>
               <NextImage
                 src={portraitSrc}
                 alt={portraitAlt ?? ""}

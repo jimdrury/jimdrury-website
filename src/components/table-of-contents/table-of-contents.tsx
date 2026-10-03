@@ -1,7 +1,9 @@
 import type { FC } from "react";
+import { FaAngleDoubleDown } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { Link } from "@/components/link";
 import { Typography } from "@/components/typography";
+import { WindowFrame } from "@/components/window-frame";
 import { cn } from "@/lib/utils";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 import {
@@ -22,6 +24,28 @@ const indentByLevel: Record<TocHeadingLevel, string | undefined> = {
   h4: "pl-10",
 };
 
+const TocLink: FC<{ id: string; text: string; level: TocHeadingLevel }> = ({
+  id,
+  text,
+  level,
+}) => {
+  return (
+    <Link
+      href={`#${id}`}
+      className={cn(
+        "flex items-center justify-between gap-3 rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] px-3 py-2 text-sm font-medium no-underline transition-colors hover:bg-[var(--bg-secondary)]",
+        indentByLevel[level],
+      )}
+    >
+      <span className="truncate">{text}</span>
+      <FaAngleDoubleDown
+        aria-hidden
+        className="size-2.5 shrink-0 text-[var(--fg-muted)]"
+      />
+    </Link>
+  );
+};
+
 export const TableOfContents: FC<TableOfContentsProps> = ({
   maxHeadingLevel = "h3",
   story,
@@ -37,57 +61,51 @@ export const TableOfContents: FC<TableOfContentsProps> = ({
   }
 
   return (
-    <section className="rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-4 md:p-6">
-      <details className="group lg:hidden" open>
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-          <Typography asChild size="3xl" aria-hidden>
-            <h2>On This Page</h2>
+    <WindowFrame title="on-this-page" clip={false}>
+      <section className="bg-[var(--bg-primary)] p-4 md:p-6">
+        <details className="group lg:hidden" open>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+            <Typography asChild size="2xl" aria-hidden>
+              <h2>On This Page</h2>
+            </Typography>
+            <FiChevronDown
+              aria-hidden
+              className="shrink-0 text-lg text-[var(--fg-muted)] transition-transform group-open:rotate-180"
+            />
+          </summary>
+          <nav aria-label="Table of contents" className="mt-4">
+            <ul className="space-y-2">
+              {headings.map((heading) => (
+                <li key={heading.id}>
+                  <TocLink
+                    id={heading.id}
+                    text={heading.text}
+                    level={heading.level}
+                  />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </details>
+        <div className="hidden lg:block">
+          <Typography asChild size="2xl" aria-hidden>
+            <h2 className="mb-4">On This Page</h2>
           </Typography>
-          <FiChevronDown
-            aria-hidden
-            className="shrink-0 text-lg text-[var(--fg-muted)] transition-transform group-open:rotate-180"
-          />
-        </summary>
-        <nav aria-label="Table of contents" className="mt-4">
-          <ul className="space-y-2">
-            {headings.map((heading) => (
-              <li key={heading.id}>
-                <Link
-                  href={`#${heading.id}`}
-                  className={cn(
-                    "flex items-center justify-between gap-3 rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--bg-secondary)]",
-                    indentByLevel[heading.level],
-                  )}
-                >
-                  <span className="truncate">{heading.text}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </details>
-      <div className="hidden lg:block">
-        <Typography asChild size="3xl" aria-hidden>
-          <h2 className="mb-4">On This Page</h2>
-        </Typography>
-        <nav aria-label="Table of contents">
-          <ul className="space-y-2">
-            {headings.map((heading) => (
-              <li key={heading.id}>
-                <Link
-                  href={`#${heading.id}`}
-                  className={cn(
-                    "flex items-center justify-between gap-3 rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--bg-secondary)]",
-                    indentByLevel[heading.level],
-                  )}
-                >
-                  <span className="truncate">{heading.text}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-    </section>
+          <nav aria-label="Table of contents">
+            <ul className="space-y-2">
+              {headings.map((heading) => (
+                <li key={heading.id}>
+                  <TocLink
+                    id={heading.id}
+                    text={heading.text}
+                    level={heading.level}
+                  />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </section>
+    </WindowFrame>
   );
 };

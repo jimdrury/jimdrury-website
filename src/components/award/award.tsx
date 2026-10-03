@@ -10,6 +10,8 @@ import {
   LuStar,
   LuTriangle,
 } from "react-icons/lu";
+import { RuleMarks } from "@/components/rule-box";
+import { OsTitleBar, toChromeFilename } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -45,10 +47,10 @@ export interface AwardProps extends ComponentPropsWithoutChildren<"figure"> {
 }
 
 const colourClasses: Record<AwardColour, string> = {
-  yellow: "border-l-[var(--bg-accent-yellow)]",
-  pink: "border-l-[var(--bg-accent-pink)]",
-  blue: "border-l-[var(--bg-accent-blue)]",
-  green: "border-l-[var(--bg-accent-green)]",
+  yellow: "bg-[var(--bg-accent-yellow)]",
+  pink: "bg-[var(--bg-accent-pink)]",
+  blue: "bg-[var(--bg-accent-blue)]",
+  green: "bg-[var(--bg-accent-green)]",
 };
 
 export const Award: FC<AwardProps> = ({
@@ -65,26 +67,39 @@ export const Award: FC<AwardProps> = ({
   return (
     <figure
       className={cn(
-        "flex flex-col gap-4 rounded-none border border-[var(--color-border)] border-l-2 bg-[var(--bg-primary)] p-8",
-        colourClasses[colour],
+        "rule-box relative overflow-visible bg-[var(--bg-primary)]",
         className,
       )}
+      data-grow="true"
       {...props}
     >
-      <IconComponent className="size-12 text-[var(--fg-primary)]" aria-hidden />
-      <figcaption className="font-[family-name:var(--font-geist-sans)] text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)]">
-        {title}
-      </figcaption>
-      {company && (
-        <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--fg-secondary)]">
-          {company}
-        </p>
-      )}
-      {children && (
-        <div className="max-w-[70ch] text-pretty font-[family-name:var(--font-inter)] text-sm font-medium leading-relaxed text-[var(--fg-secondary)]">
-          {children}
-        </div>
-      )}
+      <RuleMarks />
+      <OsTitleBar
+        title={
+          <span className="flex min-w-0 items-center gap-2">
+            <IconComponent className="size-3.5 shrink-0" aria-hidden />
+            <span className="truncate">
+              {toChromeFilename(company, "award")}
+            </span>
+          </span>
+        }
+      />
+      <div className={cn("h-2", colourClasses[colour])} aria-hidden />
+      <div className="flex flex-col gap-3 p-6">
+        <figcaption className="font-[family-name:var(--font-geist-sans)] text-[length:var(--text-4xl)] font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)] [overflow-wrap:anywhere]">
+          {title}
+        </figcaption>
+        {company ? (
+          <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--fg-secondary)]">
+            {company}
+          </p>
+        ) : null}
+        {children ? (
+          <div className="max-w-[70ch] text-pretty font-[family-name:var(--font-inter)] text-sm font-medium leading-relaxed text-[var(--fg-secondary)]">
+            {children}
+          </div>
+        ) : null}
+      </div>
     </figure>
   );
 };

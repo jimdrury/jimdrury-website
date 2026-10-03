@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from "react";
 import { HERO_CONTENT_INNER_CLASS } from "@/components/hero";
+import { RuleBox } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -29,12 +30,15 @@ export const StatusBand: FC<StatusBandProps> = ({
       {...props}
     >
       <div className={HERO_CONTENT_INNER_CLASS}>
-        <div className="flex w-fit max-w-full flex-col gap-3 rounded-none border border-[var(--color-border)] bg-[var(--bg-accent-pink)] px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
+        <RuleBox
+          grow
+          className="flex w-fit max-w-full flex-col gap-3 bg-[var(--bg-accent-pink)] px-5 py-4 sm:flex-row sm:items-center sm:gap-4"
+        >
           {badge ? <div className="flex shrink-0">{badge}</div> : null}
           <div className="min-w-0 max-w-[80ch] text-[var(--fg-on-accent)] [&_*]:m-0">
             {children}
           </div>
-        </div>
+        </RuleBox>
       </div>
     </section>
   );

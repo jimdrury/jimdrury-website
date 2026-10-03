@@ -3,6 +3,7 @@ import type { FC } from "react";
 import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { OsDots } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -46,6 +47,16 @@ export const SiteFooter: FC<SiteFooterProps> = ({
       )}
       {...props}
     >
+      <div className="flex items-center gap-3">
+        <OsDots />
+        <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.08em] text-[var(--fg-secondary)] sm:text-xs">
+          Jim Drury &copy; {currentYear}
+          <span className="mx-2 text-[var(--fg-muted)]" aria-hidden>
+            ·
+          </span>
+          <span>JD.OS.1</span>
+        </p>
+      </div>
       <nav aria-label="Social links">
         <ul className="flex items-center gap-4 sm:gap-5">
           {SOCIAL_LINKS.map(({ href, label, IconComponent }) => (
@@ -63,19 +74,12 @@ export const SiteFooter: FC<SiteFooterProps> = ({
           ))}
         </ul>
       </nav>
-      <div className="flex flex-col items-center gap-1 text-center lg:flex-1">
-        <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.08em] text-[var(--fg-secondary)] sm:text-xs">
-          Jim Drury &copy; {currentYear}
-        </p>
-        <p className="font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[-0.02em]">
-          Built with boldness.
-        </p>
-      </div>
       <Link
         href="/legal/privacy-policy"
+        aria-label="Privacy Policy"
         className="font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em] text-[var(--fg-secondary)] transition-opacity hover:opacity-70 focus-visible:focus-ring-sm sm:text-xs"
       >
-        Privacy Policy
+        privacy.txt
       </Link>
     </footer>
   );

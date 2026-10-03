@@ -12,6 +12,8 @@ import {
 import { VscJson } from "react-icons/vsc";
 import type { DecorationItem } from "shiki";
 import { codeToHtml } from "shiki";
+import { RuleMarks } from "@/components/rule-box";
+import { OsDots } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { cn } from "@/lib/utils";
@@ -121,24 +123,24 @@ export const Snippet: FC<SnippetProps> = async ({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-none border",
-        isCommandLine
-          ? "border-[var(--color-border)] bg-[#00150f]"
-          : "border-[var(--color-border)] bg-[#1e1e1e]",
+        "rule-box relative overflow-visible rounded-none",
+        isCommandLine ? "bg-[#00150f]" : "bg-[#1e1e1e]",
         className,
       )}
       {...props}
     >
+      <RuleMarks />
       {(title || enableCopyToClipboard) && (
         <figcaption
           className={cn(
-            "flex items-center justify-between gap-3 border-b px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em]",
+            "flex h-[var(--chrome-bar-height)] items-center justify-between gap-3 border-b px-3 font-[family-name:var(--font-mono)] text-[length:var(--chrome-title-size)] font-medium tracking-[var(--chrome-title-tracking)]",
             isCommandLine
               ? "border-white/10 bg-[#002317] text-[#03aa5c]"
               : "border-white/10 bg-[#161616] text-[#abbab9]",
           )}
         >
           <div className="flex min-w-0 items-center gap-2">
+            <OsDots />
             {showLanguageIcon ? <LanguageIcon language={language} /> : null}
             {title ? <span className="truncate">{title}</span> : null}
           </div>

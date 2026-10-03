@@ -1,6 +1,7 @@
 import { format, isValid, parseISO } from "date-fns";
 import type { FC, ReactNode } from "react";
 import { Link } from "@/components/link";
+import { RuleMarks } from "@/components/rule-box";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -65,12 +66,13 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-8 rounded-none border border-[var(--color-border)] border-l-2 bg-[var(--bg-primary)] p-6 md:flex-row md:gap-8 md:p-8",
+        "rule-box relative flex flex-col gap-8 overflow-visible border-l-2 bg-[var(--bg-primary)] p-6 md:flex-row md:gap-8 md:p-8",
         colourClasses[colour],
         className,
       )}
       {...props}
     >
+      <RuleMarks />
       <div className="flex shrink-0 flex-col gap-1 md:w-52">
         <p className="font-[family-name:var(--font-mono)] text-[12px] font-medium uppercase leading-tight tracking-[0.08em] text-[var(--fg-secondary)]">
           {fromLabel} &mdash; {toLabel}

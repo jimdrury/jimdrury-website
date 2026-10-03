@@ -14,7 +14,7 @@ import {
 } from "./ticker-motion";
 
 /** Separator accent colours (Pencil Marquee Banner cycle). */
-const STAR_COLORS = ["#FFE156", "#FF6B6B", "#7ED957", "#A8D8EA"] as const;
+const STAR_COLORS = ["#f386a1", "#d45bb6", "#09aea1", "#03aa5c"] as const;
 
 export type TickerItemSlot = {
   id: string;

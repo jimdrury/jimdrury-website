@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { FC, ReactNode } from "react";
-import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
+import { RuleMarks } from "@/components/rule-box";
 import { Typography } from "@/components/typography";
+import { OsTitleBar, toChromeFilename } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -51,16 +52,19 @@ export const BlogCard: FC<BlogCardProps> = ({
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col overflow-hidden rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] text-[var(--fg-primary)]",
+        "rule-box relative flex h-full flex-col overflow-visible bg-[var(--bg-primary)] text-[var(--fg-primary)]",
         className,
       )}
+      data-grow="true"
       {...props}
     >
+      <RuleMarks />
       {children ? (
         children
       ) : (
         <>
-          {imageSrc && (
+          <OsTitleBar title={toChromeFilename(category)} />
+          {imageSrc ? (
             <div className="relative w-full shrink-0">
               <div
                 className={cn(
@@ -79,37 +83,28 @@ export const BlogCard: FC<BlogCardProps> = ({
                   className="h-full w-full object-cover"
                 />
               </div>
-              {category && (
-                <Badge
-                  variant="highlight"
-                  className="absolute bottom-[-10px] left-4 z-10"
-                >
-                  {category}
-                </Badge>
-              )}
             </div>
-          )}
+          ) : null}
           <div
             className={cn(
               "flex flex-1 flex-col",
               isCompact ? "gap-2 p-5" : "gap-3 p-6",
             )}
           >
-            <div className="h-0.5 shrink-0" aria-hidden />
-            {date && (
+            {date ? (
               <time
                 dateTime={dateTime}
                 className="font-[family-name:var(--font-inter)] text-[12px] font-bold tracking-[1.5px] text-[var(--fg-secondary)]"
               >
                 {date}
               </time>
-            )}
+            ) : null}
             <h2
               className={cn(
-                "font-[family-name:var(--font-geist-sans)] font-medium tracking-[-0.03em] text-[var(--fg-primary)]",
+                "font-[family-name:var(--font-geist-sans)] font-medium tracking-[-0.03em] text-[var(--fg-primary)] [overflow-wrap:anywhere]",
                 isCompact
                   ? "text-[22px] leading-[1.15]"
-                  : "line-clamp-3 text-[28px] leading-[28px]",
+                  : "line-clamp-3 text-[clamp(1.25rem,1rem+1vw,1.75rem)] leading-[1.15]",
               )}
             >
               {isCompact && href ? (

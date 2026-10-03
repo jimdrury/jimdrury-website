@@ -2,6 +2,7 @@
 
 import type { FC, ReactNode } from "react";
 import { useState } from "react";
+import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -54,11 +55,12 @@ export const Carousel: FC<CarouselProps> = ({
   return (
     <section
       className={cn(
-        "rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-4 sm:p-6",
+        "rule-box relative overflow-visible bg-[var(--bg-primary)] p-4 sm:p-6",
         className,
       )}
       {...props}
     >
+      <RuleMarks />
       <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <h2 className="text-balance font-[family-name:var(--font-geist-sans)] text-lg font-medium tracking-[-0.03em] sm:text-xl">
           {title}

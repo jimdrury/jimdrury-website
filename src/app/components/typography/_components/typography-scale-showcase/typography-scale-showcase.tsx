@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { RuleMarks } from "@/components/rule-box";
 import type { TypographyProps } from "@/components/typography";
 import { Typography } from "@/components/typography";
 
@@ -45,7 +46,8 @@ const ScaleRowView: FC<ScaleRow> = ({ label, size, text }) => (
 
 export const TypographyScaleShowcase: FC = () => {
   return (
-    <div className="mx-auto flex w-full max-w-[900px] flex-col gap-7 rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-12">
+    <div className="rule-box relative mx-auto flex w-full max-w-[900px] flex-col gap-7 overflow-visible bg-[var(--bg-primary)] p-5 sm:p-12">
+      <RuleMarks />
       <h1 className="font-[family-name:var(--font-geist-sans)] text-[28px] leading-none tracking-[-0.03em] text-[var(--fg-primary)] font-medium">
         Typography scale
       </h1>

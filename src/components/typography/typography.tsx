@@ -18,15 +18,15 @@ const typographySizeVariants = {
   "3xl":
     "font-[family-name:var(--font-geist-sans)] text-[30px] leading-[0.9] tracking-[-0.03em] font-medium",
   "4xl":
-    "font-[family-name:var(--font-geist-sans)] text-[36px] leading-[0.9] tracking-[-0.03em] font-medium",
+    "font-[family-name:var(--font-geist-sans)] text-[length:var(--text-4xl)] leading-[0.95] tracking-[-0.03em] font-medium min-w-0 max-w-full [overflow-wrap:anywhere]",
   "5xl":
-    "font-[family-name:var(--font-geist-sans)] text-[48px] leading-[0.9] tracking-[-0.03em] font-medium",
+    "font-[family-name:var(--font-geist-sans)] text-[length:var(--text-5xl)] leading-[0.92] tracking-[-0.03em] font-medium min-w-0 max-w-full [overflow-wrap:anywhere]",
   "6xl":
-    "font-[family-name:var(--font-geist-sans)] text-[64px] leading-[0.9] tracking-[-0.04em] font-medium",
+    "font-[family-name:var(--font-geist-sans)] text-[length:var(--text-6xl)] leading-[0.9] tracking-[-0.04em] font-medium min-w-0 max-w-full [overflow-wrap:anywhere]",
   "7xl":
-    "font-[family-name:var(--font-geist-sans)] text-[96px] leading-[0.85] tracking-[-0.04em] font-medium",
+    "font-[family-name:var(--font-geist-sans)] text-[length:var(--text-7xl)] leading-[0.88] tracking-[-0.04em] font-medium min-w-0 max-w-full [overflow-wrap:anywhere]",
   "8xl":
-    "font-[family-name:var(--font-geist-sans)] text-[150px] leading-[0.8] tracking-[-0.05em] font-medium",
+    "font-[family-name:var(--font-geist-sans)] text-[length:var(--text-8xl)] leading-[0.85] tracking-[-0.05em] font-medium min-w-0 max-w-full [overflow-wrap:anywhere]",
 } satisfies Record<TypographySize, string>;
 
 export const typographyVariants = cva("text-[var(--fg-primary)]", {

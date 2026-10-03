@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from "react";
+import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -67,7 +68,7 @@ export const Box: FC<BoxProps> = ({
   return (
     <div
       className={cn(
-        "rounded-none border border-[var(--color-border)]",
+        "rule-box relative overflow-visible rounded-none",
         paddingClasses[padding],
         marginClasses[margin],
         backgroundColourClasses[backgroundColour],
@@ -76,6 +77,7 @@ export const Box: FC<BoxProps> = ({
       )}
       {...props}
     >
+      <RuleMarks />
       {children}
     </div>
   );

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
-import { Badge } from "@/components/badge";
+import { RuleMarks } from "@/components/rule-box";
 import { Typography } from "@/components/typography";
+import { OsTitleBar, toChromeFilename } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -53,11 +54,14 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col overflow-hidden rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] text-[var(--fg-primary)]",
+        "rule-box relative flex h-full flex-col overflow-visible bg-[var(--bg-primary)] text-[var(--fg-primary)]",
         className,
       )}
+      data-grow="true"
       {...props}
     >
+      <RuleMarks />
+      <OsTitleBar title={toChromeFilename(category)} />
       {imageSrc ? (
         <div className="relative w-full shrink-0">
           <div className="h-[140px] w-full overflow-hidden bg-zinc-100">
@@ -72,24 +76,9 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
               className="h-full w-full object-cover"
             />
           </div>
-          {category ? (
-            <Badge
-              variant="highlight"
-              className="absolute bottom-[-10px] left-4 z-10"
-            >
-              {category}
-            </Badge>
-          ) : null}
         </div>
       ) : null}
       <div className="flex flex-1 flex-col gap-2 p-4">
-        {imageSrc ? (
-          <div className="h-0.5 shrink-0" aria-hidden />
-        ) : category ? (
-          <Badge variant="highlight" className="w-fit">
-            {category}
-          </Badge>
-        ) : null}
         {date ? (
           <time
             dateTime={dateTime}
@@ -98,7 +87,7 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
             {date}
           </time>
         ) : null}
-        <h3 className="line-clamp-2 font-[family-name:var(--font-geist-sans)] text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[var(--fg-primary)]">
+        <h3 className="line-clamp-2 font-[family-name:var(--font-geist-sans)] text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[var(--fg-primary)] [overflow-wrap:anywhere]">
           {titleNode}
         </h3>
         {excerpt ? (
