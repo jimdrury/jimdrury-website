@@ -40,4 +40,11 @@ describe("RuleMarks", () => {
     expect(container.querySelectorAll(".rule-mark-h")).toHaveLength(2);
     expect(container.querySelectorAll(".rule-mark-v")).toHaveLength(2);
   });
+
+  it("renders four corner ticks in the corners variant", () => {
+    const { container } = render(<RuleMarks variant="corners" />);
+
+    expect(container.querySelectorAll(".rule-mark-h")).toHaveLength(0);
+    expect(container.querySelectorAll("[aria-hidden] > span")).toHaveLength(4);
+  });
 });

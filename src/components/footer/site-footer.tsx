@@ -3,7 +3,7 @@ import type { FC } from "react";
 import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { OsDots } from "@/components/window-frame";
+import { IconBox } from "@/components/icon-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -42,23 +42,20 @@ export const SiteFooter: FC<SiteFooterProps> = ({
   return (
     <footer
       className={cn(
-        "flex flex-col items-center gap-4 border-t border-[var(--color-border)] bg-[var(--bg-primary)] px-5 py-6 text-[var(--fg-primary)] lg:flex-row lg:justify-between lg:gap-6 lg:px-12",
+        "flex flex-col items-center gap-4 border-t border-[var(--color-border-strong)] bg-[var(--bg-dark)] px-5 py-6 text-[var(--fg-inverse)] lg:flex-row lg:justify-between lg:gap-6 lg:px-12",
         className,
       )}
       {...props}
     >
-      <div className="flex items-center gap-3">
-        <OsDots />
-        <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.08em] text-[var(--fg-secondary)] sm:text-xs">
-          Jim Drury &copy; {currentYear}
-          <span className="mx-2 text-[var(--fg-muted)]" aria-hidden>
-            ·
-          </span>
-          <span>JD.OS.1</span>
-        </p>
-      </div>
+      <p className="font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] leading-none text-[var(--fg-inverse)]/80">
+        Jim Drury &copy; {currentYear}
+        <span className="mx-2 opacity-50" aria-hidden>
+          ·
+        </span>
+        <span>JD.OS1</span>
+      </p>
       <nav aria-label="Social links">
-        <ul className="flex items-center gap-4 sm:gap-5">
+        <ul className="flex items-center gap-3">
           {SOCIAL_LINKS.map(({ href, label, IconComponent }) => (
             <li key={href} className="list-none">
               <a
@@ -66,9 +63,11 @@ export const SiteFooter: FC<SiteFooterProps> = ({
                 target="_blank"
                 rel="noreferrer"
                 aria-label={label}
-                className="inline-flex text-[var(--fg-primary)] transition-opacity hover:opacity-60 focus-visible:focus-ring-sm"
+                className="group inline-flex focus-visible:focus-ring-sm"
               >
-                <IconComponent className="size-[16px] sm:size-[18px]" />
+                <IconBox size="md" tone="inverse">
+                  <IconComponent />
+                </IconBox>
               </a>
             </li>
           ))}
@@ -77,7 +76,7 @@ export const SiteFooter: FC<SiteFooterProps> = ({
       <Link
         href="/legal/privacy-policy"
         aria-label="Privacy Policy"
-        className="font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em] text-[var(--fg-secondary)] transition-opacity hover:opacity-70 focus-visible:focus-ring-sm sm:text-xs"
+        className="font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] leading-none text-[var(--fg-inverse)]/80 transition-opacity hover:opacity-100 focus-visible:focus-ring-sm"
       >
         privacy.txt
       </Link>

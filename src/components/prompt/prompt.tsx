@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from "react";
 import { RuleMarks } from "@/components/rule-box";
-import { OsDots } from "@/components/window-frame";
+import { OsTitleBar } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import { PromptCopyButton } from "./prompt-copy-button";
@@ -21,18 +21,16 @@ export const Prompt: FC<PromptProps> = ({
   return (
     <div className={cn("max-w-prose", className)} {...props}>
       <figure
-        className="rule-box relative min-w-0 flex-1 overflow-visible bg-[var(--bg-primary)]"
+        className="rule-box relative min-w-0 flex-1 overflow-visible border border-[var(--color-border-strong)] bg-[var(--bg-primary)]"
         data-prompt-title={title}
       >
         <RuleMarks />
         {(title || copyText) && (
-          <figcaption className="flex h-[var(--chrome-bar-height)] items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--chrome-bar-bg-dark)] px-3 font-[family-name:var(--font-mono)] text-[length:var(--chrome-title-size)] font-medium tracking-[var(--chrome-title-tracking)] text-[#abbab9]">
-            <span className="flex min-w-0 items-center gap-2">
-              <OsDots />
-              <span className="truncate">&lt;{title}&gt;</span>
-            </span>
-            {copyText ? <PromptCopyButton /> : null}
-          </figcaption>
+          <OsTitleBar
+            tone="dark"
+            title={title ? `<${title}>` : undefined}
+            actions={copyText ? <PromptCopyButton /> : null}
+          />
         )}
         <div
           data-prompt-copy-content=""

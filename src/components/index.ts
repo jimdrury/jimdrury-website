@@ -17,6 +17,7 @@ export * from "./footer";
 export * from "./header";
 export * from "./hero";
 export * from "./icon";
+export * from "./icon-box";
 export * from "./link";
 export * from "./media";
 export * from "./media-video-link";

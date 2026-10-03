@@ -28,7 +28,8 @@
   /* Foregrounds */
   --fg-primary: #1e1e1e;
   --fg-secondary: #1e1e1edb;
-  --fg-muted: #858585e6;
+  --fg-muted: #6b6b6b;
+  --bg-sage: #abbab9;
   --fg-inverse: #fefefe;
   --fg-on-accent: #1e1e1e;
 
@@ -43,22 +44,20 @@
   --rule-overhang: 4px;
   --rule-overhang-grow: 6px;
 
-  /* Early-OS chrome */
-  --chrome-dot: 6px;
-  --chrome-dot-gap: 4px;
-  --chrome-dot-color: #abbab9;
-  --chrome-bar-height: 32px;
-  --chrome-bar-bg: var(--bg-secondary);
-  --chrome-bar-bg-dark: #161616;
-  --chrome-title-size: 11px;
-  --chrome-title-tracking: 0.06em;
+  /* Early-OS chrome — TypeSafe Lisa title bars */
+  --chrome-bar-height: 20px;
+  --chrome-bar-bg: #1e1e1e;
+  --chrome-bar-fg: #dedede;
+  --chrome-bar-bg-dark: #1e1e1e;
+  --chrome-title-size: 13px;
+  --chrome-title-tracking: 0;
 
   /* Fluid display sizes — fixed px at 5xl+ overflow a 375px viewport */
   --text-4xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem);
   --text-5xl: clamp(2rem, 1.45rem + 2.2vw, 3rem);
   --text-6xl: clamp(2.25rem, 1.2rem + 3.4vw, 4rem);
   --text-7xl: clamp(2.5rem, 1rem + 5vw, 5.5rem);
-  --text-8xl: clamp(2.75rem, 0.4rem + 7vw, 7.5rem);
+  --text-8xl: clamp(3.5rem, 1.6rem + 8vw, 8.75rem);
 
   /* Focus rings */
   --focus-ring-inner: var(--bg-primary);
@@ -79,6 +78,16 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--focus-stack-sm);
+}
+
+@utility os-desktop {
+  background-color: var(--bg-accent-pink);
+  background-image: radial-gradient(
+    rgba(30, 30, 30, 0.35) 0.6px,
+    transparent 0.8px
+  );
+  background-size: 4px 4px;
+  border: 1px solid var(--color-border-strong);
 }
 
 .richtext-external-link-indicator a[target="_blank"]::after {

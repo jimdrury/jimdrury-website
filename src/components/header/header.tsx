@@ -12,7 +12,7 @@ export const Header: FC<HeaderProps> = ({ className, children, ...props }) => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--bg-primary)] px-4 py-3 sm:px-6 lg:px-12",
+        "sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--bg-primary)] px-4 py-2 sm:px-6 lg:px-12",
         className,
       )}
       {...props}
@@ -83,8 +83,10 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
     <li className="list-none">
       <Comp
         className={cn(
-          "font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)] transition-opacity focus-visible:focus-ring-sm",
-          active ? "opacity-100" : "opacity-55 hover:opacity-100",
+          "font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)] focus-visible:focus-ring-sm",
+          active
+            ? "bg-[var(--fg-primary)] px-1.5 py-0.5 text-[var(--fg-inverse)]"
+            : "hover:opacity-70",
           className,
         )}
         aria-current={active ? "page" : undefined}

@@ -14,6 +14,8 @@ export const badgeVariants = cva(
         tertiary: "border-transparent bg-[var(--bg-accent-blue)]",
         highlight: "border-transparent bg-[var(--bg-accent-yellow)]",
         dark: "border-transparent bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
+        inverse: "border-transparent bg-[#1e1e1e] text-[#fefefe] normal-case",
+        magenta: "border-transparent bg-[#d45bb6] text-[#1e1e1e] normal-case",
       },
     },
     defaultVariants: {

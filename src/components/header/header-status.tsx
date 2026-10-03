@@ -5,15 +5,15 @@ import type { FC } from "react";
 
 export const HeaderStatus: FC = () => {
   const pathname = usePathname();
-  const path = pathname === "/" ? "/" : pathname;
+  const path = pathname === "/" ? "~/" : `~${pathname}`;
 
   return (
-    <span className="hidden min-w-0 truncate font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.08em] text-[var(--fg-muted)] sm:inline">
+    <span className="hidden min-w-0 truncate font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] leading-none text-[var(--fg-primary)]/70 sm:inline">
       {path}
-      <span className="mx-2 text-[var(--color-border-soft)]" aria-hidden>
-        /
+      <span className="mx-2 text-[var(--fg-muted)]" aria-hidden>
+        ·
       </span>
-      JIM.OS
+      JD.OS1
     </span>
   );
 };

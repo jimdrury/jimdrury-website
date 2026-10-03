@@ -10,6 +10,7 @@ import {
   LuStar,
   LuTriangle,
 } from "react-icons/lu";
+import { IconBox } from "@/components/icon-box";
 import { RuleMarks } from "@/components/rule-box";
 import { OsTitleBar, toChromeFilename } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
@@ -74,18 +75,17 @@ export const Award: FC<AwardProps> = ({
       {...props}
     >
       <RuleMarks />
-      <OsTitleBar
-        title={
-          <span className="flex min-w-0 items-center gap-2">
-            <IconComponent className="size-3.5 shrink-0" aria-hidden />
-            <span className="truncate">
-              {toChromeFilename(company, "award")}
-            </span>
-          </span>
-        }
-      />
-      <div className={cn("h-2", colourClasses[colour])} aria-hidden />
-      <div className="flex flex-col gap-3 p-6">
+      <OsTitleBar title={toChromeFilename(company, "award")} />
+      <div className="flex flex-col gap-3 bg-[var(--bg-secondary)] p-4 lg:p-5">
+        <IconBox
+          size="md"
+          className={cn(
+            "border-transparent text-[var(--fg-inverse)]",
+            colourClasses[colour],
+          )}
+        >
+          <IconComponent />
+        </IconBox>
         <figcaption className="font-[family-name:var(--font-geist-sans)] text-[length:var(--text-4xl)] font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)] [overflow-wrap:anywhere]">
           {title}
         </figcaption>

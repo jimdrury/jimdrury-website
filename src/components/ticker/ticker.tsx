@@ -2,7 +2,6 @@
 
 import type { FC, PointerEventHandler, ReactNode } from "react";
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { FaStar } from "react-icons/fa";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import {
@@ -12,9 +11,6 @@ import {
   tickerCopyCount,
   wrapOffset,
 } from "./ticker-motion";
-
-/** Separator accent colours (Pencil Marquee Banner cycle). */
-const STAR_COLORS = ["#f386a1", "#d45bb6", "#09aea1", "#03aa5c"] as const;
 
 export type TickerItemSlot = {
   id: string;
@@ -63,14 +59,15 @@ const clearTrackOffset = (
 };
 
 const renderSequence = (items: TickerItemSlot[], keyPrefix: string) =>
-  items.map(({ id, node }, index) => (
+  items.map(({ id, node }) => (
     <Fragment key={`${keyPrefix}-${id}`}>
       {node}
-      <FaStar
+      <span
         aria-hidden
-        className="h-2.5 w-2.5 shrink-0 lg:h-5 lg:w-5"
-        style={{ color: STAR_COLORS[index % STAR_COLORS.length] }}
-      />
+        className="shrink-0 font-[family-name:var(--font-pixel),var(--font-mono)] text-[18px] leading-none text-[var(--fg-primary)] lg:text-[22px]"
+      >
+        ✣
+      </span>
     </Fragment>
   ));
 

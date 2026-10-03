@@ -1,6 +1,7 @@
 import NextImage from "next/image";
 import type { FC, ReactNode } from "react";
 
+import { RuleMarks } from "@/components/rule-box";
 import { WindowFrame } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -63,11 +64,14 @@ export const Hero: FC<HeroProps> = ({
             isCompact ? "gap-3 lg:gap-4" : "gap-5 lg:gap-6",
             isCompact
               ? "[&_h1]:text-[length:var(--text-6xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]"
-              : "[&_h1]:text-[length:var(--text-5xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]",
+              : "[&_h1]:text-[length:var(--text-8xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]",
           )}
         >
           {badge ? <div className="flex flex-wrap">{badge}</div> : null}
-          <div className="text-balance">{title}</div>
+          <div className="relative text-balance">
+            <RuleMarks variant="corners" />
+            {title}
+          </div>
           <div
             className={cn(
               "max-w-[600px] font-[family-name:var(--font-inter)] font-normal leading-[1.4] text-[var(--fg-secondary)] lg:max-w-none",
@@ -85,31 +89,34 @@ export const Hero: FC<HeroProps> = ({
               isCompact ? "lg:w-[360px]" : "lg:w-[480px]",
             )}
           >
-            <WindowFrame title="portrait.tiff" grow>
-              <NextImage
-                src={portraitSrc}
-                alt={portraitAlt ?? ""}
-                width={portraitWidth ?? 480}
-                height={portraitHeight ?? 352}
-                sizes={
-                  isCompact
-                    ? "(min-width: 1024px) 360px, 100vw"
-                    : "(min-width: 1024px) 480px, 100vw"
-                }
-                className={cn(
-                  "w-full object-cover",
-                  isCompact
-                    ? "h-[220px] lg:h-[280px]"
-                    : "h-[300px] lg:h-[352px]",
-                )}
-                style={
-                  portraitObjectPosition
-                    ? { objectPosition: portraitObjectPosition }
-                    : undefined
-                }
-                priority
-              />
-            </WindowFrame>
+            <div className="os-desktop relative p-3">
+              <RuleMarks variant="corners" />
+              <WindowFrame title="portrait.tiff" grow>
+                <NextImage
+                  src={portraitSrc}
+                  alt={portraitAlt ?? ""}
+                  width={portraitWidth ?? 480}
+                  height={portraitHeight ?? 352}
+                  sizes={
+                    isCompact
+                      ? "(min-width: 1024px) 360px, 100vw"
+                      : "(min-width: 1024px) 480px, 100vw"
+                  }
+                  className={cn(
+                    "w-full object-cover",
+                    isCompact
+                      ? "h-[220px] lg:h-[280px]"
+                      : "h-[300px] lg:h-[352px]",
+                  )}
+                  style={
+                    portraitObjectPosition
+                      ? { objectPosition: portraitObjectPosition }
+                      : undefined
+                  }
+                  priority
+                />
+              </WindowFrame>
+            </div>
           </div>
         ) : null}
       </div>

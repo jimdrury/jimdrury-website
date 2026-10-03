@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export type WindowFrameTone = "light" | "dark";
+export type WindowFrameVariant = "document" | "app";
 
 export interface WindowFrameProps
   extends Omit<ComponentPropsWithoutChildren<"div">, "title"> {
@@ -11,33 +12,26 @@ export interface WindowFrameProps
   title?: ReactNode;
   actions?: ReactNode;
   tone?: WindowFrameTone;
+  variant?: WindowFrameVariant;
   /** Clip inner media. Leave false when the frame only wraps text. */
   clip?: boolean;
   grow?: boolean;
 }
 
 const toneClasses: Record<WindowFrameTone, string> = {
-  light: "bg-[var(--bg-primary)] text-[var(--fg-primary)]",
+  light: "text-[var(--fg-primary)]",
   dark: "bg-[var(--bg-dark)] text-[var(--fg-inverse)]",
+};
+
+const variantClasses: Record<WindowFrameVariant, string> = {
+  document: "bg-[var(--bg-primary)]",
+  app: "bg-[var(--bg-secondary)]",
 };
 
 const titleBarClasses: Record<WindowFrameTone, string> = {
   light:
-    "border-[var(--color-border)] bg-[var(--chrome-bar-bg)] text-[var(--fg-primary)]",
-  dark: "border-white/10 bg-[var(--chrome-bar-bg-dark)] text-[#abbab9]",
-};
-
-export const OsDots: FC<{ className?: string }> = ({ className }) => {
-  return (
-    <span
-      className={cn("flex shrink-0 items-center gap-1", className)}
-      aria-hidden
-    >
-      <span className="size-1.5 rounded-full bg-[var(--chrome-dot-color)]" />
-      <span className="size-1.5 rounded-full bg-[var(--chrome-dot-color)]" />
-      <span className="size-1.5 rounded-full bg-[var(--chrome-dot-color)]" />
-    </span>
-  );
+    "border-[var(--color-border-strong)] bg-[var(--chrome-bar-bg)] text-[var(--chrome-bar-fg)]",
+  dark: "border-white/10 bg-[var(--chrome-bar-bg-dark)] text-[#dedede]",
 };
 
 export interface OsTitleBarProps {
@@ -54,29 +48,17 @@ export const OsTitleBar: FC<OsTitleBarProps> = ({
   return (
     <div
       className={cn(
-        "flex h-[var(--chrome-bar-height)] items-center justify-between gap-3 border-b px-3",
+        "flex h-[var(--chrome-bar-height)] items-center justify-between gap-2 border-b px-1.5 font-[family-name:var(--font-pixel),var(--font-mono)] text-[length:var(--chrome-title-size)] leading-none tracking-[var(--chrome-title-tracking)]",
         titleBarClasses[tone],
       )}
     >
-      <div className="flex min-w-0 items-center gap-2">
-        <OsDots />
-        {title ? (
-          <div className="min-w-0 truncate font-[family-name:var(--font-mono)] text-[length:var(--chrome-title-size)] font-medium tracking-[var(--chrome-title-tracking)]">
-            {title}
-          </div>
-        ) : null}
-      </div>
+      {title ? (
+        <div className="min-w-0 truncate normal-case">{title}</div>
+      ) : (
+        <span />
+      )}
       {actions ? <div className="shrink-0">{actions}</div> : null}
     </div>
-  );
-};
-
-export const OsGrowBox: FC = () => {
-  return (
-    <span
-      aria-hidden
-      className="pointer-events-none absolute -right-px -bottom-px z-[3] size-2.5 border-t border-l border-[var(--color-border)] bg-[var(--bg-secondary)]"
-    />
   );
 };
 
@@ -103,6 +85,7 @@ export const WindowFrame: FC<WindowFrameProps> = ({
   title,
   actions,
   tone = "light",
+  variant = "document",
   clip = true,
   grow = false,
   ...props
@@ -112,7 +95,8 @@ export const WindowFrame: FC<WindowFrameProps> = ({
   return (
     <div
       className={cn(
-        "rule-box relative overflow-visible rounded-none",
+        "rule-box relative overflow-visible rounded-none border border-[var(--color-border-strong)]",
+        tone === "light" ? variantClasses[variant] : undefined,
         toneClasses[tone],
         className,
       )}
@@ -124,7 +108,6 @@ export const WindowFrame: FC<WindowFrameProps> = ({
         <OsTitleBar title={title} actions={actions} tone={tone} />
       ) : null}
       {clip ? <div className="overflow-hidden">{children}</div> : children}
-      <OsGrowBox />
     </div>
   );
 };

@@ -51,7 +51,7 @@ describe("Footer", () => {
     render(<SiteFooter currentYear={2026} />);
 
     expect(screen.getByText(/Jim Drury © 2026/)).toBeInTheDocument();
-    expect(screen.getByText("JD.OS.1")).toBeInTheDocument();
+    expect(screen.getByText("JD.OS1")).toBeInTheDocument();
     expect(screen.getByText("privacy.txt")).toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(

@@ -13,7 +13,7 @@ import { VscJson } from "react-icons/vsc";
 import type { DecorationItem } from "shiki";
 import { codeToHtml } from "shiki";
 import { RuleMarks } from "@/components/rule-box";
-import { OsDots } from "@/components/window-frame";
+import { OsTitleBar } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { cn } from "@/lib/utils";
@@ -123,7 +123,7 @@ export const Snippet: FC<SnippetProps> = async ({
   return (
     <figure
       className={cn(
-        "rule-box relative overflow-visible rounded-none",
+        "rule-box relative overflow-visible rounded-none border border-[var(--color-border-strong)]",
         isCommandLine ? "bg-[#00150f]" : "bg-[#1e1e1e]",
         className,
       )}
@@ -131,21 +131,16 @@ export const Snippet: FC<SnippetProps> = async ({
     >
       <RuleMarks />
       {(title || enableCopyToClipboard) && (
-        <figcaption
-          className={cn(
-            "flex h-[var(--chrome-bar-height)] items-center justify-between gap-3 border-b px-3 font-[family-name:var(--font-mono)] text-[length:var(--chrome-title-size)] font-medium tracking-[var(--chrome-title-tracking)]",
-            isCommandLine
-              ? "border-white/10 bg-[#002317] text-[#03aa5c]"
-              : "border-white/10 bg-[#161616] text-[#abbab9]",
-          )}
-        >
-          <div className="flex min-w-0 items-center gap-2">
-            <OsDots />
-            {showLanguageIcon ? <LanguageIcon language={language} /> : null}
-            {title ? <span className="truncate">{title}</span> : null}
-          </div>
-          {enableCopyToClipboard ? <SnippetCopyButton /> : null}
-        </figcaption>
+        <OsTitleBar
+          tone="dark"
+          title={
+            <span className="flex min-w-0 items-center gap-2">
+              {showLanguageIcon ? <LanguageIcon language={language} /> : null}
+              {title ? <span className="truncate">{title}</span> : null}
+            </span>
+          }
+          actions={enableCopyToClipboard ? <SnippetCopyButton /> : null}
+        />
       )}
       <div
         className={cn(

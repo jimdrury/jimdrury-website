@@ -2,7 +2,26 @@ import type { FC, ReactNode } from "react";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
-export const RuleMarks: FC<{ className?: string }> = ({ className }) => {
+export type RuleMarksVariant = "extend" | "corners";
+
+export const RuleMarks: FC<{
+  className?: string;
+  variant?: RuleMarksVariant;
+}> = ({ className, variant = "extend" }) => {
+  if (variant === "corners") {
+    return (
+      <span
+        aria-hidden
+        className={cn("pointer-events-none absolute inset-0 z-[2]", className)}
+      >
+        <span className="absolute -top-3 -left-3 size-2.5 border-t border-l border-[var(--color-border-strong)]" />
+        <span className="absolute -top-3 -right-3 size-2.5 border-t border-r border-[var(--color-border-strong)]" />
+        <span className="absolute -bottom-3 -left-3 size-2.5 border-b border-l border-[var(--color-border-strong)]" />
+        <span className="absolute -bottom-3 -right-3 size-2.5 border-b border-r border-[var(--color-border-strong)]" />
+      </span>
+    );
+  }
+
   return (
     <span
       aria-hidden

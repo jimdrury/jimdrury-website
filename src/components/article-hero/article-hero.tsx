@@ -43,50 +43,33 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           loading="eager"
         />
       </div>
-      <div className="relative z-10 w-full lg:container lg:mx-auto lg:px-12 2xl:max-w-6xl">
-        <div className="border-b border-[var(--color-border)] bg-[var(--bg-primary)] px-5 py-6 lg:hidden">
-          {primaryCategory ? (
-            <Badge variant="tertiary" className="mb-4">
-              {primaryCategory}
-            </Badge>
-          ) : null}
-          <div className="text-balance">
-            <Typography asChild size="3xl">
-              <h1>{title}</h1>
-            </Typography>
-          </div>
-          <ArticleStats
-            className="mt-4"
-            categories={categories}
-            publishedAt={publishedAt}
-            readTime={readTime}
-          />
-        </div>
+      <div className="relative z-10 w-full px-5 lg:container lg:mx-auto lg:px-12 2xl:max-w-6xl">
         <WindowFrame
           title="article.md"
+          variant="document"
           clip={false}
-          className="absolute -bottom-32 left-0 z-10 hidden w-full max-w-[860px] bg-[var(--bg-primary)] text-[var(--fg-primary)] lg:block xl:-bottom-36"
+          className="relative z-10 -mt-10 w-full bg-[var(--bg-primary)] text-[var(--fg-primary)] lg:absolute lg:-bottom-32 lg:left-0 lg:mt-0 lg:block lg:max-w-[860px] xl:-bottom-36"
         >
-          <div className="px-10 py-9">
+          <div className="px-5 py-6 lg:px-10 lg:py-9">
             {primaryCategory ? (
-              <Badge variant="tertiary" className="mb-5">
+              <Badge variant="magenta" className="mb-4 lg:mb-5">
                 {primaryCategory}
               </Badge>
             ) : null}
             <div className="text-balance">
-              <Typography asChild size="5xl">
-                <h1>{title}</h1>
+              <Typography asChild size="4xl">
+                <h1 className="lg:text-[length:var(--text-5xl)]">{title}</h1>
               </Typography>
             </div>
             {excerpt ? (
-              <div className="mt-4 text-balance">
+              <div className="mt-4 hidden text-balance lg:block">
                 <Typography asChild size="base">
                   <p>{excerpt}</p>
                 </Typography>
               </div>
             ) : null}
             <ArticleStats
-              className={excerpt ? "mt-5" : "mt-6"}
+              className={excerpt ? "mt-4 lg:mt-5" : "mt-4 lg:mt-6"}
               categories={categories}
               publishedAt={publishedAt}
               readTime={readTime}

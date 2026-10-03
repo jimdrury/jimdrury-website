@@ -44,6 +44,7 @@ export const PageBlok: FC<PageBlokProps> = ({ blok, pathname, story }) => {
       {showHeader && title ? (
         <PageHeader
           title={title}
+          path={pathname ? `~${pathname}` : undefined}
           subtitle={
             updatedAtLabel ? `Last updated: ${updatedAtLabel}` : undefined
           }

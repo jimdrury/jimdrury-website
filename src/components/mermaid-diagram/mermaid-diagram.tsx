@@ -13,7 +13,7 @@ import {
 import { LuMinus, LuPlus, LuScan } from "react-icons/lu";
 import { Button } from "@/components/button";
 import { RuleMarks } from "@/components/rule-box";
-import { OsDots } from "@/components/window-frame";
+import { OsTitleBar } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import { measureSvgDisplaySize } from "./drawing-scale";
@@ -446,19 +446,14 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
   return (
     <figure
       className={cn(
-        "rule-box relative overflow-visible bg-[var(--bg-primary)]",
+        "rule-box relative overflow-visible border border-[var(--color-border-strong)] bg-[var(--bg-primary)]",
         className,
       )}
       aria-label={accessibleName}
       {...props}
     >
       <RuleMarks />
-      {title ? (
-        <div className="flex h-[var(--chrome-bar-height)] items-center gap-2 border-b border-[var(--color-border)] bg-[var(--chrome-bar-bg)] px-3 font-[family-name:var(--font-mono)] text-[length:var(--chrome-title-size)] font-medium tracking-[var(--chrome-title-tracking)]">
-          <OsDots />
-          <span className="truncate">{title}</span>
-        </div>
-      ) : null}
+      {title ? <OsTitleBar title={title} /> : null}
 
       <p id={instructionsId} className="sr-only">
         Scroll or pinch to zoom. Drag to pan. Use the zoom in, zoom out, and fit

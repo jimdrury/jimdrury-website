@@ -61,10 +61,14 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
       {...props}
     >
       <RuleMarks />
-      <OsTitleBar title={toChromeFilename(category)} />
+      <OsTitleBar
+        title={toChromeFilename(
+          href?.split("/").filter(Boolean).at(-1) ?? category,
+        )}
+      />
       {imageSrc ? (
         <div className="relative w-full shrink-0">
-          <div className="h-[140px] w-full overflow-hidden bg-zinc-100">
+          <div className="h-[140px] w-full overflow-hidden border-b border-[var(--color-border-strong)] bg-[var(--bg-secondary)]">
             <Image
               src={imageSrc}
               alt={imageAlt ?? title}
