@@ -1,7 +1,9 @@
 import "server-only";
 import Link from "next/link";
 import type { FC } from "react";
+import { FaAngleDoubleRight } from "react-icons/fa";
 import { Button } from "@/components/button";
+import { IconBox } from "@/components/icon-box";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import { type SbBlokData, storyblokEditable } from "@/storyblok/lib";
 
@@ -33,10 +35,21 @@ export const HomeCTAsBlok: FC<HomeCTAsBlokProps> = ({ blok }) => {
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="flex flex-wrap gap-4">
           <Button variant="highlight" asChild>
-            <Link href={primaryUrl}>{primaryLabel}</Link>
+            <Link href={primaryUrl} className="group">
+              {primaryLabel}
+              <FaAngleDoubleRight
+                aria-hidden
+                className="size-3.5 transition-transform group-hover:translate-x-0.5"
+              />
+            </Link>
           </Button>
           <Button variant="secondary" asChild>
-            <Link href={secondaryUrl}>{secondaryLabel}</Link>
+            <Link href={secondaryUrl} className="group">
+              {secondaryLabel}
+              <IconBox size="sm">
+                <FaAngleDoubleRight />
+              </IconBox>
+            </Link>
           </Button>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { FC, ReactNode } from "react";
+import { FaAngleDoubleRight } from "react-icons/fa";
 import { Badge } from "@/components/badge";
-import { Button } from "@/components/button";
+import { RuleMarks } from "@/components/rule-box";
 import { Typography } from "@/components/typography";
+import { OsTitleBar, toChromeFilename } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -47,24 +49,30 @@ export const BlogCard: FC<BlogCardProps> = ({
   ...props
 }) => {
   const isCompact = density === "compact";
+  const filename = toChromeFilename(
+    href?.split("/").filter(Boolean).at(-1) ?? category,
+  );
 
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-white text-[var(--fg-primary)] shadow-[8px_8px_0_0_var(--fg-primary)]",
+        "rule-box relative flex h-full flex-col overflow-visible bg-[var(--bg-primary)] text-[var(--fg-primary)]",
         className,
       )}
+      data-grow="true"
       {...props}
     >
+      <RuleMarks />
       {children ? (
         children
       ) : (
         <>
-          {imageSrc && (
+          <OsTitleBar title={filename} />
+          {imageSrc ? (
             <div className="relative w-full shrink-0">
               <div
                 className={cn(
-                  "w-full overflow-hidden bg-zinc-100",
+                  "w-full overflow-hidden border-b border-[var(--color-border-strong)] bg-[var(--bg-secondary)]",
                   isCompact ? "h-[140px]" : "h-[220px]",
                 )}
               >
@@ -79,37 +87,36 @@ export const BlogCard: FC<BlogCardProps> = ({
                   className="h-full w-full object-cover"
                 />
               </div>
-              {category && (
+              {category ? (
                 <Badge
-                  variant="highlight"
-                  className="absolute bottom-[-10px] left-4 z-10"
+                  variant="magenta"
+                  className="absolute bottom-0 left-0 z-[1]"
                 >
                   {category}
                 </Badge>
-              )}
+              ) : null}
             </div>
-          )}
+          ) : null}
           <div
             className={cn(
               "flex flex-1 flex-col",
               isCompact ? "gap-2 p-5" : "gap-3 p-6",
             )}
           >
-            <div className="h-0.5 shrink-0" aria-hidden />
-            {date && (
+            {date ? (
               <time
                 dateTime={dateTime}
-                className="font-[family-name:var(--font-inter)] text-[12px] font-bold tracking-[1.5px] text-[var(--fg-secondary)]"
+                className="font-[family-name:var(--font-mono)] text-[11px] capitalize tracking-[0.05em] text-[var(--fg-secondary)]"
               >
                 {date}
               </time>
-            )}
+            ) : null}
             <h2
               className={cn(
-                "font-[family-name:var(--font-anton)] font-bold tracking-[1px] text-[var(--fg-primary)]",
+                "font-[family-name:var(--font-geist-sans)] font-medium tracking-[-0.03em] text-[var(--fg-primary)] [overflow-wrap:anywhere]",
                 isCompact
                   ? "text-[22px] leading-[1.15]"
-                  : "line-clamp-3 text-[28px] leading-[28px]",
+                  : "line-clamp-3 text-[clamp(1.25rem,1rem+1vw,1.75rem)] leading-[1.15]",
               )}
             >
               {isCompact && href ? (
@@ -133,16 +140,18 @@ export const BlogCard: FC<BlogCardProps> = ({
             ) : null}
             {!isCompact && href ? (
               <>
-                <div className="h-2 shrink-0" aria-hidden />
                 <div className="min-h-0 flex-1" aria-hidden />
-                <div className="flex shrink-0 justify-end">
-                  <Button asChild>
-                    <Link href={href}>
-                      Read more
-                      <span className="sr-only"> about {title}</span>
-                    </Link>
-                  </Button>
-                </div>
+                <Link
+                  href={href}
+                  className="group mt-2 inline-flex items-center gap-2 font-[family-name:var(--font-geist-sans)] text-sm font-medium text-[var(--fg-primary)] no-underline"
+                >
+                  Read more
+                  <span className="sr-only"> about {title}</span>
+                  <FaAngleDoubleRight
+                    aria-hidden
+                    className="size-3 transition-transform group-hover:translate-x-0.5"
+                  />
+                </Link>
               </>
             ) : null}
           </div>

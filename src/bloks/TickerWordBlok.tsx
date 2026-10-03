@@ -41,7 +41,7 @@ export const TickerWordBlok: FC<TickerWordBlokProps> = ({ blok }) => {
     <span
       {...storyblokEditable(blok)}
       className={cn(
-        "shrink-0 font-[family-name:var(--font-anton)] uppercase leading-none",
+        "shrink-0 font-[family-name:var(--font-mono)] uppercase leading-none",
         tickerWordWeightClassName(weight),
       )}
     >

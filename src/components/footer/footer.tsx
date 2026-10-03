@@ -10,7 +10,7 @@ export const Footer: FC<FooterProps> = ({ className, children, ...props }) => {
   return (
     <footer
       className={cn(
-        "border-t-2 border-black bg-white text-black px-4 py-8 sm:px-6",
+        "border-t border-[var(--color-border)] bg-[var(--bg-primary)] text-[var(--fg-primary)] px-4 py-8 sm:px-6",
         className,
       )}
       {...props}

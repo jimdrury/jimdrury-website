@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from "react";
+import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -41,9 +42,9 @@ const marginClasses: Record<BoxSpacing, string> = {
 
 const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
   none: "",
-  white: "bg-white",
+  white: "bg-[var(--bg-primary)]",
   light_grey: "bg-[var(--bg-secondary)]",
-  dark: "bg-zinc-800",
+  dark: "bg-[var(--bg-dark)]",
   black: "bg-black",
   yellow: "bg-[var(--bg-accent-yellow)]",
   blue: "bg-[var(--bg-accent-blue)]",
@@ -51,8 +52,8 @@ const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
 
 const textColourClasses: Record<BoxTextColour, string> = {
   default: "",
-  black: "text-black",
-  white: "text-white",
+  black: "text-[var(--fg-primary)]",
+  white: "text-[var(--fg-inverse)]",
 };
 
 export const Box: FC<BoxProps> = ({
@@ -67,7 +68,7 @@ export const Box: FC<BoxProps> = ({
   return (
     <div
       className={cn(
-        "rounded-md border-2 border-black shadow-[6px_6px_0_0_#000]",
+        "rule-box relative overflow-visible rounded-none",
         paddingClasses[padding],
         marginClasses[margin],
         backgroundColourClasses[backgroundColour],
@@ -76,6 +77,7 @@ export const Box: FC<BoxProps> = ({
       )}
       {...props}
     >
+      <RuleMarks />
       {children}
     </div>
   );

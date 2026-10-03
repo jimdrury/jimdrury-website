@@ -10,6 +10,9 @@ import {
   LuStar,
   LuTriangle,
 } from "react-icons/lu";
+import { IconBox } from "@/components/icon-box";
+import { RuleMarks } from "@/components/rule-box";
+import { OsTitleBar, toChromeFilename } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -65,26 +68,38 @@ export const Award: FC<AwardProps> = ({
   return (
     <figure
       className={cn(
-        "flex flex-col gap-4 rounded-xl border-[3px] border-[var(--fg-primary)] p-8 shadow-[6px_6px_0_0_var(--fg-primary)]",
-        colourClasses[colour],
+        "rule-box relative overflow-visible bg-[var(--bg-primary)]",
         className,
       )}
+      data-grow="true"
       {...props}
     >
-      <IconComponent className="size-12 text-[var(--fg-primary)]" aria-hidden />
-      <figcaption className="font-[family-name:var(--font-anton)] text-[28px] font-normal uppercase leading-tight tracking-[1px] text-[var(--fg-primary)]">
-        {title}
-      </figcaption>
-      {company && (
-        <p className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-[1.5px] text-[var(--fg-primary)]">
-          {company}
-        </p>
-      )}
-      {children && (
-        <div className="max-w-[70ch] text-pretty font-[family-name:var(--font-inter)] text-sm font-medium leading-relaxed text-[var(--fg-secondary)]">
-          {children}
-        </div>
-      )}
+      <RuleMarks />
+      <OsTitleBar title={toChromeFilename(company, "award")} />
+      <div className="flex flex-col gap-3 bg-[var(--bg-secondary)] p-4 lg:p-5">
+        <IconBox
+          size="md"
+          className={cn(
+            "border-transparent text-[var(--fg-inverse)]",
+            colourClasses[colour],
+          )}
+        >
+          <IconComponent />
+        </IconBox>
+        <figcaption className="font-[family-name:var(--font-geist-sans)] text-[length:var(--text-4xl)] font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)] [overflow-wrap:anywhere]">
+          {title}
+        </figcaption>
+        {company ? (
+          <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--fg-secondary)]">
+            {company}
+          </p>
+        ) : null}
+        {children ? (
+          <div className="max-w-[70ch] text-pretty font-[family-name:var(--font-inter)] text-sm font-medium leading-relaxed text-[var(--fg-secondary)]">
+            {children}
+          </div>
+        ) : null}
+      </div>
     </figure>
   );
 };

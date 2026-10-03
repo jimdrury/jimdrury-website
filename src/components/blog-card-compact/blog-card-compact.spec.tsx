@@ -31,7 +31,7 @@ describe("BlogCardCompact", () => {
     expect(container.querySelectorAll("p")).toHaveLength(0);
   });
 
-  it("renders category as an overlay when image is present", () => {
+  it("renders category as a title-bar filename when image is present", () => {
     const { container } = render(
       <BlogCardCompact
         title="With image"
@@ -40,13 +40,11 @@ describe("BlogCardCompact", () => {
       />,
     );
 
-    const badge = screen.getByText("Design");
-    expect(badge).toBeInTheDocument();
-    expect(badge).toHaveClass("absolute", "bottom-[-10px]", "left-4");
+    expect(screen.getByText("design.md")).toBeInTheDocument();
     expect(container.querySelector("time")).toBeNull();
   });
 
-  it("renders category above the date when image is missing", () => {
+  it("renders the category filename above the date when image is missing", () => {
     render(
       <BlogCardCompact
         title="No image"
@@ -55,11 +53,10 @@ describe("BlogCardCompact", () => {
       />,
     );
 
-    const badge = screen.getByText("Design");
+    const filename = screen.getByText("design.md");
     const date = screen.getByText("April 1, 2025");
-    expect(badge).toBeInTheDocument();
-    expect(badge).not.toHaveClass("absolute");
-    expect(date.compareDocumentPosition(badge)).toBe(
+    expect(filename).toBeInTheDocument();
+    expect(date.compareDocumentPosition(filename)).toBe(
       Node.DOCUMENT_POSITION_PRECEDING,
     );
   });
@@ -73,12 +70,12 @@ describe("BlogCardCompact", () => {
     expect(links[0]).toHaveAccessibleName(/Compact Post/);
   });
 
-  it("uses a 30px title line-height", () => {
+  it("uses a tight title line-height", () => {
     render(<BlogCardCompact title="Line height post" />);
 
     expect(
       screen.getByRole("heading", { name: "Line height post" }),
-    ).toHaveClass("leading-[30px]");
+    ).toHaveClass("leading-[1.15]");
   });
 
   it("clamps the title to two lines and the excerpt to three", () => {

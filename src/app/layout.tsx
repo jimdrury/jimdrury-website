@@ -1,13 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import {
-  Anton,
-  Geist,
-  Geist_Mono,
-  Inter,
-  Patrick_Hand,
-} from "next/font/google";
+import { Geist, Geist_Pixel, Inter, JetBrains_Mono } from "next/font/google";
 import { draftMode } from "next/headers";
 import Link from "next/link";
 import { type FC, Suspense } from "react";
@@ -18,6 +12,7 @@ import {
   HeaderNav,
   HeaderNavLinks,
 } from "@/components/header";
+import { HeaderStatus } from "@/components/header/header-status";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
 import { HeaderHeight } from "./_components/header-height/header-height";
@@ -30,27 +25,23 @@ const inter = Inter({
   display: "swap",
 });
 
-const anton = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-anton",
-  display: "swap",
-});
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const patrickHand = Patrick_Hand({
-  variable: "--font-patrick-hand",
+const geistPixel = Geist_Pixel({
+  variable: "--font-pixel",
+  subsets: ["latin"],
   weight: "400",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -80,13 +71,18 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${anton.variable} ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistSans.variable} ${jetbrainsMono.variable} ${geistPixel.variable} h-full antialiased`}
     >
       <body className="flex min-h-screen flex-col">
         <Header data-site-header="">
-          <HeaderLogo asChild>
-            <Link href="/">JIMDRURY.</Link>
-          </HeaderLogo>
+          <div className="flex min-w-0 items-center gap-3">
+            <HeaderLogo asChild>
+              <Link href="/">Jim Drury.</Link>
+            </HeaderLogo>
+            <Suspense>
+              <HeaderStatus />
+            </Suspense>
+          </div>
           <HeaderNav>
             <Suspense>
               <HeaderNavLinks />

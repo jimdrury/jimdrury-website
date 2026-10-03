@@ -53,10 +53,10 @@ describe("BlogCard", () => {
     expect(screen.getByRole("article")).toHaveClass("custom-class");
   });
 
-  it("uses a white card background", () => {
+  it("uses the canvas card background", () => {
     render(<BlogCard title="Post" />);
 
-    expect(screen.getByRole("article")).toHaveClass("bg-white");
+    expect(screen.getByRole("article")).toHaveClass("bg-[var(--bg-primary)]");
   });
 
   it("renders custom children instead of default card content", () => {
@@ -96,18 +96,18 @@ describe("BlogCard", () => {
     expect(image).toHaveAttribute("fetchpriority", "high");
   });
 
-  it("renders category as an overlay when image is present", () => {
+  it("renders category as a title-bar filename when image is present", () => {
     render(
       <BlogCard title="With image" imageSrc="/hero.jpg" category="Design" />,
     );
 
-    expect(screen.getByText("Design")).toBeInTheDocument();
+    expect(screen.getByText("design.md")).toBeInTheDocument();
   });
 
-  it("does not render category when image is missing", () => {
+  it("still renders the category filename when image is missing", () => {
     render(<BlogCard title="No image" category="Design" />);
 
-    expect(screen.queryByText("Design")).toBeNull();
+    expect(screen.getByText("design.md")).toBeInTheDocument();
   });
 
   it("compact density drops the dek and read-more button", () => {
@@ -135,12 +135,12 @@ describe("BlogCard", () => {
     expect(links[0]).toHaveAccessibleName(/Compact Post/);
   });
 
-  it("uses a 28px title line-height on the default density", () => {
+  it("uses a wrapping title line-height on the default density", () => {
     render(<BlogCard title="Line height post" />);
 
     expect(
       screen.getByRole("heading", { name: "Line height post" }),
-    ).toHaveClass("leading-[28px]");
+    ).toHaveClass("leading-[1.15]");
   });
 
   it("clamps the default title to three lines and the excerpt to four", () => {

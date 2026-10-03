@@ -19,15 +19,15 @@ const ErrorPage: FC<ErrorProps> = ({ error, retry }) => {
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center px-6 py-24 text-center">
-      <span className="mb-6 inline-flex items-center rounded-md border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-bold shadow-[4px_4px_0_0_#000]">
+      <span className="mb-6 inline-flex items-center rounded-none border border-[var(--color-border)] bg-[var(--bg-accent-pink)] px-4 py-2 font-[family-name:var(--font-mono)] text-sm font-medium text-[var(--fg-on-accent)]">
         503
       </span>
 
-      <h1 className="text-4xl font-black tracking-tight text-black sm:text-5xl">
+      <h1 className="font-[family-name:var(--font-geist-sans)] text-4xl font-medium tracking-[-0.04em] text-[var(--fg-primary)] sm:text-5xl">
         Temporarily unavailable
       </h1>
 
-      <p className="mt-4 max-w-md text-lg text-zinc-700">
+      <p className="mt-4 max-w-md text-lg text-[var(--fg-secondary)]">
         This page couldn&apos;t be loaded right now. Please try again in a
         moment.
       </p>

@@ -12,6 +12,8 @@ import {
 } from "react";
 import { LuMinus, LuPlus, LuScan } from "react-icons/lu";
 import { Button } from "@/components/button";
+import { RuleMarks } from "@/components/rule-box";
+import { OsTitleBar } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import { measureSvgDisplaySize } from "./drawing-scale";
@@ -155,7 +157,7 @@ const DiagramControls: FC<DiagramControlsProps> = ({
       </Button>
       <p
         aria-live="polite"
-        className="rounded-md border-2 border-black bg-white px-1 py-0.5 text-center font-mono text-[10px] font-bold"
+        className="rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] px-1 py-0.5 text-center font-mono text-[10px] font-medium"
       >
         {zoomPercent}%
       </p>
@@ -418,7 +420,7 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
           <p className="m-0 font-mono text-sm font-bold text-red-700">
             {status.message}
           </p>
-          <pre className="overflow-x-auto whitespace-pre-wrap rounded-md border-2 border-black bg-white p-3 font-mono text-xs">
+          <pre className="overflow-x-auto whitespace-pre-wrap rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-3 font-mono text-xs">
             {normalizedSource}
           </pre>
         </div>
@@ -444,17 +446,14 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border-2 border-black bg-[var(--bg-primary)] shadow-[4px_4px_0_0]",
+        "rule-box relative overflow-visible border border-[var(--color-border-strong)] bg-[var(--bg-primary)]",
         className,
       )}
       aria-label={accessibleName}
       {...props}
     >
-      {title ? (
-        <div className="border-b-2 border-black bg-yellow-300 px-4 py-2 font-mono text-sm font-semibold">
-          {title}
-        </div>
-      ) : null}
+      <RuleMarks />
+      {title ? <OsTitleBar title={title} /> : null}
 
       <p id={instructionsId} className="sr-only">
         Scroll or pinch to zoom. Drag to pan. Use the zoom in, zoom out, and fit

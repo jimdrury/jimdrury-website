@@ -25,7 +25,9 @@ export const Accolades: FC<AccoladesProps> = ({
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <SectionTitle className="mb-6">{title}</SectionTitle>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{children}</div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+          {children}
+        </div>
       </div>
     </section>
   );

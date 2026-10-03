@@ -12,6 +12,8 @@ import {
 import { VscJson } from "react-icons/vsc";
 import type { DecorationItem } from "shiki";
 import { codeToHtml } from "shiki";
+import { RuleMarks } from "@/components/rule-box";
+import { OsTitleBar } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { normalizeEscapedNewlines } from "@/lib/normalize-escaped-newlines";
 import { cn } from "@/lib/utils";
@@ -121,29 +123,24 @@ export const Snippet: FC<SnippetProps> = async ({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border-2 shadow-[4px_4px_0_0]",
-        isCommandLine
-          ? "border-emerald-500 bg-[#00150f] shadow-emerald-900/60"
-          : "border-black bg-[#24292e]",
+        "rule-box relative overflow-visible rounded-none border border-[var(--color-border-strong)]",
+        isCommandLine ? "bg-[#00150f]" : "bg-[#1e1e1e]",
         className,
       )}
       {...props}
     >
+      <RuleMarks />
       {(title || enableCopyToClipboard) && (
-        <figcaption
-          className={cn(
-            "flex items-center justify-between gap-3 border-b-2 px-4 py-2 font-mono text-sm font-semibold",
-            isCommandLine
-              ? "border-emerald-500 bg-[#002317] text-emerald-300"
-              : "border-black bg-zinc-800 text-zinc-300",
-          )}
-        >
-          <div className="flex min-w-0 items-center gap-2">
-            {showLanguageIcon ? <LanguageIcon language={language} /> : null}
-            {title ? <span className="truncate">{title}</span> : null}
-          </div>
-          {enableCopyToClipboard ? <SnippetCopyButton /> : null}
-        </figcaption>
+        <OsTitleBar
+          tone="dark"
+          title={
+            <span className="flex min-w-0 items-center gap-2">
+              {showLanguageIcon ? <LanguageIcon language={language} /> : null}
+              {title ? <span className="truncate">{title}</span> : null}
+            </span>
+          }
+          actions={enableCopyToClipboard ? <SnippetCopyButton /> : null}
+        />
       )}
       <div
         className={cn(

@@ -1,6 +1,7 @@
 import { format, isValid, parseISO } from "date-fns";
 import type { FC, ReactNode } from "react";
 import { Link } from "@/components/link";
+import { RuleMarks } from "@/components/rule-box";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -39,12 +40,12 @@ const formatDateLabel = (value: string): string => {
 };
 
 const colourClasses: Record<CareerHistoryColour, string> = {
-  yellow: "bg-[var(--bg-accent-yellow)]",
-  blue: "bg-[var(--bg-accent-blue)]",
-  green: "bg-[var(--bg-accent-green)]",
-  pink: "bg-[var(--bg-accent-pink)]",
-  orange: "bg-[var(--bg-accent-orange)]",
-  purple: "bg-[var(--bg-accent-purple)]",
+  yellow: "border-l-[var(--bg-accent-yellow)]",
+  blue: "border-l-[var(--bg-accent-blue)]",
+  green: "border-l-[var(--bg-accent-green)]",
+  pink: "border-l-[var(--bg-accent-pink)]",
+  orange: "border-l-[var(--bg-accent-orange)]",
+  purple: "border-l-[var(--bg-accent-purple)]",
 };
 
 export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
@@ -65,23 +66,24 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-8 rounded-xl border-[3px] border-[var(--fg-primary)] p-6 shadow-[6px_6px_0_0_var(--fg-primary)] md:flex-row md:gap-8 md:p-8",
+        "rule-box relative flex flex-col gap-8 overflow-visible border-l-2 bg-[var(--bg-primary)] p-6 md:flex-row md:gap-8 md:p-8",
         colourClasses[colour],
         className,
       )}
       {...props}
     >
+      <RuleMarks />
       <div className="flex shrink-0 flex-col gap-1 md:w-52">
-        <p className="font-[family-name:var(--font-geist-mono)] text-[14px] font-bold uppercase leading-tight tracking-[1.5px] text-[var(--fg-primary)]">
+        <p className="font-[family-name:var(--font-mono)] text-[12px] font-medium uppercase leading-tight tracking-[0.08em] text-[var(--fg-secondary)]">
           {fromLabel} &mdash; {toLabel}
         </p>
       </div>
 
       <div className="flex flex-col gap-2 mt-[-4px]">
-        <h3 className="font-[family-name:var(--font-anton)] text-2xl font-normal uppercase leading-tight tracking-[1px] text-[var(--fg-primary)] md:text-[32px]">
+        <h3 className="font-[family-name:var(--font-geist-sans)] text-2xl font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)] md:text-[32px]">
           {role}
         </h3>
-        <p className="richtext-external-link-indicator font-[family-name:var(--font-inter)] text-sm font-extrabold uppercase tracking-[1.5px] text-[var(--fg-primary)]">
+        <p className="richtext-external-link-indicator font-[family-name:var(--font-inter)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)]">
           {safeCompanyWebsiteUrl ? (
             <Link href={safeCompanyWebsiteUrl} target="_blank" rel="noreferrer">
               {company}

@@ -1,6 +1,8 @@
 import NextImage from "next/image";
 import type { FC, ReactNode } from "react";
 
+import { RuleMarks } from "@/components/rule-box";
+import { WindowFrame } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -52,7 +54,7 @@ export const Hero: FC<HeroProps> = ({
           "flex flex-col-reverse lg:flex-row lg:items-start",
           isCompact
             ? "gap-5 py-6 lg:gap-10 lg:py-8"
-            : "gap-6 py-10 lg:gap-[60px] lg:py-20",
+            : "gap-6 py-10 lg:gap-[60px] lg:py-16",
           HERO_CONTENT_INNER_CLASS,
         )}
       >
@@ -60,17 +62,21 @@ export const Hero: FC<HeroProps> = ({
           className={cn(
             "flex min-w-0 flex-1 flex-col",
             isCompact ? "gap-3 lg:gap-4" : "gap-5 lg:gap-6",
-            isCompact &&
-              "[&_h1]:text-[40px] [&_h1]:leading-[0.95] [&_h1]:tracking-[2px] lg:[&_h1]:text-[64px] lg:[&_h1]:tracking-[3px]",
+            isCompact
+              ? "[&_h1]:text-[length:var(--text-6xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]"
+              : "[&_h1]:text-[length:var(--text-8xl)] [&_h1]:leading-[0.9] [&_h1]:tracking-[-0.03em]",
           )}
         >
           {badge ? <div className="flex flex-wrap">{badge}</div> : null}
-          <div className="text-balance">{title}</div>
+          <div className="relative text-balance">
+            <RuleMarks variant="corners" />
+            {title}
+          </div>
           <div
             className={cn(
-              "max-w-[600px] font-[family-name:var(--font-inter)] font-normal leading-[1.6] text-[var(--fg-secondary)] lg:max-w-none",
-              isCompact ? "text-[15px] lg:text-base" : "text-[15px] lg:text-lg",
-              "text-pretty richtext-external-link-indicator [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3",
+              "max-w-[600px] font-[family-name:var(--font-inter)] font-normal leading-[1.4] text-[var(--fg-secondary)] lg:max-w-none",
+              isCompact ? "text-[15px] lg:text-base" : "text-[17px] lg:text-lg",
+              "text-pretty richtext-external-link-indicator [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3",
             )}
           >
             {blurb}
@@ -83,30 +89,33 @@ export const Hero: FC<HeroProps> = ({
               isCompact ? "lg:w-[360px]" : "lg:w-[480px]",
             )}
           >
-            <div className="overflow-hidden rounded-xl border-[3px] border-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)] lg:shadow-[8px_8px_0_0_var(--fg-primary)]">
-              <NextImage
-                src={portraitSrc}
-                alt={portraitAlt ?? ""}
-                width={portraitWidth ?? 480}
-                height={portraitHeight ?? 352}
-                sizes={
-                  isCompact
-                    ? "(min-width: 1024px) 360px, 100vw"
-                    : "(min-width: 1024px) 480px, 100vw"
-                }
-                className={cn(
-                  "w-full object-cover",
-                  isCompact
-                    ? "h-[220px] lg:h-[280px]"
-                    : "h-[300px] lg:h-[352px]",
-                )}
-                style={
-                  portraitObjectPosition
-                    ? { objectPosition: portraitObjectPosition }
-                    : undefined
-                }
-                priority
-              />
+            <div className="os-desktop relative p-3">
+              <RuleMarks variant="corners" />
+              <WindowFrame title="portrait.tiff" grow>
+                <NextImage
+                  src={portraitSrc}
+                  alt={portraitAlt ?? ""}
+                  width={portraitWidth ?? 480}
+                  height={portraitHeight ?? 352}
+                  sizes={
+                    isCompact
+                      ? "(min-width: 1024px) 360px, 100vw"
+                      : "(min-width: 1024px) 480px, 100vw"
+                  }
+                  className={cn(
+                    "w-full object-cover",
+                    isCompact
+                      ? "h-[220px] lg:h-[280px]"
+                      : "h-[300px] lg:h-[352px]",
+                  )}
+                  style={
+                    portraitObjectPosition
+                      ? { objectPosition: portraitObjectPosition }
+                      : undefined
+                  }
+                  priority
+                />
+              </WindowFrame>
             </div>
           </div>
         ) : null}

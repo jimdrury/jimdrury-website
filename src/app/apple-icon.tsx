@@ -12,12 +12,12 @@ const AppleIcon = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#ffe156",
-        borderRadius: 32,
+        background: "#f386a1",
+        borderRadius: 0,
         fontFamily: "Inter",
-        fontSize: 100,
-        fontWeight: 900,
-        color: "#000000",
+        fontSize: 92,
+        fontWeight: 500,
+        color: "#1e1e1e",
       }}
     >
       jd

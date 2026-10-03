@@ -95,7 +95,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
   const safeEndDate = hasDistinctEndDate ? endDate?.trim() : undefined;
 
   const dateClassName =
-    "shrink-0 font-[family-name:var(--font-geist-mono)] text-base font-bold tracking-[2px] text-[var(--bg-accent-pink)]";
+    "shrink-0 font-[family-name:var(--font-mono)] text-sm font-medium tracking-[0.06em] text-[var(--bg-accent-pink)]";
 
   const header = (
     <div className="flex w-full flex-col gap-2">
@@ -103,7 +103,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
         <span className={dateClassName}>{dateLabel}</span>
         {badge}
       </div>
-      <span className="font-[family-name:var(--font-anton)] text-2xl font-normal leading-tight tracking-[1px] text-[var(--fg-primary)]">
+      <span className="font-[family-name:var(--font-geist-sans)] text-2xl font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)]">
         {title}
       </span>
       {safeOrganizer || safeAddress ? (
@@ -117,7 +117,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
   return (
     <article
       className={cn(
-        "w-full border-b-2 border-black pb-12 last:border-b-0 last:pb-0",
+        "w-full border-b border-[var(--color-border)] pb-12 last:border-b-0 last:pb-0",
         className,
       )}
       itemScope

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
-import { HeaderCta, HeaderNavLink } from "./header";
+import { HeaderNavLink } from "./header";
 
 const links = [{ href: "/blog", label: "Blog" }];
 
@@ -25,11 +25,11 @@ export const HeaderNavLinks: FC = () => {
           <Link href={href}>{label}</Link>
         </HeaderNavLink>
       ))}
-      <HeaderCta asChild active={isActivePath(pathname, "/about")}>
+      <HeaderNavLink asChild active={isActivePath(pathname, "/about")}>
         <Link href="/about" prefetch={false}>
           About
         </Link>
-      </HeaderCta>
+      </HeaderNavLink>
     </>
   );
 };
