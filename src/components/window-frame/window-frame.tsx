@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 
 export type WindowFrameTone = "light" | "dark";
 
-export interface WindowFrameProps extends ComponentPropsWithoutChildren<"div"> {
+export interface WindowFrameProps
+  extends Omit<ComponentPropsWithoutChildren<"div">, "title"> {
   children?: ReactNode;
   title?: ReactNode;
   actions?: ReactNode;
