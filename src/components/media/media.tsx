@@ -16,14 +16,14 @@ export const Media: FC<MediaProps> = ({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border-2 border-black shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-none border border-[var(--color-border)]",
         className,
       )}
       {...props}
     >
       {children}
       {caption && (
-        <figcaption className="border-t-2 border-black bg-white px-4 py-2 text-sm font-semibold">
+        <figcaption className="border-t border-[var(--color-border)] bg-[var(--bg-primary)] px-4 py-2 font-[family-name:var(--font-mono)] text-[12px] font-medium text-[var(--fg-secondary)]">
           {caption}
         </figcaption>
       )}

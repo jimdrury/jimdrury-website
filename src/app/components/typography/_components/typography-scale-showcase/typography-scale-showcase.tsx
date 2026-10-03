@@ -13,12 +13,12 @@ type ScaleRow = {
 const pangram = "The quick brown fox jumps over the lazy dog";
 
 const headlineRows: ScaleRow[] = [
-  { label: "8xl", size: "8xl", text: "Brutal" },
-  { label: "7xl", size: "7xl", text: "Brutalist" },
-  { label: "6xl", size: "6xl", text: "Brutalist" },
-  { label: "5xl", size: "5xl", text: "Brutalist Design" },
-  { label: "4xl", size: "4xl", text: "Brutalist Design System" },
-  { label: "3xl", size: "3xl", text: "Brutalist Design System" },
+  { label: "8xl", size: "8xl", text: "Typed" },
+  { label: "7xl", size: "7xl", text: "TypeSafe" },
+  { label: "6xl", size: "6xl", text: "TypeSafe" },
+  { label: "5xl", size: "5xl", text: "TypeSafe Design" },
+  { label: "4xl", size: "4xl", text: "TypeSafe Design System" },
+  { label: "3xl", size: "3xl", text: "TypeSafe Design System" },
 ];
 
 const bodyRows: ScaleRow[] = [
@@ -31,12 +31,12 @@ const bodyRows: ScaleRow[] = [
 ];
 
 const Divider: FC = () => (
-  <div aria-hidden className="h-[3px] w-full shrink-0 bg-[var(--fg-primary)]" />
+  <div aria-hidden className="h-px w-full shrink-0 bg-[var(--color-border)]" />
 );
 
 const ScaleRowView: FC<ScaleRow> = ({ label, size, text }) => (
   <div className="flex items-center gap-5">
-    <span className="w-12 shrink-0 font-bold font-[family-name:var(--font-inter)] text-[11px] text-[var(--fg-secondary)] tracking-[2px]">
+    <span className="w-12 shrink-0 font-[family-name:var(--font-mono)] text-[11px] text-[var(--fg-secondary)] tracking-[0.08em]">
       {label}
     </span>
     <Typography size={size}>{text}</Typography>
@@ -45,13 +45,13 @@ const ScaleRowView: FC<ScaleRow> = ({ label, size, text }) => (
 
 export const TypographyScaleShowcase: FC = () => {
   return (
-    <div className="mx-auto flex w-full max-w-[900px] flex-col gap-7 rounded-xl border-[3px] border-[var(--fg-primary)] bg-[var(--bg-secondary)] p-12">
-      <h1 className="font-[family-name:var(--font-anton)] text-[28px] leading-none tracking-[2px] text-[var(--fg-primary)] uppercase">
+    <div className="mx-auto flex w-full max-w-[900px] flex-col gap-7 rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-12">
+      <h1 className="font-[family-name:var(--font-geist-sans)] text-[28px] leading-none tracking-[-0.03em] text-[var(--fg-primary)] font-medium">
         Typography scale
       </h1>
-      <p className="font-[family-name:var(--font-inter)] text-[13px] font-medium leading-normal text-[var(--fg-secondary)]">
-        Single component · theme axis &apos;size&apos; · auto font, tracking,
-        and leading (weight follows size)
+      <p className="font-[family-name:var(--font-inter)] text-[13px] font-normal leading-normal text-[var(--fg-secondary)]">
+        Single component · theme axis &apos;size&apos; · Geist display, Inter
+        body, medium weight on headings
       </p>
       <Divider />
       {headlineRows.map((row) => (

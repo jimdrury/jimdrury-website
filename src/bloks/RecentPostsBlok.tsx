@@ -60,7 +60,7 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
           <SectionTitle>{title}</SectionTitle>
           <Link
             href="/blog"
-            className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.5px] text-[var(--fg-primary)] underline underline-offset-2 hover:text-[var(--fg-secondary)]"
+            className="font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)] underline underline-offset-2 hover:text-[var(--fg-secondary)]"
           >
             View all →
           </Link>

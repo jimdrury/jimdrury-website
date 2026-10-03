@@ -73,12 +73,12 @@ describe("BlogCardCompact", () => {
     expect(links[0]).toHaveAccessibleName(/Compact Post/);
   });
 
-  it("uses a 30px title line-height", () => {
+  it("uses a tight title line-height", () => {
     render(<BlogCardCompact title="Line height post" />);
 
     expect(
       screen.getByRole("heading", { name: "Line height post" }),
-    ).toHaveClass("leading-[30px]");
+    ).toHaveClass("leading-[1.15]");
   });
 
   it("clamps the title to two lines and the excerpt to three", () => {

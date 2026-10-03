@@ -35,3 +35,4 @@ export * from "./surface";
 export * from "./table-of-contents";
 export * from "./ticker";
 export * from "./typography";
+export * from "./window-frame";

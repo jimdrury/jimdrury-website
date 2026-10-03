@@ -314,7 +314,7 @@ export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
     <div
       ref={viewportRef}
       className={cn(
-        "ticker-fade overflow-hidden bg-[var(--fg-primary)] text-[var(--fg-inverse)] motion-reduce:overflow-visible",
+        "ticker-fade overflow-hidden bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] motion-reduce:overflow-visible",
         className,
       )}
       {...props}

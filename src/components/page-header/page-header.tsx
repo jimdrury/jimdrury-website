@@ -10,15 +10,13 @@ type PageHeaderProps = {
 
 export const PageHeader: FC<PageHeaderProps> = ({ badge, title, subtitle }) => {
   return (
-    <section className="flex w-full flex-col items-center gap-4 border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-secondary)] px-6 py-12 md:px-20 md:py-16">
+    <section className="flex w-full flex-col items-start gap-4 border-b border-[var(--color-border)] bg-[var(--bg-accent-pink)] px-6 py-12 text-[var(--fg-on-accent)] md:px-20 md:py-16">
       {badge}
       <Typography asChild size="6xl">
         <h1>{title}</h1>
       </Typography>
       {subtitle ? (
-        <div className="max-w-lg text-center text-[var(--fg-secondary)]">
-          {subtitle}
-        </div>
+        <div className="max-w-lg text-[var(--fg-on-accent)]/80">{subtitle}</div>
       ) : null}
     </section>
   );

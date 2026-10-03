@@ -45,10 +45,10 @@ export interface AwardProps extends ComponentPropsWithoutChildren<"figure"> {
 }
 
 const colourClasses: Record<AwardColour, string> = {
-  yellow: "bg-[var(--bg-accent-yellow)]",
-  pink: "bg-[var(--bg-accent-pink)]",
-  blue: "bg-[var(--bg-accent-blue)]",
-  green: "bg-[var(--bg-accent-green)]",
+  yellow: "border-l-[var(--bg-accent-yellow)]",
+  pink: "border-l-[var(--bg-accent-pink)]",
+  blue: "border-l-[var(--bg-accent-blue)]",
+  green: "border-l-[var(--bg-accent-green)]",
 };
 
 export const Award: FC<AwardProps> = ({
@@ -65,18 +65,18 @@ export const Award: FC<AwardProps> = ({
   return (
     <figure
       className={cn(
-        "flex flex-col gap-4 rounded-xl border-[3px] border-[var(--fg-primary)] p-8 shadow-[6px_6px_0_0_var(--fg-primary)]",
+        "flex flex-col gap-4 rounded-none border border-[var(--color-border)] border-l-2 bg-[var(--bg-primary)] p-8",
         colourClasses[colour],
         className,
       )}
       {...props}
     >
       <IconComponent className="size-12 text-[var(--fg-primary)]" aria-hidden />
-      <figcaption className="font-[family-name:var(--font-anton)] text-[28px] font-normal uppercase leading-tight tracking-[1px] text-[var(--fg-primary)]">
+      <figcaption className="font-[family-name:var(--font-geist-sans)] text-[28px] font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)]">
         {title}
       </figcaption>
       {company && (
-        <p className="font-[family-name:var(--font-inter)] text-xs font-bold uppercase tracking-[1.5px] text-[var(--fg-primary)]">
+        <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--fg-secondary)]">
           {company}
         </p>
       )}

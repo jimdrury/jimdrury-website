@@ -15,7 +15,7 @@ describe("Accolades", () => {
     );
     expect(
       screen.getByRole("heading", { level: 2, name: "Accolades" }),
-    ).toHaveClass("text-[36px]", "font-bold");
+    ).toHaveClass("text-[36px]", "font-medium");
     expect(
       screen.getByRole("heading", { level: 2, name: "Accolades" }),
     ).not.toHaveClass("text-[48px]", "uppercase");

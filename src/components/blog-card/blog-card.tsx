@@ -51,7 +51,7 @@ export const BlogCard: FC<BlogCardProps> = ({
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-white text-[var(--fg-primary)] shadow-[8px_8px_0_0_var(--fg-primary)]",
+        "relative flex h-full flex-col overflow-hidden rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] text-[var(--fg-primary)]",
         className,
       )}
       {...props}
@@ -106,7 +106,7 @@ export const BlogCard: FC<BlogCardProps> = ({
             )}
             <h2
               className={cn(
-                "font-[family-name:var(--font-anton)] font-bold tracking-[1px] text-[var(--fg-primary)]",
+                "font-[family-name:var(--font-geist-sans)] font-medium tracking-[-0.03em] text-[var(--fg-primary)]",
                 isCompact
                   ? "text-[22px] leading-[1.15]"
                   : "line-clamp-3 text-[28px] leading-[28px]",

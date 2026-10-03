@@ -55,7 +55,7 @@ export const MediaVideoLink: FC<MediaVideoLinkProps> = ({
 
   return (
     <figure className={cn("flex flex-col gap-4", className)} {...props}>
-      <div className="overflow-hidden rounded-xl border-[3px] border-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)]">
+      <div className="overflow-hidden rounded-none border border-[var(--color-border)]">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}`}
           title={title}
@@ -65,7 +65,7 @@ export const MediaVideoLink: FC<MediaVideoLinkProps> = ({
           loading="lazy"
         />
       </div>
-      <figcaption className="font-[family-name:var(--font-anton)] text-[22px] font-normal uppercase leading-tight tracking-[0.5px] text-[var(--fg-primary)]">
+      <figcaption className="font-[family-name:var(--font-geist-sans)] text-[22px] font-medium leading-tight tracking-[-0.03em] text-[var(--fg-primary)]">
         {title}
       </figcaption>
       {description && (

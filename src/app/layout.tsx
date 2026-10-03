@@ -1,13 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import {
-  Anton,
-  Geist,
-  Geist_Mono,
-  Inter,
-  Patrick_Hand,
-} from "next/font/google";
+import { Geist, Inter, JetBrains_Mono } from "next/font/google";
 import { draftMode } from "next/headers";
 import Link from "next/link";
 import { type FC, Suspense } from "react";
@@ -30,27 +24,16 @@ const inter = Inter({
   display: "swap",
 });
 
-const anton = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-anton",
-  display: "swap",
-});
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
-});
-
-const patrickHand = Patrick_Hand({
-  variable: "--font-patrick-hand",
-  weight: "400",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -80,7 +63,7 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${anton.variable} ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-screen flex-col">
         <Header data-site-header="">

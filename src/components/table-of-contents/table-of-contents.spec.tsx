@@ -29,7 +29,7 @@ describe("TableOfContents", () => {
 
     expect(titles).toHaveLength(2);
     for (const title of titles) {
-      expect(title).toHaveClass("font-[family-name:var(--font-anton)]");
+      expect(title).toHaveClass("font-[family-name:var(--font-geist-sans)]");
     }
   });
 });

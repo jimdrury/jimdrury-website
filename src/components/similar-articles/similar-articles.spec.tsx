@@ -85,6 +85,6 @@ describe("SimilarArticles", () => {
 
     expect(
       screen.getByRole("heading", { level: 2, name: "Similar Articles" }),
-    ).toHaveClass("font-[family-name:var(--font-anton)]");
+    ).toHaveClass("font-[family-name:var(--font-geist-sans)]");
   });
 });

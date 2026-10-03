@@ -53,7 +53,7 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
   return (
     <article
       className={cn(
-        "relative flex h-full flex-col overflow-hidden rounded-lg border-[3px] border-[var(--fg-primary)] bg-white text-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)]",
+        "relative flex h-full flex-col overflow-hidden rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] text-[var(--fg-primary)]",
         className,
       )}
       {...props}
@@ -98,7 +98,7 @@ export const BlogCardCompact: FC<BlogCardCompactProps> = ({
             {date}
           </time>
         ) : null}
-        <h3 className="line-clamp-2 font-[family-name:var(--font-anton)] text-[22px] font-bold leading-[30px] tracking-[0.5px] text-[var(--fg-primary)]">
+        <h3 className="line-clamp-2 font-[family-name:var(--font-geist-sans)] text-[22px] font-medium leading-[1.15] tracking-[-0.03em] text-[var(--fg-primary)]">
           {titleNode}
         </h3>
         {excerpt ? (

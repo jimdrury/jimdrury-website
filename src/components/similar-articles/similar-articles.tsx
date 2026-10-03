@@ -20,12 +20,12 @@ export const SimilarArticles: FC<SimilarArticlesProps> = ({
   return (
     <section
       className={cn(
-        "rounded-md border-[3px] border-black bg-[var(--bg-secondary)] p-4 shadow-[4px_4px_0_0_var(--fg-primary)] md:p-6",
+        "rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-4 md:p-6",
         className,
       )}
       aria-label="Similar articles"
     >
-      <Typography asChild size="3xl" textTransform="uppercase">
+      <Typography asChild size="3xl">
         <h2 className="mb-4">Similar Articles</h2>
       </Typography>
       <ul className="space-y-4 md:space-y-8 lg:space-y-10">

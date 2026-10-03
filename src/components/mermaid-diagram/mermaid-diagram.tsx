@@ -444,14 +444,14 @@ export const MermaidDiagram: FC<MermaidDiagramProps> = ({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border-2 border-black bg-[var(--bg-primary)] shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)]",
         className,
       )}
       aria-label={accessibleName}
       {...props}
     >
       {title ? (
-        <div className="border-b-2 border-black bg-yellow-300 px-4 py-2 font-mono text-sm font-semibold">
+        <div className="border-b border-[var(--color-border)] bg-[var(--bg-secondary)] px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em]">
           {title}
         </div>
       ) : null}

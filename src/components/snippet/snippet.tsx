@@ -121,10 +121,10 @@ export const Snippet: FC<SnippetProps> = async ({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border-2 shadow-[4px_4px_0_0]",
+        "overflow-hidden rounded-none border",
         isCommandLine
-          ? "border-emerald-500 bg-[#00150f] shadow-emerald-900/60"
-          : "border-black bg-[#24292e]",
+          ? "border-[var(--color-border)] bg-[#00150f]"
+          : "border-[var(--color-border)] bg-[#1e1e1e]",
         className,
       )}
       {...props}
@@ -132,10 +132,10 @@ export const Snippet: FC<SnippetProps> = async ({
       {(title || enableCopyToClipboard) && (
         <figcaption
           className={cn(
-            "flex items-center justify-between gap-3 border-b-2 px-4 py-2 font-mono text-sm font-semibold",
+            "flex items-center justify-between gap-3 border-b px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em]",
             isCommandLine
-              ? "border-emerald-500 bg-[#002317] text-emerald-300"
-              : "border-black bg-zinc-800 text-zinc-300",
+              ? "border-white/10 bg-[#002317] text-[#03aa5c]"
+              : "border-white/10 bg-[#161616] text-[#abbab9]",
           )}
         >
           <div className="flex min-w-0 items-center gap-2">

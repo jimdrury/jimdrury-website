@@ -5,12 +5,12 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const surfaceVariants = cva(
-  "rounded-md border-2 border-black bg-white text-black",
+  "rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] text-[var(--fg-primary)]",
   {
     variants: {
       variant: {
-        default: "shadow-[4px_4px_0_0_#000]",
-        raised: "shadow-[6px_6px_0_0_#000]",
+        default: "shadow-none",
+        raised: "bg-[var(--bg-secondary)] shadow-none",
         flat: "shadow-none",
       },
       padding: {
