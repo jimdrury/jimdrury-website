@@ -54,8 +54,8 @@ export const Hero: FC<HeroProps> = ({
         className={cn(
           "flex flex-col-reverse lg:flex-row lg:items-start",
           isCompact
-            ? "gap-5 py-6 lg:gap-10 lg:py-8"
-            : "gap-6 py-10 lg:gap-[60px] lg:py-16",
+            ? "gap-5 pt-6 pb-8 lg:gap-10 lg:py-8"
+            : "gap-6 pt-10 pb-14 lg:gap-[60px] lg:py-16",
           HERO_CONTENT_INNER_CLASS,
         )}
       >

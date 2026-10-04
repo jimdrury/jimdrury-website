@@ -20,7 +20,7 @@ export const StatusBand: FC<StatusBandProps> = ({
   return (
     <section
       className={cn(
-        "w-full bg-[var(--bg-primary)] pt-8 pb-4 lg:pt-10 lg:pb-5",
+        "w-full bg-[var(--bg-primary)] pt-8 pb-10 lg:pt-10 lg:pb-8",
         className,
       )}
       {...props}

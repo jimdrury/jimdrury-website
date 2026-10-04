@@ -54,7 +54,7 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      className="relative w-full bg-[var(--bg-sage)] py-8 md:py-12"
+      className="relative w-full bg-[var(--bg-sage)] py-10 md:py-12"
     >
       <EdgeMarkers />
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
