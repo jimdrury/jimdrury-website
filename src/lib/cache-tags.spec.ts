@@ -6,6 +6,7 @@ import {
   getHomePageTag,
   getPublishedPagesTag,
   getStoryCacheTags,
+  getStoryIdTag,
   getStorySlugVersionTag,
 } from "./cache-tags";
 
@@ -66,6 +67,17 @@ describe("cache tag helpers", () => {
   it("still can name the shared article version tag without applying it", () => {
     expect(getBlogVersionTag({ scope: "article", version: "published" })).toBe(
       "content:blog:article:published",
+    );
+  });
+});
+
+describe("getStoryIdTag", () => {
+  it("builds a version-scoped story ID tag", () => {
+    expect(getStoryIdTag({ id: 42, version: "published" })).toBe(
+      "content:story-id:published:42",
+    );
+    expect(getStoryIdTag({ id: 42, version: "draft" })).toBe(
+      "content:story-id:draft:42",
     );
   });
 });
