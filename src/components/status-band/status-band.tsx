@@ -1,22 +1,18 @@
 import type { FC, ReactNode } from "react";
 import { HERO_CONTENT_INNER_CLASS } from "@/components/hero";
-import { RuleBox } from "@/components/rule-box";
+import { Spine } from "@/components/spine";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export interface StatusBandProps
   extends Omit<ComponentPropsWithoutChildren<"section">, "title"> {
-  /** Optional pill label (e.g. a coral "Now" badge). */
+  /** Optional pill label. The spine already says Now, so this is decorative only. */
   badge?: ReactNode;
   children: ReactNode;
 }
 
-/**
- * A single-line status contained in a hairline panel aligned to the letter
- * column. Pink backdrop echoes TypeSafe's accent strips.
- */
 export const StatusBand: FC<StatusBandProps> = ({
-  badge,
+  badge: _badge,
   children,
   className,
   ...props
@@ -30,15 +26,11 @@ export const StatusBand: FC<StatusBandProps> = ({
       {...props}
     >
       <div className={HERO_CONTENT_INNER_CLASS}>
-        <RuleBox
-          grow
-          className="flex w-fit max-w-full flex-col gap-3 bg-[var(--bg-accent-pink)] px-5 py-4 sm:flex-row sm:items-center sm:gap-4"
-        >
-          {badge ? <div className="flex shrink-0">{badge}</div> : null}
-          <div className="min-w-0 max-w-[80ch] text-[var(--fg-on-accent)] [&_*]:m-0">
+        <Spine label="Now">
+          <div className="min-w-0 max-w-[80ch] text-[var(--fg-primary)] [&_*]:m-0">
             {children}
           </div>
-        </RuleBox>
+        </Spine>
       </div>
     </section>
   );

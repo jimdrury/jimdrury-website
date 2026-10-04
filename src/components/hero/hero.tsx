@@ -2,6 +2,7 @@ import NextImage from "next/image";
 import type { FC, ReactNode } from "react";
 
 import { RuleMarks } from "@/components/rule-box";
+import { Spine } from "@/components/spine";
 import { WindowFrame } from "@/components/window-frame";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -72,15 +73,17 @@ export const Hero: FC<HeroProps> = ({
             <RuleMarks variant="corners" />
             {title}
           </div>
-          <div
-            className={cn(
-              "max-w-[600px] font-[family-name:var(--font-inter)] font-normal leading-[1.4] text-[var(--fg-secondary)] lg:max-w-none",
-              isCompact ? "text-[15px] lg:text-base" : "text-[17px] lg:text-lg",
-              "text-pretty richtext-external-link-indicator [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3",
-            )}
-          >
-            {blurb}
-          </div>
+          <Spine label="About" className="max-w-[600px] lg:max-w-none">
+            <div
+              className={cn(
+                "font-[family-name:var(--font-inter)] font-medium leading-[1.25] text-[var(--fg-primary)]",
+                isCompact ? "text-[15px] lg:text-base" : "text-[18px]",
+                "text-pretty richtext-external-link-indicator [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3",
+              )}
+            >
+              {blurb}
+            </div>
+          </Spine>
         </div>
         {portraitSrc ? (
           <div

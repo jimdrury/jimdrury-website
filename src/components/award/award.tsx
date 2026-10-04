@@ -90,7 +90,7 @@ export const Award: FC<AwardProps> = ({
           {title}
         </figcaption>
         {company ? (
-          <p className="font-[family-name:var(--font-mono)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--fg-secondary)]">
+          <p className="font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] font-normal capitalize tracking-[0.05em] text-[var(--fg-secondary)]">
             {company}
           </p>
         ) : null}

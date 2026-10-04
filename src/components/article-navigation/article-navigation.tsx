@@ -2,7 +2,7 @@ import "server-only";
 
 import Link from "next/link";
 import type { FC } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import { Button } from "@/components/button";
 import { getArticlePath } from "@/lib/seo";
 import { getLatestArticlesSeed } from "@/storyblok/blog-listings";
@@ -78,7 +78,7 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
       {previousHref ? (
         <Button asChild variant="secondary" size="small">
           <Link href={previousHref}>
-            <FaArrowLeft aria-hidden className="size-3" />
+            <LuArrowLeft aria-hidden className="size-3.5" />
             Prev
           </Link>
         </Button>
@@ -90,7 +90,7 @@ export const ArticleNavigation: FC<ArticleNavigationProps> = async ({
         <Button asChild variant="primary" size="small">
           <Link href={nextHref}>
             Next
-            <FaArrowRight aria-hidden className="size-3" />
+            <LuArrowRight aria-hidden className="size-3.5" />
           </Link>
         </Button>
       ) : null}

@@ -19,7 +19,7 @@ export const MermaidShowcase: FC = () => {
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-10 px-4 py-16 pb-24">
       <header className="space-y-3">
-        <p className="font-[family-name:var(--font-mono)] text-xs font-medium uppercase tracking-[0.08em] text-[var(--fg-secondary)]">
+        <p className="font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] font-normal capitalize tracking-[0.05em] text-[var(--fg-secondary)]">
           Components
         </p>
         <h1 className="font-[family-name:var(--font-geist-sans)] text-4xl font-medium tracking-[-0.04em]">

@@ -6,7 +6,8 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import { LuChevronDown } from "react-icons/lu";
+import { IconBox } from "@/components/icon-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
@@ -106,10 +107,9 @@ export const AccordionItem: FC<AccordionItemProps> = ({
             </span>
           )}
         </span>
-        <FaChevronDown
-          aria-hidden
-          className={cn(chevronClassName, "self-center")}
-        />
+        <IconBox size="sm" className="self-center">
+          <LuChevronDown className={chevronClassName} />
+        </IconBox>
       </summary>
       <div
         className={cn(

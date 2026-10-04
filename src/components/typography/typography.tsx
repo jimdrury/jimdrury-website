@@ -34,7 +34,7 @@ export const typographyVariants = cva("text-[var(--fg-primary)]", {
     size: typographySizeVariants,
     textTransform: {
       none: "",
-      uppercase: "uppercase",
+      uppercase: "capitalize",
       lowercase: "lowercase",
       capitalize: "capitalize",
     },

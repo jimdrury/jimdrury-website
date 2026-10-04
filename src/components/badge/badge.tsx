@@ -5,21 +5,22 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const badgeVariants = cva(
-  "inline-flex max-w-full min-w-0 items-center justify-center rounded-none border border-[var(--color-border)] px-2.5 py-1 font-[family-name:var(--font-mono)] text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-[var(--fg-primary)]",
+  "inline-flex max-w-full min-w-0 items-center justify-center rounded-none px-1 py-0.5 font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] font-normal leading-none normal-case text-[var(--fg-primary)]",
   {
     variants: {
       variant: {
-        primary: "border-transparent bg-[var(--bg-accent-pink)]",
-        secondary: "bg-[var(--bg-primary)]",
-        tertiary: "border-transparent bg-[var(--bg-accent-blue)]",
-        highlight: "border-transparent bg-[var(--bg-accent-yellow)]",
-        dark: "border-transparent bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
-        inverse: "border-transparent bg-[#1e1e1e] text-[#fefefe] normal-case",
-        magenta: "border-transparent bg-[#d45bb6] text-[#1e1e1e] normal-case",
+        primary: "bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
+        secondary: "border border-[var(--color-border)] bg-[var(--bg-primary)]",
+        tertiary: "bg-[var(--bg-accent-blue)]",
+        highlight: "bg-[var(--bg-accent-pink)]",
+        dark: "bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
+        inverse: "bg-[#1e1e1e] text-[#fefefe]",
+        magenta: "bg-[#d45bb6] text-[#1e1e1e]",
+        tag: "bg-[#c4c4c4] text-[#1e1e1e] px-1.5 py-1 before:mr-1 before:content-['✣']",
       },
     },
     defaultVariants: {
-      variant: "primary",
+      variant: "inverse",
     },
   },
 );

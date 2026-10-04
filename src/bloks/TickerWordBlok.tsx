@@ -20,9 +20,9 @@ const getTickerWordWeight = (value: unknown): TickerWordWeight =>
 const tickerWordWeightClassName = (weight: TickerWordWeight): string => {
   switch (weight) {
     case "bold":
-      return "text-[18px] font-bold tracking-[2px] lg:text-[24px]";
+      return "text-[28px] font-bold tracking-normal lg:text-[40px]";
     case "regular":
-      return "text-[13px] font-normal tracking-[2px] lg:text-2xl lg:tracking-[3px]";
+      return "text-[28px] font-normal tracking-normal lg:text-[40px]";
     default: {
       const exhaustive: never = weight;
       return exhaustive;
@@ -41,7 +41,7 @@ export const TickerWordBlok: FC<TickerWordBlokProps> = ({ blok }) => {
     <span
       {...storyblokEditable(blok)}
       className={cn(
-        "shrink-0 font-[family-name:var(--font-mono)] uppercase leading-none",
+        "shrink-0 font-[family-name:var(--font-pixel),var(--font-mono)] lowercase leading-none",
         tickerWordWeightClassName(weight),
       )}
     >

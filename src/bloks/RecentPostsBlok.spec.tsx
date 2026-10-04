@@ -102,7 +102,7 @@ describe("RecentPostsBlok", () => {
     });
 
     expect(container.querySelector("section")).toHaveClass(
-      "bg-[var(--bg-secondary)]",
+      "bg-[var(--bg-sage)]",
       "py-8",
       "md:py-12",
     );

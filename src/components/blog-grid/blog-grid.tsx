@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { FC } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 
 import { BlogCard, type BlogCardDensity } from "@/components/blog-card";
 import { Button } from "@/components/button";
@@ -101,7 +101,7 @@ export const BlogGrid: FC<BlogGridProps> = ({
           <Button asChild variant="dark">
             <Link href={viewAllHref}>
               View all posts
-              <FaArrowRight aria-hidden className="size-3" />
+              <LuArrowRight aria-hidden className="size-3.5" />
             </Link>
           </Button>
         </div>
@@ -115,7 +115,7 @@ export const BlogGrid: FC<BlogGridProps> = ({
           {pagination.hasPrevious ? (
             <Button asChild variant="secondary" size="small">
               <Link href={buildPaginationHref(pathname, pagination.page - 1)}>
-                <FaArrowLeft aria-hidden className="size-3" />
+                <LuArrowLeft aria-hidden className="size-3.5" />
                 Prev
               </Link>
             </Button>
@@ -145,7 +145,7 @@ export const BlogGrid: FC<BlogGridProps> = ({
             <Button asChild variant="primary" size="small">
               <Link href={buildPaginationHref(pathname, pagination.page + 1)}>
                 Next
-                <FaArrowRight aria-hidden className="size-3" />
+                <LuArrowRight aria-hidden className="size-3.5" />
               </Link>
             </Button>
           ) : null}

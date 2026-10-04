@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from "react";
-import { FaQuoteLeft } from "react-icons/fa";
 import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -27,10 +26,12 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
       {...props}
     >
       <RuleMarks />
-      <FaQuoteLeft
+      <span
         aria-hidden
-        className="-top-2 left-4 absolute size-6 text-[var(--bg-accent-pink)]"
-      />
+        className="absolute -top-1 left-4 font-[family-name:var(--font-pixel),var(--font-mono)] text-[48px] leading-none text-[var(--fg-primary)]"
+      >
+        “
+      </span>
       <blockquote className="font-[family-name:var(--font-geist-sans)] text-2xl font-medium leading-[1.15] tracking-[-0.03em] text-[var(--fg-primary)]">
         <div className="richtext-external-link-indicator [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3">
           {quote}

@@ -91,6 +91,6 @@ describe("Typography", () => {
       </Typography>,
     );
 
-    expect(screen.getByTestId("upper")).toHaveClass("uppercase");
+    expect(screen.getByTestId("upper")).toHaveClass("capitalize");
   });
 });

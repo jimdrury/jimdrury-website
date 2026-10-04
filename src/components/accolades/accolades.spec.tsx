@@ -11,7 +11,7 @@ describe("Accolades", () => {
     );
 
     expect(container.querySelector("section")).toHaveClass(
-      "bg-[var(--bg-secondary)]",
+      "bg-[var(--bg-sage)]",
     );
     expect(
       screen.getByRole("heading", { level: 2, name: "Accolades" }),

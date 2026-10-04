@@ -2,6 +2,7 @@
 
 import type { FC, PointerEventHandler, ReactNode } from "react";
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { EdgeMarkers } from "@/components/edge-markers";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import {
@@ -311,11 +312,12 @@ export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
     <div
       ref={viewportRef}
       className={cn(
-        "ticker-fade overflow-hidden bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] motion-reduce:overflow-visible",
+        "ticker-fade relative overflow-hidden bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] motion-reduce:overflow-visible",
         className,
       )}
       {...props}
     >
+      <EdgeMarkers className="z-[1] text-[var(--fg-primary)]/50" />
       <div
         ref={trackRef}
         className={cn(

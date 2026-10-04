@@ -3,6 +3,7 @@ import { draftMode } from "next/headers";
 import Link from "next/link";
 import type { FC } from "react";
 import { BlogCardCompact } from "@/components/blog-card-compact";
+import { EdgeMarkers } from "@/components/edge-markers";
 import { SectionTitle } from "@/components/section-title";
 import {
   formatStoryDate,
@@ -53,8 +54,9 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      className="w-full bg-[var(--bg-secondary)] py-8 md:py-12"
+      className="relative w-full bg-[var(--bg-sage)] py-8 md:py-12"
     >
+      <EdgeMarkers />
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="mb-6 flex items-end justify-between">
           <SectionTitle>{title}</SectionTitle>

@@ -2,8 +2,9 @@
 
 import type { FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
-import { FaTimes } from "react-icons/fa";
+import { LuX } from "react-icons/lu";
 import { Button } from "@/components/button";
+import { IconBox } from "@/components/icon-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -79,7 +80,9 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
           onClick={onClose}
           className="p-4"
         >
-          <FaTimes aria-hidden className="size-[1em] shrink-0" />
+          <IconBox size="sm">
+            <LuX />
+          </IconBox>
           <span className="sr-only">{closeLabel}</span>
         </Button>
       )}

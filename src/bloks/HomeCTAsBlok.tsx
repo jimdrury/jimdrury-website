@@ -34,7 +34,7 @@ export const HomeCTAsBlok: FC<HomeCTAsBlokProps> = ({ blok }) => {
     >
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="flex flex-wrap gap-4">
-          <Button variant="highlight" asChild>
+          <Button variant="dark" asChild>
             <Link href={primaryUrl} className="group">
               {primaryLabel}
               <FaAngleDoubleRight

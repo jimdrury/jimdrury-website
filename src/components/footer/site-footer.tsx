@@ -3,6 +3,7 @@ import type { FC } from "react";
 import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { EdgeMarkers } from "@/components/edge-markers";
 import { IconBox } from "@/components/icon-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -42,11 +43,12 @@ export const SiteFooter: FC<SiteFooterProps> = ({
   return (
     <footer
       className={cn(
-        "flex flex-col items-center gap-4 border-t border-[var(--color-border-strong)] bg-[var(--bg-dark)] px-5 py-6 text-[var(--fg-inverse)] lg:flex-row lg:justify-between lg:gap-6 lg:px-12",
+        "relative flex flex-col items-center gap-4 border-t border-[var(--color-border-strong)] bg-[var(--bg-dark)] px-5 py-6 pt-8 text-[var(--fg-inverse)] lg:flex-row lg:justify-between lg:gap-6 lg:px-12",
         className,
       )}
       {...props}
     >
+      <EdgeMarkers className="text-[var(--fg-inverse)]/50" />
       <p className="font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] leading-none text-[var(--fg-inverse)]/80">
         Jim Drury &copy; {currentYear}
         <span className="mx-2 opacity-50" aria-hidden>

@@ -113,11 +113,12 @@ export const TypographyBlok: FC<TypographyBlokProps> = ({ blok, story }) => {
   });
 
   const textTransform =
-    blok.text_transform === "uppercase" ||
-    blok.text_transform === "lowercase" ||
-    blok.text_transform === "capitalize"
-      ? blok.text_transform
-      : "none";
+    blok.text_transform === "uppercase"
+      ? "capitalize"
+      : blok.text_transform === "lowercase" ||
+          blok.text_transform === "capitalize"
+        ? blok.text_transform
+        : "none";
 
   return (
     <Typography
