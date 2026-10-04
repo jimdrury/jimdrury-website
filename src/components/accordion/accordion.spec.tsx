@@ -60,7 +60,11 @@ describe("Accordion", () => {
     );
 
     const root = container.querySelector("[data-testid=accordion-root]");
-    expect(root).toHaveClass("divide-y-2", "border-2", "border-black");
+    expect(root).toHaveClass(
+      "divide-y",
+      "border",
+      "border-[var(--color-border)]",
+    );
     expect(root).not.toHaveClass("space-y-3");
   });
 });

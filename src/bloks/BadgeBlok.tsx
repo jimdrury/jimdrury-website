@@ -19,7 +19,7 @@ export const BadgeBlok: FC<BadgeBlokProps> = ({ blok }) => {
   }
 
   return (
-    <Badge {...storyblokEditable(blok)} variant={blok.variant ?? "highlight"}>
+    <Badge {...storyblokEditable(blok)} variant={blok.variant ?? "inverse"}>
       {blok.label}
     </Badge>
   );

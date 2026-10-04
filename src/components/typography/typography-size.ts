@@ -1,4 +1,4 @@
-/** Pencil `neo_pencil.pen` theme axis `size` — must match `typographyVariants` keys in `typography.tsx`. */
+/** TypeSafe heading/body size axis — must match `typographyVariants` keys in `typography.tsx`. */
 export const TYPOGRAPHY_SCALE = [
   "xs",
   "sm",

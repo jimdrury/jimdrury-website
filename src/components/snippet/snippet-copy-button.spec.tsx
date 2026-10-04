@@ -31,4 +31,12 @@ describe("SnippetCopyButton", () => {
     );
     expect(writeText.mock.calls[0]?.[0]).not.toContain("\\n");
   });
+
+  it("renders as a flush title-bar action", () => {
+    render(<SnippetCopyButton />);
+
+    expect(
+      screen.getByRole("button", { name: "Copy code to clipboard" }),
+    ).toHaveClass("h-full", "min-h-0");
+  });
 });

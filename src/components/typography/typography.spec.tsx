@@ -32,7 +32,7 @@ describe("Typography", () => {
     const heading = screen.getByRole("heading", { level: 1 });
 
     expect(heading).toHaveClass("text-[30px]");
-    expect(heading).toHaveClass("font-bold");
+    expect(heading).toHaveClass("font-medium");
   });
 
   it("derives weight from size (sm → normal)", () => {
@@ -91,6 +91,6 @@ describe("Typography", () => {
       </Typography>,
     );
 
-    expect(screen.getByTestId("upper")).toHaveClass("uppercase");
+    expect(screen.getByTestId("upper")).toHaveClass("capitalize");
   });
 });

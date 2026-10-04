@@ -7,38 +7,66 @@
 }
 
 :root {
-  /* Matches the compact header (py-3 + CTA/logo) before JS measures it. */
-  --header-height: 4.25rem;
+  /* Matches the compact header (py-3 + wordmark) before JS measures it. */
+  --header-height: 3.5rem;
 
-  /* Surfaces (Pencil neo_pencil.pen) */
-  --bg-primary: #fffdf5;
-  --bg-secondary: #f5f0e1;
+  /* TypeSafe AI surfaces */
+  --bg-primary: #fefefe;
+  --bg-secondary: #dedede;
+  --bg-muted: #c4c4c4;
+  --bg-dark: #1e1e1e;
 
-  /* Accent tints (Pencil neo_pencil.pen) */
-  --bg-accent-yellow: #ffe156;
-  --bg-accent-orange: #ff9f43;
-  --bg-accent-pink: #ff6b6b;
-  --bg-accent-purple: #c4b5fd;
-  --bg-accent-blue: #a8d8ea;
-  --bg-accent-green: #7ed957;
+  /* TypeSafe accents — yellow/orange/purple slots remap to the live palette */
+  --bg-accent-yellow: #f386a1;
+  --bg-accent-orange: #d96fbf;
+  --bg-accent-pink: #f386a1;
+  --bg-accent-purple: #d96fbf;
+  --bg-accent-magenta: #d96fbf;
+  --bg-accent-blue: #09aea1;
+  --bg-accent-green: #03aa5c;
+  --bg-accent-green-muted: #03aa5cbd;
 
-  /* Foregrounds (Pencil neo_pencil.pen) */
-  --fg-primary: #1a1a1a;
-  --fg-secondary: #3d3d3d;
-  --fg-inverse: #fffdf5;
+  /* Foregrounds */
+  --fg-primary: #1e1e1e;
+  --fg-secondary: #1e1e1edb;
+  --fg-muted: #6b6b6b;
+  --bg-sage: #abbab9;
+  --fg-inverse: #fefefe;
+  --fg-on-accent: #1e1e1e;
 
   /* Borders */
-  --color-border-strong: #1a1a1a;
+  --color-border: #1e1e1edb;
+  --color-border-soft: #88888833;
+  --color-border-strong: #1e1e1e;
 
-  /* Focus rings (derived from tokens) */
+  /* Crop-mark rules that poke past a box like registration marks */
+  --rule-width: 1px;
+  --rule-color: var(--color-border);
+  --rule-overhang: 4px;
+  --rule-overhang-grow: 6px;
+
+  /* Early-OS chrome — TypeSafe Lisa title bars */
+  --chrome-bar-height: 20px;
+  --chrome-bar-bg: #1e1e1e;
+  --chrome-bar-fg: #dedede;
+  --chrome-bar-bg-dark: #1e1e1e;
+  --chrome-title-size: 13px;
+  --chrome-title-tracking: 0;
+
+  /* Fluid display sizes — fixed px at 5xl+ overflow a 375px viewport */
+  --text-4xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem);
+  --text-5xl: clamp(2rem, 1.45rem + 2.2vw, 3rem);
+  --text-6xl: clamp(2.25rem, 1.2rem + 3.4vw, 4rem);
+  --text-7xl: clamp(2.5rem, 1rem + 5vw, 5.5rem);
+  --text-8xl: clamp(3.5rem, 1.6rem + 8vw, 8.75rem);
+
+  /* Focus rings */
   --focus-ring-inner: var(--bg-primary);
-  --focus-ring-outer: var(--fg-primary);
+  --focus-ring-outer: var(--bg-accent-pink);
   --focus-stack-sm:
-    2px 2px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
-    0 0 0 4px var(--focus-ring-outer);
+    0 0 0 1px var(--focus-ring-inner), 0 0 0 3px var(--focus-ring-outer);
   --focus-stack-md:
-    6px 6px 0 0 var(--focus-ring-outer), 0 0 0 2px var(--focus-ring-inner),
-    0 0 0 4px var(--focus-ring-outer);
+    0 0 0 2px var(--focus-ring-inner), 0 0 0 4px var(--focus-ring-outer);
 }
 
 @utility focus-ring {
@@ -51,6 +79,16 @@
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: var(--focus-stack-sm);
+}
+
+@utility os-desktop {
+  background-color: var(--bg-accent-pink);
+  background-image: radial-gradient(
+    rgba(30, 30, 30, 0.35) 0.6px,
+    transparent 0.8px
+  );
+  background-size: 4px 4px;
+  border: 1px solid var(--color-border-strong);
 }
 
 .richtext-external-link-indicator a[target="_blank"]::after {
@@ -106,18 +144,58 @@
 
 @media (min-width: 640px) {
   :root {
-    /* Matches sm+ header (py-5 + taller CTA) before JS measures it. */
-    --header-height: 5.75rem;
+    --header-height: 3.75rem;
+    --rule-overhang: 8px;
+    --rule-overhang-grow: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --rule-overhang: 10px;
+    --rule-overhang-grow: 14px;
   }
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  overflow-x: clip;
 }
 
 body {
   background-color: var(--bg-primary);
+  color: var(--fg-primary);
+  overflow-x: clip;
+}
+
+.rule-mark-h,
+.rule-mark-v {
+  position: absolute;
+  background: var(--rule-color);
+  pointer-events: none;
+}
+
+.rule-mark-h {
+  left: calc(-1 * var(--rule-overhang));
+  right: calc(-1 * var(--rule-overhang));
+  height: var(--rule-width);
+}
+
+.rule-mark-v {
+  top: calc(-1 * var(--rule-overhang));
+  bottom: calc(-1 * var(--rule-overhang));
+  width: var(--rule-width);
+}
+
+.rule-box[data-grow="true"]:hover,
+.rule-box[data-grow="true"]:focus-within {
+  --rule-overhang: var(--rule-overhang-grow);
+}
+
+::selection {
+  background-color: var(--bg-accent-magenta);
+  color: #1e1e1e;
 }
 
 @media (prefers-reduced-motion: reduce) {

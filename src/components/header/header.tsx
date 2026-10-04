@@ -12,7 +12,7 @@ export const Header: FC<HeaderProps> = ({ className, children, ...props }) => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex items-center justify-between gap-3 border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-primary)] px-3 py-3 sm:px-4 sm:py-5 lg:px-12",
+        "sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-[var(--color-border)] bg-[var(--bg-primary)] px-4 py-2 sm:px-6 lg:px-12",
         className,
       )}
       {...props}
@@ -39,7 +39,7 @@ export const HeaderLogo: FC<HeaderLogoProps> = ({
     <Comp
       href={asChild || !href ? undefined : href}
       className={cn(
-        "font-[family-name:var(--font-anton)] text-[1.65rem] leading-none tracking-tight text-[var(--fg-primary)] focus-visible:focus-ring sm:text-[2rem]",
+        "font-[family-name:var(--font-geist-sans)] text-[1.05rem] leading-none font-medium tracking-[-0.03em] text-[var(--fg-primary)] focus-visible:focus-ring sm:text-[1.15rem]",
         className,
       )}
       {...props}
@@ -60,7 +60,7 @@ export const HeaderNav: FC<HeaderNavProps> = ({
 }) => {
   return (
     <nav className={className} {...props}>
-      <ul className="flex items-center gap-3 sm:gap-8">{children}</ul>
+      <ul className="flex items-center gap-4 sm:gap-6">{children}</ul>
     </nav>
   );
 };
@@ -83,10 +83,10 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
     <li className="list-none">
       <Comp
         className={cn(
-          "text-xs font-bold uppercase tracking-[1px] text-[var(--fg-primary)] transition-opacity focus-visible:focus-ring-sm sm:text-sm",
+          "font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)] focus-visible:focus-ring-sm",
           active
-            ? "opacity-100 underline decoration-[3px] underline-offset-4"
-            : "opacity-70 hover:opacity-100",
+            ? "bg-[var(--fg-primary)] px-1.5 py-0.5 text-[var(--fg-inverse)]"
+            : "hover:opacity-70",
           className,
         )}
         aria-current={active ? "page" : undefined}
@@ -118,10 +118,9 @@ export const HeaderCta: FC<HeaderCtaProps> = ({
       <Button
         asChild
         variant="highlight"
+        size="small"
         className={cn(
-          "px-3 py-2 text-xs uppercase sm:px-6 sm:py-3 sm:text-sm",
-          active &&
-            "ring-2 ring-[var(--fg-primary)] ring-offset-2 ring-offset-[var(--bg-primary)]",
+          active && "outline outline-1 outline-[var(--fg-primary)]",
           className,
         )}
       >

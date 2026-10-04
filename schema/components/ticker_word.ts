@@ -14,7 +14,7 @@ export default nestable({
     option({
       name: "weight",
       description:
-        "Regular keeps the default ticker size used on other pages. Bold matches the home page (18px / 24px Anton).",
+        "Regular keeps the default ticker size used on other pages. Bold matches the home page (18px / 24px mono).",
       default_value: "regular",
       options: [
         { name: "Regular", value: "regular" },

@@ -6,7 +6,8 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import { LuChevronDown } from "react-icons/lu";
+import { IconBox } from "@/components/icon-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import type { IconReference } from "@/lib/icon-ref";
 import { cn } from "@/lib/utils";
@@ -41,7 +42,7 @@ export const Accordion: FC<AccordionProps> = ({
     <div
       className={cn(
         grouped
-          ? "overflow-hidden rounded-md divide-y-2 divide-black border-2 border-black shadow-[4px_4px_0_0]"
+          ? "overflow-hidden rounded-none divide-y divide-[var(--color-border)] border border-[var(--color-border)]"
           : "space-y-3",
         className,
       )}
@@ -90,10 +91,10 @@ export const AccordionItem: FC<AccordionItemProps> = ({
     >
       <summary
         className={cn(
-          "flex cursor-pointer items-start justify-between gap-4 bg-white px-4 py-3 font-medium text-gray-900",
+          "flex cursor-pointer items-start justify-between gap-4 bg-[var(--bg-primary)] px-4 py-3 font-medium text-[var(--fg-primary)]",
           grouped
-            ? "hover:bg-yellow-100 focus-visible:bg-yellow-100 focus-visible:focus-ring"
-            : "rounded-md border-2 border-black text-black shadow-[4px_4px_0_0] hover:bg-yellow-100 focus-visible:bg-yellow-100 focus-visible:focus-ring",
+            ? "hover:bg-[var(--bg-secondary)] focus-visible:bg-[var(--bg-secondary)] focus-visible:focus-ring"
+            : "rounded-none border border-[var(--color-border)] hover:bg-[var(--bg-secondary)] focus-visible:bg-[var(--bg-secondary)] focus-visible:focus-ring",
         )}
       >
         <span className="flex min-w-0 flex-1 items-start gap-3">
@@ -106,12 +107,16 @@ export const AccordionItem: FC<AccordionItemProps> = ({
             </span>
           )}
         </span>
-        <FaChevronDown
-          aria-hidden
-          className={cn(chevronClassName, "self-center")}
-        />
+        <IconBox size="sm" className="self-center">
+          <LuChevronDown className={chevronClassName} />
+        </IconBox>
       </summary>
-      <div className={cn("p-4", grouped && "border-t-2 border-black")}>
+      <div
+        className={cn(
+          "p-4",
+          grouped && "border-t border-[var(--color-border)]",
+        )}
+      >
         {children}
       </div>
     </details>
