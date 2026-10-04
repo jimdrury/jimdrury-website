@@ -1,6 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { toChromeFilename, WindowFrame } from "./window-frame";
+import {
+  OsTitleBar,
+  TitleBarButton,
+  toChromeFilename,
+  WindowFrame,
+} from "./window-frame";
 
 describe("WindowFrame", () => {
   it("renders children", () => {
@@ -30,6 +35,28 @@ describe("WindowFrame", () => {
     expect(screen.getByTestId("frame")).toHaveClass("overflow-visible");
     expect(container.querySelectorAll(".rule-mark-h")).toHaveLength(2);
     expect(container.querySelectorAll(".rule-mark-v")).toHaveLength(2);
+  });
+});
+
+describe("OsTitleBar", () => {
+  it("clips flush title-bar actions instead of letting them expand out", () => {
+    const { container } = render(
+      <OsTitleBar
+        title="DESIGN.md"
+        actions={<TitleBarButton>Copy</TitleBarButton>}
+      />,
+    );
+
+    const bar = container.firstElementChild;
+    expect(bar).toHaveClass("overflow-hidden", "h-[var(--chrome-bar-height)]");
+    expect(screen.getByRole("button", { name: "Copy" })).toHaveClass(
+      "h-full",
+      "min-h-0",
+    );
+    expect(screen.getByRole("button", { name: "Copy" })).not.toHaveClass(
+      "py-1",
+      "py-1.5",
+    );
   });
 });
 

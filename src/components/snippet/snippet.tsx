@@ -61,7 +61,7 @@ const commandLineLanguages = new Set(["bash", "sh", "zsh", "shell"]);
 const LanguageIcon: FC<{ language: string }> = ({ language }) => {
   const Icon = languageIcons[language.toLowerCase()];
   if (!Icon) return null;
-  return <Icon className="size-4 shrink-0" aria-hidden />;
+  return <Icon className="size-3 shrink-0" aria-hidden />;
 };
 
 const buildDecorations = (highlights: LineHighlight[]): DecorationItem[] =>

@@ -2,7 +2,7 @@
 
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/button";
+import { TitleBarButton } from "@/components/window-frame";
 
 const copyText = async (value: string): Promise<void> => {
   if (navigator.clipboard?.writeText) {
@@ -61,17 +61,13 @@ export const SnippetCopyButton: FC = () => {
   };
 
   return (
-    <Button
-      type="button"
-      size="small"
-      variant="secondary"
-      className="shrink-0 px-3 py-1 text-xs"
+    <TitleBarButton
       onClick={(event) => void handleClick(event.currentTarget)}
       aria-live="polite"
       aria-label={copied ? "Copied to clipboard" : "Copy code to clipboard"}
       data-nosnippet=""
     >
       {copied ? "Copied" : "Copy"}
-    </Button>
+    </TitleBarButton>
   );
 };

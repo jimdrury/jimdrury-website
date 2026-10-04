@@ -40,6 +40,32 @@ export interface OsTitleBarProps {
   tone?: WindowFrameTone;
 }
 
+export interface TitleBarButtonProps
+  extends ComponentPropsWithoutChildren<"button"> {
+  children?: ReactNode;
+}
+
+/** Flush action slot for the 20px Lisa title bar. Do not use `Button` here. */
+export const TitleBarButton: FC<TitleBarButtonProps> = ({
+  className,
+  children,
+  type = "button",
+  ...props
+}) => {
+  return (
+    <button
+      type={type}
+      className={cn(
+        "inline-flex h-full min-h-0 w-[3.75rem] shrink-0 items-center justify-center border-0 border-l border-[color:color-mix(in_srgb,var(--fg-inverse)_22%,transparent)] bg-[#fefefe] px-2 font-[family-name:var(--font-pixel),var(--font-mono)] text-[11px] leading-none text-[#1e1e1e] hover:bg-[#dedede] focus-visible:z-10 focus-visible:focus-ring",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
 export const OsTitleBar: FC<OsTitleBarProps> = ({
   title,
   actions,
@@ -48,16 +74,21 @@ export const OsTitleBar: FC<OsTitleBarProps> = ({
   return (
     <div
       className={cn(
-        "flex h-[var(--chrome-bar-height)] items-center justify-between gap-2 border-b px-1.5 font-[family-name:var(--font-pixel),var(--font-mono)] text-[length:var(--chrome-title-size)] leading-none tracking-[var(--chrome-title-tracking)]",
+        "flex h-[var(--chrome-bar-height)] items-stretch overflow-hidden border-b font-[family-name:var(--font-pixel),var(--font-mono)] text-[length:var(--chrome-title-size)] leading-none tracking-[var(--chrome-title-tracking)]",
+        actions ? "pl-1.5" : "px-1.5",
         titleBarClasses[tone],
       )}
     >
       {title ? (
-        <div className="min-w-0 truncate normal-case">{title}</div>
+        <div className="flex min-w-0 flex-1 items-center truncate normal-case">
+          {title}
+        </div>
       ) : (
-        <span />
+        <span className="flex-1" />
       )}
-      {actions ? <div className="shrink-0">{actions}</div> : null}
+      {actions ? (
+        <div className="flex h-full shrink-0 items-stretch">{actions}</div>
+      ) : null}
     </div>
   );
 };
