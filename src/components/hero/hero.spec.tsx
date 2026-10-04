@@ -9,7 +9,10 @@ describe("Hero", () => {
     );
 
     const inner = container.querySelector("section > div");
-    expect(inner).toHaveClass("pt-10", "pb-14");
+    expect(inner).toHaveClass("pt-10", "pb-16");
+    expect(
+      screen.getByText("About").parentElement?.querySelector("[aria-hidden]"),
+    ).toHaveClass("bottom-0");
     expect(
       screen.getByRole("heading", { name: "Jim Drury." }),
     ).toBeInTheDocument();
@@ -25,6 +28,6 @@ describe("Hero", () => {
     );
 
     const inner = container.querySelector("section > div");
-    expect(inner).toHaveClass("pt-6", "pb-8");
+    expect(inner).toHaveClass("pt-6", "pb-10");
   });
 });

@@ -22,13 +22,12 @@ export const Spine: FC<SpineProps> = ({
       <span
         aria-hidden
         className={cn(
-          "absolute top-0 left-0 w-px bg-[var(--color-border)]",
+          "absolute top-0 bottom-[-1.5rem] left-0 w-px bg-[var(--color-border)]",
           dashed
             ? "border-l border-dashed border-[var(--color-border)] bg-transparent"
             : null,
           ruleClassName,
         )}
-        style={{ bottom: "-1.5rem" }}
       />
       <p className="mb-2 font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] leading-none text-[var(--fg-primary)]">
         {label}

@@ -54,8 +54,8 @@ export const Hero: FC<HeroProps> = ({
         className={cn(
           "flex flex-col-reverse lg:flex-row lg:items-start",
           isCompact
-            ? "gap-5 pt-6 pb-8 lg:gap-10 lg:py-8"
-            : "gap-6 pt-10 pb-14 lg:gap-[60px] lg:py-16",
+            ? "gap-5 pt-6 pb-10 lg:gap-10 lg:py-8"
+            : "gap-6 pt-10 pb-16 lg:gap-[60px] lg:py-16",
           HERO_CONTENT_INNER_CLASS,
         )}
       >
@@ -73,7 +73,11 @@ export const Hero: FC<HeroProps> = ({
             <RuleMarks variant="corners" />
             {title}
           </div>
-          <Spine label="About" className="max-w-[600px] lg:max-w-none">
+          <Spine
+            label="About"
+            className="max-w-[600px] lg:max-w-none"
+            ruleClassName="bottom-0 lg:bottom-[-1.5rem]"
+          >
             <div
               className={cn(
                 "font-[family-name:var(--font-inter)] font-medium leading-[1.25] text-[var(--fg-primary)]",
