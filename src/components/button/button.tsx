@@ -12,12 +12,12 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "border-transparent bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] hover:bg-[#d45bb6]",
+          "border-transparent bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] hover:bg-[var(--bg-accent-magenta)]",
         secondary: "bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)]",
         tertiary:
           "border-transparent bg-[var(--bg-accent-blue)] text-[var(--fg-on-accent)] hover:opacity-90",
         highlight:
-          "border-transparent bg-[var(--bg-accent-yellow)] text-[var(--fg-on-accent)] hover:bg-[#d45bb6]",
+          "border-transparent bg-[var(--bg-accent-yellow)] text-[var(--fg-on-accent)] hover:bg-[var(--bg-accent-magenta)]",
         dark: "border-transparent bg-[var(--fg-primary)] text-[var(--fg-inverse)] hover:bg-[#2a2a2a]",
         ghost:
           "border-transparent bg-transparent hover:bg-[var(--bg-secondary)]",

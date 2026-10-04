@@ -18,6 +18,12 @@ describe("PublicEvent", () => {
       "href",
       "https://example.com/event",
     );
+    expect(screen.getByText("1 Apr 2026")).toHaveClass(
+      "bg-[var(--bg-accent-pink)]",
+    );
+    expect(screen.getByText("1 Apr 2026")).not.toHaveClass(
+      "text-[var(--bg-accent-pink)]",
+    );
   });
 
   it("does not render javascript or protocol-relative CMS hrefs", () => {

@@ -80,7 +80,7 @@ export const Award: FC<AwardProps> = ({
         <IconBox
           size="md"
           className={cn(
-            "border-transparent text-[var(--fg-inverse)]",
+            "border-transparent text-[var(--fg-primary)]",
             colourClasses[colour],
           )}
         >

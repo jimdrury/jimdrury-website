@@ -97,7 +97,7 @@ export const Carousel: FC<CarouselProps> = ({
             <button
               type="button"
               onClick={goToNext}
-              className="cursor-pointer rounded-none border border-transparent bg-[var(--bg-accent-pink)] px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em] text-[var(--fg-on-accent)] transition-colors hover:bg-[#d45bb6]"
+              className="cursor-pointer rounded-none border border-transparent bg-[var(--bg-accent-pink)] px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em] text-[var(--fg-on-accent)] transition-colors hover:bg-[var(--bg-accent-magenta)]"
               aria-label="Show next slide"
             >
               Next

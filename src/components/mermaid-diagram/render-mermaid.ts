@@ -27,7 +27,7 @@ const MERMAID_THEME_VARIABLES: NonNullable<MermaidConfig["themeVariables"]> = {
   labelBoxBkgColor: "#09aea1",
   labelBoxBorderColor: "#1e1e1e",
   labelTextColor: "#1e1e1e",
-  noteBkgColor: "#d45bb6",
+  noteBkgColor: "#d96fbf",
   noteTextColor: "#1e1e1e",
   noteBorderColor: "#1e1e1e",
 };

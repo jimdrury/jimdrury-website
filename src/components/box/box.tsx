@@ -65,6 +65,11 @@ export const Box: FC<BoxProps> = ({
   textColour = "default",
   ...props
 }) => {
+  const isAccentSurface =
+    backgroundColour === "yellow" || backgroundColour === "blue";
+  const resolvedTextColour =
+    isAccentSurface && textColour === "white" ? "black" : textColour;
+
   return (
     <div
       className={cn(
@@ -72,7 +77,7 @@ export const Box: FC<BoxProps> = ({
         paddingClasses[padding],
         marginClasses[margin],
         backgroundColourClasses[backgroundColour],
-        textColourClasses[textColour],
+        textColourClasses[resolvedTextColour],
         className,
       )}
       {...props}

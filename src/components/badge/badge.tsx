@@ -15,7 +15,7 @@ export const badgeVariants = cva(
         highlight: "bg-[var(--bg-accent-pink)]",
         dark: "bg-[var(--fg-primary)] text-[var(--fg-inverse)]",
         inverse: "bg-[#1e1e1e] text-[#fefefe]",
-        magenta: "bg-[#d45bb6] text-[#1e1e1e]",
+        magenta: "bg-[var(--bg-accent-magenta)] text-[var(--fg-primary)]",
         tag: "bg-[#c4c4c4] text-[#1e1e1e] px-1.5 py-1 before:mr-1 before:content-['✣']",
       },
     },

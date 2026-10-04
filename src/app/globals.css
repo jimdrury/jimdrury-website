@@ -18,9 +18,10 @@
 
   /* TypeSafe accents — yellow/orange/purple slots remap to the live palette */
   --bg-accent-yellow: #f386a1;
-  --bg-accent-orange: #d45bb6;
+  --bg-accent-orange: #d96fbf;
   --bg-accent-pink: #f386a1;
-  --bg-accent-purple: #d45bb6;
+  --bg-accent-purple: #d96fbf;
+  --bg-accent-magenta: #d96fbf;
   --bg-accent-blue: #09aea1;
   --bg-accent-green: #03aa5c;
   --bg-accent-green-muted: #03aa5cbd;
@@ -193,7 +194,7 @@ body {
 }
 
 ::selection {
-  background-color: #d45bb6;
+  background-color: var(--bg-accent-magenta);
   color: #1e1e1e;
 }
 
