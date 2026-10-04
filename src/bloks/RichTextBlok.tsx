@@ -37,7 +37,7 @@ export const RichTextBlok: FC<RichTextBlokProps> = ({
   return (
     <div
       {...storyblokEditable(blok)}
-      className="prose text-pretty richtext-external-link-indicator [&_h1]:text-balance [&_h2]:text-balance [&_h3]:text-balance [&_h4]:text-balance [&_ul>li::marker]:text-black [&_:not(pre)>code]:rounded-none [&_:not(pre)>code]:bg-[var(--bg-secondary)] [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:font-medium [&_:not(pre)>code]:text-[var(--fg-primary)] [&_:not(pre)>code]:whitespace-nowrap [&_:not(pre)>code]:max-sm:whitespace-normal [&_:not(pre)>code]:max-sm:break-words [&_:not(pre)>code]:before:content-none [&_:not(pre)>code]:after:content-none"
+      className="prose text-pretty text-[var(--fg-primary)] [--tw-prose-body:var(--fg-primary)] [--tw-prose-headings:var(--fg-primary)] [--tw-prose-bold:var(--fg-primary)] [--tw-prose-links:var(--fg-primary)] richtext-external-link-indicator [&_h1]:text-balance [&_h2]:text-balance [&_h3]:text-balance [&_h4]:text-balance [&_ul>li::marker]:text-black [&_:not(pre)>code]:rounded-none [&_:not(pre)>code]:bg-[var(--bg-secondary)] [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:font-medium [&_:not(pre)>code]:text-[var(--fg-primary)] [&_:not(pre)>code]:whitespace-nowrap [&_:not(pre)>code]:max-sm:whitespace-normal [&_:not(pre)>code]:max-sm:break-words [&_:not(pre)>code]:before:content-none [&_:not(pre)>code]:after:content-none"
     >
       {use(getCachedRichText(blok.content, pathname, story))}
     </div>

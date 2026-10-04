@@ -14,6 +14,11 @@ describe("palette contrast", () => {
     expect(meetsAaContrast(ink, paper)).toBe(true);
   });
 
+  it("rejects Tailwind prose slate on teal", () => {
+    expect(meetsAaContrast("#364153", "#09aea1")).toBe(false);
+    expect(meetsAaContrast("#1e1e1e", "#09aea1")).toBe(true);
+  });
+
   it("rejects pink as a text colour on grey or white", () => {
     expect(meetsAaContrast("#f386a1", "#dedede")).toBe(false);
     expect(meetsAaContrast("#f386a1", paper)).toBe(false);

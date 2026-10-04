@@ -68,7 +68,9 @@ export const Box: FC<BoxProps> = ({
   const isAccentSurface =
     backgroundColour === "yellow" || backgroundColour === "blue";
   const resolvedTextColour =
-    isAccentSurface && textColour === "white" ? "black" : textColour;
+    isAccentSurface && (textColour === "white" || textColour === "default")
+      ? "black"
+      : textColour;
 
   return (
     <div
