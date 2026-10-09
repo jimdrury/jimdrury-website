@@ -20,6 +20,7 @@ const AUTHOR_PROFILE_URLS = [
   "https://github.com/jimdrury",
 ] as const;
 const AUTHOR_ABOUT_URL = `${SITE_ORIGIN}/about`;
+const ISO_8601_UTC = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 const AUTHOR_WORKS_FOR = {
   "@type": "Organization",
   name: "Virgin Media O2",
@@ -65,6 +66,40 @@ const KNOWN_ACRONYMS: Readonly<Record<string, string>> = {
 const normalizeText = (value: string | undefined): string | undefined => {
   const trimmed = value?.trim();
   return trimmed && trimmed.length > 0 ? trimmed : undefined;
+};
+
+const toIso8601 = (value: string | undefined): string | undefined => {
+  const normalized = normalizeText(value);
+  if (!normalized) {
+    return undefined;
+  }
+
+  let candidate = normalized.includes("T")
+    ? normalized
+    : normalized.replace(" ", "T");
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(candidate)) {
+    candidate = `${candidate}T00:00:00Z`;
+  } else if (
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?$/.test(candidate)
+  ) {
+    candidate = `${candidate}Z`;
+  }
+
+  const date = new Date(candidate);
+  if (Number.isNaN(date.getTime())) {
+    return undefined;
+  }
+
+  return date.toISOString();
+};
+
+const isRecordValue = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === "object" && value !== null;
+};
+
+const isAbsoluteHttpUrl = (value: unknown): value is string => {
+  return typeof value === "string" && /^https?:\/\//.test(value);
 };
 
 const formatCategoryLabel = (category: string): string => {
@@ -402,16 +437,152 @@ const getArticleDescription = (story: BlogStory): string => {
 
 const getArticlePublishedTime = (story: BlogStory): string | undefined => {
   return (
-    normalizeText(story.first_published_at ?? undefined) ??
-    normalizeText(story.published_at ?? undefined)
+    toIso8601(story.first_published_at ?? undefined) ??
+    toIso8601(story.published_at ?? undefined)
   );
 };
 
 const getArticleModifiedTime = (story: BlogStory): string | undefined => {
   return (
-    normalizeText(story.published_at ?? undefined) ??
-    normalizeText(story.first_published_at ?? undefined)
+    toIso8601(story.published_at ?? undefined) ??
+    toIso8601(story.first_published_at ?? undefined)
   );
+};
+
+export type ArticleStructuredData = {
+  headline: string;
+  description: string;
+  datePublished?: string;
+  dateModified?: string;
+  keywords: string[];
+  canonicalUrl: string | null;
+  authorName: string;
+  authorUrl: string;
+  authorJobTitle: string;
+  authorSameAs: readonly string[];
+  publisherName: string;
+  publisherUrl: string;
+  publisherLogoUrl: string;
+};
+
+export const getArticleStructuredData = (
+  story: BlogStory,
+): ArticleStructuredData => {
+  const datePublished = getArticlePublishedTime(story);
+
+  return {
+    headline: story.name,
+    description: getArticleDescription(story),
+    datePublished,
+    dateModified: getArticleModifiedTime(story) ?? datePublished,
+    keywords: getArticleKeywords(story),
+    canonicalUrl: getArticleCanonicalUrl(story),
+    authorName: SITE_NAME,
+    authorUrl: AUTHOR_ABOUT_URL,
+    authorJobTitle: AUTHOR_JOB_TITLE,
+    authorSameAs: AUTHOR_PROFILE_URLS,
+    publisherName: SITE_NAME,
+    publisherUrl: SITE_ORIGIN,
+    publisherLogoUrl: ORGANIZATION_LOGO_URL,
+  };
+};
+
+export const validateBlogPostingJsonLd = (
+  jsonLd: Record<string, unknown>,
+): string[] => {
+  const errors: string[] = [];
+
+  if (jsonLd["@context"] !== "https://schema.org") {
+    errors.push("@context must be https://schema.org");
+  }
+
+  if (jsonLd["@type"] !== "BlogPosting") {
+    errors.push("@type must be BlogPosting");
+  }
+
+  if (typeof jsonLd.headline !== "string" || jsonLd.headline.trim() === "") {
+    errors.push("headline must be a non-empty string");
+  }
+
+  if (
+    typeof jsonLd.description !== "string" ||
+    jsonLd.description.trim() === ""
+  ) {
+    errors.push("description must be a non-empty string");
+  }
+
+  if (
+    typeof jsonLd.datePublished !== "string" ||
+    !ISO_8601_UTC.test(jsonLd.datePublished)
+  ) {
+    errors.push("datePublished must be an ISO 8601 UTC timestamp");
+  }
+
+  if (
+    typeof jsonLd.dateModified !== "string" ||
+    !ISO_8601_UTC.test(jsonLd.dateModified)
+  ) {
+    errors.push("dateModified must be an ISO 8601 UTC timestamp");
+  }
+
+  const author = isRecordValue(jsonLd.author) ? jsonLd.author : null;
+  if (
+    !author ||
+    author["@type"] !== "Person" ||
+    author.name !== SITE_NAME ||
+    author.url !== AUTHOR_ABOUT_URL
+  ) {
+    errors.push(
+      "author must be a Person named Jim Drury with url https://www.jimdrury.co.uk/about",
+    );
+  }
+
+  const publisher = isRecordValue(jsonLd.publisher) ? jsonLd.publisher : null;
+  const logo =
+    publisher && isRecordValue(publisher.logo) ? publisher.logo : null;
+  if (
+    !publisher ||
+    publisher["@type"] !== "Organization" ||
+    typeof publisher.name !== "string" ||
+    publisher.name.trim() === "" ||
+    !isAbsoluteHttpUrl(publisher.url) ||
+    !logo ||
+    logo["@type"] !== "ImageObject" ||
+    !isAbsoluteHttpUrl(logo.url)
+  ) {
+    errors.push("publisher must be an Organization with an ImageObject logo");
+  }
+
+  const image = isRecordValue(jsonLd.image) ? jsonLd.image : null;
+  if (
+    !image ||
+    image["@type"] !== "ImageObject" ||
+    !isAbsoluteHttpUrl(image.url)
+  ) {
+    errors.push("image must be an ImageObject with an absolute url");
+  }
+
+  const mainEntity = isRecordValue(jsonLd.mainEntityOfPage)
+    ? jsonLd.mainEntityOfPage
+    : null;
+  if (
+    !mainEntity ||
+    mainEntity["@type"] !== "WebPage" ||
+    !isAbsoluteHttpUrl(mainEntity["@id"])
+  ) {
+    errors.push("mainEntityOfPage must be a WebPage with an absolute @id");
+  }
+
+  if (
+    !Array.isArray(jsonLd.keywords) ||
+    jsonLd.keywords.some(
+      (keyword) => typeof keyword !== "string" || keyword.trim() === "",
+    )
+  ) {
+    errors.push("keywords must be an array of tag strings");
+  }
+
+  return errors;
 };
 
 const getArticleKeywords = (story: BlogStory): string[] => {
@@ -690,8 +861,8 @@ export const buildArticleJsonLd = (
       },
     }),
     ...(image && { image }),
-    datePublished: publishedTime,
-    dateModified: modifiedTime,
+    ...(publishedTime && { datePublished: publishedTime }),
+    ...(modifiedTime && { dateModified: modifiedTime }),
     author,
     publisher,
     speakable: {

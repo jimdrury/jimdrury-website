@@ -2,7 +2,6 @@
 
 import type { FC, ReactNode } from "react";
 import { useState } from "react";
-import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -55,22 +54,21 @@ export const Carousel: FC<CarouselProps> = ({
   return (
     <section
       className={cn(
-        "rule-box relative overflow-visible bg-[var(--bg-primary)] p-4 sm:p-6",
+        "rounded-md border-2 border-black bg-lime-200 p-4 shadow-[6px_6px_0_0] sm:p-6",
         className,
       )}
       {...props}
     >
-      <RuleMarks />
       <header className="mb-4 flex flex-wrap items-end justify-between gap-3">
-        <h2 className="text-balance font-[family-name:var(--font-geist-sans)] text-lg font-medium tracking-[-0.03em] sm:text-xl">
+        <h2 className="text-balance font-mono text-lg font-black uppercase tracking-wide sm:text-xl">
           {title}
         </h2>
-        <p className="rounded-none border border-[var(--color-border)] bg-[var(--bg-secondary)] px-2 py-1 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em]">
+        <p className="rounded-md border-2 border-black bg-yellow-300 px-2 py-1 font-mono text-xs font-bold uppercase tracking-wide">
           Slide {activeIndex + 1} / {totalSlides}
         </p>
       </header>
 
-      <div className="overflow-hidden rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)]">
+      <div className="overflow-hidden rounded-md border-2 border-black bg-white shadow-[4px_4px_0_0]">
         <div
           className="flex transition-transform duration-300 ease-out"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
@@ -89,7 +87,7 @@ export const Carousel: FC<CarouselProps> = ({
             <button
               type="button"
               onClick={goToPrevious}
-              className="cursor-pointer rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em] transition-colors hover:bg-[var(--bg-secondary)]"
+              className="cursor-pointer rounded-md border-2 border-black bg-blue-300 px-4 py-2 font-mono text-xs font-bold uppercase tracking-wide shadow-[4px_4px_0_0] transition-transform hover:-translate-y-0.5"
               aria-label="Show previous slide"
             >
               Prev
@@ -97,7 +95,7 @@ export const Carousel: FC<CarouselProps> = ({
             <button
               type="button"
               onClick={goToNext}
-              className="cursor-pointer rounded-none border border-transparent bg-[var(--bg-accent-pink)] px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.06em] text-[var(--fg-on-accent)] transition-colors hover:bg-[var(--bg-accent-magenta)]"
+              className="cursor-pointer rounded-md border-2 border-black bg-pink-300 px-4 py-2 font-mono text-xs font-bold uppercase tracking-wide shadow-[4px_4px_0_0] transition-transform hover:-translate-y-0.5"
               aria-label="Show next slide"
             >
               Next
@@ -115,10 +113,8 @@ export const Carousel: FC<CarouselProps> = ({
                   key={slides[index].id}
                   onClick={() => setActiveIndex(index)}
                   className={cn(
-                    "size-3 cursor-pointer rounded-none border border-[var(--color-border)] transition-colors",
-                    isActive
-                      ? "bg-[var(--fg-primary)]"
-                      : "bg-[var(--bg-primary)]",
+                    "size-4 cursor-pointer rounded-sm border-2 border-black transition-transform hover:-translate-y-0.5",
+                    isActive ? "bg-black" : "bg-white",
                   )}
                   aria-label={`Go to slide ${index + 1}`}
                   aria-current={isActive}

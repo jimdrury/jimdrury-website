@@ -7,24 +7,21 @@ import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-none border border-[var(--color-border)] font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[0.01em] text-[var(--fg-primary)] transition-colors focus-visible:focus-ring",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-[3px] border-[var(--fg-primary)] text-base font-extrabold tracking-[1px] text-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)] transition-[background-color,color,box-shadow] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_var(--bg-primary),0_0_0_4px_var(--fg-primary),6px_6px_0_0_var(--fg-primary)] hover:shadow-[4px_4px_0_0_var(--fg-primary)]",
   {
     variants: {
       variant: {
-        primary:
-          "border-transparent bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] hover:bg-[var(--bg-accent-magenta)]",
+        primary: "bg-[var(--bg-accent-pink)] hover:bg-[#f05555]",
         secondary: "bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)]",
-        tertiary:
-          "border-transparent bg-[var(--bg-accent-blue)] text-[var(--fg-on-accent)] hover:opacity-90",
-        highlight:
-          "border-transparent bg-[var(--bg-accent-yellow)] text-[var(--fg-on-accent)] hover:bg-[var(--bg-accent-magenta)]",
-        dark: "border-transparent bg-[var(--fg-primary)] text-[var(--fg-inverse)] hover:bg-[#2a2a2a]",
+        tertiary: "bg-[var(--bg-accent-blue)] hover:bg-[#92c9d8]",
+        highlight: "bg-[var(--bg-accent-yellow)] hover:bg-[#f5cf2a]",
+        dark: "bg-[var(--fg-primary)] text-[var(--fg-inverse)] hover:bg-[#2a2a2a]",
         ghost:
-          "border-transparent bg-transparent hover:bg-[var(--bg-secondary)]",
+          "bg-transparent shadow-none hover:bg-[var(--bg-secondary)]/90 hover:shadow-none focus-visible:shadow-[0_0_0_2px_var(--bg-primary),0_0_0_4px_var(--fg-primary),6px_6px_0_0_var(--fg-primary)]",
       },
       size: {
-        default: "px-5 py-2.5",
-        small: "px-3 py-1.5 text-xs",
+        default: "px-8 py-4",
+        small: "px-3 py-1.5 text-xs tracking-[0.5px]",
       },
       expand: {
         true: "z-10 before:pointer-events-auto before:absolute before:inset-0 before:z-10 before:block before:content-['']",

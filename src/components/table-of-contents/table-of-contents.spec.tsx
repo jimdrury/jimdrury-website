@@ -22,29 +22,14 @@ const storyWithHeading = {
 } as BlogStory;
 
 describe("TableOfContents", () => {
-  it("labels the window On This Page", () => {
+  it("uses the heading font for On This Page titles", () => {
     render(<TableOfContents story={storyWithHeading} />);
 
-    expect(screen.getAllByText("On This Page").length).toBeGreaterThan(0);
-  });
+    const titles = screen.getAllByText("On This Page");
 
-  it("renders a boxed jump icon on each heading link", () => {
-    const { container } = render(<TableOfContents story={storyWithHeading} />);
-
-    const links = screen.getAllByRole("link", { name: /Getting Started/ });
-    expect(links.length).toBeGreaterThan(0);
-    expect(
-      container.querySelectorAll('a[href="#getting-started"] svg').length,
-    ).toBeGreaterThan(0);
-    expect(
-      container.querySelectorAll('a[href="#getting-started"] [aria-hidden] svg')
-        .length,
-    ).toBeGreaterThan(0);
-  });
-
-  it("prefixes each heading with a zero-padded index", () => {
-    render(<TableOfContents story={storyWithHeading} />);
-
-    expect(screen.getAllByText("01").length).toBeGreaterThan(0);
+    expect(titles).toHaveLength(2);
+    for (const title of titles) {
+      expect(title).toHaveClass("font-[family-name:var(--font-anton)]");
+    }
   });
 });

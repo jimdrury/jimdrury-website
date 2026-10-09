@@ -8,6 +8,7 @@ export interface ArticleStatsProps
   categories?: string[];
   publishedAt?: string;
   readTime?: number;
+  includeDateMicrodata?: boolean;
 }
 
 const formatDateTime = (value: string | undefined): string | null => {
@@ -20,20 +21,21 @@ const formatDateTime = (value: string | undefined): string | null => {
     return null;
   }
 
-  return format(date, "MMM d, yyyy");
+  return format(date, "MMM d, yyyy").toUpperCase();
 };
 
 export const ArticleStats: FC<ArticleStatsProps> = ({
   categories: _categories,
   publishedAt,
   readTime,
+  includeDateMicrodata = false,
   className,
   ...props
 }) => {
   const publishedLabel = formatDateTime(publishedAt);
   const readTimeLabel =
     typeof readTime === "number" && Number.isFinite(readTime)
-      ? `${Math.max(1, Math.trunc(readTime))} min read`
+      ? `${Math.max(1, Math.trunc(readTime))} MIN READ`
       : null;
 
   if (!publishedLabel && !readTimeLabel) {
@@ -43,12 +45,19 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center gap-x-3 gap-y-1 font-[family-name:var(--font-mono)] text-[11px] font-medium capitalize tracking-[0.05em] text-[var(--fg-secondary)] md:text-xs",
+        "flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-[1.5px] text-[var(--fg-secondary)] md:text-xs",
         className,
       )}
       {...props}
     >
-      {publishedLabel ? <span>{publishedLabel}</span> : null}
+      {publishedLabel && publishedAt ? (
+        <time
+          dateTime={publishedAt}
+          {...(includeDateMicrodata ? { itemProp: "datePublished" } : {})}
+        >
+          {publishedLabel}
+        </time>
+      ) : null}
       {publishedLabel && readTimeLabel ? (
         <span aria-hidden className="text-[#666]">
           .

@@ -1,10 +1,16 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Pixel, Inter, JetBrains_Mono } from "next/font/google";
+import {
+  Anton,
+  Geist,
+  Geist_Mono,
+  Inter,
+  Patrick_Hand,
+} from "next/font/google";
 import { draftMode } from "next/headers";
 import Link from "next/link";
-import { type FC, Suspense } from "react";
+import { type FC, type ReactNode, Suspense } from "react";
 import { SiteFooter } from "@/components/footer";
 import {
   Header,
@@ -12,7 +18,6 @@ import {
   HeaderNav,
   HeaderNavLinks,
 } from "@/components/header";
-import { HeaderStatus } from "@/components/header/header-status";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
 import { HeaderHeight } from "./_components/header-height/header-height";
@@ -25,23 +30,27 @@ const inter = Inter({
   display: "swap",
 });
 
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-anton",
+  display: "swap",
+});
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "swap",
 });
 
-const geistPixel = Geist_Pixel({
-  variable: "--font-pixel",
-  subsets: ["latin"],
+const patrickHand = Patrick_Hand({
+  variable: "--font-patrick-hand",
   weight: "400",
-  display: "swap",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -61,7 +70,11 @@ export const metadata: Metadata = {
   },
 };
 
-const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
+type RootLayoutProps = LayoutProps<"/"> & {
+  jsonLd: ReactNode;
+};
+
+const Layout: FC<RootLayoutProps> = async ({ children, jsonLd }) => {
   const [draftState, currentYear] = await Promise.all([
     draftMode(),
     getCurrentYear(),
@@ -71,18 +84,14 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistSans.variable} ${jetbrainsMono.variable} ${geistPixel.variable} h-full antialiased`}
+      className={`${inter.variable} ${anton.variable} ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
     >
+      <head>{jsonLd}</head>
       <body className="flex min-h-screen flex-col">
         <Header data-site-header="">
-          <div className="flex min-w-0 items-center gap-3">
-            <HeaderLogo asChild>
-              <Link href="/">Jim Drury.</Link>
-            </HeaderLogo>
-            <Suspense>
-              <HeaderStatus />
-            </Suspense>
-          </div>
+          <HeaderLogo asChild>
+            <Link href="/">JIMDRURY.</Link>
+          </HeaderLogo>
           <HeaderNav>
             <Suspense>
               <HeaderNavLinks />

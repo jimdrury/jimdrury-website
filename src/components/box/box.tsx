@@ -1,5 +1,4 @@
 import type { FC, ReactNode } from "react";
-import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -42,9 +41,9 @@ const marginClasses: Record<BoxSpacing, string> = {
 
 const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
   none: "",
-  white: "bg-[var(--bg-primary)]",
+  white: "bg-white",
   light_grey: "bg-[var(--bg-secondary)]",
-  dark: "bg-[var(--bg-dark)]",
+  dark: "bg-zinc-800",
   black: "bg-black",
   yellow: "bg-[var(--bg-accent-yellow)]",
   blue: "bg-[var(--bg-accent-blue)]",
@@ -52,8 +51,8 @@ const backgroundColourClasses: Record<BoxBackgroundColour, string> = {
 
 const textColourClasses: Record<BoxTextColour, string> = {
   default: "",
-  black: "text-[var(--fg-primary)]",
-  white: "text-[var(--fg-inverse)]",
+  black: "text-black",
+  white: "text-white",
 };
 
 export const Box: FC<BoxProps> = ({
@@ -65,26 +64,18 @@ export const Box: FC<BoxProps> = ({
   textColour = "default",
   ...props
 }) => {
-  const isAccentSurface =
-    backgroundColour === "yellow" || backgroundColour === "blue";
-  const resolvedTextColour =
-    isAccentSurface && (textColour === "white" || textColour === "default")
-      ? "black"
-      : textColour;
-
   return (
     <div
       className={cn(
-        "rule-box relative overflow-visible rounded-none",
+        "rounded-md border-2 border-black shadow-[6px_6px_0_0_#000]",
         paddingClasses[padding],
         marginClasses[margin],
         backgroundColourClasses[backgroundColour],
-        textColourClasses[resolvedTextColour],
+        textColourClasses[textColour],
         className,
       )}
       {...props}
     >
-      <RuleMarks />
       {children}
     </div>
   );

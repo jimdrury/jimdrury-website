@@ -11,7 +11,7 @@ describe("SectionTitle", () => {
       name: "Recent Writing",
     });
 
-    expect(heading).toHaveClass("text-[length:var(--text-4xl)]", "font-medium");
+    expect(heading).toHaveClass("text-[36px]", "font-bold");
     expect(heading).not.toHaveClass("text-[48px]", "uppercase");
   });
 });

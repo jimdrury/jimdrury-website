@@ -33,7 +33,7 @@ export const BackToTop: FC = () => {
       onClick={scrollToTop}
       aria-label="Back to top"
       className={cn(
-        "fixed bottom-8 right-8 z-50 flex size-12 cursor-pointer items-center justify-center rounded-none border border-[var(--color-border)] bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] transition-opacity hover:bg-[var(--bg-accent-magenta)] focus-visible:focus-ring",
+        "fixed bottom-8 right-8 z-50 flex size-12 cursor-pointer items-center justify-center rounded-xl border-[3px] border-[var(--fg-primary)] bg-[var(--bg-accent-yellow)] shadow-[4px_4px_0_0_var(--fg-primary)] transition-[opacity,box-shadow] hover:bg-[#f5cf2a] hover:shadow-[2px_2px_0_0_var(--fg-primary)] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-[4px] focus-visible:shadow-[0_0_0_2px_var(--bg-primary),0_0_0_4px_var(--fg-primary),4px_4px_0_0_var(--fg-primary)]",
         visible ? "opacity-100" : "pointer-events-none opacity-0",
       )}
     >
@@ -44,7 +44,7 @@ export const BackToTop: FC = () => {
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"

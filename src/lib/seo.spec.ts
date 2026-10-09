@@ -15,8 +15,8 @@ vi.mock("@/lib/read-time", () => {
 
 vi.mock("@/storyblok/blog-listings-utils", () => {
   return {
-    getFeaturedImageAsset: () => null,
-    parseStoryblokImageDimensions: () => null,
+    getFeaturedImageAsset: vi.fn(() => null),
+    parseStoryblokImageDimensions: vi.fn(() => null),
   };
 });
 
@@ -93,6 +93,81 @@ describe("buildArticleJsonLd", () => {
         url: "https://www.jimdrury.co.uk/logo.png",
       },
     });
+  });
+
+  it("builds a BlogPosting from story timestamps, tags, and the canonical url", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const { buildArticleJsonLd, validateBlogPostingJsonLd } = await import(
+      "@/lib/seo"
+    );
+    const jsonLd = buildArticleJsonLd(
+      makeStory({
+        first_published_at: "2026-03-01 08:00:00",
+        published_at: "2026-03-02T09:30:00.000Z",
+        tag_list: ["nextjs", "ai", "nextjs"],
+        content: {
+          component: "article",
+          body: [],
+          excerpt: "Visible excerpt",
+          meta_description: "Search description",
+        },
+      }) as never,
+    );
+
+    expect(jsonLd.datePublished).toBe("2026-03-01T08:00:00.000Z");
+    expect(jsonLd.dateModified).toBe("2026-03-02T09:30:00.000Z");
+    expect(jsonLd.keywords).toEqual(["nextjs", "ai"]);
+    expect(jsonLd.description).toBe("Search description");
+    expect(jsonLd.author).toMatchObject({
+      "@type": "Person",
+      name: "Jim Drury",
+      url: "https://www.jimdrury.co.uk/about",
+    });
+    expect(jsonLd.mainEntityOfPage).toMatchObject({
+      "@type": "WebPage",
+      "@id":
+        "https://www.jimdrury.co.uk/blog/ai/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
+    });
+    expect(jsonLd.image).toMatchObject({
+      "@type": "ImageObject",
+      url: "https://www.jimdrury.co.uk/blog/ai/your-claude-code-setup-is-probably-wrong-ill-tell-you-why/opengraph-image",
+    });
+    expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
+  });
+
+  it("accepts a featured image and reports no schema rule violations", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const listings = await import("@/storyblok/blog-listings-utils");
+    vi.mocked(listings.getFeaturedImageAsset).mockReturnValueOnce({
+      filename: "https://a.storyblok.com/f/1/1200x630/abc/hero.png",
+      alt: "Hero illustration",
+    } as never);
+    vi.mocked(listings.parseStoryblokImageDimensions).mockReturnValueOnce({
+      width: 1200,
+      height: 630,
+    });
+    const { buildArticleJsonLd, validateBlogPostingJsonLd } = await import(
+      "@/lib/seo"
+    );
+    const jsonLd = buildArticleJsonLd(
+      makeStory({
+        first_published_at: "2026-03-01T08:00:00.000Z",
+        published_at: "2026-03-02T09:30:00.000Z",
+        tag_list: ["ai"],
+        content: {
+          component: "article",
+          body: [],
+          excerpt: "Visible excerpt",
+        },
+      }) as never,
+    );
+
+    expect(jsonLd.image).toMatchObject({
+      "@type": "ImageObject",
+      url: "https://a.storyblok.com/f/1/1200x630/abc/hero.png",
+    });
+    expect(jsonLd.description).toBe("Visible excerpt");
+    expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
   });
 });
 

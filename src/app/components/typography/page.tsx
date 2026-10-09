@@ -6,7 +6,7 @@ import { TypographyScaleShowcase } from "./_components/typography-scale-showcase
 export const metadata: Metadata = {
   title: "Typography",
   description:
-    "Typography scale: single component with size axis (Inter / Geist).",
+    "Typography scale: single component with size axis (Inter / Anton).",
 };
 
 const Page: FC<PageProps<"/components/typography">> = () => {

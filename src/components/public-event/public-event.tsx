@@ -1,7 +1,6 @@
 import { format, isValid } from "date-fns";
 import type { FC, ReactNode } from "react";
 import { LuArrowRight } from "react-icons/lu";
-import { Badge } from "@/components/badge";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -95,13 +94,16 @@ export const PublicEvent: FC<PublicEventProps> = ({
     startTimestamp !== endTimestamp;
   const safeEndDate = hasDistinctEndDate ? endDate?.trim() : undefined;
 
+  const dateClassName =
+    "shrink-0 font-[family-name:var(--font-geist-mono)] text-base font-bold tracking-[2px] text-[var(--bg-accent-pink)]";
+
   const header = (
     <div className="flex w-full flex-col gap-2">
       <div className="flex items-center justify-between gap-3">
-        <Badge variant="highlight">{dateLabel}</Badge>
+        <span className={dateClassName}>{dateLabel}</span>
         {badge}
       </div>
-      <span className="font-[family-name:var(--font-geist-sans)] text-2xl font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)]">
+      <span className="font-[family-name:var(--font-anton)] text-2xl font-normal leading-tight tracking-[1px] text-[var(--fg-primary)]">
         {title}
       </span>
       {safeOrganizer || safeAddress ? (
@@ -115,7 +117,7 @@ export const PublicEvent: FC<PublicEventProps> = ({
   return (
     <article
       className={cn(
-        "w-full border-b border-[var(--color-border)] pb-12 last:border-b-0 last:pb-0",
+        "w-full border-b-2 border-black pb-12 last:border-b-0 last:pb-0",
         className,
       )}
       itemScope

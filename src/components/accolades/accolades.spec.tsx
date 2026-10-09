@@ -11,11 +11,11 @@ describe("Accolades", () => {
     );
 
     expect(container.querySelector("section")).toHaveClass(
-      "bg-[var(--bg-sage)]",
+      "bg-[var(--bg-secondary)]",
     );
     expect(
       screen.getByRole("heading", { level: 2, name: "Accolades" }),
-    ).toHaveClass("text-[length:var(--text-4xl)]", "font-medium");
+    ).toHaveClass("text-[36px]", "font-bold");
     expect(
       screen.getByRole("heading", { level: 2, name: "Accolades" }),
     ).not.toHaveClass("text-[48px]", "uppercase");

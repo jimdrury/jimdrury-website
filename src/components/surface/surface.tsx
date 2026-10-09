@@ -1,17 +1,16 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { FC, ReactNode } from "react";
-import { RuleMarks } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
 export const surfaceVariants = cva(
-  "rule-box relative overflow-visible rounded-none bg-[var(--bg-primary)] text-[var(--fg-primary)]",
+  "rounded-md border-2 border-black bg-white text-black",
   {
     variants: {
       variant: {
-        default: "shadow-none",
-        raised: "bg-[var(--bg-secondary)] shadow-none",
+        default: "shadow-[4px_4px_0_0_#000]",
+        raised: "shadow-[6px_6px_0_0_#000]",
         flat: "shadow-none",
       },
       padding: {
@@ -49,14 +48,7 @@ export const Surface: FC<SurfaceProps> = ({
       className={cn(surfaceVariants({ variant, padding }), className)}
       {...props}
     >
-      {asChild ? (
-        children
-      ) : (
-        <>
-          <RuleMarks />
-          {children}
-        </>
-      )}
+      {children}
     </Comp>
   );
 };

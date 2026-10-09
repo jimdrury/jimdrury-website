@@ -3,7 +3,7 @@
 import NextImage from "next/image";
 import type { FC, MouseEventHandler, ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { LuZoomIn } from "react-icons/lu";
+import { FaSearchPlus } from "react-icons/fa";
 import { Modal, ModalBody, ModalHeader } from "@/components/modal";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -64,9 +64,9 @@ export const MediaLightbox: FC<MediaLightboxProps> = ({
         {isMounted ? (
           <span
             aria-hidden
-            className="pointer-events-none absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-none bg-[var(--fg-primary)] px-1.5 py-1 font-[family-name:var(--font-pixel),var(--font-mono)] text-[13px] font-normal leading-none text-[var(--fg-inverse)]"
+            className="pointer-events-none absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-md border-2 border-black bg-yellow-300 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-black shadow-[2px_2px_0_0]"
           >
-            <LuZoomIn className="size-3.5" />
+            <FaSearchPlus className="size-3" />
             <span>Zoom</span>
           </span>
         ) : null}

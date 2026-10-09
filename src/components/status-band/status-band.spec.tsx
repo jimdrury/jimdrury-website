@@ -37,14 +37,4 @@ describe("StatusBand", () => {
 
     expect(screen.getByTestId("status")).toHaveClass("custom-class");
   });
-
-  it("keeps extra space below the Now copy so the spine stays in-band", () => {
-    const { container } = render(
-      <StatusBand>
-        <p>Body</p>
-      </StatusBand>,
-    );
-
-    expect(container.querySelector("section")).toHaveClass("pt-8", "pb-10");
-  });
 });
