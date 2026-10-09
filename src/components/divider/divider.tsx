@@ -11,26 +11,13 @@ export const Divider: FC<DividerProps> = ({ className, label, ...props }) => {
     return (
       <div className="flex items-center gap-4">
         <hr
-          className={cn(
-            "flex-1 border-t border-[var(--color-border)]",
-            className,
-          )}
+          className={cn("flex-1 border-t-2 border-black", className)}
           {...props}
         />
         <span className="font-semibold text-sm">{label}</span>
-        <hr
-          className={cn(
-            "flex-1 border-t border-[var(--color-border)]",
-            className,
-          )}
-        />
+        <hr className={cn("flex-1 border-t-2 border-black", className)} />
       </div>
     );
   }
-  return (
-    <hr
-      className={cn("border-t border-[var(--color-border)]", className)}
-      {...props}
-    />
-  );
+  return <hr className={cn("border-t-2 border-black", className)} {...props} />;
 };

@@ -58,12 +58,7 @@ export const PageHeaderBlok: FC<PageHeaderBlokProps> = ({
 
   return (
     <div {...storyblokEditable(blok)}>
-      <PageHeader
-        badge={badge}
-        title={blok.title}
-        subtitle={subtitle}
-        path={pathname ? `~${pathname}` : undefined}
-      />
+      <PageHeader badge={badge} title={blok.title} subtitle={subtitle} />
     </div>
   );
 };

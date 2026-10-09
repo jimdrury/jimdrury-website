@@ -2,9 +2,8 @@
 
 import type { FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
-import { LuX } from "react-icons/lu";
+import { FaTimes } from "react-icons/fa";
 import { Button } from "@/components/button";
-import { IconBox } from "@/components/icon-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +38,7 @@ export const Modal: FC<ModalProps> = ({
       onClose={onClose}
       className={cn(
         /* Preflight sets margin:0 on * — native <dialog> centers via margin:auto in the top layer */
-        "m-auto max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-none border border-[var(--color-border)] bg-[var(--bg-primary)] p-0 text-[var(--fg-primary)] backdrop:bg-black/50",
+        "m-auto max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-md border-2 border-black bg-white p-0 text-black shadow-[8px_8px_0_0] backdrop:bg-black/50",
         className,
       )}
       {...props}
@@ -65,14 +64,12 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--bg-secondary)] px-4 py-3",
+        "flex items-center justify-between border-b-[3px] border-[var(--fg-primary)] bg-[var(--bg-accent-yellow)] px-4 py-3",
         className,
       )}
       {...props}
     >
-      <h2 className="font-[family-name:var(--font-geist-sans)] text-lg font-medium tracking-[-0.02em]">
-        {children}
-      </h2>
+      <h2 className="text-lg font-bold">{children}</h2>
       {onClose && (
         <Button
           type="button"
@@ -80,9 +77,7 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
           onClick={onClose}
           className="p-4"
         >
-          <IconBox size="sm">
-            <LuX />
-          </IconBox>
+          <FaTimes aria-hidden className="size-[1em] shrink-0" />
           <span className="sr-only">{closeLabel}</span>
         </Button>
       )}
@@ -118,7 +113,7 @@ export const ModalFooter: FC<ModalFooterProps> = ({
   return (
     <div
       className={cn(
-        "flex justify-end gap-3 border-t border-[var(--color-border)] p-4",
+        "flex justify-end gap-3 border-t-2 border-black p-4",
         className,
       )}
       {...props}

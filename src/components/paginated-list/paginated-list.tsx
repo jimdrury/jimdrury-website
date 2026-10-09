@@ -58,7 +58,7 @@ export const PaginatedList: FC<PaginatedListProps> = ({
 
       <nav
         aria-label="Pagination"
-        className="flex items-center justify-center gap-2 pt-10"
+        className="flex items-center justify-center gap-3 pt-10"
       >
         <button
           type="button"
@@ -66,9 +66,9 @@ export const PaginatedList: FC<PaginatedListProps> = ({
           onClick={() => goToPage(currentPage - 1)}
           aria-label="Previous page"
           className={cn(
-            "inline-flex size-10 items-center justify-center rounded-none border border-[var(--color-border)] font-medium transition-colors focus-visible:focus-ring-sm",
+            "inline-flex size-11 items-center justify-center rounded-lg border-[3px] border-[var(--fg-primary)] font-bold shadow-[4px_4px_0_0_var(--fg-primary)] transition-[background-color,box-shadow] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-2 focus-visible:focus-ring-sm",
             canGoPrev
-              ? "cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)]"
+              ? "cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)] hover:shadow-[2px_2px_0_0_var(--fg-primary)]"
               : "cursor-not-allowed opacity-40",
           )}
         >
@@ -83,10 +83,10 @@ export const PaginatedList: FC<PaginatedListProps> = ({
             aria-label={`Page ${pageIndex + 1}`}
             aria-current={pageIndex === currentPage ? "page" : undefined}
             className={cn(
-              "inline-flex size-10 items-center justify-center rounded-none border border-[var(--color-border)] font-[family-name:var(--font-mono)] text-sm font-medium transition-colors focus-visible:focus-ring-sm",
+              "inline-flex size-11 items-center justify-center rounded-lg border-[3px] border-[var(--fg-primary)] font-[family-name:var(--font-geist-mono)] text-sm font-bold transition-[background-color,box-shadow] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-2 focus-visible:focus-ring-sm",
               pageIndex === currentPage
-                ? "bg-[var(--fg-primary)] text-[var(--fg-inverse)]"
-                : "cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)]",
+                ? "bg-[var(--fg-primary)] text-[var(--fg-inverse)] shadow-[4px_4px_0_0_var(--fg-primary)]"
+                : "cursor-pointer bg-[var(--bg-primary)] shadow-[4px_4px_0_0_var(--fg-primary)] hover:bg-[var(--bg-secondary)] hover:shadow-[2px_2px_0_0_var(--fg-primary)]",
             )}
           >
             {pageIndex + 1}
@@ -99,9 +99,9 @@ export const PaginatedList: FC<PaginatedListProps> = ({
           onClick={() => goToPage(currentPage + 1)}
           aria-label="Next page"
           className={cn(
-            "inline-flex size-10 items-center justify-center rounded-none border border-[var(--color-border)] font-medium transition-colors focus-visible:focus-ring-sm",
+            "inline-flex size-11 items-center justify-center rounded-lg border-[3px] border-[var(--fg-primary)] font-bold shadow-[4px_4px_0_0_var(--fg-primary)] transition-[background-color,box-shadow] focus-visible:outline-2 focus-visible:outline-transparent focus-visible:outline-offset-2 focus-visible:focus-ring-sm",
             canGoNext
-              ? "cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)]"
+              ? "cursor-pointer bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)] hover:shadow-[2px_2px_0_0_var(--fg-primary)]"
               : "cursor-not-allowed opacity-40",
           )}
         >

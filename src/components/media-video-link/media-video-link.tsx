@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { RuleBox } from "@/components/rule-box";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 
@@ -56,19 +55,17 @@ export const MediaVideoLink: FC<MediaVideoLinkProps> = ({
 
   return (
     <figure className={cn("flex flex-col gap-4", className)} {...props}>
-      <RuleBox className="overflow-visible">
-        <div className="overflow-hidden">
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-            title={title}
-            className="aspect-video w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            loading="lazy"
-          />
-        </div>
-      </RuleBox>
-      <figcaption className="font-[family-name:var(--font-geist-sans)] text-[22px] font-medium leading-tight tracking-[-0.03em] text-[var(--fg-primary)]">
+      <div className="overflow-hidden rounded-xl border-[3px] border-[var(--fg-primary)] shadow-[6px_6px_0_0_var(--fg-primary)]">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          title={title}
+          className="aspect-video w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          loading="lazy"
+        />
+      </div>
+      <figcaption className="font-[family-name:var(--font-anton)] text-[22px] font-normal uppercase leading-tight tracking-[0.5px] text-[var(--fg-primary)]">
         {title}
       </figcaption>
       {description && (

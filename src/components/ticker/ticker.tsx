@@ -2,7 +2,7 @@
 
 import type { FC, PointerEventHandler, ReactNode } from "react";
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { EdgeMarkers } from "@/components/edge-markers";
+import { FaStar } from "react-icons/fa";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
 import {
@@ -12,6 +12,9 @@ import {
   tickerCopyCount,
   wrapOffset,
 } from "./ticker-motion";
+
+/** Separator accent colours (Pencil Marquee Banner cycle). */
+const STAR_COLORS = ["#FFE156", "#FF6B6B", "#7ED957", "#A8D8EA"] as const;
 
 export type TickerItemSlot = {
   id: string;
@@ -60,15 +63,14 @@ const clearTrackOffset = (
 };
 
 const renderSequence = (items: TickerItemSlot[], keyPrefix: string) =>
-  items.map(({ id, node }) => (
+  items.map(({ id, node }, index) => (
     <Fragment key={`${keyPrefix}-${id}`}>
       {node}
-      <span
+      <FaStar
         aria-hidden
-        className="shrink-0 font-[family-name:var(--font-pixel),var(--font-mono)] text-[18px] leading-none text-[var(--fg-primary)] lg:text-[22px]"
-      >
-        ✣
-      </span>
+        className="h-2.5 w-2.5 shrink-0 lg:h-5 lg:w-5"
+        style={{ color: STAR_COLORS[index % STAR_COLORS.length] }}
+      />
     </Fragment>
   ));
 
@@ -312,12 +314,11 @@ export const Ticker: FC<TickerProps> = ({ items, className, ...props }) => {
     <div
       ref={viewportRef}
       className={cn(
-        "ticker-fade relative overflow-hidden bg-[var(--bg-accent-pink)] text-[var(--fg-on-accent)] motion-reduce:overflow-visible",
+        "ticker-fade overflow-hidden bg-[var(--fg-primary)] text-[var(--fg-inverse)] motion-reduce:overflow-visible",
         className,
       )}
       {...props}
     >
-      <EdgeMarkers className="z-[1] text-[var(--fg-primary)]/50" />
       <div
         ref={trackRef}
         className={cn(

@@ -3,7 +3,6 @@ import { draftMode } from "next/headers";
 import Link from "next/link";
 import type { FC } from "react";
 import { BlogCardCompact } from "@/components/blog-card-compact";
-import { EdgeMarkers } from "@/components/edge-markers";
 import { SectionTitle } from "@/components/section-title";
 import {
   formatStoryDate,
@@ -54,20 +53,19 @@ export const RecentPostsBlok: FC<RecentPostsBlokProps> = async ({ blok }) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      className="relative w-full bg-[var(--bg-sage)] py-10 md:py-12"
+      className="w-full bg-[var(--bg-secondary)] py-8 md:py-12"
     >
-      <EdgeMarkers />
       <div className="mx-auto w-full max-w-[1400px] px-5 lg:px-12">
         <div className="mb-6 flex items-end justify-between">
           <SectionTitle>{title}</SectionTitle>
           <Link
             href="/blog"
-            className="font-[family-name:var(--font-geist-sans)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)] underline underline-offset-2 hover:text-[var(--fg-secondary)]"
+            className="font-[family-name:var(--font-inter)] text-sm font-bold tracking-[0.5px] text-[var(--fg-primary)] underline underline-offset-2 hover:text-[var(--fg-secondary)]"
           >
             View all →
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
           {recentStories.map(({ story, path }, index) => {
             const featuredImage = getFeaturedImageAsset(
               story.content?.featured_image,

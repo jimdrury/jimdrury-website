@@ -102,8 +102,8 @@ describe("RecentPostsBlok", () => {
     });
 
     expect(container.querySelector("section")).toHaveClass(
-      "bg-[var(--bg-sage)]",
-      "py-10",
+      "bg-[var(--bg-secondary)]",
+      "py-8",
       "md:py-12",
     );
     expect(screen.getAllByRole("img", { name: "Cover" })).toHaveLength(2);
@@ -125,7 +125,7 @@ describe("RecentPostsBlok", () => {
     );
     expect(
       screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
-    ).toHaveClass("text-[length:var(--text-4xl)]", "font-medium");
+    ).toHaveClass("text-[36px]", "font-bold");
     expect(
       screen.getByRole("heading", { level: 2, name: "Recent Writing" }),
     ).not.toHaveClass("text-[48px]", "uppercase");

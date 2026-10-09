@@ -13,15 +13,15 @@ export const metadata: Metadata = {
 const NotFound: FC = () => {
   return (
     <main className="flex min-h-svh flex-col items-center justify-center px-6 py-24 text-center">
-      <span className="mb-6 inline-flex items-center rounded-none border border-[var(--color-border)] bg-[var(--bg-accent-pink)] px-4 py-2 font-[family-name:var(--font-mono)] text-sm font-medium text-[var(--fg-on-accent)]">
+      <span className="mb-6 inline-flex items-center rounded-md border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-bold shadow-[4px_4px_0_0_#000]">
         404
       </span>
 
-      <h1 className="font-[family-name:var(--font-geist-sans)] text-4xl font-medium tracking-[-0.04em] text-[var(--fg-primary)] sm:text-5xl">
+      <h1 className="text-4xl font-black tracking-tight text-black sm:text-5xl">
         Page not found
       </h1>
 
-      <p className="mt-4 max-w-md text-lg text-[var(--fg-secondary)]">
+      <p className="mt-4 max-w-md text-lg text-zinc-700">
         Sorry, the page you&apos;re looking for doesn&apos;t exist or has been
         moved.
       </p>

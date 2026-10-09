@@ -1,7 +1,6 @@
 import { format, isValid, parseISO } from "date-fns";
 import type { FC, ReactNode } from "react";
 import { Link } from "@/components/link";
-import { Spine } from "@/components/spine";
 import { getSafeHref } from "@/lib/assert-safe-href";
 import type { ComponentPropsWithoutChildren } from "@/lib/component-props";
 import { cn } from "@/lib/utils";
@@ -66,37 +65,35 @@ export const CareerHistoryItem: FC<CareerHistoryItemProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-8 overflow-visible bg-[var(--bg-primary)] py-4 md:flex-row md:gap-8 md:py-6",
+        "flex flex-col gap-8 rounded-xl border-[3px] border-[var(--fg-primary)] p-6 shadow-[6px_6px_0_0_var(--fg-primary)] md:flex-row md:gap-8 md:p-8",
+        colourClasses[colour],
         className,
       )}
       {...props}
     >
-      <Spine
-        label={`${fromLabel} — ${toLabel}`}
-        ruleClassName={colourClasses[colour]}
-      >
-        <div className="flex flex-col gap-2">
-          <h3 className="font-[family-name:var(--font-geist-sans)] text-2xl font-medium leading-[0.95] tracking-[-0.03em] text-[var(--fg-primary)] md:text-[32px]">
-            {role}
-          </h3>
-          <p className="richtext-external-link-indicator font-[family-name:var(--font-inter)] text-sm font-medium tracking-[-0.01em] text-[var(--fg-primary)]">
-            {safeCompanyWebsiteUrl ? (
-              <Link
-                href={safeCompanyWebsiteUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {company}
-              </Link>
-            ) : (
-              company
-            )}
-          </p>
-          <div className="richtext-external-link-indicator mt-2 max-w-[70ch] text-pretty font-[family-name:var(--font-inter)] text-base font-normal leading-relaxed [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-2">
-            {description}
-          </div>
+      <div className="flex shrink-0 flex-col gap-1 md:w-52">
+        <p className="font-[family-name:var(--font-geist-mono)] text-[14px] font-bold uppercase leading-tight tracking-[1.5px] text-[var(--fg-primary)]">
+          {fromLabel} &mdash; {toLabel}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2 mt-[-4px]">
+        <h3 className="font-[family-name:var(--font-anton)] text-2xl font-normal uppercase leading-tight tracking-[1px] text-[var(--fg-primary)] md:text-[32px]">
+          {role}
+        </h3>
+        <p className="richtext-external-link-indicator font-[family-name:var(--font-inter)] text-sm font-extrabold uppercase tracking-[1.5px] text-[var(--fg-primary)]">
+          {safeCompanyWebsiteUrl ? (
+            <Link href={safeCompanyWebsiteUrl} target="_blank" rel="noreferrer">
+              {company}
+            </Link>
+          ) : (
+            company
+          )}
+        </p>
+        <div className="richtext-external-link-indicator mt-2 max-w-[70ch] text-pretty font-[family-name:var(--font-inter)] text-base font-normal leading-relaxed [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-2">
+          {description}
         </div>
-      </Spine>
+      </div>
     </div>
   );
 };

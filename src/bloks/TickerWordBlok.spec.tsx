@@ -14,9 +14,8 @@ describe("TickerWordBlok", () => {
     );
 
     expect(screen.getByText("Speaker")).toHaveClass(
-      "text-[28px]",
+      "text-[13px]",
       "font-normal",
-      "lowercase",
     );
   });
 
@@ -32,9 +31,9 @@ describe("TickerWordBlok", () => {
     );
 
     expect(screen.getByText("Creator")).toHaveClass(
-      "text-[28px]",
+      "text-[18px]",
       "font-bold",
-      "lg:text-[40px]",
+      "lg:text-[24px]",
     );
   });
 
