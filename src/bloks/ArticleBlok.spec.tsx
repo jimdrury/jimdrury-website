@@ -17,6 +17,14 @@ vi.mock("next/headers", () => ({
   draftMode: vi.fn(async () => ({ isEnabled: false })),
 }));
 
+vi.mock("@/environment", () => ({
+  environment: {
+    STORYBLOK_ACCESS_TOKEN: "test-token",
+    STORYBLOK_SPACE_ID: "12345",
+    STORYBLOK_WEBHOOK_SECRET: "webhook-secret",
+  },
+}));
+
 vi.mock("@/lib/similar-articles", () => ({
   getSimilarArticleItems: mocks.getSimilarArticleItems,
 }));
