@@ -135,6 +135,29 @@ describe("buildArticleJsonLd", () => {
     expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
   });
 
+  it("keeps dateModified at least as late as datePublished", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const { buildArticleJsonLd, validateBlogPostingJsonLd } = await import(
+      "@/lib/seo"
+    );
+    const jsonLd = buildArticleJsonLd(
+      makeStory({
+        first_published_at: "2026-10-09T08:00:00.000Z",
+        published_at: "2026-10-05T15:12:27.890Z",
+        tag_list: ["ai"],
+        content: {
+          component: "article",
+          body: [],
+          excerpt: "Visible excerpt",
+        },
+      }) as never,
+    );
+
+    expect(jsonLd.datePublished).toBe("2026-10-09T08:00:00.000Z");
+    expect(jsonLd.dateModified).toBe("2026-10-09T08:00:00.000Z");
+    expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
+  });
+
   it("accepts a featured image and reports no schema rule violations", async () => {
     vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
     const listings = await import("@/storyblok/blog-listings-utils");

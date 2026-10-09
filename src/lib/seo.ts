@@ -442,10 +442,23 @@ const getArticlePublishedTime = (story: BlogStory): string | undefined => {
   );
 };
 
+const laterIso8601 = (
+  left: string | undefined,
+  right: string | undefined,
+): string | undefined => {
+  if (!left) {
+    return right;
+  }
+  if (!right) {
+    return left;
+  }
+  return left >= right ? left : right;
+};
+
 const getArticleModifiedTime = (story: BlogStory): string | undefined => {
-  return (
-    toIso8601(story.published_at ?? undefined) ??
-    toIso8601(story.first_published_at ?? undefined)
+  return laterIso8601(
+    toIso8601(story.published_at ?? undefined),
+    toIso8601(story.first_published_at ?? undefined),
   );
 };
 
@@ -523,6 +536,11 @@ export const validateBlogPostingJsonLd = (
     !ISO_8601_UTC.test(jsonLd.dateModified)
   ) {
     errors.push("dateModified must be an ISO 8601 UTC timestamp");
+  } else if (
+    typeof jsonLd.datePublished === "string" &&
+    jsonLd.dateModified < jsonLd.datePublished
+  ) {
+    errors.push("dateModified must not be earlier than datePublished");
   }
 
   const author = isRecordValue(jsonLd.author) ? jsonLd.author : null;

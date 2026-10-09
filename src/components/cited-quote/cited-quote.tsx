@@ -30,11 +30,11 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
         className="-top-3 -left-2 absolute size-9 rotate-[-8deg] text-yellow-500"
       />
       <blockquote className="font-[family-name:var(--font-patrick-hand)] text-2xl font-bold leading-none text-black">
-        <div className="richtext-external-link-indicator [&_a]:underline [&_a]:underline-offset-2 [&_p]:m-0 [&_p+p]:mt-3">
+        <div className="richtext-external-link-indicator [&_a]:font-bold [&_a]:no-underline [&_a]:hover:bg-[var(--bg-accent-yellow)] [&_u]:no-underline [&_p]:m-0 [&_p+p]:mt-3">
           {quote}
         </div>
       </blockquote>
-      <figcaption className="mt-3 text-sm font-semibold text-zinc-700">
+      <figcaption className="mt-3 text-sm font-semibold text-zinc-700 [&_a]:font-bold [&_a]:no-underline [&_a]:hover:bg-[var(--bg-accent-yellow)]">
         - {citation}
         {citation_context ? <span>, {citation_context}</span> : null}
       </figcaption>
