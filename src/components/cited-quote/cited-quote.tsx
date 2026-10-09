@@ -29,8 +29,8 @@ export const CitedQuote: FC<CitedQuoteProps> = ({
         aria-hidden
         className="-top-3 -left-2 absolute size-9 rotate-[-8deg] text-yellow-500"
       />
-      <blockquote className="font-[family-name:var(--font-patrick-hand)] text-2xl font-bold leading-none text-black">
-        <div className="richtext-external-link-indicator [&_a]:font-bold [&_a]:no-underline [&_a]:hover:bg-[var(--bg-accent-yellow)] [&_u]:no-underline [&_p]:m-0 [&_p+p]:mt-3">
+      <blockquote className="font-[family-name:var(--font-patrick-hand)] text-2xl font-normal leading-snug text-black">
+        <div className="richtext-external-link-indicator [&_a]:no-underline [&_a]:hover:bg-[var(--bg-accent-yellow)] [&_u]:no-underline [&_p]:m-0 [&_p+p]:mt-3">
           {quote}
         </div>
       </blockquote>
