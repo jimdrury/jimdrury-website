@@ -1,6 +1,6 @@
 import {
   type BlogStory,
-  isArticleReleased,
+  getArticleReleaseDate,
   isArticleStory,
 } from "@/storyblok/blog-listings-utils";
 
@@ -30,7 +30,7 @@ export type ArticleVisitorDecision =
   | { type: "redirect"; href: string }
   | { type: "render" };
 
-type ArticleReleaseFields = {
+export type ArticleReleaseFields = {
   content?: unknown;
   first_published_at?: string | null;
   published_at?: string | null;
@@ -150,43 +150,53 @@ export const getArticleRoute = (pathname: string): ArticleRoute | null => {
   return { kind: "alias", category: first, slug: second, alias };
 };
 
+const isReleasedByDay = (
+  story: Pick<BlogStory, "first_published_at" | "published_at">,
+  today: string,
+): boolean => {
+  const releaseDate = getArticleReleaseDate({
+    id: 0,
+    name: "",
+    slug: "",
+    full_slug: "",
+    content: {},
+    first_published_at: story.first_published_at,
+    published_at: story.published_at,
+  });
+
+  if (!releaseDate) {
+    return true;
+  }
+
+  return today.length > 0 && today >= releaseDate;
+};
+
 export const isPublicArticleStory = (
   story: BlogStory | null,
-  now: Date = new Date(),
+  today: string,
 ): boolean => {
   if (!story || !isArticleStory(story)) {
     return false;
   }
 
-  return isArticleReleased(story, now);
+  return isReleasedByDay(story, today);
 };
 
 export const isUnreleasedArticleStory = (
   story: ArticleReleaseFields | null,
-  now: Date = new Date(),
+  today: string,
 ): boolean => {
   if (!story || readComponent(story.content) !== "article") {
     return false;
   }
 
-  return !isArticleReleased(
-    {
-      id: 0,
-      name: "",
-      slug: "",
-      full_slug: "",
-      content: { component: "article" },
-      first_published_at: story.first_published_at,
-      published_at: story.published_at,
-    },
-    now,
-  );
+  return !isReleasedByDay(story, today);
 };
 
 export const shouldBlockArticleRequest = (
   route: ArticleRoute,
   story: BlogStory | null | undefined,
-  now: Date = new Date(),
+  today: string,
 ): boolean => {
   if (story === undefined) {
     return false;
@@ -198,10 +208,10 @@ export const shouldBlockArticleRequest = (
         return false;
       }
 
-      return !isArticleReleased(story, now);
+      return !isReleasedByDay(story, today);
     case "canonical":
     case "alias":
-      return !isPublicArticleStory(story, now);
+      return !isPublicArticleStory(story, today);
     default: {
       const exhaustive: never = route;
       return exhaustive;
@@ -213,12 +223,12 @@ export const resolveArticleProxyAction = ({
   pathname,
   story,
   draft = false,
-  now = new Date(),
+  today,
 }: {
   pathname: string;
   story: BlogStory | null | undefined;
   draft?: boolean;
-  now?: Date;
+  today: string;
 }): "next" | "block" => {
   if (draft) {
     return "next";
@@ -229,7 +239,7 @@ export const resolveArticleProxyAction = ({
     return "next";
   }
 
-  return shouldBlockArticleRequest(route, story, now) ? "block" : "next";
+  return shouldBlockArticleRequest(route, story, today) ? "block" : "next";
 };
 
 export const decideArticleVisitorAccess = ({
@@ -238,16 +248,16 @@ export const decideArticleVisitorAccess = ({
   slug,
   draft,
   canonicalCategory,
-  now = new Date(),
+  today = "",
 }: {
   story: BlogStory | null;
   category: string;
   slug: string;
   draft: boolean;
   canonicalCategory: string | null;
-  now?: Date;
+  today?: string;
 }): ArticleVisitorDecision => {
-  if (!story || (!draft && !isArticleReleased(story, now))) {
+  if (!story || (!draft && !isReleasedByDay(story, today))) {
     return { type: "not-found" };
   }
 
@@ -272,16 +282,16 @@ export const decideMarkdownVisitorAccess = ({
   slug,
   draft,
   canonicalCategory,
-  now = new Date(),
+  today = "",
 }: {
   story: BlogStory | null;
   requestedCategory: string | null;
   slug: string;
   draft: boolean;
   canonicalCategory: string | null;
-  now?: Date;
+  today?: string;
 }): ArticleVisitorDecision => {
-  if (!story || (!draft && !isArticleReleased(story, now))) {
+  if (!story || (!draft && !isReleasedByDay(story, today))) {
     return { type: "not-found" };
   }
 
@@ -306,13 +316,13 @@ export const decideMarkdownVisitorAccess = ({
 export const canRenderArticleImage = ({
   story,
   draft,
-  now = new Date(),
+  today = "",
 }: {
   story: BlogStory | null;
   draft: boolean;
-  now?: Date;
+  today?: string;
 }): boolean => {
-  if (!story || (!draft && !isArticleReleased(story, now))) {
+  if (!story || (!draft && !isReleasedByDay(story, today))) {
     return false;
   }
 

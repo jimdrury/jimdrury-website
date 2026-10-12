@@ -1,4 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("next/cache", () => ({
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
+}));
 
 const {
   draftModeMock,
@@ -51,6 +56,11 @@ const FUTURE_SLUGS = [
   "agent-written-tests-marking-own-homework",
 ] as const;
 
+const pageProps = (category: string, slug: string) => ({
+  params: Promise.resolve({ category, slug }),
+  searchParams: Promise.resolve({}),
+});
+
 const article = (slug: string, firstPublishedAt: string) => ({
   id: 1,
   name: "Scheduled",
@@ -61,7 +71,13 @@ const article = (slug: string, firstPublishedAt: string) => ({
 });
 
 describe("category article route", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-12T12:00:00.000Z"));
     draftModeMock.mockReset();
     getArticleBySlugMock.mockReset();
     notFoundMock.mockClear();
@@ -77,9 +93,7 @@ describe("category article route", () => {
       article(slug, "2099-01-01T00:00:00.000Z"),
     );
 
-    await expect(
-      Page({ params: Promise.resolve({ category: "general", slug }) }),
-    ).rejects.toThrow("NOT_FOUND");
+    await expect(Page(pageProps("general", slug))).rejects.toThrow("NOT_FOUND");
     expect(redirectMock).not.toHaveBeenCalled();
   });
 
@@ -89,9 +103,7 @@ describe("category article route", () => {
     );
 
     await expect(
-      generateMetadata({
-        params: Promise.resolve({ category: "general", slug }),
-      }),
+      generateMetadata(pageProps("general", slug)),
     ).resolves.toMatchObject({
       title: "Article not found",
       robots: { index: false, follow: false },
@@ -104,13 +116,11 @@ describe("category article route", () => {
       article(slug, "2020-01-01T00:00:00.000Z"),
     );
 
-    await expect(
-      Page({ params: Promise.resolve({ category: "general", slug }) }),
-    ).rejects.toThrow(`REDIRECT:/blog/ai/${slug}`);
+    await expect(Page(pageProps("general", slug))).rejects.toThrow(
+      `REDIRECT:/blog/ai/${slug}`,
+    );
     expect(notFoundMock).not.toHaveBeenCalled();
 
-    await expect(
-      Page({ params: Promise.resolve({ category: "ai", slug }) }),
-    ).resolves.toBeTruthy();
+    await expect(Page(pageProps("ai", slug))).resolves.toBeTruthy();
   });
 });

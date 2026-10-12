@@ -4,6 +4,7 @@ import { draftMode } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { renderArticleMarkdown } from "@/lib/article-markdown";
+import { readCurrentUtcDay } from "@/lib/article-release";
 import { decideMarkdownVisitorAccess } from "@/lib/article-request-gate";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import { StoryblokUnavailableError } from "@/lib/storyblok-errors";
@@ -44,6 +45,7 @@ const GET = async (
     slug: normalizedSlug,
     draft: isEnabled,
     canonicalCategory: story ? getDefaultStoryCategory(story) : null,
+    today: story && !isEnabled ? await readCurrentUtcDay() : "",
   });
 
   switch (decision.type) {

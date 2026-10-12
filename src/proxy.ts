@@ -82,6 +82,7 @@ export const proxy = async (request: NextRequest) => {
   const story = await loadPublishedStory(route.slug);
   const action = resolveArticleProxyAction({
     pathname: request.nextUrl.pathname,
+    today: new Date().toISOString().slice(0, 10),
     story:
       story === undefined
         ? undefined

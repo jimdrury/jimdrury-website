@@ -1,7 +1,7 @@
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
-
+import { readCurrentUtcDay } from "@/lib/article-release";
 import { canRenderArticleImage } from "@/lib/article-request-gate";
 import { getArticleExcerpt } from "@/lib/seo";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
@@ -29,7 +29,8 @@ const TwitterImage: TwitterImageFn = async ({ params }) => {
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
   const story = await getArticleBySlug({ slug, version });
-  if (!story || !canRenderArticleImage({ story, draft: isEnabled })) {
+  const today = story && !isEnabled ? await readCurrentUtcDay() : "";
+  if (!story || !canRenderArticleImage({ story, draft: isEnabled, today })) {
     notFound();
   }
 

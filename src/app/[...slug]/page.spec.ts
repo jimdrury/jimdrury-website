@@ -1,4 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("next/cache", () => ({
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
+}));
 
 const { draftModeMock, fetchStoryBySlugMock, notFoundMock } = vi.hoisted(
   () => ({
@@ -42,6 +47,11 @@ const FUTURE_SLUGS = [
   "agent-written-tests-marking-own-homework",
 ] as const;
 
+const pageProps = (slug: string[]) => ({
+  params: Promise.resolve({ slug }),
+  searchParams: Promise.resolve({}),
+});
+
 const futureArticle = (slug: string) => ({
   id: 1,
   name: "Scheduled",
@@ -52,7 +62,13 @@ const futureArticle = (slug: string) => ({
 });
 
 describe("bare /blog/[slug] route", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-12T12:00:00.000Z"));
     draftModeMock.mockReset();
     fetchStoryBySlugMock.mockReset();
     notFoundMock.mockClear();
@@ -64,9 +80,7 @@ describe("bare /blog/[slug] route", () => {
   )("returns not found for unreleased %s before rendering", async (slug) => {
     fetchStoryBySlugMock.mockResolvedValue(futureArticle(slug));
 
-    await expect(
-      Page({ params: Promise.resolve({ slug: ["blog", slug] }) }),
-    ).rejects.toThrow("NOT_FOUND");
+    await expect(Page(pageProps(["blog", slug]))).rejects.toThrow("NOT_FOUND");
     expect(notFoundMock).toHaveBeenCalledOnce();
     expect(fetchStoryBySlugMock).toHaveBeenCalledWith({
       slug: `blog/${slug}`,
@@ -77,9 +91,7 @@ describe("bare /blog/[slug] route", () => {
   it.each(FUTURE_SLUGS)("noindexes unreleased %s", async (slug) => {
     fetchStoryBySlugMock.mockResolvedValue(futureArticle(slug));
 
-    await expect(
-      generateMetadata({ params: Promise.resolve({ slug: ["blog", slug] }) }),
-    ).resolves.toEqual({
+    await expect(generateMetadata(pageProps(["blog", slug]))).resolves.toEqual({
       robots: { index: false, follow: false },
     });
   });
@@ -91,9 +103,7 @@ describe("bare /blog/[slug] route", () => {
     });
 
     await expect(
-      Page({
-        params: Promise.resolve({ slug: ["blog", "mcp-tools-as-processes"] }),
-      }),
+      Page(pageProps(["blog", "mcp-tools-as-processes"])),
     ).resolves.toBeTruthy();
 
     fetchStoryBySlugMock.mockResolvedValue({
@@ -104,9 +114,7 @@ describe("bare /blog/[slug] route", () => {
       content: { component: "page" },
     });
 
-    await expect(
-      Page({ params: Promise.resolve({ slug: ["about"] }) }),
-    ).resolves.toBeTruthy();
+    await expect(Page(pageProps(["about"]))).resolves.toBeTruthy();
     expect(notFoundMock).not.toHaveBeenCalled();
   });
 
@@ -114,9 +122,7 @@ describe("bare /blog/[slug] route", () => {
     draftModeMock.mockResolvedValue({ isEnabled: true });
     const slug = "devin-dreaming-agent-memory-review-the-writes";
 
-    await expect(
-      Page({ params: Promise.resolve({ slug: ["blog", slug] }) }),
-    ).resolves.toBeTruthy();
+    await expect(Page(pageProps(["blog", slug]))).resolves.toBeTruthy();
     expect(fetchStoryBySlugMock).not.toHaveBeenCalled();
     expect(notFoundMock).not.toHaveBeenCalled();
   });

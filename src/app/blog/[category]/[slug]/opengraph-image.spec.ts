@@ -1,4 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("next/cache", () => ({
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
+}));
 
 const { draftModeMock, getArticleBySlugMock, notFoundMock } = vi.hoisted(
   () => ({
@@ -58,7 +63,13 @@ const article = (slug: string, firstPublishedAt: string) => ({
 });
 
 describe("article opengraph image route", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-12T12:00:00.000Z"));
     draftModeMock.mockReset();
     getArticleBySlugMock.mockReset();
     notFoundMock.mockClear();

@@ -1,4 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("next/cache", () => ({
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
+}));
 
 const { draftModeMock, getArticleBySlugMock, getDefaultStoryCategoryMock } =
   vi.hoisted(() => ({
@@ -49,7 +54,13 @@ const getMarkdown = (slug: string, category = "general") => {
 };
 
 describe("article markdown route", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-12T12:00:00.000Z"));
     draftModeMock.mockReset();
     getArticleBySlugMock.mockReset();
     draftModeMock.mockResolvedValue({ isEnabled: false });

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
-import { isUnreleasedArticleStory } from "@/lib/article-request-gate";
+import { isUnreleasedPublishedArticle } from "@/lib/article-release";
 import {
   excludeHomeCatchAllParams,
   getPublishedPageParams,
@@ -29,7 +29,7 @@ export const generateMetadata = async ({
   const version = isEnabled ? "draft" : "published";
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
-  if (!story || (!isEnabled && isUnreleasedArticleStory(story))) {
+  if (!story || (!isEnabled && (await isUnreleasedPublishedArticle(story)))) {
     return MISSING_STORY_METADATA;
   }
 
@@ -47,7 +47,7 @@ const Page: FC<PageProps<"/[...slug]">> = async ({ params }) => {
       version: "published",
     });
 
-    if (isUnreleasedArticleStory(story)) {
+    if (await isUnreleasedPublishedArticle(story)) {
       notFound();
     }
   }

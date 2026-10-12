@@ -1,7 +1,8 @@
 import "server-only";
 
 import type { FC } from "react";
-
+import { readCurrentUtcDay } from "@/lib/article-release";
+import { isUnreleasedArticleStory } from "@/lib/article-request-gate";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import {
   buildArticleBreadcrumbJsonLd,
@@ -9,7 +10,6 @@ import {
   serializeJsonLd,
 } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
-import { isArticleReleased } from "@/storyblok/blog-listings-utils";
 
 type ArticleJsonLdProps = {
   category: string;
@@ -24,7 +24,14 @@ export const ArticleJsonLd: FC<ArticleJsonLdProps> = async ({
 }) => {
   const story = await getArticleBySlug({ slug, version });
 
-  if (!story || (version === "published" && !isArticleReleased(story))) {
+  if (!story) {
+    return null;
+  }
+
+  if (
+    version === "published" &&
+    isUnreleasedArticleStory(story, await readCurrentUtcDay())
+  ) {
     return null;
   }
 

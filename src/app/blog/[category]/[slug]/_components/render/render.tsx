@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { draftMode } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import type { FC } from "react";
-
+import { readCurrentUtcDay } from "@/lib/article-release";
 import { decideArticleVisitorAccess } from "@/lib/article-request-gate";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
@@ -21,6 +21,7 @@ export const Render: FC<RenderProps> = async ({ params }) => {
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
   const story = await getArticleBySlug({ slug, version });
+  const today = story && !isEnabled ? await readCurrentUtcDay() : "";
 
   const decision = decideArticleVisitorAccess({
     story,
@@ -28,6 +29,7 @@ export const Render: FC<RenderProps> = async ({ params }) => {
     slug,
     draft: isEnabled,
     canonicalCategory: story ? getDefaultStoryCategory(story) : null,
+    today,
   });
 
   switch (decision.type) {

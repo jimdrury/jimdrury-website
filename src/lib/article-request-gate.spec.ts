@@ -12,7 +12,7 @@ import {
   resolveArticleProxyAction,
 } from "./article-request-gate";
 
-const NOW = new Date("2026-10-12T12:00:00.000Z");
+const TODAY = "2026-10-12";
 const FUTURE_SLUGS = [
   "devin-dreaming-agent-memory-review-the-writes",
   "agent-written-tests-marking-own-homework",
@@ -115,17 +115,20 @@ describe("getArticleRoute", () => {
 
 describe("isPublicArticleStory", () => {
   it("hides future-dated articles and non-articles", () => {
-    expect(isPublicArticleStory(makeStory(), NOW)).toBe(false);
+    expect(isPublicArticleStory(makeStory(), TODAY)).toBe(false);
     expect(
       isPublicArticleStory(
         makeStory({ first_published_at: "2026-10-12T00:00:00.000Z" }),
-        NOW,
+        TODAY,
       ),
     ).toBe(true);
     expect(
-      isPublicArticleStory(makeStory({ content: { component: "page" } }), NOW),
+      isPublicArticleStory(
+        makeStory({ content: { component: "page" } }),
+        TODAY,
+      ),
     ).toBe(false);
-    expect(isPublicArticleStory(null, NOW)).toBe(false);
+    expect(isPublicArticleStory(null, TODAY)).toBe(false);
   });
 });
 
@@ -136,7 +139,7 @@ describe("resolveArticleProxyAction", () => {
     const story = futureStory(slug);
 
     for (const pathname of articlePaths(slug)) {
-      expect(resolveArticleProxyAction({ pathname, story, now: NOW })).toBe(
+      expect(resolveArticleProxyAction({ pathname, story, today: TODAY })).toBe(
         "block",
       );
     }
@@ -147,7 +150,7 @@ describe("resolveArticleProxyAction", () => {
     const story = releasedStory(slug);
 
     for (const pathname of articlePaths(slug)) {
-      expect(resolveArticleProxyAction({ pathname, story, now: NOW })).toBe(
+      expect(resolveArticleProxyAction({ pathname, story, today: TODAY })).toBe(
         "next",
       );
     }
@@ -163,35 +166,35 @@ describe("resolveArticleProxyAction", () => {
       resolveArticleProxyAction({
         pathname: "/blog/about-the-blog",
         story: page,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
     expect(
       resolveArticleProxyAction({
         pathname: "/blog/missing-note",
         story: null,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
     expect(
       resolveArticleProxyAction({
         pathname: "/blog/page/2",
         story: futureStory("page"),
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
     expect(
       resolveArticleProxyAction({
         pathname: "/blog/sitemap.xml",
         story: futureStory("sitemap"),
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
     expect(
       resolveArticleProxyAction({
         pathname: "/blog/_/devin-dreaming-agent-memory-review-the-writes",
         story: futureStory("devin-dreaming-agent-memory-review-the-writes"),
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
   });
@@ -201,7 +204,7 @@ describe("resolveArticleProxyAction", () => {
       resolveArticleProxyAction({
         pathname: "/blog/ai/devin-dreaming-agent-memory-review-the-writes",
         story: null,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("block");
     expect(
@@ -209,14 +212,14 @@ describe("resolveArticleProxyAction", () => {
         pathname:
           "/blog/ai/agent-written-tests-marking-own-homework/opengraph-image",
         story: null,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("block");
     expect(
       resolveArticleProxyAction({
         pathname: "/blog/agent-written-tests-marking-own-homework",
         story: undefined,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
   });
@@ -227,7 +230,7 @@ describe("resolveArticleProxyAction", () => {
         pathname: "/blog/devin-dreaming-agent-memory-review-the-writes",
         story: futureStory("devin-dreaming-agent-memory-review-the-writes"),
         draft: true,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe("next");
   });
@@ -254,7 +257,7 @@ describe("decideArticleVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "not-found" });
   });
@@ -269,7 +272,7 @@ describe("decideArticleVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "redirect", href: `/blog/ai/${slug}` });
     expect(
@@ -279,7 +282,7 @@ describe("decideArticleVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "render" });
   });
@@ -294,7 +297,7 @@ describe("decideArticleVisitorAccess", () => {
         slug,
         draft: true,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "render" });
     expect(
@@ -304,7 +307,7 @@ describe("decideArticleVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: null,
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "not-found" });
     expect(
@@ -314,7 +317,7 @@ describe("decideArticleVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "not-found" });
   });
@@ -331,7 +334,7 @@ describe("decideMarkdownVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "not-found" });
   });
@@ -346,7 +349,7 @@ describe("decideMarkdownVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "redirect", href: `/blog/ai/${slug}.md` });
     expect(
@@ -356,7 +359,7 @@ describe("decideMarkdownVisitorAccess", () => {
         slug,
         draft: false,
         canonicalCategory: "ai",
-        now: NOW,
+        today: TODAY,
       }),
     ).toEqual({ type: "render" });
   });
@@ -370,24 +373,24 @@ describe("canRenderArticleImage", () => {
       canRenderArticleImage({
         story: futureStory(slug),
         draft: false,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe(false);
-    expect(canRenderArticleImage({ story: null, draft: false, now: NOW })).toBe(
-      false,
-    );
+    expect(
+      canRenderArticleImage({ story: null, draft: false, today: TODAY }),
+    ).toBe(false);
     expect(
       canRenderArticleImage({
         story: releasedStory(slug),
         draft: false,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe(true);
     expect(
       canRenderArticleImage({
         story: futureStory(slug),
         draft: true,
-        now: NOW,
+        today: TODAY,
       }),
     ).toBe(true);
   });
@@ -398,21 +401,21 @@ describe("isUnreleasedArticleStory", () => {
     expect(
       isUnreleasedArticleStory(
         futureStory("devin-dreaming-agent-memory-review-the-writes"),
-        NOW,
+        TODAY,
       ),
     ).toBe(true);
     expect(
       isUnreleasedArticleStory(
         releasedStory("agent-written-tests-marking-own-homework"),
-        NOW,
+        TODAY,
       ),
     ).toBe(false);
     expect(
       isUnreleasedArticleStory(
         makeStory({ content: { component: "page" } }),
-        NOW,
+        TODAY,
       ),
     ).toBe(false);
-    expect(isUnreleasedArticleStory(null, NOW)).toBe(false);
+    expect(isUnreleasedArticleStory(null, TODAY)).toBe(false);
   });
 });
