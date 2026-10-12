@@ -1,25 +1,12 @@
 import type { MetadataRoute } from "next";
-import { getArticleCanonicalUrl } from "@/lib/seo";
+import { connection } from "next/server";
 import { getAllArticles } from "@/storyblok/blog-listings";
+import { buildBlogSitemap } from "./_helpers/build-blog-sitemap";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
+  await connection();
   const stories = await getAllArticles("published");
-  const entries: MetadataRoute.Sitemap = [];
-
-  for (const story of stories) {
-    const url = getArticleCanonicalUrl(story);
-    if (!url) {
-      continue;
-    }
-    entries.push({
-      url,
-      lastModified: story.published_at ?? story.first_published_at ?? undefined,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    });
-  }
-
-  return entries;
+  return buildBlogSitemap(stories);
 };
 
 export default sitemap;

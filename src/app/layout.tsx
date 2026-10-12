@@ -18,7 +18,7 @@ import {
   HeaderNav,
   HeaderNavLinks,
 } from "@/components/header";
-import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
+import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
 import { HeaderHeight } from "./_components/header-height/header-height";
 import { getCurrentYear } from "./_helpers/get-current-year";
@@ -63,10 +63,12 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     title: SITE_NAME,
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
+    images: ["/twitter-image"],
   },
 };
 

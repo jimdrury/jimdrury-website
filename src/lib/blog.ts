@@ -63,6 +63,8 @@ const CANONICAL_CATEGORY_PRIORITY = [
   "typescript",
 ] as const;
 
+const UNTAGGED_STORY_CATEGORY = "general";
+
 export const getStoryCategories = (story: BlogStory): string[] => {
   const categories = (story.tag_list ?? [])
     .map((tag) => normalizeCategory(tag))
@@ -181,7 +183,7 @@ export const getDefaultStoryCategory = (story: BlogStory): string | null => {
   const categories = getStoryCategories(story);
 
   if (categories.length === 0) {
-    return null;
+    return UNTAGGED_STORY_CATEGORY;
   }
 
   if (categories.length === 1) {

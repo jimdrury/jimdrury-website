@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 import type { FC } from "react";
 import { getDefaultStoryCategory, getPublishedArticleParams } from "@/lib/blog";
 import { buildArticleMetadata, MISSING_STORY_METADATA } from "@/lib/seo";
@@ -29,7 +30,26 @@ export const generateMetadata = async ({
   return buildArticleMetadata(story);
 };
 
-const Page: FC<PageProps<"/blog/[category]/[slug]">> = ({ params }) => {
+const Page: FC<PageProps<"/blog/[category]/[slug]">> = async ({ params }) => {
+  const { category, slug } = await params;
+  const { isEnabled } = await draftMode();
+  const version = isEnabled ? "draft" : "published";
+  const story = await getArticleBySlug({ slug, version });
+
+  if (!story) {
+    notFound();
+  }
+
+  const canonicalCategory = getDefaultStoryCategory(story);
+
+  if (!isEnabled && !canonicalCategory) {
+    notFound();
+  }
+
+  if (!isEnabled && canonicalCategory && category !== canonicalCategory) {
+    redirect(`/blog/${canonicalCategory}/${slug}`);
+  }
+
   return (
     <>
       <Render params={params} />

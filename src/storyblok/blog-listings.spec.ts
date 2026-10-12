@@ -179,3 +179,63 @@ describe("article listing visibility", () => {
     ]);
   });
 });
+
+describe("fetchAllArticleStories pagination", () => {
+  it("keeps later pages when an earlier page is short after filtering", async () => {
+    const articles = Array.from({ length: 99 }, (_, index) => {
+      return {
+        id: index + 1,
+        name: `Post ${index}`,
+        slug: `post-${index}`,
+        full_slug: `blog/post-${index}`,
+        tag_list: ["ai"],
+        first_published_at: "2024-01-01T00:00:00.000Z",
+        content: { component: "article" },
+      };
+    });
+    const folder = {
+      id: 1000,
+      name: "Blog",
+      slug: "blog",
+      full_slug: "blog",
+      tag_list: [],
+      content: { component: "page" },
+    };
+    const tagless = {
+      id: 1001,
+      name: "MCP tools as processes",
+      slug: "mcp-tools-as-processes",
+      full_slug: "blog/mcp-tools-as-processes",
+      tag_list: [],
+      first_published_at: "2024-06-01T00:00:00.000Z",
+      content: { component: "article" },
+    };
+    const get = vi.fn(async (_slug: string, params: { page?: number }) => {
+      if (params.page === 1) {
+        return {
+          data: { stories: [...articles, folder] },
+          total: 101,
+          perPage: 100,
+        };
+      }
+
+      return {
+        data: { stories: [tagless] },
+        total: 101,
+        perPage: 100,
+      };
+    });
+    vi.mocked(getStoryblokApi).mockReturnValue({ get } as never);
+
+    const { getAllArticles } = await import("./blog-listings");
+    const stories = await getAllArticles("published");
+
+    expect(get).toHaveBeenCalledTimes(2);
+    expect(stories.map((story) => story.slug)).toContain(
+      "mcp-tools-as-processes",
+    );
+    expect(stories.some((story) => story.content.component === "page")).toBe(
+      false,
+    );
+  });
+});
