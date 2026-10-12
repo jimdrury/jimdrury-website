@@ -79,10 +79,7 @@ export const getArticleReleaseDate = (story: BlogStory): string | null => {
   return ARTICLE_DATE_PATTERN.test(datePart) ? datePart : null;
 };
 
-export const isArticleReleased = (
-  story: BlogStory,
-  now: Date = new Date(),
-): boolean => {
+export const isArticleReleased = (story: BlogStory, now: Date): boolean => {
   const releaseDate = getArticleReleaseDate(story);
   if (!releaseDate) {
     return true;
@@ -94,7 +91,7 @@ export const isArticleReleased = (
 export const getVisibleArticles = (
   stories: readonly BlogStory[],
   version: "draft" | "published",
-  now: Date = new Date(),
+  now: Date,
 ): BlogStory[] => {
   if (version === "draft") {
     return [...stories];
@@ -105,7 +102,7 @@ export const getVisibleArticles = (
 
 export const getNextUnreleasedReleaseAt = (
   stories: readonly BlogStory[],
-  now: Date = new Date(),
+  now: Date,
 ): Date | null => {
   const currentDate = now.toISOString().slice(0, 10);
   let nextDate: string | null = null;
