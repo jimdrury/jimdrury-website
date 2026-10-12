@@ -287,7 +287,6 @@ describe("buildArticleBreadcrumbJsonLd", () => {
           "@type": "ListItem",
           position: 3,
           name: "AI",
-          item: "https://www.jimdrury.co.uk/blog/ai",
         },
         {
           "@type": "ListItem",
@@ -297,6 +296,9 @@ describe("buildArticleBreadcrumbJsonLd", () => {
         },
       ],
     });
+    expect(JSON.stringify(jsonLd)).not.toContain(
+      '"item":"https://www.jimdrury.co.uk/blog/ai"',
+    );
   });
 
   it("omits the article crumb when no public categorized path exists", async () => {
@@ -324,7 +326,92 @@ describe("buildArticleBreadcrumbJsonLd", () => {
     });
     expect(JSON.stringify(jsonLd)).not.toContain("/blog/null");
     expect(JSON.stringify(jsonLd)).not.toContain(
+      '"item":"https://www.jimdrury.co.uk/blog/ai"',
+    );
+    expect(JSON.stringify(jsonLd)).not.toContain(
       "/blog/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
     );
+  });
+});
+
+describe("static page descriptions", () => {
+  it("uses a specific description for home, about, and the blog", async () => {
+    const { buildBlogIndexMetadata, buildStaticPageMetadata } = await import(
+      "@/lib/seo"
+    );
+    const page = {
+      name: "Home",
+      content: { component: "page" },
+    };
+
+    expect(
+      buildStaticPageMetadata({ story: page, slug: "home" }).description,
+    ).toBe(
+      "Jim Drury is Head of Platform Innovation at Virgin Media O2. He writes about Next.js, TypeScript, and agentic engineering with people still in the loop.",
+    );
+    expect(
+      buildStaticPageMetadata({
+        story: { ...page, name: "About Me" },
+        slug: "about",
+      }).description,
+    ).toBe(
+      "About Jim Drury, Head of Platform Innovation at Virgin Media O2, including talks, awards, and the work behind composable platforms and AI agents.",
+    );
+    expect(
+      buildStaticPageMetadata({
+        story: { ...page, name: "Blog" },
+        slug: "blog",
+      }).description,
+    ).toBe(
+      "Stories, insights, and experiments on Next.js, TypeScript, and AI coding agents from Jim Drury.",
+    );
+    expect(buildBlogIndexMetadata(1).description).toBe(
+      "Stories, insights, and experiments on Next.js, TypeScript, and AI coding agents from Jim Drury.",
+    );
+    expect(
+      buildStaticPageMetadata({ story: page, slug: "home" }).openGraph,
+    ).toMatchObject({
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "Jim Drury",
+        },
+      ],
+    });
+    expect(
+      buildStaticPageMetadata({ story: page, slug: "home" }).twitter,
+    ).toMatchObject({
+      images: ["/twitter-image"],
+    });
+  });
+
+  it("prefers a Storyblok meta description over the page fallback", async () => {
+    const { buildStaticPageMetadata } = await import("@/lib/seo");
+
+    expect(
+      buildStaticPageMetadata({
+        story: {
+          name: "Home",
+          content: {
+            component: "page",
+            meta_description: "Custom home summary.",
+          },
+        },
+        slug: "home",
+      }).description,
+    ).toBe("Custom home summary.");
+  });
+
+  it("falls back to the page title for other routes", async () => {
+    const { buildStaticPageMetadata } = await import("@/lib/seo");
+
+    expect(
+      buildStaticPageMetadata({
+        story: { name: "Projects", content: { component: "page" } },
+        slug: "projects",
+      }).description,
+    ).toBe("Projects by Jim Drury.");
   });
 });

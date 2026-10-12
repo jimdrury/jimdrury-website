@@ -43,8 +43,26 @@ const AUTHOR_KNOWS_ABOUT = [
   "design systems",
 ] as const;
 const BLOG_INDEX_DESCRIPTION =
+  "Stories, insights, and experiments on Next.js, TypeScript, and AI coding agents from Jim Drury.";
+const ORGANIZATION_DESCRIPTION =
   "Latest writing, ideas, and technical deep dives from Jim Drury.";
+const HOME_PAGE_DESCRIPTION =
+  "Jim Drury is Head of Platform Innovation at Virgin Media O2. He writes about Next.js, TypeScript, and agentic engineering with people still in the loop.";
+const ABOUT_PAGE_DESCRIPTION =
+  "About Jim Drury, Head of Platform Innovation at Virgin Media O2, including talks, awards, and the work behind composable platforms and AI agents.";
+const STATIC_PAGE_DESCRIPTIONS: Record<string, string> = {
+  home: HOME_PAGE_DESCRIPTION,
+  about: ABOUT_PAGE_DESCRIPTION,
+  blog: BLOG_INDEX_DESCRIPTION,
+};
 const ORGANIZATION_LOGO_URL = `${SITE_ORIGIN}/logo.png`;
+export const DEFAULT_SOCIAL_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: SITE_NAME,
+} as const;
+const DEFAULT_TWITTER_IMAGE = "/twitter-image";
 const PERSON_IMAGE_URL =
   "https://a.storyblok.com/f/291093583118629/1463x3182/3fe55ff77b/profile-picture-full.jpg?cv=1774741806321";
 const PERSON_DESCRIPTION =
@@ -232,11 +250,13 @@ export const buildBlogIndexMetadata = (page: number): Metadata => {
       url: canonicalPath,
       siteName: SITE_NAME,
       locale: SITE_LOCALE,
+      images: [DEFAULT_SOCIAL_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [DEFAULT_TWITTER_IMAGE],
     },
   };
 };
@@ -678,7 +698,13 @@ const getArticleJsonLdImage = (
   return undefined;
 };
 
-const getStaticPageDescription = (story: StoryData): string => {
+const getKnownPageDescription = (slug: string): string | undefined => {
+  const normalized = slug.replace(/^\/+|\/+$/g, "");
+  const key = normalized.length === 0 ? "home" : normalized;
+  return STATIC_PAGE_DESCRIPTIONS[key];
+};
+
+const getStaticPageDescription = (story: StoryData, slug: string): string => {
   if (isRecord(story.content)) {
     const metaDescription = normalizeText(
       typeof story.content.meta_description === "string"
@@ -698,8 +724,13 @@ const getStaticPageDescription = (story: StoryData): string => {
     }
   }
 
+  const knownDescription = getKnownPageDescription(slug);
+  if (knownDescription) {
+    return knownDescription;
+  }
+
   const title = normalizeText(story.name ?? undefined) ?? "this page";
-  return `Read ${title} on ${SITE_NAME}.`;
+  return `${title} by ${SITE_NAME}.`;
 };
 
 const getStaticPageDate = (
@@ -800,7 +831,7 @@ export const buildStaticPageMetadata = ({
   }
 
   const title = normalizeText(story.name ?? undefined) ?? "Page";
-  const description = getStaticPageDescription(story);
+  const description = getStaticPageDescription(story, slug);
   const canonicalPath = getStaticPagePath(slug);
 
   return {
@@ -827,11 +858,13 @@ export const buildStaticPageMetadata = ({
       url: canonicalPath,
       siteName: SITE_NAME,
       locale: SITE_LOCALE,
+      images: [DEFAULT_SOCIAL_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [DEFAULT_TWITTER_IMAGE],
     },
   };
 };
@@ -916,9 +949,8 @@ export const buildArticleBreadcrumbJsonLd = (
   if (canonicalCategory) {
     itemListElement.push({
       "@type": "ListItem",
-      position: 3,
+      position: itemListElement.length + 1,
       name: formatCategoryLabel(canonicalCategory),
-      item: toAbsoluteUrl(getBlogCategoryPath(canonicalCategory, 1)),
     });
   }
 
@@ -948,7 +980,7 @@ export const buildStaticPageJsonLd = ({
   const canonicalPath = getStaticPagePath(slug);
   const canonicalUrl = toAbsoluteUrl(canonicalPath);
   const title = normalizeText(story.name ?? undefined) ?? "Page";
-  const description = getStaticPageDescription(story);
+  const description = getStaticPageDescription(story, slug);
   const publishedTime =
     getStaticPageDate(story, "first_published_at") ??
     getStaticPageDate(story, "published_at");
@@ -1008,7 +1040,7 @@ export const buildOrganizationJsonLd = (): Record<string, unknown> => {
     name: SITE_NAME,
     url: SITE_ORIGIN,
     logo: ORGANIZATION_LOGO_URL,
-    description: BLOG_INDEX_DESCRIPTION,
+    description: ORGANIZATION_DESCRIPTION,
     sameAs: [...AUTHOR_PROFILE_URLS],
     contactPoint: {
       "@type": "ContactPoint",
