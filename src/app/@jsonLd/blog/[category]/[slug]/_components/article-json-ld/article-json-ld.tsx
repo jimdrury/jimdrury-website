@@ -9,6 +9,7 @@ import {
   serializeJsonLd,
 } from "@/lib/seo";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
+import { isArticleReleased } from "@/storyblok/blog-listings-utils";
 
 type ArticleJsonLdProps = {
   category: string;
@@ -23,7 +24,7 @@ export const ArticleJsonLd: FC<ArticleJsonLdProps> = async ({
 }) => {
   const story = await getArticleBySlug({ slug, version });
 
-  if (!story) {
+  if (!story || (version === "published" && !isArticleReleased(story))) {
     return null;
   }
 

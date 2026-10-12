@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
-  getArticleSlugFromPath,
-  isPublicArticleStory,
-} from "@/app/blog/[category]/[slug]/_helpers/article-request-gate";
+  getArticleRoute,
+  resolveArticleProxyAction,
+} from "@/lib/article-request-gate";
 import type { BlogStory } from "@/storyblok/blog-listings-utils";
 
 const DRAFT_COOKIE_NAME = "__prerender_bypass";
@@ -74,17 +74,23 @@ export const proxy = async (request: NextRequest) => {
     return NextResponse.next();
   }
 
-  const slug = getArticleSlugFromPath(request.nextUrl.pathname);
-  if (!slug) {
+  const route = getArticleRoute(request.nextUrl.pathname);
+  if (!route) {
     return NextResponse.next();
   }
 
-  const story = await loadPublishedStory(slug);
-  if (story === undefined) {
-    return NextResponse.next();
-  }
+  const story = await loadPublishedStory(route.slug);
+  const action = resolveArticleProxyAction({
+    pathname: request.nextUrl.pathname,
+    story:
+      story === undefined
+        ? undefined
+        : story
+          ? toBlogStory(route.slug, story)
+          : null,
+  });
 
-  if (!isPublicArticleStory(story ? toBlogStory(slug, story) : null)) {
+  if (action === "block") {
     return rewriteNotFound(request);
   }
 
@@ -92,5 +98,11 @@ export const proxy = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: "/blog/:category/:slug",
+  matcher: [
+    "/blog/:slug",
+    "/blog/:category/:slug",
+    "/blog/:category/:slug/markdown",
+    "/blog/:category/:slug/opengraph-image",
+    "/blog/:category/:slug/twitter-image",
+  ],
 };

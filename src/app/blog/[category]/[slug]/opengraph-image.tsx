@@ -1,6 +1,8 @@
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 
+import { canRenderArticleImage } from "@/lib/article-request-gate";
 import { getArticleExcerpt } from "@/lib/seo";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
@@ -28,7 +30,11 @@ const OpenGraphImage: OpenGraphImageFn = async ({ params }) => {
   const version = isEnabled ? "draft" : "published";
 
   const story = await getArticleBySlug({ slug, version });
-  const featuredImage = getFeaturedImageAsset(story?.content?.featured_image);
+  if (!story || !canRenderArticleImage({ story, draft: isEnabled })) {
+    notFound();
+  }
+
+  const featuredImage = getFeaturedImageAsset(story.content?.featured_image);
   const featuredImageUrl = featuredImage?.filename;
   const optimizedFeaturedImageUrl = featuredImageUrl
     ? transformStoryblokImage(featuredImageUrl, {
@@ -40,10 +46,9 @@ const OpenGraphImage: OpenGraphImageFn = async ({ params }) => {
     : undefined;
 
   const payload = toSocialImagePayload({
-    title: story?.name ?? "Article",
+    title: story.name,
     excerpt:
-      (story ? getArticleExcerpt(story) : undefined) ??
-      "Read the full article on jimdrury.co.uk",
+      getArticleExcerpt(story) ?? "Read the full article on jimdrury.co.uk",
     featuredImageUrl: optimizedFeaturedImageUrl,
   });
 
