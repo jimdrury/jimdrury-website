@@ -1,7 +1,8 @@
 import "server-only";
 
 import type { FC } from "react";
-
+import { readCurrentUtcDay } from "@/lib/article-release";
+import { isUnreleasedArticleStory } from "@/lib/article-request-gate";
 import { getDefaultStoryCategory } from "@/lib/blog";
 import {
   buildArticleBreadcrumbJsonLd,
@@ -24,6 +25,13 @@ export const ArticleJsonLd: FC<ArticleJsonLdProps> = async ({
   const story = await getArticleBySlug({ slug, version });
 
   if (!story) {
+    return null;
+  }
+
+  if (
+    version === "published" &&
+    isUnreleasedArticleStory(story, await readCurrentUtcDay())
+  ) {
     return null;
   }
 
