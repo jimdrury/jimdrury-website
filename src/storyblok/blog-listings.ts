@@ -65,10 +65,27 @@ const fetchAllArticleStories = async (
       per_page: BLOG_FETCH_PER_PAGE,
     })) as StoryblokStoriesResponse;
 
-    const batch = (response.data?.stories ?? []).filter(isArticleStory);
-    stories.push(...batch);
+    const rawStories = response.data?.stories ?? [];
+    stories.push(...rawStories.filter(isArticleStory));
 
-    if (batch.length < BLOG_FETCH_PER_PAGE) {
+    const total =
+      typeof response.total === "number" && Number.isFinite(response.total)
+        ? response.total
+        : null;
+    const pageSize =
+      typeof response.perPage === "number" && response.perPage > 0
+        ? response.perPage
+        : BLOG_FETCH_PER_PAGE;
+
+    if (rawStories.length === 0) {
+      break;
+    }
+
+    if (total !== null) {
+      if (page * pageSize >= total) {
+        break;
+      }
+    } else if (rawStories.length < BLOG_FETCH_PER_PAGE) {
       break;
     }
 

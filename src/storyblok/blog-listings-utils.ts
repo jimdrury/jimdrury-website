@@ -49,6 +49,8 @@ export type StoryblokStoriesResponse = {
   data?: {
     stories?: BlogStory[];
   };
+  total?: number;
+  perPage?: number;
 };
 
 export const isArticleStory = (story: BlogStory): boolean => {
