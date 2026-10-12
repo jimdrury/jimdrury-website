@@ -246,11 +246,14 @@ export const getArticleBySlug = async ({
     return null;
   }
 
-  if (version === "published" && !isArticleReleased(article)) {
-    applyPublishedListingCacheLife(
-      getNextUnreleasedReleaseAt([article])?.toISOString() ?? null,
-    );
-    return null;
+  if (version === "published") {
+    const now = new Date();
+    if (!isArticleReleased(article, now)) {
+      applyPublishedListingCacheLife(
+        getNextUnreleasedReleaseAt([article], now)?.toISOString() ?? null,
+      );
+      return null;
+    }
   }
 
   cacheLife("ultraLong");
