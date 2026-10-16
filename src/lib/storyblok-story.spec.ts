@@ -7,7 +7,8 @@ vi.mock("@/storyblok", () => ({
   getStoryblokApi: () => ({
     get: getMock,
   }),
-  getStoryblokCv: () => 1,
+  getStoryblokCvParams: async (version: string) =>
+    version === "published" ? { cv: 1 } : {},
 }));
 
 describe("fetchStoryBySlug", () => {
@@ -23,6 +24,45 @@ describe("fetchStoryBySlug", () => {
     await expect(
       fetchStoryBySlug({ slug: "about", version: "published" }),
     ).resolves.toEqual(story);
+  });
+
+  it("sends the space cache version for published content only", async () => {
+    getMock.mockResolvedValue({ data: { story: null } });
+
+    const { fetchStoryBySlug } = await import("./storyblok-story");
+    await fetchStoryBySlug({ slug: "about", version: "published" });
+    await fetchStoryBySlug({ slug: "about", version: "draft" });
+
+    expect(getMock).toHaveBeenNthCalledWith(1, "cdn/stories/about", {
+      version: "published",
+      cv: 1,
+    });
+    expect(getMock).toHaveBeenNthCalledWith(2, "cdn/stories/about", {
+      version: "draft",
+    });
+  });
+
+  it("encodes slug segments in the request path", async () => {
+    getMock.mockResolvedValue({ data: { story: null } });
+
+    const { fetchStoryBySlug } = await import("./storyblok-story");
+    await fetchStoryBySlug({ slug: "blog/a b?c", version: "draft" });
+
+    expect(getMock).toHaveBeenCalledWith("cdn/stories/blog/a%20b%3Fc", {
+      version: "draft",
+    });
+  });
+
+  it("returns null without calling Storyblok for dot segments", async () => {
+    const { fetchStoryBySlug } = await import("./storyblok-story");
+
+    await expect(
+      fetchStoryBySlug({ slug: "../spaces/me", version: "published" }),
+    ).resolves.toBeNull();
+    await expect(
+      fetchStoryBySlug({ slug: "blog/./x", version: "published" }),
+    ).resolves.toBeNull();
+    expect(getMock).not.toHaveBeenCalled();
   });
 
   it("returns null when Storyblok responds 404", async () => {

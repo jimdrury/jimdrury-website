@@ -19,7 +19,7 @@ vi.mock("@/environment", () => ({
 
 vi.mock("@/storyblok", () => ({
   getStoryblokApi: vi.fn(),
-  getStoryblokCv: vi.fn(),
+  getStoryblokCvParams: vi.fn(async () => ({})),
 }));
 
 vi.mock("@/lib/storyblok-story", () => ({
@@ -180,6 +180,38 @@ describe("article listing visibility", () => {
   });
 });
 
+describe("article pagination", () => {
+  const makeArticle = (index: number) => ({
+    id: 1000 + index,
+    name: `Article ${index}`,
+    slug: `article-${index}`,
+    full_slug: `blog/article-${index}`,
+    first_published_at: "2026-01-01T00:00:00.000Z",
+    content: { component: "article" },
+  });
+
+  it("keeps paging when a full page contains a non-article story", async () => {
+    const firstPage = [
+      ...Array.from({ length: 99 }, (_, index) => makeArticle(index)),
+      { id: 1, name: "Folder", slug: "folder", content: { component: "page" } },
+    ];
+    const secondPage = [makeArticle(99)];
+    const get = vi
+      .fn()
+      .mockResolvedValueOnce({ data: { stories: firstPage } })
+      .mockResolvedValueOnce({ data: { stories: secondPage } });
+    vi.mocked(getStoryblokApi).mockReset();
+    vi.mocked(getStoryblokApi).mockReturnValue({ get } as never);
+
+    const { getAllArticles } = await import("./blog-listings");
+    const articles = await getAllArticles("draft");
+
+    expect(get).toHaveBeenCalledTimes(2);
+    expect(articles).toHaveLength(100);
+    expect(articles.at(-1)?.slug).toBe("article-99");
+  });
+});
+
 describe("fetchAllArticleStories pagination", () => {
   it("keeps later pages when an earlier page is short after filtering", async () => {
     const articles = Array.from({ length: 99 }, (_, index) => {
@@ -225,6 +257,7 @@ describe("fetchAllArticleStories pagination", () => {
         perPage: 100,
       };
     });
+    vi.mocked(getStoryblokApi).mockReset();
     vi.mocked(getStoryblokApi).mockReturnValue({ get } as never);
 
     const { getAllArticles } = await import("./blog-listings");

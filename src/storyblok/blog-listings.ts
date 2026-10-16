@@ -6,9 +6,10 @@ import {
   getBlogArticlesByTagIndexTag,
   getBlogArticlesByTagTag,
   getBlogVersionTag,
+  getStoryIdTag,
 } from "@/lib/cache-tags";
 import { fetchStoryBySlug } from "@/lib/storyblok-story";
-import { getStoryblokApi, getStoryblokCv } from "@/storyblok";
+import { getStoryblokApi, getStoryblokCvParams } from "@/storyblok";
 import {
   BLOG_ARCHIVE_PAGE_SIZE,
   BLOG_CONTENT_TYPE,
@@ -52,12 +53,13 @@ const fetchAllArticleStories = async (
 ): Promise<BlogStory[]> => {
   const storyblokApi = getStoryblokApi();
   const stories: BlogStory[] = [];
+  const cvParams = await getStoryblokCvParams(version);
   let page = 1;
 
   while (true) {
     const response = (await storyblokApi.get("cdn/stories", {
       version,
-      cv: getStoryblokCv(),
+      ...cvParams,
       starts_with: BLOG_PREFIX,
       content_type: BLOG_CONTENT_TYPE,
       sort_by: "first_published_at:desc",
@@ -65,6 +67,8 @@ const fetchAllArticleStories = async (
       per_page: BLOG_FETCH_PER_PAGE,
     })) as StoryblokStoriesResponse;
 
+    // Decide whether to keep paging from the raw page size: filtering first
+    // would end the loop early whenever a page contains a non-article story.
     const rawStories = response.data?.stories ?? [];
     stories.push(...rawStories.filter(isArticleStory));
 
@@ -235,6 +239,10 @@ export const getArticleBySlug = async ({
   if (!story) {
     cacheLife("ultraLong");
     return null;
+  }
+
+  if (typeof story.id === "number") {
+    cacheTag(getStoryIdTag({ id: story.id, version }));
   }
 
   const article = isArticleStory(story as BlogStory)

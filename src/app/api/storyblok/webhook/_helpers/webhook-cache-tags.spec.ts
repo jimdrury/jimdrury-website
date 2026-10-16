@@ -4,6 +4,7 @@ import { getWebhookRevalidationTags } from "./webhook-cache-tags";
 
 const SHARED_TAGS = [
   "content:home-page",
+  "content:published-pages",
   "content:story-page:published:blog",
   "content:blog:articles-by-tag:published",
   "content:blog:all-articles:published",
@@ -27,7 +28,7 @@ const expectSharedListingAndHomeTags = (tags: string[]) => {
 
 describe("getWebhookRevalidationTags", () => {
   it("revalidates the article, blog listings, and homepage for an article publish", () => {
-    const tags = getWebhookRevalidationTags("blog/test-article");
+    const tags = getWebhookRevalidationTags({ fullSlug: "blog/test-article" });
 
     expect(tags).toContain("content:blog:article:published:test-article");
     expect(tags).toContain("content:story-page:published:blog%2Ftest-article");
@@ -35,7 +36,7 @@ describe("getWebhookRevalidationTags", () => {
   });
 
   it("revalidates the changed page, blog listings, and homepage for a page publish", () => {
-    const tags = getWebhookRevalidationTags("about");
+    const tags = getWebhookRevalidationTags({ fullSlug: "about" });
 
     expect(tags).toContain("content:story-page:published:about");
     expect(tags).not.toContain("content:story-page:published:work");
@@ -43,7 +44,7 @@ describe("getWebhookRevalidationTags", () => {
   });
 
   it("includes the home page tag for the home slug", () => {
-    const tags = getWebhookRevalidationTags("home");
+    const tags = getWebhookRevalidationTags({ fullSlug: "home" });
 
     expect(tags).toContain("content:home-page");
     expect(tags).toContain("content:story-page:published:home");
@@ -58,8 +59,18 @@ describe("getWebhookRevalidationTags", () => {
     expectSharedListingAndHomeTags(tags);
   });
 
+  it("revalidates the story ID tag so a moved story's old slug is cleared", () => {
+    const tags = getWebhookRevalidationTags({
+      fullSlug: "blog/renamed-article",
+      storyId: 42,
+    });
+
+    expect(tags).toContain("content:story-id:published:42");
+    expect(tags).not.toContain("content:story-id:draft:42");
+  });
+
   it("does not use the full all-content tag list", () => {
-    const tags = getWebhookRevalidationTags("about");
+    const tags = getWebhookRevalidationTags({ fullSlug: "about" });
     const allContent = new Set(ALL_CONTENT_CACHE_TAGS);
 
     expect(tags).not.toEqual([...ALL_CONTENT_CACHE_TAGS]);

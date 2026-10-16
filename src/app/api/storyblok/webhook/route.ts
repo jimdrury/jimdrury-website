@@ -7,26 +7,24 @@ import {
 } from "@/lib/indexnow";
 import { fetchStoryBySlug } from "@/lib/storyblok-story";
 import {
-  isValidWebhookSecret,
-  WEBHOOK_SECRET_QUERY_PARAM,
-} from "./_helpers/verify-webhook-secret";
+  isValidWebhookSignature,
+  WEBHOOK_SIGNATURE_HEADER,
+} from "./_helpers/verify-webhook-signature";
 import { getWebhookRevalidationTags } from "./_helpers/webhook-cache-tags";
 
 const POST = async (request: Request) => {
-  const providedSecret = new URL(request.url).searchParams.get(
-    WEBHOOK_SECRET_QUERY_PARAM,
-  );
+  const rawBody = await request.text();
 
   if (
-    !isValidWebhookSecret({
-      provided: providedSecret,
-      expected: environment.STORYBLOK_WEBHOOK_SECRET,
+    !isValidWebhookSignature({
+      rawBody,
+      signature: request.headers.get(WEBHOOK_SIGNATURE_HEADER),
+      secret: environment.STORYBLOK_WEBHOOK_SECRET,
     })
   ) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const rawBody = await request.text();
   const payload = parseWebhookPayload(rawBody);
   if (!payload) {
     return Response.json({ error: "Invalid payload" }, { status: 400 });
@@ -39,7 +37,10 @@ const POST = async (request: Request) => {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const invalidatedTags = getWebhookRevalidationTags(payload.full_slug);
+  const invalidatedTags = getWebhookRevalidationTags({
+    fullSlug: payload.full_slug,
+    storyId: payload.story_id,
+  });
   for (const tag of invalidatedTags) {
     revalidateTag(tag, "max");
   }

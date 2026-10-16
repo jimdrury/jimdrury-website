@@ -7,6 +7,9 @@ export const buildContentSecurityPolicy = ({
 }: ContentSecurityPolicyOptions): string => {
   const scriptSrc = [
     "'self'",
+    // Next.js streams the RSC payload in inline scripts. Replacing this with
+    // nonces would force every page to render dynamically, which conflicts
+    // with `cacheComponents` and the static shells this site relies on.
     "'unsafe-inline'",
     isDevelopment ? "'unsafe-eval'" : undefined,
     "https://app.storyblok.com",
@@ -32,4 +35,24 @@ export const buildContentSecurityPolicy = ({
     "frame-ancestors 'self' https://app.storyblok.com https://app.eu.storyblok.com https://plugin.storyblok.com",
     "upgrade-insecure-requests",
   ].join("; ");
+};
+
+type SecurityHeader = { key: string; value: string };
+
+/**
+ * Every security header the site sends. Keep them all here: a second
+ * `Content-Security-Policy` from another layer (e.g. vercel.json) is enforced
+ * alongside this one, so the browser only allows what both policies allow.
+ */
+export const buildSecurityHeaders = (
+  options: ContentSecurityPolicyOptions,
+): SecurityHeader[] => {
+  return [
+    {
+      key: "Content-Security-Policy",
+      value: buildContentSecurityPolicy(options),
+    },
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  ];
 };

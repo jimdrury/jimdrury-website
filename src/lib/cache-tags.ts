@@ -31,6 +31,20 @@ export const getStorySlugVersionTag = ({
   return `content:story-page:${version}:${normalizeSegment(slug)}`;
 };
 
+/**
+ * Tags a cached story by its Storyblok ID so a webhook can clear every entry
+ * for that story, including ones cached under a slug it has since moved from.
+ */
+export const getStoryIdTag = ({
+  id,
+  version,
+}: {
+  id: number;
+  version: ContentVersion;
+}): string => {
+  return `content:story-id:${version}:${id}`;
+};
+
 export const getStoryCacheTags = ({
   slug,
   version,

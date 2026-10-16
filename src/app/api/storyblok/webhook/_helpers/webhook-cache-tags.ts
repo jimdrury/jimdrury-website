@@ -2,6 +2,8 @@ import {
   getBlogArticleSlugTag,
   getBlogListingVersionTags,
   getHomePageTag,
+  getPublishedPagesTag,
+  getStoryIdTag,
   getStorySlugVersionTag,
 } from "@/lib/cache-tags";
 import { BLOG_PREFIX } from "@/storyblok/blog-listings-utils";
@@ -12,6 +14,7 @@ const BLOG_LISTING_STORY_SLUG = BLOG_PREFIX.replace(/\/$/, "");
 const getSharedWebhookTags = (): string[] => {
   return [
     getHomePageTag(),
+    getPublishedPagesTag(),
     getStorySlugVersionTag({
       slug: BLOG_LISTING_STORY_SLUG,
       version: PUBLISHED,
@@ -20,8 +23,20 @@ const getSharedWebhookTags = (): string[] => {
   ];
 };
 
-export const getWebhookRevalidationTags = (fullSlug?: string): string[] => {
+export const getWebhookRevalidationTags = ({
+  fullSlug,
+  storyId,
+}: {
+  fullSlug?: string;
+  storyId?: number;
+} = {}): string[] => {
   const tags = new Set<string>(getSharedWebhookTags());
+
+  // Clears entries cached under the story's previous slug after a move,
+  // rename, or unpublish, which the new `full_slug` alone cannot reach.
+  if (storyId !== undefined) {
+    tags.add(getStoryIdTag({ id: storyId, version: PUBLISHED }));
+  }
 
   if (!fullSlug) {
     return [...tags];

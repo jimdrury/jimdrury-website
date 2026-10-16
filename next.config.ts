@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
-import { buildContentSecurityPolicy } from "./src/lib/content-security-policy";
+import { buildSecurityHeaders } from "./src/lib/content-security-policy";
 import { getStoryblokDraftEnableRedirects } from "./src/lib/storyblok-preview-redirects";
 
-const contentSecurityPolicy = buildContentSecurityPolicy({
+const securityHeaders = buildSecurityHeaders({
   isDevelopment: process.env.NODE_ENV === "development",
 });
 
@@ -16,24 +16,18 @@ const nextConfig: NextConfig = {
       expire: 60 * 60 * 24 * 365 * 5,
     },
   },
-  productionBrowserSourceMaps: true,
   experimental: {
     serverComponentsHmrCache: false,
   },
   async headers() {
-    const contentSecurityPolicyHeader = {
-      key: "Content-Security-Policy",
-      value: contentSecurityPolicy,
-    };
-
     return [
       {
         source: "/",
-        headers: [contentSecurityPolicyHeader],
+        headers: securityHeaders,
       },
       {
         source: "/:path*",
-        headers: [contentSecurityPolicyHeader],
+        headers: securityHeaders,
       },
     ];
   },
@@ -50,6 +44,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        {
+          source: "/blog/:category/:slug.md",
+          destination: "/blog/:category/:slug/markdown",
+        },
         {
           source: "/blog/:slug",
           has: [{ type: "query", key: "_storyblok" }],
