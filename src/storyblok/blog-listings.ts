@@ -69,10 +69,27 @@ const fetchAllArticleStories = async (
 
     // Decide whether to keep paging from the raw page size: filtering first
     // would end the loop early whenever a page contains a non-article story.
-    const batch = response.data?.stories ?? [];
-    stories.push(...batch.filter(isArticleStory));
+    const rawStories = response.data?.stories ?? [];
+    stories.push(...rawStories.filter(isArticleStory));
 
-    if (batch.length < BLOG_FETCH_PER_PAGE) {
+    const total =
+      typeof response.total === "number" && Number.isFinite(response.total)
+        ? response.total
+        : null;
+    const pageSize =
+      typeof response.perPage === "number" && response.perPage > 0
+        ? response.perPage
+        : BLOG_FETCH_PER_PAGE;
+
+    if (rawStories.length === 0) {
+      break;
+    }
+
+    if (total !== null) {
+      if (page * pageSize >= total) {
+        break;
+      }
+    } else if (rawStories.length < BLOG_FETCH_PER_PAGE) {
       break;
     }
 
@@ -237,11 +254,14 @@ export const getArticleBySlug = async ({
     return null;
   }
 
-  if (version === "published" && !isArticleReleased(article)) {
-    applyPublishedListingCacheLife(
-      getNextUnreleasedReleaseAt([article])?.toISOString() ?? null,
-    );
-    return null;
+  if (version === "published") {
+    const now = new Date();
+    if (!isArticleReleased(article, now)) {
+      applyPublishedListingCacheLife(
+        getNextUnreleasedReleaseAt([article], now)?.toISOString() ?? null,
+      );
+      return null;
+    }
   }
 
   cacheLife("ultraLong");

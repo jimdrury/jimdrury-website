@@ -15,8 +15,8 @@ vi.mock("@/lib/read-time", () => {
 
 vi.mock("@/storyblok/blog-listings-utils", () => {
   return {
-    getFeaturedImageAsset: () => null,
-    parseStoryblokImageDimensions: () => null,
+    getFeaturedImageAsset: vi.fn(() => null),
+    parseStoryblokImageDimensions: vi.fn(() => null),
   };
 });
 
@@ -93,6 +93,104 @@ describe("buildArticleJsonLd", () => {
         url: "https://www.jimdrury.co.uk/logo.png",
       },
     });
+  });
+
+  it("builds a BlogPosting from story timestamps, tags, and the canonical url", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const { buildArticleJsonLd, validateBlogPostingJsonLd } = await import(
+      "@/lib/seo"
+    );
+    const jsonLd = buildArticleJsonLd(
+      makeStory({
+        first_published_at: "2026-03-01 08:00:00",
+        published_at: "2026-03-02T09:30:00.000Z",
+        tag_list: ["nextjs", "ai", "nextjs"],
+        content: {
+          component: "article",
+          body: [],
+          excerpt: "Visible excerpt",
+          meta_description: "Search description",
+        },
+      }) as never,
+    );
+
+    expect(jsonLd.datePublished).toBe("2026-03-01T08:00:00.000Z");
+    expect(jsonLd.dateModified).toBe("2026-03-02T09:30:00.000Z");
+    expect(jsonLd.keywords).toEqual(["nextjs", "ai"]);
+    expect(jsonLd.description).toBe("Search description");
+    expect(jsonLd.author).toMatchObject({
+      "@type": "Person",
+      name: "Jim Drury",
+      url: "https://www.jimdrury.co.uk/about",
+    });
+    expect(jsonLd.mainEntityOfPage).toMatchObject({
+      "@type": "WebPage",
+      "@id":
+        "https://www.jimdrury.co.uk/blog/ai/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
+    });
+    expect(jsonLd.image).toMatchObject({
+      "@type": "ImageObject",
+      url: "https://www.jimdrury.co.uk/blog/ai/your-claude-code-setup-is-probably-wrong-ill-tell-you-why/opengraph-image",
+    });
+    expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
+  });
+
+  it("keeps dateModified at least as late as datePublished", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const { buildArticleJsonLd, validateBlogPostingJsonLd } = await import(
+      "@/lib/seo"
+    );
+    const jsonLd = buildArticleJsonLd(
+      makeStory({
+        first_published_at: "2026-10-09T08:00:00.000Z",
+        published_at: "2026-10-05T15:12:27.890Z",
+        tag_list: ["ai"],
+        content: {
+          component: "article",
+          body: [],
+          excerpt: "Visible excerpt",
+        },
+      }) as never,
+    );
+
+    expect(jsonLd.datePublished).toBe("2026-10-09T08:00:00.000Z");
+    expect(jsonLd.dateModified).toBe("2026-10-09T08:00:00.000Z");
+    expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
+  });
+
+  it("accepts a featured image and reports no schema rule violations", async () => {
+    vi.mocked(getDefaultStoryCategory).mockReturnValue("ai");
+    const listings = await import("@/storyblok/blog-listings-utils");
+    vi.mocked(listings.getFeaturedImageAsset).mockReturnValueOnce({
+      filename: "https://a.storyblok.com/f/1/1200x630/abc/hero.png",
+      alt: "Hero illustration",
+    } as never);
+    vi.mocked(listings.parseStoryblokImageDimensions).mockReturnValueOnce({
+      width: 1200,
+      height: 630,
+    });
+    const { buildArticleJsonLd, validateBlogPostingJsonLd } = await import(
+      "@/lib/seo"
+    );
+    const jsonLd = buildArticleJsonLd(
+      makeStory({
+        first_published_at: "2026-03-01T08:00:00.000Z",
+        published_at: "2026-03-02T09:30:00.000Z",
+        tag_list: ["ai"],
+        content: {
+          component: "article",
+          body: [],
+          excerpt: "Visible excerpt",
+        },
+      }) as never,
+    );
+
+    expect(jsonLd.image).toMatchObject({
+      "@type": "ImageObject",
+      url: "https://a.storyblok.com/f/1/1200x630/abc/hero.png",
+    });
+    expect(jsonLd.description).toBe("Visible excerpt");
+    expect(validateBlogPostingJsonLd(jsonLd)).toEqual([]);
   });
 });
 
@@ -189,7 +287,6 @@ describe("buildArticleBreadcrumbJsonLd", () => {
           "@type": "ListItem",
           position: 3,
           name: "AI",
-          item: "https://www.jimdrury.co.uk/blog/ai",
         },
         {
           "@type": "ListItem",
@@ -199,6 +296,9 @@ describe("buildArticleBreadcrumbJsonLd", () => {
         },
       ],
     });
+    expect(JSON.stringify(jsonLd)).not.toContain(
+      '"item":"https://www.jimdrury.co.uk/blog/ai"',
+    );
   });
 
   it("omits the article crumb when no public categorized path exists", async () => {
@@ -226,7 +326,92 @@ describe("buildArticleBreadcrumbJsonLd", () => {
     });
     expect(JSON.stringify(jsonLd)).not.toContain("/blog/null");
     expect(JSON.stringify(jsonLd)).not.toContain(
+      '"item":"https://www.jimdrury.co.uk/blog/ai"',
+    );
+    expect(JSON.stringify(jsonLd)).not.toContain(
       "/blog/your-claude-code-setup-is-probably-wrong-ill-tell-you-why",
     );
+  });
+});
+
+describe("static page descriptions", () => {
+  it("uses a specific description for home, about, and the blog", async () => {
+    const { buildBlogIndexMetadata, buildStaticPageMetadata } = await import(
+      "@/lib/seo"
+    );
+    const page = {
+      name: "Home",
+      content: { component: "page" },
+    };
+
+    expect(
+      buildStaticPageMetadata({ story: page, slug: "home" }).description,
+    ).toBe(
+      "Jim Drury is Head of Platform Innovation at Virgin Media O2. He writes about Next.js, TypeScript, and agentic engineering with people still in the loop.",
+    );
+    expect(
+      buildStaticPageMetadata({
+        story: { ...page, name: "About Me" },
+        slug: "about",
+      }).description,
+    ).toBe(
+      "About Jim Drury, Head of Platform Innovation at Virgin Media O2, including talks, awards, and the work behind composable platforms and AI agents.",
+    );
+    expect(
+      buildStaticPageMetadata({
+        story: { ...page, name: "Blog" },
+        slug: "blog",
+      }).description,
+    ).toBe(
+      "Stories, insights, and experiments on Next.js, TypeScript, and AI coding agents from Jim Drury.",
+    );
+    expect(buildBlogIndexMetadata(1).description).toBe(
+      "Stories, insights, and experiments on Next.js, TypeScript, and AI coding agents from Jim Drury.",
+    );
+    expect(
+      buildStaticPageMetadata({ story: page, slug: "home" }).openGraph,
+    ).toMatchObject({
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "Jim Drury",
+        },
+      ],
+    });
+    expect(
+      buildStaticPageMetadata({ story: page, slug: "home" }).twitter,
+    ).toMatchObject({
+      images: ["/twitter-image"],
+    });
+  });
+
+  it("prefers a Storyblok meta description over the page fallback", async () => {
+    const { buildStaticPageMetadata } = await import("@/lib/seo");
+
+    expect(
+      buildStaticPageMetadata({
+        story: {
+          name: "Home",
+          content: {
+            component: "page",
+            meta_description: "Custom home summary.",
+          },
+        },
+        slug: "home",
+      }).description,
+    ).toBe("Custom home summary.");
+  });
+
+  it("falls back to the page title for other routes", async () => {
+    const { buildStaticPageMetadata } = await import("@/lib/seo");
+
+    expect(
+      buildStaticPageMetadata({
+        story: { name: "Projects", content: { component: "page" } },
+        slug: "projects",
+      }).description,
+    ).toBe("Projects by Jim Drury.");
   });
 });

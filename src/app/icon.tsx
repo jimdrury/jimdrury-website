@@ -12,12 +12,12 @@ const Icon = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#ffe156",
-        borderRadius: 4,
+        background: "#f386a1",
+        borderRadius: 0,
         fontFamily: "Inter",
-        fontSize: 18,
-        fontWeight: 900,
-        color: "#000000",
+        fontSize: 16,
+        fontWeight: 500,
+        color: "#1e1e1e",
       }}
     >
       jd

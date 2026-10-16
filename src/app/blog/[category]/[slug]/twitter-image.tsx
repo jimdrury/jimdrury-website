@@ -1,6 +1,8 @@
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
-
+import { readCurrentUtcDay } from "@/lib/article-release";
+import { canRenderArticleImage } from "@/lib/article-request-gate";
 import { getArticleExcerpt } from "@/lib/seo";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
 import { getArticleBySlug } from "@/storyblok/blog-listings";
@@ -27,7 +29,12 @@ const TwitterImage: TwitterImageFn = async ({ params }) => {
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
   const story = await getArticleBySlug({ slug, version });
-  const featuredImage = getFeaturedImageAsset(story?.content?.featured_image);
+  const today = story && !isEnabled ? await readCurrentUtcDay() : "";
+  if (!story || !canRenderArticleImage({ story, draft: isEnabled, today })) {
+    notFound();
+  }
+
+  const featuredImage = getFeaturedImageAsset(story.content?.featured_image);
   const featuredImageUrl = featuredImage?.filename;
   const optimizedFeaturedImageUrl = featuredImageUrl
     ? transformStoryblokImage(featuredImageUrl, {
@@ -38,10 +45,9 @@ const TwitterImage: TwitterImageFn = async ({ params }) => {
       })
     : undefined;
   const payload = toSocialImagePayload({
-    title: story?.name ?? "Article",
+    title: story.name,
     excerpt:
-      (story ? getArticleExcerpt(story) : undefined) ??
-      "Read the full article on jimdrury.co.uk",
+      getArticleExcerpt(story) ?? "Read the full article on jimdrury.co.uk",
     featuredImageUrl: optimizedFeaturedImageUrl,
   });
   const fonts = await getSocialImageFontOptions();

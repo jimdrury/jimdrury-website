@@ -5,6 +5,7 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import type { FC } from "react";
 
+import { isUnreleasedPublishedArticle } from "@/lib/article-release";
 import { StoryContent } from "@/storyblok/renderer";
 import { fetchStoryBySlug } from "../../_helpers/story";
 import { ArticleBreadcrumbJsonLd } from "../json-ld/article-breadcrumb-json-ld";
@@ -27,7 +28,7 @@ export const Render: FC<RenderProps> = async ({ storySlug, pathname }) => {
   const version = isEnabled ? "draft" : "published";
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
-  if (!story) {
+  if (!story || (!isEnabled && (await isUnreleasedPublishedArticle(story)))) {
     notFound();
   }
 

@@ -3,10 +3,12 @@ import { draftMode } from "next/headers";
 import type { FC, ReactNode } from "react";
 import { ArticleHero } from "@/components/article-hero";
 import { ArticleNavigation } from "@/components/article-navigation";
+import { ArticleStats } from "@/components/article-stats";
 import { SimilarArticles } from "@/components/similar-articles";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Typography } from "@/components/typography";
 import { estimateReadTime } from "@/lib/read-time";
+import { getArticleStructuredData } from "@/lib/seo";
 import { getSimilarArticleItems } from "@/lib/similar-articles";
 import { asBlogStory } from "@/lib/story-render-context";
 import { sanitizeStoryblokFocusValue } from "@/storyblok/asset-focus";
@@ -76,17 +78,16 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({
   const normalizedCategories = categories.filter(
     (value) => value.trim().length > 0,
   );
-  const publishedAt =
-    blok.published_at ??
-    currentStory?.first_published_at ??
-    currentStory?.published_at ??
-    undefined;
   const excerpt = blok.excerpt?.trim();
-  const updatedAt = (
-    blok.updated_at ??
-    currentStory?.published_at ??
-    ""
-  ).trim();
+  const structured = currentStory
+    ? getArticleStructuredData(currentStory)
+    : null;
+  const publishedAt = structured?.datePublished;
+  const updatedAt = structured?.dateModified;
+  const description = structured?.description;
+  const markExcerptAsDescription = Boolean(
+    excerpt && description && excerpt === description,
+  );
   const { isEnabled } = await draftMode();
   const version = isEnabled ? "draft" : "published";
   const postContent = blok.post_content;
@@ -106,38 +107,68 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({
       itemScope
       itemType="https://schema.org/BlogPosting"
     >
-      {title && <meta itemProp="headline" content={title} />}
-      {excerpt && <meta itemProp="description" content={excerpt} />}
-      {featuredSrc && <meta itemProp="image" content={featuredSrc} />}
-      {publishedAt && <meta itemProp="datePublished" content={publishedAt} />}
-      {updatedAt && <meta itemProp="dateModified" content={updatedAt} />}
-      {normalizedCategories.length > 0 && (
-        <>
-          <meta itemProp="keywords" content={normalizedCategories.join(", ")} />
-          <meta itemProp="articleSection" content={normalizedCategories[0]} />
-        </>
-      )}
+      {description ? (
+        <meta itemProp="description" content={description} />
+      ) : null}
+      {updatedAt ? <meta itemProp="dateModified" content={updatedAt} /> : null}
+      {structured && structured.keywords.length > 0 ? (
+        <meta itemProp="keywords" content={structured.keywords.join(", ")} />
+      ) : null}
+      {normalizedCategories.length > 0 ? (
+        <meta itemProp="articleSection" content={normalizedCategories[0]} />
+      ) : null}
+      {structured?.canonicalUrl ? (
+        <link itemProp="mainEntityOfPage" href={structured.canonicalUrl} />
+      ) : null}
       <span
         itemProp="author"
         itemScope
         itemType="https://schema.org/Person"
         className="sr-only"
       >
-        <span itemProp="name">Jim Drury</span>
-        <meta itemProp="url" content="https://www.jimdrury.co.uk/about" />
-        <meta itemProp="jobTitle" content="Head of Platform Innovation" />
-        <link itemProp="sameAs" href="https://www.linkedin.com/in/jimdrury" />
-        <link itemProp="sameAs" href="https://x.com/jim_drury" />
-        <link itemProp="sameAs" href="https://github.com/jimdrury" />
+        <span itemProp="name">{structured?.authorName ?? "Jim Drury"}</span>
+        <meta
+          itemProp="url"
+          content={structured?.authorUrl ?? "https://www.jimdrury.co.uk/about"}
+        />
+        <meta
+          itemProp="jobTitle"
+          content={structured?.authorJobTitle ?? "Head of Platform Innovation"}
+        />
+        {(
+          structured?.authorSameAs ?? [
+            "https://www.linkedin.com/in/jimdrury",
+            "https://x.com/jim_drury",
+            "https://github.com/jimdrury",
+          ]
+        ).map((url) => (
+          <link key={url} itemProp="sameAs" href={url} />
+        ))}
       </span>
       <span
         itemProp="publisher"
         itemScope
-        itemType="https://schema.org/Person"
+        itemType="https://schema.org/Organization"
         className="sr-only"
       >
-        <span itemProp="name">Jim Drury</span>
-        <meta itemProp="url" content="https://www.jimdrury.co.uk/about" />
+        <span itemProp="name">{structured?.publisherName ?? "Jim Drury"}</span>
+        <meta
+          itemProp="url"
+          content={structured?.publisherUrl ?? "https://www.jimdrury.co.uk"}
+        />
+        <span
+          itemProp="logo"
+          itemScope
+          itemType="https://schema.org/ImageObject"
+        >
+          <meta
+            itemProp="url"
+            content={
+              structured?.publisherLogoUrl ??
+              "https://www.jimdrury.co.uk/logo.png"
+            }
+          />
+        </span>
       </span>
       {title &&
         (featuredSrc ? (
@@ -160,21 +191,34 @@ export const ArticleBlok: FC<ArticleBlokProps> = async ({
             categories={categories}
             publishedAt={publishedAt}
             readTime={readTime}
+            markExcerptAsDescription={markExcerptAsDescription}
           />
         ) : (
           <div className="container mx-auto px-5 lg:px-12 2xl:max-w-6xl">
             <div className="article-headline">
               <Typography asChild size="3xl">
-                <h1>{title}</h1>
+                <h1 itemProp="headline">{title}</h1>
               </Typography>
             </div>
             {excerpt ? (
               <div className="article-description mt-3 text-balance lg:mt-4">
                 <Typography asChild size="base">
-                  <p>{excerpt}</p>
+                  <p
+                    {...(markExcerptAsDescription
+                      ? { itemProp: "description" }
+                      : {})}
+                  >
+                    {excerpt}
+                  </p>
                 </Typography>
               </div>
             ) : null}
+            <ArticleStats
+              className="mt-4"
+              includeDateMicrodata
+              publishedAt={publishedAt}
+              readTime={readTime}
+            />
           </div>
         ))}
       <div className="container mx-auto mt-8 flex flex-col gap-6 px-5 lg:mt-28 lg:flex-row lg:items-start lg:gap-12 lg:pb-12 lg:pt-16 2xl:max-w-6xl xl:px-0">

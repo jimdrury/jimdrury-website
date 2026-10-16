@@ -1,33 +1,50 @@
-import { draftMode } from "next/headers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getArticleBySlug } from "@/storyblok/blog-listings";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("next/headers", () => ({
-  draftMode: vi.fn(),
+vi.mock("next/cache", () => ({
+  cacheLife: vi.fn(),
+  cacheTag: vi.fn(),
 }));
 
-vi.mock("@/storyblok/blog-listings", () => ({
-  getArticleBySlug: vi.fn(),
+const { draftModeMock, getArticleBySlugMock, getDefaultStoryCategoryMock } =
+  vi.hoisted(() => ({
+    draftModeMock: vi.fn(),
+    getArticleBySlugMock: vi.fn(),
+    getDefaultStoryCategoryMock: vi.fn(() => "ai"),
+  }));
+
+vi.mock("next/headers", () => ({
+  draftMode: draftModeMock,
 }));
 
 vi.mock("@/lib/blog", () => ({
-  getDefaultStoryCategory: vi.fn(() => "ai"),
+  getDefaultStoryCategory: getDefaultStoryCategoryMock,
+}));
+
+vi.mock("@/storyblok/blog-listings", () => ({
+  getArticleBySlug: getArticleBySlugMock,
 }));
 
 vi.mock("@/lib/article-markdown", () => ({
-  renderArticleMarkdown: vi.fn(() => "# Article"),
+  renderArticleMarkdown: vi.fn(() => "# Released"),
 }));
 
-const article = {
+import { GET } from "./route";
+
+const FUTURE_SLUGS = [
+  "devin-dreaming-agent-memory-review-the-writes",
+  "agent-written-tests-marking-own-homework",
+] as const;
+
+const article = (slug: string, firstPublishedAt?: string) => ({
   id: 1,
   name: "Article",
-  slug: "my-post",
-  full_slug: "blog/my-post",
+  slug,
+  full_slug: `blog/${slug}`,
+  first_published_at: firstPublishedAt,
   content: { component: "article" },
-};
+});
 
-const get = async (category: string, slug: string) => {
-  const { GET } = await import("./route");
+const getMarkdown = (slug: string, category = "ai") => {
   return GET(
     new Request(`https://www.jimdrury.co.uk/blog/${category}/${slug}.md`),
     { params: Promise.resolve({ category, slug }) },
@@ -35,27 +52,37 @@ const get = async (category: string, slug: string) => {
 };
 
 describe("GET /blog/[category]/[slug]/markdown", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
-    vi.mocked(draftMode).mockResolvedValue({
-      isEnabled: false,
-    } as Awaited<ReturnType<typeof draftMode>>);
-    vi.mocked(getArticleBySlug).mockReset();
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-12T12:00:00.000Z"));
+    draftModeMock.mockReset();
+    getArticleBySlugMock.mockReset();
+    draftModeMock.mockResolvedValue({ isEnabled: false });
+    getDefaultStoryCategoryMock.mockReturnValue("ai");
   });
 
   it("serves markdown for the canonical category", async () => {
-    vi.mocked(getArticleBySlug).mockResolvedValue(article);
+    getArticleBySlugMock.mockResolvedValue(
+      article("my-post", "2020-01-01T00:00:00.000Z"),
+    );
 
-    const response = await get("ai", "my-post");
+    const response = await getMarkdown("my-post", "ai");
 
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toContain("text/markdown");
-    expect(await response.text()).toBe("# Article");
+    await expect(response.text()).resolves.toBe("# Released");
   });
 
   it("redirects a non-canonical path category to the canonical .md URL", async () => {
-    vi.mocked(getArticleBySlug).mockResolvedValue(article);
+    getArticleBySlugMock.mockResolvedValue(
+      article("my-post", "2020-01-01T00:00:00.000Z"),
+    );
 
-    const response = await get("frontend", "my-post");
+    const response = await getMarkdown("my-post", "frontend");
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe(
@@ -64,11 +91,45 @@ describe("GET /blog/[category]/[slug]/markdown", () => {
   });
 
   it("returns 404 for a missing article", async () => {
-    vi.mocked(getArticleBySlug).mockResolvedValue(null);
+    getArticleBySlugMock.mockResolvedValue(null);
 
-    const response = await get("ai", "missing");
+    const response = await getMarkdown("missing", "ai");
 
     expect(response.status).toBe(404);
+    expect(response.headers.get("location")).toBeNull();
+  });
+
+  it.each(
+    FUTURE_SLUGS,
+  )("returns 404 for unreleased %s before the markdown redirect", async (slug) => {
+    getArticleBySlugMock.mockResolvedValue(
+      article(slug, "2099-01-01T00:00:00.000Z"),
+    );
+
+    const response = await getMarkdown(slug, "general");
+
+    expect(response.status).toBe(404);
+    expect(response.headers.get("location")).toBeNull();
+  });
+
+  it("redirects a released article only after the release gate passes", async () => {
+    const slug = "mcp-tools-as-processes";
+    getArticleBySlugMock.mockResolvedValue(
+      article(slug, "2020-01-01T00:00:00.000Z"),
+    );
+
+    const redirected = await getMarkdown(slug, "general");
+
+    expect(redirected.status).toBe(307);
+    expect(redirected.headers.get("location")).toBe(
+      `https://www.jimdrury.co.uk/blog/ai/${slug}.md`,
+    );
+
+    const rendered = await getMarkdown(slug, "ai");
+
+    expect(rendered.status).toBe(200);
+    expect(rendered.headers.get("content-type")).toContain("text/markdown");
+    await expect(rendered.text()).resolves.toBe("# Released");
   });
 });
 

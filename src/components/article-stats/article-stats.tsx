@@ -8,6 +8,7 @@ export interface ArticleStatsProps
   categories?: string[];
   publishedAt?: string;
   readTime?: number;
+  includeDateMicrodata?: boolean;
 }
 
 const formatDateTime = (value: string | undefined): string | null => {
@@ -27,6 +28,7 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
   categories: _categories,
   publishedAt,
   readTime,
+  includeDateMicrodata = false,
   className,
   ...props
 }) => {
@@ -48,7 +50,14 @@ export const ArticleStats: FC<ArticleStatsProps> = ({
       )}
       {...props}
     >
-      {publishedLabel ? <span>{publishedLabel}</span> : null}
+      {publishedLabel && publishedAt ? (
+        <time
+          dateTime={publishedAt}
+          {...(includeDateMicrodata ? { itemProp: "datePublished" } : {})}
+        >
+          {publishedLabel}
+        </time>
+      ) : null}
       {publishedLabel && readTimeLabel ? (
         <span aria-hidden className="text-[#666]">
           .

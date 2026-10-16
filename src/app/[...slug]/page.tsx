@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import type { FC } from "react";
+import { isUnreleasedPublishedArticle } from "@/lib/article-release";
 import {
   excludeHomeCatchAllParams,
   getPublishedPageParams,
@@ -27,7 +29,7 @@ export const generateMetadata = async ({
   const version = isEnabled ? "draft" : "published";
   const story = await fetchStoryBySlug({ slug: storySlug, version });
 
-  if (!story) {
+  if (!story || (!isEnabled && (await isUnreleasedPublishedArticle(story)))) {
     return MISSING_STORY_METADATA;
   }
 
@@ -37,6 +39,18 @@ export const generateMetadata = async ({
 const Page: FC<PageProps<"/[...slug]">> = async ({ params }) => {
   const { slug } = await params;
   const storySlug = slug.join("/");
+  const { isEnabled } = await draftMode();
+
+  if (!isEnabled) {
+    const story = await fetchStoryBySlug({
+      slug: storySlug,
+      version: "published",
+    });
+
+    if (await isUnreleasedPublishedArticle(story)) {
+      notFound();
+    }
+  }
 
   return <Render storySlug={storySlug} pathname={`/${storySlug}`} />;
 };

@@ -14,6 +14,7 @@ export interface ArticleHeroProps {
   categories?: string[];
   publishedAt?: string;
   readTime?: number;
+  markExcerptAsDescription?: boolean;
 }
 
 export const ArticleHero: FC<ArticleHeroProps> = ({
@@ -26,6 +27,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
   categories,
   publishedAt,
   readTime,
+  markExcerptAsDescription = false,
 }) => {
   const primaryCategory = categories?.find((value) => value.trim().length > 0);
 
@@ -39,6 +41,7 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           height={height ?? 1080}
           sizes="100vw"
           className="h-full w-full object-cover"
+          itemProp="image"
           loading="eager"
         />
       </div>
@@ -51,12 +54,15 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           ) : null}
           <div className="text-balance">
             <Typography asChild size="3xl">
-              <h1>{title}</h1>
+              <h1 className="article-headline" itemProp="headline">
+                {title}
+              </h1>
             </Typography>
           </div>
           <ArticleStats
             className="mt-4"
             categories={categories}
+            includeDateMicrodata
             publishedAt={publishedAt}
             readTime={readTime}
           />
@@ -69,19 +75,28 @@ export const ArticleHero: FC<ArticleHeroProps> = ({
           ) : null}
           <div className="text-balance">
             <Typography asChild size="5xl">
-              <h1>{title}</h1>
+              <h1 className="article-headline" itemProp="headline">
+                {title}
+              </h1>
             </Typography>
           </div>
           {excerpt ? (
-            <div className="mt-4 text-balance">
+            <div className="article-description mt-4 text-balance">
               <Typography asChild size="base">
-                <p>{excerpt}</p>
+                <p
+                  {...(markExcerptAsDescription
+                    ? { itemProp: "description" }
+                    : {})}
+                >
+                  {excerpt}
+                </p>
               </Typography>
             </div>
           ) : null}
           <ArticleStats
             className={excerpt ? "mt-5" : "mt-6"}
             categories={categories}
+            includeDateMicrodata
             publishedAt={publishedAt}
             readTime={readTime}
           />

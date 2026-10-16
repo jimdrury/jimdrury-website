@@ -118,8 +118,8 @@ export const SocialImage: FC<SocialImagePayload> = ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        background: "linear-gradient(120deg, #0f172a, #111827 50%, #1f2937)",
-        color: "#f9fafb",
+        background: "#fefefe",
+        color: "#1e1e1e",
         position: "relative",
         overflow: "hidden",
         fontFamily: "Geist, sans-serif",
@@ -144,7 +144,7 @@ export const SocialImage: FC<SocialImagePayload> = ({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0.72))",
+            "linear-gradient(180deg, rgba(254, 254, 254, 0.15), rgba(254, 254, 254, 0.82))",
         }}
       />
       <div
@@ -154,14 +154,12 @@ export const SocialImage: FC<SocialImagePayload> = ({
           left: 32,
           display: "flex",
           padding: "10px 16px",
-          background: "#ffeb3b",
-          border: "4px solid #000",
-          color: "#000",
-          fontSize: 22,
-          fontWeight: 800,
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          boxShadow: "8px 8px 0 #000",
+          background: "#f386a1",
+          border: "1px solid #1e1e1e",
+          color: "#1e1e1e",
+          fontSize: 20,
+          fontWeight: 500,
+          letterSpacing: "-0.02em",
         }}
       >
         Jim Drury
@@ -178,18 +176,17 @@ export const SocialImage: FC<SocialImagePayload> = ({
           flexDirection: "column",
           gap: "20px",
           padding: "34px 38px",
-          background: "rgba(255, 255, 255, 0.96)",
-          border: "6px solid #000",
-          color: "#111827",
-          boxShadow: "14px 14px 0 rgba(0, 0, 0, 0.9)",
+          background: "#fefefe",
+          border: "1px solid #1e1e1edb",
+          color: "#1e1e1e",
         }}
       >
         <div
           style={{
             display: "flex",
             fontSize: 62,
-            fontWeight: 900,
-            lineHeight: 1.04,
+            fontWeight: 500,
+            lineHeight: 0.95,
             textWrap: "balance",
           }}
         >
@@ -214,12 +211,12 @@ export const SocialImage: FC<SocialImagePayload> = ({
           bottom: 28,
           display: "flex",
           padding: "8px 14px",
-          background: "#00e5ff",
-          border: "4px solid #000",
-          color: "#000",
-          fontSize: 20,
-          fontWeight: 800,
-          boxShadow: "6px 6px 0 #000",
+          background: "#1e1e1e",
+          border: "1px solid #1e1e1e",
+          color: "#fefefe",
+          fontSize: 16,
+          fontWeight: 500,
+          letterSpacing: "0.08em",
         }}
       >
         Article

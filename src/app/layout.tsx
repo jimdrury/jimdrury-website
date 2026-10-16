@@ -10,7 +10,7 @@ import {
 } from "next/font/google";
 import { draftMode } from "next/headers";
 import Link from "next/link";
-import { type FC, Suspense } from "react";
+import { type FC, type ReactNode, Suspense } from "react";
 import { SiteFooter } from "@/components/footer";
 import {
   Header,
@@ -18,7 +18,7 @@ import {
   HeaderNav,
   HeaderNavLinks,
 } from "@/components/header";
-import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
+import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, SITE_ORIGIN } from "@/lib/seo";
 import { DraftModeRefresh } from "./_components/draft-mode-refresh/draft-mode-refresh";
 import { HeaderHeight } from "./_components/header-height/header-height";
 import { getCurrentYear } from "./_helpers/get-current-year";
@@ -63,14 +63,20 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE_NAME,
     title: SITE_NAME,
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
+    images: ["/twitter-image"],
   },
 };
 
-const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
+type RootLayoutProps = LayoutProps<"/"> & {
+  jsonLd: ReactNode;
+};
+
+const Layout: FC<RootLayoutProps> = async ({ children, jsonLd }) => {
   const [draftState, currentYear] = await Promise.all([
     draftMode(),
     getCurrentYear(),
@@ -82,6 +88,7 @@ const Layout: FC<LayoutProps<"/">> = async ({ children }) => {
       lang="en"
       className={`${inter.variable} ${anton.variable} ${geistSans.variable} ${geistMono.variable} ${patrickHand.variable} h-full antialiased`}
     >
+      <head>{jsonLd}</head>
       <body className="flex min-h-screen flex-col">
         <Header data-site-header="">
           <HeaderLogo asChild>
